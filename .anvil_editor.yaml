@@ -5,6 +5,8 @@ unique_ids:
     orm_client: '1689084632279677383708351.3993'
   server_modules:
     orm_server: '1689084657764283880373335.76935'
+    orm_server.security: '1689087083245887867365551.9733'
+    orm_server.persistence: '1689087064295458910679383.72363'
   assets:
     standard-page.html: 5ZO4GQB3MA6HSUWRTEJV4MUDOBOXW5KE
     theme.css: 3SKHM2JYBTI5CUQLFKUIRW5CUDIUMKOI
