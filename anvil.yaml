@@ -1,6 +1,6 @@
 allow_embedding: false
-package_name: Anvil_Fusion
-name: Anvil Fusion
+package_name: AnvilFusion
+name: AnvilFusion
 startup_form: Form1
 runtime_options:
   version: 2
