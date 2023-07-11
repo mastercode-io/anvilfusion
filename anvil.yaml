@@ -1,6 +1,6 @@
 allow_embedding: false
-package_name: Anvil_ORM_and_Syncfusion_UI
-name: Anvil ORM and Syncfusion UI
+package_name: Anvil_Fusion
+name: Anvil Fusion
 startup_form: Form1
 runtime_options:
   version: 2
