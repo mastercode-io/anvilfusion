@@ -1,7 +1,8 @@
 allow_embedding: false
 package_name: AnvilFusion
+startup: {type: module, module: orm_client}
 name: AnvilFusion
-startup_form: Form1
+startup_form: null
 runtime_options:
   version: 2
   client_version: '3'
