@@ -1,3 +1,4 @@
+import anvil.server
 # MIT License
 #
 # Copyright (c) 2020 The Anvil ORM project team members listed at
