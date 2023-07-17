@@ -1,8 +1,7 @@
 import sys
 import anvil
-from . import types as orm_types
-
 import datetime
+from . import types as orm_types
 
 
 class Attribute:
