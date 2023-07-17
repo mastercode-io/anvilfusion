@@ -25,7 +25,7 @@ sample_values = {
     'number': 1,
     'boolean': True,
     'date': date.today(),
-    'datetime': datetime.datetime.now(),
+    'datetime': datetime.now(),
     'simpleObject': {'key': 'value'},
     'media': anvil.BlobMedia(content_type="text/plain", content="AnvilFusion ORM".encode(), name="anvilfusion.txt")
 }
