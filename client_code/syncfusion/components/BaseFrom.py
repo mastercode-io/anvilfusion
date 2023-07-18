@@ -1,18 +1,11 @@
 # Base generic data input form control
-from anvil import *
-import anvil.server
-import anvil.js
+import anvil
 from anvil.js.window import jQuery, ej
-from ..orm_client.model import *
+# from ..orm_client.model import *
 from .BaseInput import *
-from . import *
-from ..app.constants import *
-from ..app.lib import *
-import datetime
 import string
-import uuid
 import sys
-import re
+
 
 POPUP_DEFAULT_TARGET = 'body'
 POPUP_WIDTH_COL1 = '400px'
@@ -20,13 +13,14 @@ POPUP_WIDTH_COL2 = '500px'
 POPUP_WIDTH_COL3 = '600px'
 
 
-# Basic class to build a popup form dialog
+# Helper function to update form submit behavior on Enter key click
 def form_submit(args):
     if args.key == 'Enter':
         anvil.js.window.document.activeElement.dispatchEvent(anvil.js.window.Event('change'))
         args.preventDefault()
 
 
+# Basic class to build a popup form dialog
 class BaseForm:
     def __init__(self,
                  target=None,
