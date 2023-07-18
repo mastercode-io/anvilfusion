@@ -1,3 +1,4 @@
+import anvil
 import anvil.tables.query as q
 from anvil.server import Capability
 from anvil.tables import app_tables
