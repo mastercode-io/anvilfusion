@@ -2,8 +2,6 @@ import anvil
 import sys
 from datetime import date, datetime
 
-# app.session.init_user_session()
-
 MODEL_PACKAGE = 'practiceMANAGER_SF.orm_client.model'
 
 EXCLUDE_MIGRATION = [
@@ -106,6 +104,3 @@ def update_model(class_name, force_update=False, self_ref=False):
                 sample_obj = cls(**sample_data).save(audit=False)
                 
     return sample_obj, sample_refs, update_log
-
-
-migrate_db_schema()
