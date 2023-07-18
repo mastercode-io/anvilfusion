@@ -1,21 +1,14 @@
 # Form input fields and controls
-from anvil import *
-import anvil.server
-import anvil.media
-import anvil.js
+import anvil
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
 
-from ..app.lib import *
-from ..app.constants import *
-from ..orm_client.lib import *
-from ..orm_client.model import *
-from ..orm_client import enumerations as enums
+# from ..app.lib import *
+# from ..app.constants import *
+# from ..orm_client.lib import *
+# from ..orm_client.model import *
+# from ..orm_client import enumerations as enums
 
 import datetime
-import time
-import base64
-import string
-import uuid
 import sys
 
 
