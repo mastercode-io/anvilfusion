@@ -1,6 +1,6 @@
 allow_embedding: false
 package_name: AnvilFusion
-startup: {type: module, module: orm_client}
+startup: {type: module, module: _main}
 name: AnvilFusion
 startup_form: null
 runtime_options:
