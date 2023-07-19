@@ -1,12 +1,8 @@
-import anvil.server
-import anvil.js
 from anvil.js.window import ej, jQuery
 
-from .. import app
-from ..app.constants import *
-from ..orm_client.model import *
-from ..orm_client import enumerations as enums
-from .. import Forms
+from ...depmanager import DepManager
+from ...orm_client import types as orm_types
+from .BaseFrom import BaseForm
 
 import string
 import uuid
@@ -69,7 +65,7 @@ def get_model_attribute(class_name, attr_name):
     return attr, attr_name
 
 
-class BaseGridView:
+class GridView:
     def __init__(self,
                  container_id=None,
                  title=None,
@@ -87,18 +83,22 @@ class BaseGridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
+        
+        # depenencies
+        self.app_models = DepManager.get_dependency('app_models')
+        self.app_forms = DepManager.get_dependency('app_forms')
 
         print('BaseGridView', view_name)
         if view_name or view_config:
             if view_config is not None:
                 self.view_config = view_config
             else:
-                view_obj = appGridViews.get_by('name', view_name)
+                view_obj = self.app_models.appGridViews.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
-            self.grid_class = getattr(sys.modules[__name__], self.model)
+            self.grid_class = getattr(self.app_models, self.model)
         else:
-            self.grid_class = getattr(sys.modules[__name__], self.model)
+            self.grid_class = getattr(self.app_models, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
             model_members = self.grid_class._attributes.copy()
@@ -140,7 +140,7 @@ class BaseGridView:
                     'headerText': column['label'],
                     'type': col_attr.field_type.GridType,
                     'format': column.get('format', None) or col_attr.field_type.GridFormat,
-                    'displayAsCheckBox': col_attr.field_type == enums.FieldTypes.BOOLEAN,
+                    'displayAsCheckBox': col_attr.field_type == orm_types.FieldTypes.BOOLEAN,
                     'textAlign': 'Left',
                     'customAttributes': {'class': 'align-top'},
                     'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
@@ -255,13 +255,13 @@ class BaseGridView:
                     form_action = 'add'
                     form_data = None
                     print('Add row')
-                if hasattr(sys.modules[f"{APP_NAME}.Forms"], f"{self.model}Form"):
+                if hasattr(self.app_forms, f"{self.model}Form"):
                     print('Dialog form: ', f"Forms.{self.model}Form")
-                    edit_form_class = getattr(sys.modules[f"{APP_NAME}.Forms"], f"{self.model}Form")
+                    edit_form_class = getattr(self.app_forms, f"{self.model}Form")
                     form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
                                                   target=self.container_id)
                 else:
-                    form_dialog = Forms.BaseForm(model=self.model, data=form_data, action=form_action,
+                    form_dialog = BaseForm(model=self.model, data=form_data, action=form_action,
                                                  update_source=self.update_grid, target=self.container_id)
                 form_dialog.form_show()
 
