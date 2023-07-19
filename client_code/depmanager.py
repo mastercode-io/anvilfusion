@@ -6,16 +6,16 @@ class DepManager:
         
 
     @staticmethod
-    def add_dependency(self, dep_name, dep):
-        self.dependencies[dep_name] = dep
+    def add_dependency(dep_name, dep):
+        DepManager.dependencies[dep_name] = dep
         
 
     @staticmethod
-    def remove_dependency(self, dep_name):
-        self.dependencies.pop(dep_name)
+    def remove_dependency(dep_name):
+        DepManager.dependencies.pop(dep_name)
         
 
     @staticmethod
-    def get_dependency(self, dep_name):
-        return self.dependencies[dep_name]
+    def get_dependency(dep_name):
+        return DepManager.dependencies[dep_name]
     
