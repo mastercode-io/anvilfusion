@@ -93,12 +93,12 @@ class GridView:
             if view_config is not None:
                 self.view_config = view_config
             else:
-                view_obj = self.app_models.appGridViews.get_by('name', view_name)
+                view_obj = self.app_model.appGridViews.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
-            self.grid_class = getattr(self.app_models, self.model)
+            self.grid_class = getattr(self.app_model, self.model)
         else:
-            self.grid_class = getattr(self.app_models, self.model)
+            self.grid_class = getattr(self.app_model, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
             model_members = self.grid_class._attributes.copy()
