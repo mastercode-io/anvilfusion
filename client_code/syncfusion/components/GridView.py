@@ -85,10 +85,10 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_models = DepManager.get_dependency('app_models')
+        self.app_model = DepManager.get_dependency('app_model')
         self.app_forms = DepManager.get_dependency('app_forms')
 
-        print('BaseGridView', view_name)
+        print('GridView', view_name)
         if view_name or view_config:
             if view_config is not None:
                 self.view_config = view_config
