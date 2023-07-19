@@ -2,7 +2,7 @@ from anvil.js.window import ej, jQuery
 
 from ...depmanager import DepManager
 from ...orm_client import types as orm_types
-from .BaseFrom import BaseForm
+from .BaseForm import BaseForm
 
 import string
 import uuid
