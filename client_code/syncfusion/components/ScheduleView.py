@@ -1,14 +1,8 @@
-import anvil.server
 from anvil.tables import query as q
-import anvil.js
 from anvil.js.window import ej, jQuery, Date, XMLHttpRequest, Object
+from ...depmanager import DepManager
+from ...orm_client import utils
 
-from .. import app
-from ..app.constants import *
-from ..orm_client.model import *
-from .. import Forms
-
-import string
 import uuid
 import json
 from datetime import datetime, timedelta
@@ -51,6 +45,10 @@ class EventScheduleView:
                  title=None,
                  ):
         print('EventScheduleView')
+        
+        # dependencies
+        self.app_model = DepManager.get_dependency('app_model')
+        self.app_forms = DepManager.get_dependency('app_forms')
 
         self.db_data = None
         self.schedule_el_id = None
@@ -129,13 +127,13 @@ class EventScheduleView:
                 event_uid = args.data.get('uid', None)
                 if event_uid:
                     action = 'edit'
-                    event = Event.get(event_uid)
+                    event = self.app_model.Event.get(event_uid)
                 else:
                     action = 'add'
-                    start_time = app.lib.datetime_js_to_py(args.data.start_time)
+                    start_time = utils.datetime_js_to_py(args.data.start_time)
                     end_time = start_time + timedelta(hours=1)
-                    event = Event(start_time=start_time, end_time=end_time)
-                editor = Forms.EventForm(data=event, action=action, target=self.container_id,
+                    event = self.app_model.Event(start_time=start_time, end_time=end_time)
+                editor = self.app_forms.EventForm(data=event, action=action, target=self.container_id,
                                          update_source=self.update_schedule)
                 editor.form_show()
         elif args.type == 'QuickInfo':
@@ -152,9 +150,9 @@ class EventScheduleView:
         if args.requestType == 'eventChange':
             changed_event = args.data
             # event = self.db_data[changed_event.uid]
-            event = Event.get(changed_event.uid)
-            event['start_time'] = app.lib.datetime_js_to_py(changed_event.start_time)
-            event['end_time'] = app.lib.datetime_js_to_py(changed_event.end_time)
+            event = self.app_model.Event.get(changed_event.uid)
+            event['start_time'] = utils.datetime_js_to_py(changed_event.start_time)
+            event['end_time'] = utils.datetime_js_to_py(changed_event.end_time)
             event.save()
             self.schedule.refreshEvents()
 
@@ -162,7 +160,7 @@ class EventScheduleView:
         if args.requestType == 'eventRemove':
             for removed in args.data:
                 # event = self.db_data[removed.uid]
-                event = Event.get(removed.uid)
+                event = self.app_model.Event.get(removed.uid)
                 event.delete()
             self.schedule.refreshEvents()
 
@@ -203,7 +201,7 @@ class EventScheduleView:
             {'name': 'department.full_name'},
             {'name': 'staff.full_name'},
         ]
-        self.events = Event.get_grid_view(view_config={'columns': event_cols}, filters=query)
+        self.events = self.app_model.Event.get_grid_view(view_config={'columns': event_cols}, filters=query)
         for event in self.events:
             event['subject'] = event['activity']
             if event['case']:
