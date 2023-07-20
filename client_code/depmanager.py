@@ -9,13 +9,11 @@ class DepManager:
     @staticmethod
     def add_dependency(dep_name, dep):
         DepManager.dependencies[dep_name] = dep
-        anvil.server.call('add_dependency', dep_name, dep)
         
 
     @staticmethod
     def remove_dependency(dep_name):
         DepManager.dependencies.pop(dep_name)
-        anvil.server.call('remove_dependency', dep_name)
         
 
     @staticmethod
