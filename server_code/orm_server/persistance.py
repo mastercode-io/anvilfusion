@@ -17,7 +17,7 @@ from ..app_server import server_session
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
-app_dependencies = server_session.get_app_dependencies()
+app_dependencies = server_session.get_dependencies()
 
 
 def caching_query(search_function):
