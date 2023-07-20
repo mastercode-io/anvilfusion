@@ -1,6 +1,6 @@
 from anvil.js.window import ej, jQuery
 
-from ...app_client.client_dependencies import DepManager
+from ...app_client.client_dependencies import ClientDependencies
 from ...orm_client import types as orm_types
 from .BaseForm import BaseForm
 
@@ -85,8 +85,8 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_model = DepManager.get_dependency('app_model')
-        self.app_forms = DepManager.get_dependency('app_forms')
+        self.app_model = ClientDependencies.get_dependency('model')
+        self.app_forms = ClientDependencies.get_dependency('forms')
 
         print('GridView', view_name)
         if view_name or view_config:
