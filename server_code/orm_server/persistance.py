@@ -6,7 +6,7 @@ from anvil.tables import app_tables
 import functools
 import re
 from copy import copy
-# from importlib import import_module
+from importlib import import_module
 from uuid import uuid4
 from datetime import datetime
 
@@ -147,10 +147,10 @@ def get_object(class_name, module_name, uid, max_depth=None):
 @anvil.server.callable
 def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
-    # module = import_module(module_name)
-    print('AnvilFusion Server: app_data_model', APP_DATA_MODEL)
-    print(ServerDependencies.get_dependencies())
-    module = ServerDependencies.get_dependency('model')
+    module = import_module('app_client.model')
+    # print('AnvilFusion Server: app_data_model', APP_DATA_MODEL)
+    # print(ServerDependencies.get_dependencies())
+    # module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
     instance = cls._from_row(
         _get_row_by(class_name, module_name, prop, value), max_depth=max_depth
