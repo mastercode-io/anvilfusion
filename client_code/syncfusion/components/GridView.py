@@ -41,14 +41,16 @@ GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
-    cls = getattr(sys.modules[__name__], view_config['model'])
+    model = ClientDependencies.get_dependency('model')
+    cls = getattr(model, view_config['model'])
     search_queries = search_queries or []
     filters = filters or {}
     return cls.get_grid_view(view_config, search_queries, filters, include_rows)
 
 
 def get_model_attribute(class_name, attr_name):
-    cls = getattr(sys.modules[__name__], class_name)
+    model = ClientDependencies.get_dependency('model')
+    cls = getattr(model, class_name)
     if attr_name == '_title':
         attr_name = cls._title
     attr = None
