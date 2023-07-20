@@ -13,11 +13,10 @@ from datetime import datetime
 from ..orm_client.particles import ModelSearchResults
 from ..orm_client import types as orm_types
 from . import security
+from ..app_server.server_dependencies import ServerDependencies
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
-# app_dependencies = anvil.server.session['dependencies']
-# print('AnvilFusion app_dependencies', app_dependencies)
 
 
 def caching_query(search_function):
@@ -72,7 +71,7 @@ def _get_row(class_name, module_name, uid):
     """Return the data tables row for a given object instance"""
     table = getattr(app_tables, _camel_to_snake(class_name))
     # module = import_module(module_name)
-    module = anvil.server.session['dependencies']['app_model']
+    module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
     search_kwargs = {cls._unique_identifier: uid}
     return table.get(**search_kwargs)
@@ -131,7 +130,7 @@ def get_object(class_name, module_name, uid, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     if security.has_read_permission(class_name, uid):
         # module = import_module(module_name)
-        module = anvil.server.session['dependencies']['app_model']
+        module = ServerDependencies.get_dependency('model')
         cls = getattr(module, class_name)
         instance = cls._from_row(
             _get_row(class_name, module_name, uid), max_depth=max_depth
@@ -148,7 +147,7 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     # module = import_module(module_name)
     print(anvil.server.session['dependencies'])
-    module = anvil.server.session['dependencies']['app_model']
+    module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
     instance = cls._from_row(
         _get_row_by(class_name, module_name, prop, value), max_depth=max_depth
@@ -182,7 +181,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         del anvil.server.session[rows_id]
 
     # module = import_module(module_name)
-    module = anvil.server.session['dependencies']['app_model']
+    module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
     results = (
         [
@@ -237,7 +236,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
         return q.fetch_only(*fetch_list, **fetch_dict)
 
     # mod = import_module(module_name)
-    mod = anvil.server.session['dependencies']['app_model']
+    mod = ServerDependencies.get_dependency('model')
     cols, links = parse_col_names(class_name, mod, columns)
 
     fetch_query = build_fetch_list(cols, links)
