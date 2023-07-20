@@ -6,7 +6,7 @@ class ServerDependencies:
     @staticmethod
     def add_dependency(dep_name, dep):
         ServerDependencies.dependencies[dep_name] = dep
-        print('AnvilFusion Server', ServerDependencies.dependencies)
+        print('AnvilFusion Server: add_dependency', ServerDependencies.dependencies)
         
 
     @staticmethod
@@ -21,5 +21,6 @@ class ServerDependencies:
     
     @staticmethod
     def get_dependencies():
+        print('AnvilFusion Server: get_dependencies', ServerDependencies.dependencies)
         return ServerDependencies.dependencies
     
