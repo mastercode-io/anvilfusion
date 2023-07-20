@@ -13,11 +13,11 @@ from datetime import datetime
 from ..orm_client.particles import ModelSearchResults
 from ..orm_client import types as orm_types
 from . import security
-from ..app_server import server_session
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
-app_dependencies = server_session.get_dependencies()
+app_dependencies = anvil.server.session['dependencies']
+print('AnvilFusion app_dependencies', app_dependencies)
 
 
 def caching_query(search_function):
