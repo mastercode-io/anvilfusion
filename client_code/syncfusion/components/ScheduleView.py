@@ -1,6 +1,6 @@
 from anvil.tables import query as q
 from anvil.js.window import ej, jQuery, Date, XMLHttpRequest, Object
-from ...app_client.client_dependencies import DepManager
+from ...app_client.client_dependencies import ClientDependencies
 from ...orm_client import utils
 
 import uuid
@@ -47,8 +47,8 @@ class EventScheduleView:
         print('EventScheduleView')
         
         # dependencies
-        self.app_model = DepManager.get_dependency('app_model')
-        self.app_forms = DepManager.get_dependency('app_forms')
+        self.app_model = ClientDependencies.get_dependency('model')
+        self.app_forms = ClientDependencies.get_dependency('forms')
 
         self.db_data = None
         self.schedule_el_id = None
