@@ -10,7 +10,7 @@ from copy import copy
 from uuid import uuid4
 from datetime import datetime
 
-from ..DepManager import DepManager
+from ..depmanager import DepManager
 from ..orm_client.particles import ModelSearchResults
 from ..orm_client import types as orm_types
 from . import security
