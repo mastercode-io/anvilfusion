@@ -147,7 +147,7 @@ def get_object(class_name, module_name, uid, max_depth=None):
 def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     # module = import_module(module_name)
-    print('AnvilFusion Server: app_data_model' APP_DATA_MODEL)
+    print('AnvilFusion Server: app_data_model', APP_DATA_MODEL)
     print(ServerDependencies.get_dependencies())
     module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
