@@ -19,3 +19,8 @@ class DepManager:
     def get_dependency(dep_name):
         return DepManager.dependencies[dep_name]
     
+    
+    @staticmethod
+    def get_dependencies():
+        return DepManager.dependencies
+    
