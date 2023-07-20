@@ -22,6 +22,26 @@ from ..orm_client.utils import DotDict
 
 
 @anvil.server.callable
+def add_dependency(dep_name, dep):
+    anvil.server.session['dependencies'][dep_name] = dep
+    
+    
+@anvil.server.callable
+def remove_dependency(dep_name):
+    anvil.server.session['dependencies'].pop(dep_name)
+    
+    
+@anvil.server.callable
+def get_dependency(dep_name):
+    return anvil.server.session['dependencies'][dep_name]
+
+
+@anvil.server.callable
+def get_dependencies():
+    return anvil.server.session['dependencies']
+
+
+@anvil.server.callable
 def init_user_session():
     
     user_row = anvil.users.get_user()

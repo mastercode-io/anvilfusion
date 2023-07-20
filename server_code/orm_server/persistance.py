@@ -10,13 +10,14 @@ from copy import copy
 from uuid import uuid4
 from datetime import datetime
 
-from ..depmanager import DepManager
 from ..orm_client.particles import ModelSearchResults
 from ..orm_client import types as orm_types
 from . import security
+from ..app_server import server_session
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
+app_dependencies = server_session.get_app_dependencies()
 
 
 def caching_query(search_function):
@@ -71,7 +72,7 @@ def _get_row(class_name, module_name, uid):
     """Return the data tables row for a given object instance"""
     table = getattr(app_tables, _camel_to_snake(class_name))
     # module = import_module(module_name)
-    module = DepManager.get_dependency('app_model')
+    module = app_dependencies['app_model']
     cls = getattr(module, class_name)
     search_kwargs = {cls._unique_identifier: uid}
     return table.get(**search_kwargs)
@@ -130,7 +131,7 @@ def get_object(class_name, module_name, uid, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     if security.has_read_permission(class_name, uid):
         # module = import_module(module_name)
-        module = DepManager.get_dependency('app_model')
+        module = app_dependencies['app_model']
         cls = getattr(module, class_name)
         instance = cls._from_row(
             _get_row(class_name, module_name, uid), max_depth=max_depth
@@ -146,8 +147,8 @@ def get_object(class_name, module_name, uid, max_depth=None):
 def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     # module = import_module(module_name)
-    print(DepManager.get_dependencies())
-    module = DepManager.get_dependency('app_model')
+    print(app_dependencies)
+    module = app_dependencies['app_model']
     cls = getattr(module, class_name)
     instance = cls._from_row(
         _get_row_by(class_name, module_name, prop, value), max_depth=max_depth
@@ -181,7 +182,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         del anvil.server.session[rows_id]
 
     # module = import_module(module_name)
-    module = DepManager.get_dependency('app_model')
+    module = app_dependencies['app_model']
     cls = getattr(module, class_name)
     results = (
         [
@@ -236,7 +237,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
         return q.fetch_only(*fetch_list, **fetch_dict)
 
     # mod = import_module(module_name)
-    mod = DepManager.get_dependency('app_model')
+    mod = app_dependencies['app_model']
     cols, links = parse_col_names(class_name, mod, columns)
 
     fetch_query = build_fetch_list(cols, links)
