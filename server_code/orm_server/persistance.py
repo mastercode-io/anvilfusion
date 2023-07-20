@@ -14,7 +14,6 @@ from ..orm_client.particles import ModelSearchResults
 from ..orm_client import types as orm_types
 from . import security
 from ..app_server.server_dependencies import ServerDependencies
-from ..app_client import model
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
