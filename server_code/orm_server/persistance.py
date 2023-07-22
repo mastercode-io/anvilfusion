@@ -17,7 +17,14 @@ from ..app_server.server_dependencies import ServerDependencies
 
 
 camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
-APP_DATA_MODEL = 'place holder'
+app_data_model = None
+
+
+def get_model_module():
+    global app_data_model
+    if app_data_model is None:
+        app_data_model = import_module(anvil.sefver.session['app_data_model']split(".", 1)[1])
+    return app_data_model
 
 
 def caching_query(search_function):
@@ -70,9 +77,8 @@ def get_table(class_name):
 
 def _get_row(class_name, module_name, uid):
     """Return the data tables row for a given object instance"""
+    module = get_model_module()
     table = getattr(app_tables, _camel_to_snake(class_name))
-    module = import_module('app_client.model')
-    # module = ServerDependencies.get_dependency('model')
     cls = getattr(module, class_name)
     search_kwargs = {cls._unique_identifier: uid}
     return table.get(**search_kwargs)
@@ -130,8 +136,7 @@ def _audit_log(class_name, action, prev_row, new_row):
 def get_object(class_name, module_name, uid, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     if security.has_read_permission(class_name, uid):
-        module = import_module('app_client.model')
-        # module = ServerDependencies.get_dependency('model')
+        module = get_model_module()
         cls = getattr(module, class_name)
         instance = cls._from_row(
             _get_row(class_name, module_name, uid), max_depth=max_depth
@@ -146,11 +151,7 @@ def get_object(class_name, module_name, uid, max_depth=None):
 @anvil.server.callable
 def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
-    module = import_module('app_client.model')
-    print('AnvilFusion Server: model module', anvil.server.session['model_module'])
-    # print('AnvilFusion Server: app_data_model', APP_DATA_MODEL)
-    # print(ServerDependencies.get_dependencies())
-    # module = ServerDependencies.get_dependency('model')
+    module = get_model_module()
     cls = getattr(module, class_name)
     instance = cls._from_row(
         _get_row_by(class_name, module_name, prop, value), max_depth=max_depth
@@ -183,8 +184,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     if is_last_page:
         del anvil.server.session[rows_id]
 
-    module = import_module('app_client.model')
-    # module = ServerDependencies.get_dependency('model')
+    module = get_model_module()
     cls = getattr(module, class_name)
     results = (
         [
@@ -238,8 +238,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             fetch_dict[key] = build_fetch_list(key_list, key_dict)
         return q.fetch_only(*fetch_list, **fetch_dict)
 
-    mod = import_module('app_client.model')
-    # mod = ServerDependencies.get_dependency('model')
+    mod = get_model_module()
     cols, links = parse_col_names(class_name, mod, columns)
 
     fetch_query = build_fetch_list(cols, links)
