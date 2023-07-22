@@ -23,7 +23,7 @@ app_data_model = None
 def get_model_module():
     global app_data_model
     if app_data_model is None:
-        app_data_model = import_module(anvil.sefver.session['app_data_model']split(".", 1)[1])
+        app_data_model = import_module(anvil.sefver.session['app_data_model'].split(".", 1)[1])
     return app_data_model
 
 
