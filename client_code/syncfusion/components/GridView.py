@@ -1,6 +1,6 @@
 from anvil.js.window import ej, jQuery
 
-from ...app_client.client_dependencies import ClientDependencies
+from ...app_client.depmanager import ClientDependencies
 from ...orm_client import types as orm_types
 from ...orm_client import utils as orm_utils
 from .BaseForm import BaseForm

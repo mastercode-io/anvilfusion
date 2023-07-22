@@ -1,6 +1,6 @@
 from anvil.tables import query as q
 from anvil.js.window import ej, jQuery, Date, XMLHttpRequest, Object
-from ...app_client.client_dependencies import ClientDependencies
+from ...app_client.depmanager import ClientDependencies
 from ...orm_client import utils
 
 import uuid
