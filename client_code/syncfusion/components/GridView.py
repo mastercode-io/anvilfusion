@@ -1,6 +1,6 @@
 from anvil.js.window import ej, jQuery
 
-from ...app_client.depmanager import ClientDependencies
+from ...app_client.depmanager import DepManager
 from ...orm_client import types as orm_types
 from ...orm_client import utils as orm_utils
 from .BaseForm import BaseForm
@@ -8,8 +8,7 @@ from .BaseForm import BaseForm
 import string
 import uuid
 import json
-import sys
-from datetime import datetime
+
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 'Edit', 'Delete', 'Search']
@@ -42,7 +41,7 @@ GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
-    model = ClientDependencies.get_dependency('model')
+    model = DepManager.get_dependency('model')
     cls = getattr(model, view_config['model'])
     search_queries = search_queries or []
     filters = filters or {}
@@ -50,7 +49,7 @@ def get_grid_view(view_config, search_queries=None, filters=None, include_rows=F
 
 
 def get_model_attribute(class_name, attr_name):
-    model = ClientDependencies.get_dependency('model')
+    model = DepManager.get_dependency('model')
     cls = getattr(model, class_name)
     if attr_name == '_title':
         attr_name = cls._title
@@ -88,8 +87,8 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_model = ClientDependencies.get_dependency('model')
-        self.app_forms = ClientDependencies.get_dependency('forms')
+        self.app_model = DepManager.get_dependency('model')
+        self.app_forms = DepManager.get_dependency('forms')
 
         print('GridView', view_name)
         if view_name or view_config:
