@@ -10,21 +10,20 @@ from importlib import import_module
 from uuid import uuid4
 from datetime import datetime
 
-from ..orm_client.particles import ModelSearchResults
-from ..orm_client import types as orm_types
+from ..datamodel.particles import ModelSearchResults
+from ..datamodel import types
 from . import security
-from ..app_server.server_dependencies import ServerDependencies
 
 
-camel_pattern = re.compile(r"(?<!^)(?=[A-Z])")
-app_data_model = None
+CAMEL_PATTERN = re.compile(r"(?<!^)(?=[A-Z])")
+DATA_MODELS = None
 
 
 def get_model_module():
-    global app_data_model
-    if app_data_model is None:
-        app_data_model = import_module(anvil.server.session['app_data_model'].split(".", 1)[1])
-    return app_data_model
+    global DATA_MODELS
+    if DATA_MODELS is None:
+        DATA_MODELS = import_module(anvil.server.session['dependency']['data_models'].split(".", 1)[1])
+    return DATA_MODELS
 
 
 def caching_query(search_function):
@@ -66,7 +65,7 @@ def caching_query(search_function):
 
 def _camel_to_snake(name):
     """Convert a CamelCase string to snake_case"""
-    return camel_pattern.sub("_", name).lower()
+    return CAMEL_PATTERN.sub("_", name).lower()
 
 
 def get_table(class_name):
@@ -310,7 +309,7 @@ def save_object(instance, audit):
             has_permission = True
             row = table.get(uid=instance.uid)
             prev_row = _serialize_row(table, row)
-            if instance._model_type == orm_types.ModelTypes.DATA:
+            if instance._model_type == types.ModelTypes.DATA:
                 system_attributes = {
                     'updated_time': current_time,
                     'updated_by': current_user_uid
@@ -327,7 +326,7 @@ def save_object(instance, audit):
             uid = str(uuid4())
             instance = copy(instance)
             instance.uid = uid
-            if instance._model_type == orm_types.ModelTypes.DATA:
+            if instance._model_type == types.ModelTypes.DATA:
                 system_attributes = {
                     'tenant_uid': current_tenant_uid,
                     'created_time': current_time,

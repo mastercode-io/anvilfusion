@@ -1,4 +1,4 @@
-from .utils import Enumeration
+from ..tools.utils import Enumeration
 
 # Model types
 MODEL_TYPES = {

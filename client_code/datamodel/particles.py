@@ -1,7 +1,7 @@
 import sys
 import anvil
 import datetime
-from . import types as orm_types
+from . import types
 
 
 class Attribute:
@@ -10,7 +10,7 @@ class Attribute:
     """
 
     def __init__(self, 
-                 field_type=orm_types.FieldTypes.SINGLE_LINE,
+                 field_type=types.FieldTypes.SINGLE_LINE,
                  label=None,
                  schema=None,
                  required=False,
@@ -51,7 +51,7 @@ class Relationship:
     def __init__(
             self, class_name, required=False, with_many=False, cross_reference=None
     ):
-        self.field_type = orm_types.FieldTypes.RELATIONSHIP
+        self.field_type = types.FieldTypes.RELATIONSHIP
         self.class_name = class_name
         self.required = required
         self.default = None
@@ -68,7 +68,7 @@ class Relationship:
 class Computed:
     """A class to represent the computed property of a model object."""
 
-    def __init__(self, depends_on, compute_func, field_type=orm_types.FieldTypes.SINGLE_LINE):
+    def __init__(self, depends_on, compute_func, field_type=types.FieldTypes.SINGLE_LINE):
         self.required = False
         self.field_type = field_type
         self._depends_on = depends_on
@@ -450,7 +450,7 @@ def model_type(cls):
         "_properties": class_properties,
         "_from_row": _from_row(unique_identifier, attributes, relationships, computes),
         "_unique_identifier": unique_identifier,
-        "_model_type": class_members.get('model_type', orm_types.ModelTypes.DATA),
+        "_model_type": class_members.get('model_type', types.ModelTypes.DATA),
         "update_capability": None,
         "delete_capability": None,
         "search_capability": None,

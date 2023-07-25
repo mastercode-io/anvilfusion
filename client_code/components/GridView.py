@@ -1,9 +1,9 @@
 from anvil.js.window import ej, jQuery
 
-from ...app_client.depmanager import DepManager
-from ...orm_client import types as orm_types
-from ...orm_client import utils as orm_utils
-from .BaseForm import BaseForm
+from ...utils.depmanager import DepManager
+from ...orm import types as orm_types
+from ...orm import utils as orm_utils
+from .FormBase import BaseForm
 
 import string
 import uuid

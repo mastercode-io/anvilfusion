@@ -1,4 +1,4 @@
-import anvil
+import anvil.server
 
 
 def init_user_session():

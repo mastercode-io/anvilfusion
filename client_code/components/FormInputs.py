@@ -2,19 +2,15 @@
 import anvil
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
 
-# from ..app.lib import *
-# from ..app.constants import *
-# from ..orm_client.lib import *
-# from ..orm_client.model import *
-# from ..orm_client import enumerations as enums
+from ..tools.utils import DotDict, new_el_id
+from ..tools.dependency_cache import DependencyCache
 
 import datetime
-import sys
 
 
 # Implemented form input field control classes
 # --------------------------------------------
-# FormInput - base input field class without JS control
+# BaseInput - base input field class without JS control
 # TextInput - single-line text input
 # MultiLineInput - multi-line (textarea) input
 # NumberInput - single-line digits only input
@@ -30,7 +26,7 @@ import sys
 
 
 # Base form input class
-class FormInput:
+class BaseInput:
 
     def __init__(self, name=None, label=None, float_label=True, shadow_label=False, col_class=None, col_style=None,
                  value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None, **kwargs):
@@ -112,7 +108,6 @@ class FormInput:
 
     def show(self):
         if not self.visible:
-            # html = self.html + f'<div class="pm-form-input-shadow-label">{self.label}</div>'
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             if self._control is None:
                 self.create_control()
@@ -149,7 +144,7 @@ class FormInput:
 
 
 # Single line text input
-class TextInput(FormInput):
+class TextInput(BaseInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -174,7 +169,7 @@ class MultiLineInput(TextInput):
 
 
 # Number input
-class NumberInput(FormInput):
+class NumberInput(BaseInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_column['type'] = 'number'
@@ -186,7 +181,7 @@ class NumberInput(FormInput):
 
 
 # Date picker input
-class DateInput(FormInput):
+class DateInput(BaseInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_column['type'] = 'date'
@@ -225,7 +220,7 @@ class DateInput(FormInput):
 
 
 # Date-Time picker input
-class DateTimeInput(FormInput):
+class DateTimeInput(BaseInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_column['type'] = 'dateTime'
@@ -263,7 +258,7 @@ class DateTimeInput(FormInput):
 
 
 # Time picker input
-class TimeInput(FormInput):
+class TimeInput(BaseInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_column['type'] = 'dateTime'
@@ -302,7 +297,7 @@ class TimeInput(FormInput):
 
 
 # Checkbox input
-class CheckboxInput(FormInput):
+class CheckboxInput(BaseInput):
     def __init__(self, label_position='After', **kwargs):
         self.label_position = label_position
         super().__init__(**kwargs)
@@ -339,7 +334,7 @@ class CheckboxInput(FormInput):
 
 
 # Radio button input
-class RadioButtonInput(FormInput):
+class RadioButtonInput(BaseInput):
     def __init__(self, options=None, direction='horizontal', **kwargs):
         self.options = [] if options is None else options
         self.direction = direction
@@ -392,7 +387,7 @@ class RadioButtonInput(FormInput):
 
 
 # Dropdown input
-class DropdownInput(FormInput):
+class DropdownInput(BaseInput):
     def __init__(self, text_field='name', value_field='uid', select='single', options=None, **kwargs):
         self.select = select
         self.add_el_id = None
@@ -447,7 +442,7 @@ class DropdownInput(FormInput):
             self.control.dataSource = options
 
 
-# Lookup input (reference field)
+# Lookup input (dropdown with options from a model)
 class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None, data=None, add_item_label='Add Item',
                  add_item_form=None, add_item_model=None, **kwargs):
@@ -459,12 +454,14 @@ class LookupInput(DropdownInput):
         self.add_item_model = add_item_model
         self.add_item_popup = None
         options = None
+        data_models = DependencyCache.get_dependency('data_models')
+        enums = DependencyCache.get_dependency('enumerations')
         if self.model:
-            if self.model in enums.Models:
+            if enums and self.model in enums.Models:
                 options = enums.Models[self.model].options
             elif not data:
                 cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
-                data = getattr(sys.modules[__name__], self.model).get_grid_view(
+                data = getattr(data_models, self.model).get_grid_view(
                     view_config={'columns': [{'name': col} for col in cols]})
         if data:
             options = [
@@ -473,7 +470,6 @@ class LookupInput(DropdownInput):
                     else option[self.text_field.split('.', 1)[0]], 'uid': option['uid']
                 } for option in data
             ]
-            # 'row': option['row']} for option in data]
         super().__init__(options=options, **kwargs)
 
     def create_control(self):
@@ -489,10 +485,8 @@ class LookupInput(DropdownInput):
     def value(self):
         if self._control and self.control.value is not None:
             if self.select == 'single':
-                # self._value = self.control.getDataByValue(self.control.value)['uid']
                 self._value = self.control.getDataByValue(self.control.value)
             else:
-                # self._value = [self.control.getDataByValue(item)['uid'] for item in self.control.value]
                 self._value = [self.control.getDataByValue(item) for item in self.control.value]
         return self._value
 
@@ -506,9 +500,6 @@ class LookupInput(DropdownInput):
                     self.control.value = [item['uid'] for item in value]
             else:
                 self.control.value = None
-            # if self.name == 'fee_type':
-            #     print(self.control.dataSource)
-            # self.control.dataBind()
 
     def control_open(self, args):
         if self.add_item_form is not None:
@@ -546,7 +537,7 @@ class LookupInput(DropdownInput):
 
 
 # Signature input
-class SignatureInput(FormInput):
+class SignatureInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
         self.width = width
         self.height = height
@@ -576,7 +567,7 @@ class SignatureInput(FormInput):
 
 
 # File Upload input
-class FileUploadInput(FormInput):
+class FileUploadInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
         super().__init__(**kwargs)
 
@@ -605,7 +596,7 @@ class FileUploadInput(FormInput):
 
 
 # Form inline message area
-class InlineMessage(FormInput):
+class InlineMessage(BaseInput):
     def __init__(self, message=None, **kwargs):
         super().__init__(**kwargs)
 
