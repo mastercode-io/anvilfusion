@@ -5,7 +5,7 @@ class DependencyCache:
 
     @staticmethod
     def add_dependency(dep_name, dep):
-        DependencyCache.dependencies.get[dep_name] = dep
+        DependencyCache.dependencies[dep_name] = dep
         
 
     @staticmethod
