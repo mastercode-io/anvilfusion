@@ -54,7 +54,6 @@ def init_model_enumerations(model_list):
             search_queries = props['search_queries'] if 'search_queries' in props else []
             filters = props['filters'] if 'filters' in props else {}
             model_list[model]['options'] = cls.get_grid_view(view_config, search_queries, filters)
-            print('options', model_list[model]['options'])
             if props['name_field'] != 'name':
                 name_field = props['name_field'].split('.', 1)[0]
                 for option in model_list[model]['options']:
@@ -62,5 +61,5 @@ def init_model_enumerations(model_list):
 
     model_enums = DotDict(model_list)
     print('model_enums', isinstance(model_enums, DotDict))
-    return model_list
+    return model_enums
     # return DotDict(model_list)
