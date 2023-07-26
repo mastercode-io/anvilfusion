@@ -1,7 +1,7 @@
 # Server module for utility functions
 import anvil
 from importlib import import_module
-from ..datamodel.utils import DotDict
+from ..tools.utils import DotDict
 
 
 @anvil.server.callable
