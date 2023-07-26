@@ -62,6 +62,6 @@ def init_model_enumerations(model_list):
                 for option in model_list[model]['options']:
                     option['name'] = option[name_field]
 
-    print('model_list', model_list)
+    print('model_list', DotDict(model_list))
     return model_list
     # return DotDict(model_list)
