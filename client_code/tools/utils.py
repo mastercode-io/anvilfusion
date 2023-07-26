@@ -58,8 +58,7 @@ def time_js_to_py(time):
 
 
 # Dictionary extension that allows dot notation access to keys
-@anvil.server.portable_class('_DotDict')
-@anvil.server.serializable_type
+@anvil.server.portable_class
 class DotDict(dict):
     def __getattr__(self, item):
         return self[item] if item in self else None
