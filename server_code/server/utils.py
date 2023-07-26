@@ -43,7 +43,6 @@ def get_logged_user():
 
 @anvil.server.callable
 def init_model_enumerations(model_list):
-    print('init_model_enumerations', anvil.server.session['dependency'])
     model_module = import_module(anvil.server.session['dependency']['data_models'].split(".", 1)[1])
     for model, props in model_list.items():
         view_config = {
@@ -51,7 +50,6 @@ def init_model_enumerations(model_list):
             'columns': [{'name': props['name_field']}],
         }
         cls = getattr(model_module, view_config['model'], None)
-        print('cls', cls)
         if cls:
             search_queries = props['search_queries'] if 'search_queries' in props else []
             filters = props['filters'] if 'filters' in props else {}
@@ -62,6 +60,7 @@ def init_model_enumerations(model_list):
                 for option in model_list[model]['options']:
                     option['name'] = option[name_field]
 
-    print('model_list', DotDict(model_list))
+    model_enums = DotDict(model_list)
+    print('model_enums', isinstance(model_enums, DotDict))
     return model_list
     # return DotDict(model_list)
