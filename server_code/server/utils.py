@@ -61,5 +61,5 @@ def init_model_enumerations(model_list):
 
     model_enums = DotDict(model_list)
     print('model_enums', isinstance(model_enums, DotDict))
-    return model_enums
+    return DotDict()
     # return DotDict(model_list)
