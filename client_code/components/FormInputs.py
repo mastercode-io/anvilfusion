@@ -23,6 +23,7 @@ import datetime
 # LookupInput - dropdown single/multi select input for lookup (related) fields
 # SignatureInput - canvas draw input for ink-lke signatures
 # UploadInput - file upload input
+# InlineMessage - form inline message placeholder
 
 
 # Base form input class

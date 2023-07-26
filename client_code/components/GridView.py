@@ -3,7 +3,7 @@ from anvil.js.window import ej, jQuery
 from ...utils.depmanager import DepManager
 from ...orm import types as orm_types
 from ...orm import utils as orm_utils
-from .FormBase import BaseForm
+from .FormBase import FormBase
 
 import string
 import uuid
@@ -263,7 +263,7 @@ class GridView:
                     form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
                                                   target=self.container_id)
                 else:
-                    form_dialog = BaseForm(model=self.model, data=form_data, action=form_action,
+                    form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
                                                  update_source=self.update_grid, target=self.container_id)
                 form_dialog.form_show()
 

@@ -25,7 +25,7 @@ def form_submit(args):
 
 
 # Basic class to build a popup form dialog
-class BaseForm:
+class FormBase:
     def __init__(self,
                  target=None,
                  modal=False,
@@ -286,7 +286,7 @@ class BaseForm:
 
 
 # Basic class to build a subform grid on a form
-class BaseSubform:
+class SubformBase:
     def __init__(self, name=None, fields=None, model=None, link_model=None, link_field=None, data=None, rows=None,
                  container_id=None, on_change=None, save=True, **kwargs):
         self.name = name
