@@ -448,7 +448,7 @@ class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None, data=None, add_item_label='Add Item',
                  add_item_form=None, add_item_model=None, **kwargs):
         self.model = model
-        self.text_field = text_field
+        self.text_field = text_field or 'name'
         self.compute_option = compute_option
         self.add_item_label = add_item_label
         self.add_item_form = add_item_form
