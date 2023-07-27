@@ -1,9 +1,9 @@
 from anvil.js.window import ej, jQuery
 
-from ...utils.depmanager import DepManager
-from ...orm import types as orm_types
-from ...orm import utils as orm_utils
+from ..datamodel import types as dmtypes
 from .FormBase import FormBase
+from ..tools.dependency_cache import DependencyCache
+from ..tools import utils
 
 import string
 import uuid
@@ -41,7 +41,7 @@ GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
-    model = DepManager.get_dependency('model')
+    model = DependencyCache.get_dependency('model')
     cls = getattr(model, view_config['model'])
     search_queries = search_queries or []
     filters = filters or {}
@@ -49,7 +49,7 @@ def get_grid_view(view_config, search_queries=None, filters=None, include_rows=F
 
 
 def get_model_attribute(class_name, attr_name):
-    model = DepManager.get_dependency('model')
+    model = DependencyCache.get_dependency('model')
     cls = getattr(model, class_name)
     if attr_name == '_title':
         attr_name = cls._title
@@ -87,8 +87,8 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_model = DepManager.get_dependency('model')
-        self.app_forms = DepManager.get_dependency('forms')
+        self.app_model = DependencyCache.get_dependency('model')
+        self.app_forms = DependencyCache.get_dependency('forms')
 
         print('GridView', view_name)
         if view_name or view_config:
@@ -142,7 +142,7 @@ class GridView:
                     'headerText': column['label'],
                     'type': col_attr.field_type.GridType,
                     'format': column.get('format', None) or col_attr.field_type.GridFormat,
-                    'displayAsCheckBox': col_attr.field_type == orm_types.FieldTypes.BOOLEAN,
+                    'displayAsCheckBox': col_attr.field_type == dmtypes.FieldTypes.BOOLEAN,
                     'textAlign': 'Left',
                     'customAttributes': {'class': 'align-top'},
                     'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
@@ -157,7 +157,7 @@ class GridView:
         self.grid_view['config']['columns'] = grid_columns
 
         # configure Grid control
-        self.grid_title = title if title is not None else orm_utils.camel_to_title(self.model)
+        self.grid_title = title if title is not None else utils.camel_to_title(self.model)
         self.grid_config = {}
         self.grid_data = []
         self.db_data = {}
