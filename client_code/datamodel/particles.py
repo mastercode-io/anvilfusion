@@ -358,7 +358,6 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
     column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
     if 'uid' not in column_names:
         column_names.insert(0, 'uid')
-    print(column_names)
     rows = anvil.server.call(
         "fetch_view",
         cls.__name__,

@@ -16,14 +16,6 @@ from . import security
 
 
 CAMEL_PATTERN = re.compile(r"(?<!^)(?=[A-Z])")
-DATA_MODELS = None
-
-
-def get_model_module():
-    global DATA_MODELS
-    if DATA_MODELS is None:
-        DATA_MODELS = import_module(anvil.server.session['dependency']['data_models'].split(".", 1)[1])
-    return DATA_MODELS
 
 
 def caching_query(search_function):
@@ -76,7 +68,6 @@ def get_table(class_name):
 
 def _get_row(class_name, module_name, uid):
     """Return the data tables row for a given object instance"""
-    # module = get_model_module()
     module = import_module(module_name)
     table = getattr(app_tables, _camel_to_snake(class_name))
     cls = getattr(module, class_name)
@@ -136,7 +127,6 @@ def _audit_log(class_name, action, prev_row, new_row):
 def get_object(class_name, module_name, uid, max_depth=None):
     """Create a model object instance from the relevant data table row"""
     if security.has_read_permission(class_name, uid):
-        # module = get_model_module()
         module = import_module(module_name)
         cls = getattr(module, class_name)
         instance = cls._from_row(
@@ -152,7 +142,6 @@ def get_object(class_name, module_name, uid, max_depth=None):
 @anvil.server.callable
 def get_object_by(class_name, module_name, prop, value, max_depth=None):
     """Create a model object instance from the relevant data table row"""
-    # module = get_model_module()
     module = import_module(module_name)
     cls = getattr(module, class_name)
     instance = cls._from_row(
@@ -186,7 +175,6 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     if is_last_page:
         del anvil.server.session[rows_id]
 
-    # module = get_model_module()
     module = import_module(module_name)
     cls = getattr(module, class_name)
     results = (
@@ -241,7 +229,6 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             fetch_dict[key] = build_fetch_list(key_list, key_dict)
         return q.fetch_only(*fetch_list, **fetch_dict)
 
-    # mod = get_model_module()
     class_module = import_module(module_name)
     cols, links = parse_col_names(class_name, class_module, columns)
 
