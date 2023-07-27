@@ -4,6 +4,12 @@ class DependencyCache:
         
 
     @staticmethod
+    def add_dependencies(app_dependencies):
+        for dep_name, dep in app_dependencies.items():
+            DependencyCache.dependencies[dep_name] = dep
+        
+
+    @staticmethod
     def add_dependency(dep_name, dep):
         DependencyCache.dependencies[dep_name] = dep
         
