@@ -1,11 +1,12 @@
 from anvil.tables import query as q
 from anvil.js.window import ej, jQuery, Date, XMLHttpRequest, Object
-from ...utils.depmanager import DepManager
-from ...orm import utils
 
+from ..tools.dependency_cache import DependencyCache
+from ..tools import utils
+
+from datetime import datetime, timedelta
 import uuid
 import json
-from datetime import datetime, timedelta
 
 PM_SCHEDULE_HEIGHT_OFFSET = 35
 PM_SCHEDULE_DEFAULT_VIEWS = [
@@ -47,8 +48,8 @@ class EventScheduleView:
         print('EventScheduleView')
         
         # dependencies
-        self.app_model = DepManager.get_dependency('model')
-        self.app_forms = DepManager.get_dependency('forms')
+        self.app_model = DependencyCache.get_dependency('data_models')
+        self.app_forms = DependencyCache.get_dependency('forms')
 
         self.db_data = None
         self.schedule_el_id = None

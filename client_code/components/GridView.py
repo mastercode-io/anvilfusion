@@ -41,7 +41,7 @@ GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
-    model = DependencyCache.get_dependency('model')
+    model = DependencyCache.get_dependency('data_models')
     cls = getattr(model, view_config['model'])
     search_queries = search_queries or []
     filters = filters or {}
@@ -49,7 +49,7 @@ def get_grid_view(view_config, search_queries=None, filters=None, include_rows=F
 
 
 def get_model_attribute(class_name, attr_name):
-    model = DependencyCache.get_dependency('model')
+    model = DependencyCache.get_dependency('data_models')
     cls = getattr(model, class_name)
     if attr_name == '_title':
         attr_name = cls._title
@@ -87,7 +87,7 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_model = DependencyCache.get_dependency('model')
+        self.app_model = DependencyCache.get_dependency('data_models')
         self.app_forms = DependencyCache.get_dependency('forms')
 
         print('GridView', view_name)
