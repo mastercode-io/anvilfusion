@@ -71,7 +71,7 @@ class AppEnv:
     def init_enumerations(model_list=None):
         if model_list is None:
             model_list = {}
-        AppEnv.enumerations = DotDict(anvil.server.call('init_model_enumerations', model_list))
+        AppEnv.enumerations = DotDict(anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list))
         print('ENUMERATIONS: ', AppEnv.enumerations)
 
 

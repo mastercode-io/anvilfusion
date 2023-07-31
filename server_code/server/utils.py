@@ -43,15 +43,15 @@ def get_logged_user():
 
 
 @anvil.server.callable
-def init_model_enumerations(model_list):
-    # models = import_module(model_module)
-    print('module', AppEnv.data_models)
+def init_model_enumerations(module, model_list):
+    models = import_module(module)
+    print('module', models)
     for model, props in model_list.items():
         view_config = {
             'model': props['model'],
             'columns': [{'name': props['name_field']}],
         }
-        cls = getattr(AppEnv.data_models, view_config['model'], None)
+        cls = getattr(models, view_config['model'], None)
         if cls:
             search_queries = props['search_queries'] if 'search_queries' in props else []
             filters = props['filters'] if 'filters' in props else {}
