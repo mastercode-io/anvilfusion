@@ -1,5 +1,6 @@
 # Server module for utility functions
 import anvil.server
+import anvil.users
 from importlib import import_module
 from ..tools.utils import AppEnv
 
