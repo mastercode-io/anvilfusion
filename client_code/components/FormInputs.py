@@ -1,6 +1,6 @@
 # Form input fields and controls
 import anvil.js
-import anvil.BlobMedia
+from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
 from ..tools.utils import AppEnv, DotDict, new_el_id
 import datetime
@@ -584,7 +584,7 @@ class FileUploadInput(BaseInput):
         if self._control:
             file_data = self.control.getFilesData()[0].rawFile
             file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            self._value = anvil.BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+            self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
             return self._value
 
     @value.setter
