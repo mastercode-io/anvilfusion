@@ -1,6 +1,7 @@
 # Server module for utility functions
 import anvil.server
 from importlib import import_module
+from ..tools.utils import AppEnv
 
 
 @anvil.server.callable
@@ -41,14 +42,14 @@ def get_logged_user():
 
 
 @anvil.server.callable
-def init_model_enumerations(model_module, model_list):
-    models = import_module(model_module)
+def init_model_enumerations(model_list):
+    # models = import_module(model_module)
     for model, props in model_list.items():
         view_config = {
             'model': props['model'],
             'columns': [{'name': props['name_field']}],
         }
-        cls = getattr(models, view_config['model'], None)
+        cls = getattr(AppEnv.data_models, view_config['model'], None)
         if cls:
             search_queries = props['search_queries'] if 'search_queries' in props else []
             filters = props['filters'] if 'filters' in props else {}
