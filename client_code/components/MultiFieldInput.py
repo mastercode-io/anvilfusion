@@ -7,7 +7,7 @@ from ..datamodel.particles import Attribute, Relationship
 from ..tools.dependency_cache import DependencyCache
 
 
-class MultiInput(FormInputs.BaseInput):
+class MultiFieldInput(FormInputs.BaseInput):
 
     def __init__(self,
                  name=None,
