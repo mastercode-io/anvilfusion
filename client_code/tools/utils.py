@@ -72,6 +72,7 @@ class AppEnv:
         if model_list is None:
             model_list = {}
         AppEnv.enumerations = DotDict(anvil.server.call('init_model_enumerations', model_list))
+        print('ENUMERATIONS: ', AppEnv.enumerations)
 
 
 # Initialise user session and store user info app session
