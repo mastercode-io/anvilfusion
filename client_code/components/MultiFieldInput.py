@@ -2,7 +2,7 @@ import anvil.js
 from .FormBase import FormBase
 from . import FormInputs
 from ..datamodel.particles import Attribute, Relationship
-from ..tools.dependency_cache import DependencyCache
+from ..tools.utils import AppEnv
 import datetime
 import string
 
@@ -20,7 +20,7 @@ class MultiFieldInput(FormInputs.BaseInput):
                  **kwargs):
         super().__init__(**kwargs)
         self.name = name
-        model_module = DependencyCache.get_dependency('data_models')
+        model_module = AppEnv.data_models
         if name and model and hasattr(model_module, model):
             self.model = getattr(model_module, model)
             self.schema = self.model._attributes[self.name].schema
