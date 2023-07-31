@@ -1,16 +1,11 @@
 # Base generic data input form control
 import anvil.js
 from anvil.js.window import jQuery, ej
-
 from . import FormInputs
-from ..tools.dependency_cache import DependencyCache
-from ..tools.utils import camel_to_snake, camel_to_title, new_el_id
-
+from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
 import string
 
 
-DATA_MODELS = DependencyCache.get_dependency('data_models')
-APP_ID = DependencyCache.get_dependency('app_id')
 POPUP_DEFAULT_TARGET = 'body'
 POPUP_WIDTH_COL1 = '400px'
 POPUP_WIDTH_COL2 = '500px'
@@ -45,7 +40,7 @@ class FormBase:
         print('Base Form', model)
 
         self.form_model = model
-        self.class_name = getattr(DATA_MODELS, self.form_model, None)
+        self.class_name = getattr(AppEnv.data_models, self.form_model, None)
         self.form_fields = fields
         self.subforms = subforms if subforms is not None else []
         self.update_source = update_source
@@ -61,7 +56,7 @@ class FormBase:
         self.target_el.append(self.container_el)
         self.form_name = f"form_{camel_to_snake(self.form_model)}"
         self.form_uid = new_el_id()
-        self.form_id = f"{APP_ID}_{self.form_uid}_{self.form_name}"
+        self.form_id = f"{AppEnv.APP_ID}_{self.form_uid}_{self.form_name}"
         self.form_el = None
         self.action = action
         self.data = {} if data is None else data
@@ -144,7 +139,7 @@ class FormBase:
                 form_fields.append(attr_input(name=attr_name, label=string.capwords(attr_name.replace("_", " "))))
             for ref_name in model_class._relationships.keys():
                 ref_class = model_class._relationships[ref_name].__dict__['class_name']
-                ref_class = getattr(DATA_MODELS, ref_class, None)
+                ref_class = getattr(AppEnv.data_models, ref_class, None)
                 ref_title = [*ref_class._attributes.keys()][0]
                 form_fields.append(
                     FormInputs.LookupInput(
@@ -291,7 +286,7 @@ class SubformBase:
                  container_id=None, on_change=None, save=True, **kwargs):
         self.name = name
         self.model = model
-        self.model_class = getattr(DATA_MODELS, self.model, None)
+        self.model_class = getattr(AppEnv.data_models, self.model, None)
         self.link_model = link_model
         self.link_field = link_field
         self.fields = fields
@@ -398,7 +393,7 @@ class SubformBase:
 
     def save_rows(self, link_obj=None):
         if self.model is not None:
-            model_class = getattr(DATA_MODELS, self.model, None)
+            model_class = getattr(AppEnv.data_models, self.model, None)
             # model_attrs = model_class._attributes
             for obj in self.deleted:
                 obj.delete()

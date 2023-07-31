@@ -1,10 +1,8 @@
 # Form input fields and controls
-import anvil
+import anvil.js
+import anvil.BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
-
-from ..tools.utils import DotDict, new_el_id
-from ..tools.dependency_cache import DependencyCache
-
+from ..tools.utils import AppEnv, DotDict, new_el_id
 import datetime
 
 
@@ -455,8 +453,8 @@ class LookupInput(DropdownInput):
         self.add_item_model = add_item_model
         self.add_item_popup = None
         options = None
-        data_models = DependencyCache.get_dependency('data_models')
-        enums = DependencyCache.get_dependency('enumerations')
+        data_models = AppEnv.data_models
+        enums = AppEnv.enumerations
         if self.model:
             if enums and self.model in enums.Models:
                 options = enums.Models[self.model].options

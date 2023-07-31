@@ -1,10 +1,8 @@
 from anvil.js.window import ej, jQuery
-
 from ..datamodel import types as dmtypes
 from .FormBase import FormBase
-from ..tools.dependency_cache import DependencyCache
+from ..tools.utils import AppEnv
 from ..tools import utils
-
 import string
 import uuid
 import json
@@ -41,7 +39,7 @@ GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
-    model = DependencyCache.get_dependency('data_models')
+    model = AppEnv.data_models
     cls = getattr(model, view_config['model'])
     search_queries = search_queries or []
     filters = filters or {}
@@ -49,7 +47,7 @@ def get_grid_view(view_config, search_queries=None, filters=None, include_rows=F
 
 
 def get_model_attribute(class_name, attr_name):
-    model = DependencyCache.get_dependency('data_models')
+    model = AppEnv.data_models
     cls = getattr(model, class_name)
     if attr_name == '_title':
         attr_name = cls._title
@@ -87,8 +85,8 @@ class GridView:
         self.filters = filters
         
         # depenencies
-        self.app_model = DependencyCache.get_dependency('data_models')
-        self.app_forms = DependencyCache.get_dependency('forms')
+        self.app_model = AppEnv.data_models
+        self.app_forms = AppEnv.forms
 
         print('GridView', view_name)
         if view_name or view_config:
