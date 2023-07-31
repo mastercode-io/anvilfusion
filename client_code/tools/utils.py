@@ -65,6 +65,13 @@ class AppEnv:
     views = None
     pages = None
     enumerations = None
+    
+    
+    @staticmethod
+    def init_enumerations(model_list=None):
+        if model_list is None:
+            model_list = {}
+        AppEnv.enumerations = DotDict(anvil.server.call('init_model_enumerations', model_list))
 
 
 # Initialise user session and store user info app session

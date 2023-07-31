@@ -1,7 +1,6 @@
 # Server module for utility functions
-import anvil
+import anvil.server
 from importlib import import_module
-from ..tools.utils import DotDict
 
 
 @anvil.server.callable
@@ -26,7 +25,7 @@ def init_user_session():
 
 
 @anvil.server.callable
-def check_session(tag):
+def check_session(tag=None):
     print(f'seesion check {tag}', anvil.server.session)
     
 
@@ -58,8 +57,4 @@ def init_model_enumerations(model_list):
                 name_field = props['name_field'].split('.', 1)[0]
                 for option in model_list[model]['options']:
                     option['name'] = option[name_field]
-
-    model_enums = DotDict(model_list)
-    print('model_enums', isinstance(model_enums, DotDict))
-    # return DotDict({'key': 'value'})
     return model_list
