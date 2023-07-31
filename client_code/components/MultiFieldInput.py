@@ -1,10 +1,10 @@
 import anvil.js
-import string
-
 from .FormBase import FormBase
 from . import FormInputs
 from ..datamodel.particles import Attribute, Relationship
 from ..tools.dependency_cache import DependencyCache
+import datetime
+import string
 
 
 class MultiFieldInput(FormInputs.BaseInput):
@@ -13,7 +13,7 @@ class MultiFieldInput(FormInputs.BaseInput):
                  name=None,
                  label=None,
                  model=None,
-                 subfields=None,
+                 fields=None,
                  schema=None,
                  orientation='rows',
                  cols=1,
@@ -26,7 +26,7 @@ class MultiFieldInput(FormInputs.BaseInput):
             self.schema = self.model._attributes[self.name].schema
         else:
             self.schema = schema if schema else {}
-        if subfields is None:
+        if fields is None:
             schema_fields = []
             for name, field in self.schema.items():
                 input_label = field.label if field.label else string.capwords(name.replace("_", " "))
@@ -35,25 +35,25 @@ class MultiFieldInput(FormInputs.BaseInput):
                     schema_fields.append(input_class(name=name, label=input_label))
                 elif isinstance(field, Relationship):
                     schema_fields.append(FormInputs.LookupInput(name=name, label=input_label))
-            self.subfields = schema_fields
+            self.fields = schema_fields
         else:
-            self.subfields = subfields
+            self.fields = fields
         if label:
             section_label = label
         else:
             section_label = string.capwords(self.name.replace("_", " ")) if self.name else None
         if orientation == 'rows':
             section_rows = []
-            for i in range(0, len(self.subfields), cols):
-                section_rows.append(self.subfields[i:i + cols])
+            for i in range(0, len(self.fields), cols):
+                section_rows.append(self.fields[i:i + cols])
             if len(section_rows[-1]) < cols:
                 section_rows[-1] += [None] * (cols - len(section_rows[-1]))
             self.sections = [{'name': self.name, 'label': section_label, 'rows': section_rows}]
         else:
             section_cols = []
-            rows_num = len(self.subfields) // cols
+            rows_num = len(self.fields) // cols
             for i in range(0, cols):
-                section_cols.append(self.subfields[i * rows_num:(i + 1) * rows_num])
+                section_cols.append(self.fields[i * rows_num:(i + 1) * rows_num])
             if len(section_cols[-1]) < rows_num:
                 section_cols[-1] += [None] * (rows_num - len(section_cols[-1]))
             self.sections = [{'name': self.name, 'label': section_label, 'cols': section_cols}]
@@ -66,16 +66,15 @@ class MultiFieldInput(FormInputs.BaseInput):
     @enabled.setter
     def enabled(self, value):
         self._enabled = value
-        for subfield in self.subfields:
-            subfield.enabled = value
+        for field in self.fields:
+            field.enabled = value
 
     @property
     def value(self):
-        # self._value = DotDict({subfield.name: subfield.value for subfield in self.subfields})
         self._value = {
-            subfield.name: subfield.value if not isinstance(subfield.value, (datetime.datetime, datetime.date))
-            else subfield.value.isoformat()
-            for subfield in self.subfields
+            field.name: field.value if not isinstance(field.value, (datetime.datetime, datetime.date))
+            else field.value.isoformat()
+            for field in self.fields
         }
         return self._value
 
@@ -83,20 +82,20 @@ class MultiFieldInput(FormInputs.BaseInput):
     def value(self, value):
         self._value = value
         if isinstance(value, dict):
-            for subfield in self.subfields:
-                subfield.value = value.get(subfield.name, None)
+            for field in self.fields:
+                field.value = value.get(field.name, None)
 
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-            for subfield in self.subfields:
-                subfield.show()
+            for field in self.fields:
+                field.show()
             self.visible = True
             self.enabled = self._enabled
 
     def hide(self):
         if self.visible:
-            for subfield in self.subfields:
-                subfield.hide()
+            for field in self.fields:
+                field.hide()
             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
             self.visible = False
