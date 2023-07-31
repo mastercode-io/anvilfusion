@@ -1,5 +1,5 @@
 # Helper classes and functions
-import anvil
+import anvil.server
 import sys
 import re
 import uuid
@@ -55,6 +55,28 @@ def datetime_js_to_py(dt):
 
 def time_js_to_py(time):
     return datetime.datetime(1970, 1, 1, time.getHours(), time.getMinutes())
+
+
+# Application environment cache
+class AppEnv:
+    APP_ID = None
+    data_models = None
+    forms = None
+    views = None
+    pages = None
+    enumerations = None
+
+
+# Initialise user session and store user info app session
+def init_user_session():
+    anvil.server.call('check_session', 'a')
+    logged_user = anvil.server.call('init_user_session')
+    if not logged_user:
+        anvil.users.login_with_form()
+        logged_user = anvil.server.call('init_user_session')
+    print('USER: ', logged_user)
+    anvil.server.call('check_session', 'b')
+    return logged_user
 
 
 # Dictionary extension that allows dot notation access to keys
