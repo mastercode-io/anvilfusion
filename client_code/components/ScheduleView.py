@@ -1,12 +1,10 @@
 from anvil.tables import query as q
 from anvil.js.window import ej, jQuery, Date, XMLHttpRequest, Object
-
-from ..tools.dependency_cache import DependencyCache
-from ..tools import utils
-
+from ..tools.utils import AppEnv, datetime_js_to_py
 from datetime import datetime, timedelta
 import uuid
 import json
+
 
 PM_SCHEDULE_HEIGHT_OFFSET = 35
 PM_SCHEDULE_DEFAULT_VIEWS = [
@@ -48,8 +46,8 @@ class EventScheduleView:
         print('EventScheduleView')
         
         # dependencies
-        self.app_model = DependencyCache.get_dependency('data_models')
-        self.app_forms = DependencyCache.get_dependency('forms')
+        self.app_model = AppEnv.data_models
+        self.app_forms = AppEnv.forms
 
         self.db_data = None
         self.schedule_el_id = None
@@ -131,7 +129,7 @@ class EventScheduleView:
                     event = self.app_model.Event.get(event_uid)
                 else:
                     action = 'add'
-                    start_time = utils.datetime_js_to_py(args.data.start_time)
+                    start_time = datetime_js_to_py(args.data.start_time)
                     end_time = start_time + timedelta(hours=1)
                     event = self.app_model.Event(start_time=start_time, end_time=end_time)
                 editor = self.app_forms.EventForm(data=event, action=action, target=self.container_id,
@@ -152,8 +150,8 @@ class EventScheduleView:
             changed_event = args.data
             # event = self.db_data[changed_event.uid]
             event = self.app_model.Event.get(changed_event.uid)
-            event['start_time'] = utils.datetime_js_to_py(changed_event.start_time)
-            event['end_time'] = utils.datetime_js_to_py(changed_event.end_time)
+            event['start_time'] = datetime_js_to_py(changed_event.start_time)
+            event['end_time'] = datetime_js_to_py(changed_event.end_time)
             event.save()
             self.schedule.refreshEvents()
 
