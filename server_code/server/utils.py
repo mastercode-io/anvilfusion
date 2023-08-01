@@ -45,7 +45,6 @@ def get_logged_user():
 @anvil.server.callable
 def init_model_enumerations(module, model_list):
     models = import_module(module)
-    # print('module', models)
     for model, props in model_list.items():
         view_config = {
             'model': props['model'],

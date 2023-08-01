@@ -453,14 +453,12 @@ class LookupInput(DropdownInput):
         self.add_item_model = add_item_model
         self.add_item_popup = None
         options = None
-        data_models = AppEnv.data_models
-        # enums = AppEnv.enumerations
         if self.model:
             if AppEnv.enum_models and self.model in AppEnv.enum_models:
                 options = AppEnv.enum_models[self.model].options
             elif not data:
                 cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
-                data = getattr(data_models, self.model).get_grid_view(
+                data = getattr(AppEnv.data_models, self.model).get_grid_view(
                     view_config={'columns': [{'name': col} for col in cols]})
         if data:
             options = [
