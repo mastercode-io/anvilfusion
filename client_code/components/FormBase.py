@@ -222,9 +222,7 @@ class FormBase:
                 if field.name and hasattr(self.data, field.name) and field not in self.subforms:
                     field.value = self.data[field.name]
             for subform in self.subforms:
-                print(subform)
                 subform.value = self.data
-            print('form open done')
             for field in self.form_fields:
                 if field.on_change is not None:
                     field.on_change({'name': field.name, 'value': field.value})
@@ -340,7 +338,9 @@ class SubformBase:
         if self.model is None:
             self.data = value
         else:
+            print('subform search')
             rows = self.model_class.search(**{self.link_field: value})
+            print('subform rows', rows)
             self.data = []
             for obj in rows:
                 subgrid_row = obj.to_grid()
