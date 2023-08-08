@@ -227,12 +227,17 @@ class GridView:
 
         for item in self.toolbar_items:
             item_title = item.get('tooltipText', item['text'])
+            item_css_class = item.get('cssClass')
+            item_style = item.get('style')
             button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
-            button.style = item.get('style', '')
-            button.classList.add(item.get('cssClass', ''))
-            for text in button.children:
-                text.style = item.get('style', '')
-                text.classList.add(item.get('cssClass', ''))
+            if item_css_class:
+                button.classList.add(item_css_class)
+                for text in button.children:
+                    text.classList.add(item_css_class)
+            if item_style:
+                button.style = item_style
+                for text in button.children:
+                    text.style = item_style
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
