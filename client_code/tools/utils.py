@@ -69,10 +69,15 @@ class AppEnv:
     
     
     @staticmethod
-    def init_enumerations(model_list=None):
+    def add_enumerations(model_list=None):
         if model_list is None:
             model_list = {}
         AppEnv.enum_models = DotDict(anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list))
+
+
+    @staticmethod
+    def add_grid_settings(settings=None):
+        AppEnv.grid_settings = settings or {}
 
 
 # Initialise user session and store user info app session
