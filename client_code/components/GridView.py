@@ -229,8 +229,10 @@ class GridView:
         toolbar_item = self.grid.element.querySelector('.e-toolbar .e-toolbar-item[title="Edit"]')
         toolbar_button = toolbar_item.querySelector('button')
         toolbar_button_text = toolbar_button.querySelector('.e-tbar-btn-text')
+        toolbar_buttton_icon = toolbar_button.querySelector('.e-btn-icon')
         toolbar_button.style.backgroundColor = 'green'
-        toolbar_button_text.style.color = 'white'
+        toolbar_button_text.style = 'color:white'
+        toolbar_buttton_icon.style = 'color:white'
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
