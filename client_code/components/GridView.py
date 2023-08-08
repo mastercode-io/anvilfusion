@@ -182,6 +182,8 @@ class GridView:
         if 'Toolbar' in self.grid_view['config']['modes']:
             self.grid_config['toolbar'] = self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or GRID_DEFAULT_TOOLBAR_ITEMS
             self.grid_config['toolbarClick'] = self.toolbar_click
+        else:
+            self.toolbar_items = []
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         self.grid_config['showColumnMenu'] = True
