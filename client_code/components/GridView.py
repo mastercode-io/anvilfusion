@@ -226,7 +226,7 @@ class GridView:
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
         for item in self.toolbar_items:
-            item_title = item.get('tooltipText', item['title'])
+            item_title = item.get('tooltipText', item['text'])
             button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
             button.style = item.get('style', '')
             button.classList.add(item.get('cssClass', ''))
