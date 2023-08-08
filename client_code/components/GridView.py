@@ -9,7 +9,11 @@ import json
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
-GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 'Edit', 'Delete', 'Search', 
+GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 
+                              # 'Edit', 
+                              {'text': 'Edit', 'tooltipText': 'Edit', 'prefixIcon': 'e-edit', 'cssClass': 'pm-button-color'},
+                              'Delete', 
+                              'Search', 
                               {'text': 'Export XLS'}]
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
 GRID_MODE_TO_SWITCH = {
