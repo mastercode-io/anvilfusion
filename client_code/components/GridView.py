@@ -179,6 +179,7 @@ class GridView:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
             self.grid_config['toolbar'] = self.grid_view['config'].get('toolbar', GRID_DEFAULT_TOOLBAR_ITEMS)
+            self.grid_config['toolbarClick'] = self.toolbar_click
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         self.grid_config['showColumnMenu'] = True
@@ -237,6 +238,13 @@ class GridView:
             if props['type'] == 'button':
                 button = ej.buttons.Button({'content': props['content']})
                 button.appendTo(el)
+
+
+    def toolbar_click(self, args):
+        print('toolbar_click', args)
+        # if args.item.id in self.toolbar_actions:
+        #    print(args.item.id, args.item.text)
+
 
     def record_click(self, args):
         if args.target.id in self.row_actions:
