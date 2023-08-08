@@ -229,8 +229,8 @@ class GridView:
 
         toolbar_button = self.grid.element.querySelector('.e-toolbar .e-toolbar-item[title="Edit"] button')
         toolbar_button.style = 'background-color:blue; color:white!important;'
-        # for button_ele in toolbar_button.children:
-        #     button_ele.style = 'color:white'
+        for button_ele in toolbar_button.children:
+            button_ele.style = 'background-color:blue; color:white!important;'
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
