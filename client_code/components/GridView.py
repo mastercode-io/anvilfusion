@@ -226,16 +226,11 @@ class GridView:
                  <div id="{self.grid_el_id}"></div>\
                </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+
         toolbar_button = self.grid.element.querySelector('.e-toolbar .e-toolbar-item[title="Edit"] button')
-        #toolbar_button = toolbar_item.querySelector('button').style = 'background-color:green'
-        toolbar_button.style = 'background-color:blue'
-        for button_ele in toolbar_button.children:
-            button_ele.style = 'color:white'
-        # toolbar_button.querySelector('.e-tbar-btn-text').style = 'color:white'
-        # toolbar_button.querySelector('.e-btn-icon').style = 'color:white'
-        # toolbar_button.style.backgroundColor = 'green'
-        # toolbar_button_text.style = 'color:white'
-        # toolbar_buttton_icon.style = 'color:white'
+        toolbar_button.style = 'background-color:blue; color:white!important;'
+        # for button_ele in toolbar_button.children:
+        #     button_ele.style = 'color:white'
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
