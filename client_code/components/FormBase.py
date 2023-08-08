@@ -338,7 +338,10 @@ class SubformBase:
         if self.model is None:
             self.data = value
         else:
-            print('Subform Value', self.link_field, value)
+            self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                                                       search_queries=self.search_queries,
+                                                       filters=self.filters,
+                                                       include_rows=False)
             rows = self.model_class.search(**{self.link_field: value})
             self.data = []
             for obj in rows:

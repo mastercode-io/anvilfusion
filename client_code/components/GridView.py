@@ -9,7 +9,8 @@ import json
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
-GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 'Edit', 'Delete', 'Search']
+GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 'Edit', 'Delete', 'Search', 
+                              {'text': 'Export', 'tooltipText': 'Export', 'prefixIcon': 'e-pdfexport-icon e-icons', 'id': 'export'}]
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
