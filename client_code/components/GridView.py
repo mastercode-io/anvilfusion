@@ -1,6 +1,4 @@
 from anvil.js.window import ej, jQuery
-
-from AnvilFusion_Playground.client_code import app
 from ..datamodel import types as dmtypes
 from .FormBase import FormBase
 from ..tools.utils import AppEnv
