@@ -65,6 +65,7 @@ class AppEnv:
     views = None
     pages = None
     enum_models = None
+    grid_settings = {}
     
     
     @staticmethod

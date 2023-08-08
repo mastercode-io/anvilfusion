@@ -9,11 +9,7 @@ import json
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
-GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 
-                              'Edit', 
-                              'Delete', 
-                              'Search', 
-                              {'text': 'Export'}]
+GRID_DEFAULT_TOOLBAR_ITEMS = [{'text': 'Add'}, {'text': 'Edit'}, {'text': 'Delete'}, {'text': 'Search'}]
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
@@ -78,6 +74,7 @@ class GridView:
                  view_config=None,
                  search_queries=None,
                  filters=None,
+                 toolbar_items=None,
                  ):
 
         self.grid_height = None
@@ -87,6 +84,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
+        self.toolbar_items = toolbar_items or AppEnv.grid_settings.get('toolbar_items', GRID_DEFAULT_TOOLBAR_ITEMS)
         
         # depenencies
         self.app_model = AppEnv.data_models
@@ -181,7 +179,7 @@ class GridView:
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
-            self.grid_config['toolbar'] = self.grid_view['config'].get('toolbar', GRID_DEFAULT_TOOLBAR_ITEMS)
+            self.grid_config['toolbar'] = self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or GRID_DEFAULT_TOOLBAR_ITEMS
             self.grid_config['toolbarClick'] = self.toolbar_click
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
@@ -227,11 +225,14 @@ class GridView:
                </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
-        edit_button = 'Edit'
-        toolbar_button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{edit_button}"] button')
-        toolbar_button.style = 'background-color:blue; color:white;'
-        for button_ele in toolbar_button.children:
-            button_ele.style = 'background-color:blue; color:white;'
+        for item in self.toolbar_items:
+            item_title = item.get('tooltipText', item['title'])
+            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
+            button.style = item.get('style', '')
+            button.classList.add(item.get('cssClass', ''))
+            for text in button.children:
+                text.style = item.get('style', '')
+                text.classList.add(item.get('cssClass', ''))
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
