@@ -1,4 +1,6 @@
 from anvil.js.window import ej, jQuery
+
+from AnvilFusion_Playground.client_code import app
 from ..datamodel import types as dmtypes
 from .FormBase import FormBase
 from ..tools.utils import AppEnv
@@ -74,6 +76,7 @@ class GridView:
                  view_config=None,
                  search_queries=None,
                  filters=None,
+                 grid_modes=None,
                  toolbar_items=None,
                  ):
 
@@ -166,7 +169,7 @@ class GridView:
 
         # configure grid settings
         if 'modes' not in self.grid_view['config']:
-            self.grid_view['config']['modes'] = GRID_DEFAULT_MODES
+            self.grid_view['config']['modes'] = grid_modes or AppEnv.grid_settings.get('modes', GRID_DEFAULT_MODES)
         for grid_mode in self.grid_view['config']['modes']:
             ej.grids.Grid.Inject(ej.grids[grid_mode])
             if grid_mode in GRID_MODE_TO_SWITCH and GRID_MODE_TO_SWITCH[grid_mode]:
