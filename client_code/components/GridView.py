@@ -10,11 +10,10 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = ['Add', 
-                              # 'Edit', 
-                              {'text': 'Edit', 'tooltipText': 'Edit', 'prefixIcon': 'e-edit', 'cssClass': 'pm-button-color'},
+                              'Edit', 
                               'Delete', 
                               'Search', 
-                              {'text': 'Export XLS'}]
+                              {'text': 'Export'}]
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
@@ -227,6 +226,11 @@ class GridView:
                  <div id="{self.grid_el_id}"></div>\
                </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        toolbar_item = self.grid.element.querySelector('.e-toolbar .e-toolbar-item[title="Edit"]')
+        toolbar_button = toolbar_item.querySelector('button')
+        toolbar_button_text = toolbar_button.querySelector('.e-tbar-btn-text')
+        toolbar_button.style.backgroundColor = 'green'
+        toolbar_button_text.style.color = 'white'
 
         # except Exception as e:
         #     print('Error in Grid form_show', e)
