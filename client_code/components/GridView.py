@@ -85,7 +85,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
-        self.toolbar_items = toolbar_items or AppEnv.grid_settings.get('toolbar_items', GRID_DEFAULT_TOOLBAR_ITEMS)
+        self.toolbar_items = toolbar_items
         
         # depenencies
         self.app_model = AppEnv.data_models
@@ -180,7 +180,9 @@ class GridView:
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
-            self.grid_config['toolbar'] = self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or GRID_DEFAULT_TOOLBAR_ITEMS
+            self.grid_config['toolbar'] = self.toolbar_items or \
+                self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
+                GRID_DEFAULT_TOOLBAR_ITEMS
             self.grid_config['toolbarClick'] = self.toolbar_click
         else:
             self.toolbar_items = []
