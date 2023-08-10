@@ -335,19 +335,20 @@ class CheckboxInput(BaseInput):
 # Radio button input
 class RadioButtonInput(BaseInput):
     def __init__(self, options=None, direction='horizontal', **kwargs):
-        self.options = options or []
+        self.options = []
         self.direction = direction
         super().__init__(**kwargs)
 
         # create html
         spacer = '<br>' if self.direction == 'vertical' else '&nbsp;&nbsp'
         html_string = f'<div class="form-group pm-form-group pm-radiobutton-input">'
-        for option in self.options:
+        for option in options:
             el_id = new_el_id()
             html_string += f'<input type="radio" class="form-control" id="{el_id}">{spacer}'
             if isinstance(option, str):
                 option = {'value': option, 'label': option}
             option['el_id'] = el_id
+            self.options.append(option)
         html_string += f'</div>'
         self.html = html_string
 
