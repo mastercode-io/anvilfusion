@@ -233,7 +233,7 @@ class FormBase:
                 for i in range(len(self.form_tabs) - 1, -1, -1):
                     self.tabs.select(i)
         except Exception as e:
-            print(e.with_traceback())
+            print(e.__traceback__.tb_frame.f_code.co_name, e)
 
         if self.validation is not None:
             self.validation['customPlacement'] = lambda input_el, error: \
