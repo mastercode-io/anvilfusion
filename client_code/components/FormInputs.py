@@ -335,7 +335,7 @@ class CheckboxInput(BaseInput):
 # Radio button input
 class RadioButtonInput(BaseInput):
     def __init__(self, options=None, direction='horizontal', **kwargs):
-        self.options = [] if options is None else options
+        self.options = options or []
         self.direction = direction
         super().__init__(**kwargs)
 
@@ -345,6 +345,8 @@ class RadioButtonInput(BaseInput):
         for option in self.options:
             el_id = new_el_id()
             html_string += f'<input type="radio" class="form-control" id="{el_id}">{spacer}'
+            if isinstance(option, str):
+                {'value': option, 'label': option}
             option['el_id'] = el_id
         html_string += f'</div>'
         self.html = html_string
@@ -355,7 +357,7 @@ class RadioButtonInput(BaseInput):
             radio_button = ej.buttons.RadioButton({
                 'name': self.name,
                 'value': option['value'],
-                'label': option['label'] if 'label' in option else option['value'],
+                'label': option.get('label', option['value']),
                 'change': self.change,
             })
             option['control'] = radio_button
