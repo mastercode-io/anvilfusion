@@ -216,7 +216,7 @@ class FormBase:
         try:
             if not self.data:
                 self.data = self.default_data
-            # print(self.data)
+            print(self.data)
             for field in self.form_fields:
                 print(field.name, field.value)
                 field.show()
