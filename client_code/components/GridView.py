@@ -136,7 +136,7 @@ class GridView:
             # self.row_actions[f"row_action_{column['name']}"] = column['row_action']
             # else:
             else:
-                # print('column', column['name'])
+                print('column', column['name'])
                 col_attr, _ = get_model_attribute(self.model, column['name'])
                 grid_column = {
                     'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
