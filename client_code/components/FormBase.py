@@ -218,6 +218,7 @@ class FormBase:
                 self.data = self.default_data
             # print(self.data)
             for field in self.form_fields:
+                print(field.name, field.value)
                 field.show()
                 if field.name and hasattr(self.data, field.name) and field not in self.subforms:
                     field.value = self.data[field.name]
@@ -232,7 +233,7 @@ class FormBase:
                 for i in range(len(self.form_tabs) - 1, -1, -1):
                     self.tabs.select(i)
         except Exception as e:
-            print(e)
+            print(e.with_traceback())
 
         if self.validation is not None:
             self.validation['customPlacement'] = lambda input_el, error: \
