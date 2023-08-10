@@ -71,6 +71,7 @@ def update_model(class_name, force_update=False, self_ref=False):
         class_cols = {k: cls._attributes[k].field_type.ColumnType for k in cls._attributes}
         class_cols.update({k: 'liveObject' for k in cls._relationships})
         class_cols.update(default_cols)
+        print(class_cols)
         
         # get columns to delete
         del_cols = {k: table_cols[k] for k in set(table_cols) - set(class_cols)}

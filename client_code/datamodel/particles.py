@@ -182,15 +182,16 @@ def _constructor(attributes, relationships, computes):
             else:
                 setattr(self, name, value)
 
-        for name, computed in computes.items():
-            args = {dep: getattr(self, dep) for dep in computed.depends_on}
-            setattr(self, name, computed.compute(self.__class__, args))
-
         # Set the default instance attributes for optional members missing from the arguments
         for name, member in members.items():
             if name not in kwargs:
                 value = member.default if hasattr(member, 'default') else None
                 setattr(self, name, value)
+
+        # Compute the values of any computed members and set the instance attributes
+        for name, computed in computes.items():
+            args = {dep: getattr(self, dep) for dep in computed.depends_on}
+            setattr(self, name, computed.compute(self.__class__, args))
 
     return init
 
