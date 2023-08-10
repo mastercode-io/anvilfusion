@@ -213,27 +213,27 @@ class FormBase:
 
     def form_open(self, args):
         print('form open')
-        try:
-            if not self.data:
-                self.data = self.default_data
-            print(self.data)
-            for field in self.form_fields:
-                print(field.name, field.value)
-                field.show()
-                if field.name and hasattr(self.data, field.name) and field not in self.subforms:
-                    field.value = self.data[field.name]
-            for subform in self.subforms:
-                subform.value = self.data
-            for field in self.form_fields:
-                if field.on_change is not None:
-                    field.on_change({'name': field.name, 'value': field.value})
-            self.container_el.style.visibility = 'visible'
-            self.form.cssClass = 'e-fixed'
-            if self.form_tabs is not None:
-                for i in range(len(self.form_tabs) - 1, -1, -1):
-                    self.tabs.select(i)
-        except Exception as e:
-            print(e)
+        # try:
+        if not self.data:
+            self.data = self.default_data
+        print(self.data)
+        for field in self.form_fields:
+            print(field.name, field.value)
+            field.show()
+            if field.name and hasattr(self.data, field.name) and field not in self.subforms:
+                field.value = self.data[field.name]
+        for subform in self.subforms:
+            subform.value = self.data
+        for field in self.form_fields:
+            if field.on_change is not None:
+                field.on_change({'name': field.name, 'value': field.value})
+        self.container_el.style.visibility = 'visible'
+        self.form.cssClass = 'e-fixed'
+        if self.form_tabs is not None:
+            for i in range(len(self.form_tabs) - 1, -1, -1):
+                self.tabs.select(i)
+        # except Exception as e:
+        #     print(e)
 
         if self.validation is not None:
             self.validation['customPlacement'] = lambda input_el, error: \
