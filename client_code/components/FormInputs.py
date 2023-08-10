@@ -346,7 +346,7 @@ class RadioButtonInput(BaseInput):
             el_id = new_el_id()
             html_string += f'<input type="radio" class="form-control" id="{el_id}">{spacer}'
             if isinstance(option, str):
-                {'value': option, 'label': option}
+                option = {'value': option, 'label': option}
             option['el_id'] = el_id
         html_string += f'</div>'
         self.html = html_string
