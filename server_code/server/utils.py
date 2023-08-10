@@ -2,6 +2,7 @@
 import anvil.server
 import anvil.users
 from importlib import import_module
+from .persistance import get_table
 from ..tools.utils import AppEnv
 
 
@@ -60,3 +61,13 @@ def init_model_enumerations(module, model_list):
                 for option in model_list[model]['options']:
                     option['name'] = option[name_field]
     return model_list
+
+
+@anvil.server.callable
+def check_table(class_name=None):
+    try:
+        table = get_table(class_name=class_name)
+        return table.list_columns()
+    except Exception as e:
+        return None
+
