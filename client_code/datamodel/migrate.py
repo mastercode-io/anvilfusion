@@ -1,13 +1,14 @@
-import anvil
-import sys
+import anvil.server
+from anvil import BlobMedia
+from ..tools.utils import AppEnv
 from datetime import date, datetime
-
-MODEL_PACKAGE = 'practiceMANAGER_SF.orm_client.model'
 
 EXCLUDE_MIGRATION = [
     'Tenant',
     'Users',
     'appAuditLog',
+    'appErrorLog',
+    'appGridViews',
 ]
 
 default_cols = {
@@ -25,15 +26,16 @@ sample_values = {
     'date': date.today(),
     'datetime': datetime.now(),
     'simpleObject': {'key': 'value'},
-    'media': anvil.BlobMedia(content_type="text/plain", content="AnvilFusion ORM".encode(), name="anvilfusion.txt")
+    'media': BlobMedia(content_type="text/plain", content="AnvilFusion ORM".encode(), name="anvilfusion.txt")
 }
 
 
 def migrate_db_schema():
     
-    model_attrs = sys.modules[MODEL_PACKAGE].__dict__
-    models = [x for x in model_attrs if
-              'class' in str(model_attrs[x]) and MODEL_PACKAGE in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
+    model_attrs = AppEnv.data_models.__dict__
+    models = [x for x in model_attrs if 
+              'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
+              # 'class' in str(model_attrs[x]) and MODEL_PACKAGE in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
     migration_report = []
     
     for class_name in models:
@@ -65,7 +67,7 @@ def update_model(class_name, force_update=False, self_ref=False):
         
     else:
         table_cols = {x['name']: x['type'] for x in cols}
-        cls = getattr(sys.modules[MODEL_PACKAGE], class_name)
+        cls = getattr(AppEnv.data_models, class_name)
         class_cols = {k: cls._attributes[k].field_type.ColumnType for k in cls._attributes}
         class_cols.update({k: 'liveObject' for k in cls._relationships})
         class_cols.update(default_cols)
