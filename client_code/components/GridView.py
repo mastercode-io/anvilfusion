@@ -9,7 +9,12 @@ import json
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
-GRID_DEFAULT_TOOLBAR_ITEMS = [{'text': 'Add'}, {'text': 'Edit'}, {'text': 'Delete'}, {'text': 'Search'}]
+GRID_DEFAULT_TOOLBAR_ITEMS = [
+    {'id': 'search', 'prefixIcon': 'e-search-icon tb-icons', 'tooltipText': 'Search'},
+    {'id': 'add', 'prefixIcon': 'e-add-icon tb-icons', 'tooltipText': 'Add'}, 
+    # {'text': 'Edit'}, 
+    # {'text': 'Delete'}, 
+]
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
@@ -260,9 +265,8 @@ class GridView:
 
 
     def toolbar_click(self, args):
-        print('toolbar_click', args.item.items())
-        # if args.item.id in self.toolbar_actions:
-        #    print(args.item.id, args.item.text)
+        if args.item.id == 'add':
+            self.add_edit_row()
 
 
     def record_click(self, args):
@@ -276,22 +280,23 @@ class GridView:
 
             if args.requestType in ('beginEdit', 'add'):
                 args.dialog.close()
-                if args.requestType == 'beginEdit':
-                    form_action = 'edit'
-                    form_data = self.grid_class.get(args.rowData.uid)
-                else:
-                    form_action = 'add'
-                    form_data = None
-                    print('Add row')
-                if hasattr(self.app_forms, f"{self.model}Form"):
-                    print('Dialog form: ', f"Forms.{self.model}Form")
-                    edit_form_class = getattr(self.app_forms, f"{self.model}Form")
-                    form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
-                                                  target=self.container_id)
-                else:
-                    form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
-                                                 update_source=self.update_grid, target=self.container_id)
-                form_dialog.form_show()
+                self.add_edit_row(args)
+                # if args.requestType == 'beginEdit':
+                #     form_action = 'edit'
+                #     form_data = self.grid_class.get(args.rowData.uid)
+                # else:
+                #     form_action = 'add'
+                #     form_data = None
+                #     print('Add row')
+                # if hasattr(self.app_forms, f"{self.model}Form"):
+                #     print('Dialog form: ', f"Forms.{self.model}Form")
+                #     edit_form_class = getattr(self.app_forms, f"{self.model}Form")
+                #     form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
+                #                                   target=self.container_id)
+                # else:
+                #     form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
+                #                                  update_source=self.update_grid, target=self.container_id)
+                # form_dialog.form_show()
 
             elif args.requestType == 'delete':
                 # print('\nDelete row(s)\n', args.data, '\n')
@@ -302,6 +307,26 @@ class GridView:
 
             else:
                 print('\nUnknown requestType\n', args.requestType, '\n')
+
+                            
+    def add_edit_row(self, args=None):
+        if args is not None and args.requestType == 'beginEdit':
+            form_action = 'edit'
+            form_data = self.grid_class.get(args.rowData.uid)
+        else:
+            form_action = 'add'
+            form_data = None
+            print('Add row')
+        if hasattr(self.app_forms, f"{self.model}Form"):
+            print('Dialog form: ', f"Forms.{self.model}Form")
+            edit_form_class = getattr(self.app_forms, f"{self.model}Form")
+            form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
+                                            target=self.container_id)
+        else:
+            form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
+                                            update_source=self.update_grid, target=self.container_id)
+        form_dialog.form_show()
+
 
     def update_grid(self, data_row, add_new):
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
