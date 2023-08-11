@@ -287,7 +287,7 @@ class SubformBase:
                  container_id=None, on_change=None, save=True, **kwargs):
         self.name = name
         self.model = model
-        self.model_class = getattr(AppEnv.data_models, self.model, None)
+        self.model_class = getattr(AppEnv.data_models, self.model) if self.model else None
         self.link_model = link_model
         self.link_field = link_field
         self.fields = fields
