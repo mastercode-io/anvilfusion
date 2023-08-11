@@ -260,7 +260,7 @@ class GridView:
 
 
     def toolbar_click(self, args):
-        print('toolbar_click', args)
+        print('toolbar_click', args.item.items())
         # if args.item.id in self.toolbar_actions:
         #    print(args.item.id, args.item.text)
 
