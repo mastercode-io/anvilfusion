@@ -39,6 +39,12 @@ GRID_DEFAULT_EDIT_SETTINGS = {
     'showDeleteConfirmDialog': True,
     'allowScrolling': True
 }
+GRID_DEFAULT_SELECTION_SETTINGS = {
+    'type': 'Multiple',
+    'mode': 'Row',
+    'checkboxOnly': True,
+    'persistSelection': True,
+}
 GRID_HEIGHT_OFFSET = 65
 GRID_DEFAULT_COLUMN_WIDTH = 150
 
@@ -157,6 +163,8 @@ class GridView:
                     #   '"><i>' + data['Verified'] + '</i><span>';
                 }
             grid_columns.append(grid_column)
+        if 'Selection' in self.view_config['modes']:
+            grid_columns.insert(0, {'type': 'checkbox', 'width': 30})
         self.grid_view = {'config': self.view_config.copy()}
         self.grid_view['config']['columns'] = grid_columns
 
@@ -192,6 +200,8 @@ class GridView:
             self.toolbar_items = []
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
+        if 'Selection' in self.grid_view['config']['modes']:
+            self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
