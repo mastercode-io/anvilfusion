@@ -10,8 +10,8 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
-    {'id': 'search', 'prefixIcon': 'e-search-icon tb-icons', 'tooltipText': 'Search'},
-    {'id': 'add', 'prefixIcon': 'e-add-icon tb-icons', 'tooltipText': 'Add'}, 
+    {'id': 'search', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'alight': 'Right'},
+    {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'alight': 'Right'}, 
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
 ]
@@ -235,7 +235,7 @@ class GridView:
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
         for item in self.toolbar_items:
-            item_title = item.get('tooltipText', item['text'])
+            item_title = item.get('tooltipText', item.get('text', ''))
             item_css_class = item.get('cssClass')
             item_style = item.get('style')
             button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
