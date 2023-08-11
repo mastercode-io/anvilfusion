@@ -15,7 +15,7 @@ GRID_DEFAULT_TOOLBAR_ITEMS = [
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
 ]
-GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey']
+GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey', 'Selection']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
     'Filter': 'allowFiltering',
@@ -272,6 +272,7 @@ class GridView:
     def record_click(self, args):
         if args.target.id in self.row_actions:
             print(args.rowIndex, args.rowData)
+
 
     def grid_action_handler(self, args):
         # print('grid_action_handler', args)
