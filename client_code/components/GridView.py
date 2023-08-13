@@ -199,7 +199,7 @@ class GridView:
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(0, {'id': 'title', 
-                                                'template': f'<div class="h4 mt-1 a-grid-view-title">{self.grid_title}</div>', 
+                                                'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 
                                                 'align': 'Left'}
                                             )
         if 'Filter' in self.grid_view['config']['modes']:
