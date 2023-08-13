@@ -199,7 +199,7 @@ class GridView:
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(0, {'id': 'title', 
-                                                'template': f'<div class="h3 a-grid-view-title">{self.grid_title}</div>', 
+                                                'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 
                                                 'align': 'Left'}
                                             )
         if 'Filter' in self.grid_view['config']['modes']:
@@ -242,9 +242,13 @@ class GridView:
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        # self.container_el.innerHTML = f'\
+        #        <div id="pm-grid-container" style="height:{self.grid_height}px;">\
+        #          <div class="pm-gridview-title">{self.grid_title}</div>\
+        #          <div id="{self.grid_el_id}"></div>\
+        #        </div>'
         self.container_el.innerHTML = f'\
                <div id="pm-grid-container" style="height:{self.grid_height}px;">\
-                 <div class="pm-gridview-title">{self.grid_title}</div>\
                  <div id="{self.grid_el_id}"></div>\
                </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
