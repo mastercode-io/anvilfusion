@@ -202,6 +202,7 @@ class GridView:
                                                 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 
                                                 'align': 'Left'}
                                             )
+        print(self.grid_config['toolbar'])
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
