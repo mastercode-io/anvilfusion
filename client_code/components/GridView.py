@@ -196,6 +196,12 @@ class GridView:
             self.grid_config['toolbarClick'] = self.toolbar_click
         else:
             self.toolbar_items = []
+        self.grid_config['toolbar'] = self.toolbar_items
+        self.grid_config['toolbarClick'] = self.toolbar_click
+        self.grid_config['toolbar'].insert(0, {'id': 'title', 
+                                                'template': f'<div class="e-toolbar-label">{self.grid_title}</div>', 
+                                                'align': 'Left'}
+                                            )
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
