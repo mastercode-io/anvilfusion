@@ -194,6 +194,7 @@ class GridView:
                 GRID_DEFAULT_TOOLBAR_ITEMS
             self.grid_config['toolbar'] = self.toolbar_items.copy()
             self.grid_config['toolbarClick'] = self.toolbar_click
+            print(self.grid_config['toolbar'])
         else:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
