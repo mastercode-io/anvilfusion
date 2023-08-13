@@ -189,12 +189,13 @@ class GridView:
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
-            self.toolbar_items = toolbar_items or \
+            toolbar_items = toolbar_items or \
                 self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
                 GRID_DEFAULT_TOOLBAR_ITEMS
             print(GRID_DEFAULT_TOOLBAR_ITEMS)
-            self.grid_config['toolbar'] = self.toolbar_items.copy()
-            self.grid_config['toolbarClick'] = self.toolbar_click
+            self.toolbar_items = toolbar_items.copy()
+            # self.grid_config['toolbar'] = self.toolbar_items
+            # self.grid_config['toolbarClick'] = self.toolbar_click
             print(self.grid_config['toolbar'])
         else:
             self.toolbar_items = []
