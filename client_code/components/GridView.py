@@ -45,7 +45,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'checkboxOnly': True,
     'persistSelection': True,
 }
-GRID_HEIGHT_OFFSET = 65
+GRID_HEIGHT_OFFSET = 45
 GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
