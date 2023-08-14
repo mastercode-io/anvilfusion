@@ -11,7 +11,7 @@ import json
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
     {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
-    {'id': 'search-on', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
+    {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
@@ -266,8 +266,8 @@ class GridView:
                 button.style = item_style
                 for text in button.children:
                     text.style = item_style
-        if 'search' in self.toolbar_items and 'search-on' in self.toolbar_items:
-            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item .e-search-wrapper').style.display = 'none'
+            if item.get('id') == 'search-toggle':
+                self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item .e-search-wrapper').style.display = 'none'
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
@@ -287,7 +287,7 @@ class GridView:
     def toolbar_click(self, args):
         if args.item.id == 'add':
             self.add_edit_row()
-        elif args.item.id == 'search-on':
+        elif args.item.id == 'search-toggle':
             print('toggle search')
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-on"]').parentElement.style.display = 'none'
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item .e-search-wrapper').style.display = 'inline-flex'
