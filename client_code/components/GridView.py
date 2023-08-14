@@ -11,7 +11,7 @@ import json
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
     {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
-    # {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
+    {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
@@ -206,7 +206,7 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            self.grid_config['columns'].insert(0, {'type': 'checkbox', 'width': 30})
+            self.grid_config['columns'].insert(0, {'type': 'checkbox', 'width': 10})
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
