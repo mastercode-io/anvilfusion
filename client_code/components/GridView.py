@@ -266,7 +266,8 @@ class GridView:
                 button.style = item_style
                 for text in button.children:
                     text.style = item_style
-
+        if 'search' in self.toolbar_items and 'search-on' in self.toolbar_items:
+            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item .e-search-wrapper').style.display = 'none'
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
@@ -287,9 +288,9 @@ class GridView:
         if args.item.id == 'add':
             self.add_edit_row()
         elif args.item.id == 'search-on':
-            print('search-on')
-            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-on"]')
-            button.parentElement.style.display = 'none'
+            print('toggle search')
+            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-on"]').parentElement.style.display = 'none'
+            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item .e-search-wrapper').style.display = 'inline-flex'
             
 
     def record_click(self, args):
