@@ -20,7 +20,7 @@ GRID_DEFAULT_TOOLBAR_ITEMS = [
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
     'headerText': '',
-    'width': 100,
+    'width': 60,
     'commands': [
         {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat q-grid-command-edit',}},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat q-grid-command-delete'}},
@@ -286,8 +286,6 @@ class GridView:
                     text.style = item_style
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
-        for col in self.grid.columns:
-            print('column props', col['type'], col['uid'], col['parent'], col['toJSON'])
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
