@@ -315,8 +315,8 @@ class GridView:
 
 
     def row_selected(self, args):
-        print('row_selected', args)
-        self.grid.showColumns(['gird-command'], 'field')
+        print('row_selected')
+        self.grid.showColumns(['grid-command'], 'field')
     
     
     def record_click(self, args):
