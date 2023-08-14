@@ -47,6 +47,15 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'persistSelection': True,
     'checkboxWidth': 25,
 }
+GRID_DEFAULT_COMMAND_COLUMN = {
+    'type': 'CommandColumn',
+    'headerText': '',
+    'width': 100,
+    'commands': [
+        {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat'}},
+        {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat'}},
+    ]
+}
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
 
@@ -207,7 +216,10 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            self.grid_config['columns'].insert(0, {'type': 'checkbox', 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
+            self.grid_config['columns'].insert(0, GRID_DEFAULT_COMMAND_COLUMN)
+            self.grid_config['columns'].insert(0, 
+                                               {'type': 'checkbox', 'lockColumn': True,
+                                                'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
@@ -294,6 +306,14 @@ class GridView:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
 
 
+    def command_click(self, args):
+        print('command_click', args)
+        # if args.item.id == 'edit':
+        #     self.add_edit_row(args)
+        # elif args.item.id == 'delete':
+        #     self.delete_row(args)
+    
+    
     def record_click(self, args):
         if args.target.id in self.row_actions:
             print(args.rowIndex, args.rowData)
