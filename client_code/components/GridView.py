@@ -20,7 +20,7 @@ GRID_DEFAULT_TOOLBAR_ITEMS = [
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
     'headerText': '',
-    'width': 60,
+    'width': 80,
     'commands': [
         {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat q-grid-command-edit',}},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat q-grid-command-delete'}},
