@@ -45,7 +45,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'mode': 'Row',
     'checkboxOnly': True,
     'persistSelection': True,
-    'checkboxWidth': 20,
+    'checkboxWidth': 25,
 }
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
