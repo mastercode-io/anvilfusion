@@ -288,8 +288,7 @@ class GridView:
         elif args.item.id == 'search-on':
             print('search-on')
             button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-on"]')
-            print(button)
-            button.style.display = 'none'
+            button.parentElement.style.display = 'none'
             
 
     def record_click(self, args):
