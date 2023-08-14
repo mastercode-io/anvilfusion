@@ -45,6 +45,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'mode': 'Row',
     'checkboxOnly': True,
     'persistSelection': True,
+    'checkboxWidth': 15,
 }
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
@@ -206,7 +207,7 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            self.grid_config['columns'].insert(0, {'type': 'checkbox', 'width': 10})
+            self.grid_config['columns'].insert(0, {'type': 'checkbox', 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
