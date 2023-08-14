@@ -286,7 +286,9 @@ class GridView:
                     text.style = item_style
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
-        print('grid columns prop', self.grid.columns)
+        for col in self.grid.columns:
+            if col.type == 'CommandColumn':
+                print('command column prop', col.keys())
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
