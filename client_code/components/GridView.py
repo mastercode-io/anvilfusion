@@ -57,6 +57,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'mode': 'Row',
     'checkboxOnly': True,
     'persistSelection': True,
+    'enableToggle': True,
     'checkboxWidth': 35,
 }
 GRID_HEIGHT_OFFSET = 25
