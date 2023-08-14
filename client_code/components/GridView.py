@@ -19,8 +19,10 @@ GRID_DEFAULT_TOOLBAR_ITEMS = [
 ]
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
+    'field': 'grid-command',
     'headerText': '',
     'width': 80,
+    'visible': False,
     'commands': [
         {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat q-grid-command-edit',}},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat q-grid-command-delete'}},
@@ -225,6 +227,7 @@ class GridView:
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
+            self.grid_config['rowSelected'] = self.row_selected
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
@@ -311,16 +314,9 @@ class GridView:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
 
 
-    def command_created(self, args):
-        print('command_created', args)
-
-
-    def command_click(self, args):
-        print('command_click', args)
-        # if args.item.id == 'edit':
-        #     self.add_edit_row(args)
-        # elif args.item.id == 'delete':
-        #     self.delete_row(args)
+    def row_selected(self, args):
+        print('row_selected', args)
+        self.grid.showColumns(['gird-command'], 'field')
     
     
     def record_click(self, args):
