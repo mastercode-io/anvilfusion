@@ -10,7 +10,7 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
-    {'id': 'search', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
+    {'id': 'search-on', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
@@ -192,11 +192,6 @@ class GridView:
             toolbar_items = toolbar_items or \
                 self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
                 GRID_DEFAULT_TOOLBAR_ITEMS
-            print(GRID_DEFAULT_TOOLBAR_ITEMS)
-            self.toolbar_items = toolbar_items.copy()
-            # self.grid_config['toolbar'] = self.toolbar_items
-            # self.grid_config['toolbarClick'] = self.toolbar_click
-            # print(self.grid_config['toolbar'])
         else:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
@@ -290,7 +285,11 @@ class GridView:
     def toolbar_click(self, args):
         if args.item.id == 'add':
             self.add_edit_row()
-
+        elif args.item.id == 'search-on':
+            print('search-on')
+            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="search-on"] button')
+            button.style.display = 'none'
+            
 
     def record_click(self, args):
         if args.target.id in self.row_actions:
