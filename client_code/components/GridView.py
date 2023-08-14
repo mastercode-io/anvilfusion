@@ -229,6 +229,7 @@ class GridView:
                                                {'type': 'checkbox', 'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
             self.grid_config['rowSelected'] = self.row_selected
+            self.grid_config['rowDeselected'] = self.row_deselected
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
@@ -318,6 +319,11 @@ class GridView:
     def row_selected(self, args):
         print('row_selected')
         self.grid.showColumns(['grid-command'], 'field')
+    
+    
+    def row_deselected(self, args):
+        print('row_deselected')
+        self.grid.hideColumns(['grid-command'], 'field')
     
     
     def record_click(self, args):
