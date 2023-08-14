@@ -257,7 +257,7 @@ class GridView:
             item_title = item.get('tooltipText', item.get('text', ''))
             item_css_class = item.get('cssClass')
             item_style = item.get('style')
-            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
+            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[id="{item_title}"] button')
             if item_css_class:
                 button.classList.add(item_css_class)
                 for text in button.children:
@@ -288,7 +288,7 @@ class GridView:
             self.add_edit_row()
         elif args.item.id == 'search-on':
             print('search-on')
-            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="search-on"] button')
+            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[id="search-on"] button')
             button.style.display = 'none'
             
 
