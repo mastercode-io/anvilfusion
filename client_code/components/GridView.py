@@ -50,7 +50,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
     'headerText': '',
-    'width': 100,
+    'width': 200,
     'commands': [
         {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat'}},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat'}},
