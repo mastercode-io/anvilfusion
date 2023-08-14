@@ -218,10 +218,10 @@ class GridView:
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
             command_column = GRID_DEFAULT_COMMAND_COLUMN.copy()
-            for command in command_column['commands']:
-                command['buttonOption']['created'] = self.command_created
-                # command['buttonOption']['click'] = self.command_click
-            self.grid_config['columns'].insert(0, GRID_DEFAULT_COMMAND_COLUMN)
+            # for command in command_column['commands']:
+            #     command['buttonOption']['created'] = self.command_created
+            #     command['buttonOption']['click'] = self.command_click
+            self.grid_config['columns'].insert(0, command_column)
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
@@ -287,8 +287,7 @@ class GridView:
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
         for col in self.grid.columns:
-            if col.type == 'CommandColumn':
-                print('command column prop', col.keys())
+            print('command column prop', col.keys())
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
