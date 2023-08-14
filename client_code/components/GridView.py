@@ -287,7 +287,7 @@ class GridView:
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
         for col in self.grid.columns:
-            print('column props', col['type'].col['uid'], col['parent'], col['toJSON'])
+            print('column props', col['type'], col['uid'], col['parent'], col['toJSON'])
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
