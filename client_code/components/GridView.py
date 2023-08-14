@@ -1,3 +1,4 @@
+from calendar import c
 from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
 from .FormBase import FormBase
@@ -16,6 +17,15 @@ GRID_DEFAULT_TOOLBAR_ITEMS = [
     # {'text': 'Edit'}, 
     # {'text': 'Delete'}, 
 ]
+GRID_DEFAULT_COMMAND_COLUMN = {
+    'type': 'CommandColumn',
+    'headerText': '',
+    'width': 100,
+    'commands': [
+        {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat',}},
+        {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat'}},
+    ]
+}
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey', 'Selection']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
@@ -45,16 +55,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'mode': 'Row',
     'checkboxOnly': True,
     'persistSelection': True,
-    'checkboxWidth': 30,
-}
-GRID_DEFAULT_COMMAND_COLUMN = {
-    'type': 'CommandColumn',
-    'headerText': '',
-    'width': 100,
-    'commands': [
-        {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat'}},
-        {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat'}},
-    ]
+    'checkboxWidth': 35,
 }
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
@@ -216,6 +217,10 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
+            command_column = GRID_DEFAULT_COMMAND_COLUMN.copy()
+            for command in command_column['commands']:
+                command['buttonOption']['created'] = self.command_created
+                command['buttonOption']['click'] = self.command_click
             self.grid_config['columns'].insert(0, GRID_DEFAULT_COMMAND_COLUMN)
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
@@ -306,8 +311,12 @@ class GridView:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
 
 
-    def command_click(self, args):
+    def command_created(self, args):
         print('command_click', args)
+
+
+    def command_click(self, args):
+        print('command_created', args)
         # if args.item.id == 'edit':
         #     self.add_edit_row(args)
         # elif args.item.id == 'delete':
