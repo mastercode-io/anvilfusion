@@ -45,12 +45,12 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'mode': 'Row',
     'checkboxOnly': True,
     'persistSelection': True,
-    'checkboxWidth': 25,
+    'checkboxWidth': 30,
 }
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
     'headerText': '',
-    'width': 200,
+    'width': 100,
     'commands': [
         {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat'}},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat'}},
