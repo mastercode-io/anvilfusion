@@ -60,6 +60,7 @@ def time_js_to_py(time):
 # Application environment cache
 class AppEnv:
     APP_ID = None
+    logged_user = None
     data_models = None
     forms = None
     views = None
