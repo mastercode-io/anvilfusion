@@ -33,36 +33,30 @@ sample_values = {
 
 def migrate_db_schema():
     
-    model_attrs = AppEnv.data_models.__dict__
-    # models = [x for x in model_attrs if 
-    #           'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
-    print(dir(AppEnv.data_models))
-    # models = [attr for attr in dir(AppEnv.data_models) if isinstance(getattr(AppEnv.data_models, attr), ModelTypeBase)]
     models = [attr for attr in dir(AppEnv.data_models) 
               if type(getattr(AppEnv.data_models, attr)) == type 
               and issubclass(getattr(AppEnv.data_models, attr), ModelTypeBase)
               and attr not in EXCLUDE_MIGRATION]
 
-    print(models)
-    # for attr in dir(AppEnv.data_models):
-    #     print(attr, getattr(AppEnv.data_models, attr))
+    for attr in dir(AppEnv.data_models):
+        print(attr, getattr(AppEnv.data_models, attr))
     
-    # migration_report = []
+    migration_report = []
     
-    # for class_name in models:
-    #     print(class_name)
-    #     sample_obj, sample_refs, update_log = update_model(class_name)
+    for class_name in models:
+        print(class_name)
+        sample_obj, sample_refs, update_log = update_model(class_name)
         
-    #     if sample_obj:
-    #         sample_obj.delete(audit=False)
+        if sample_obj:
+            sample_obj.delete(audit=False)
             
-    #     for ref in sample_refs:
-    #         ref.delete(audit=False)
+        for ref in sample_refs:
+            ref.delete(audit=False)
             
-    #     migration_report.extend(update_log)
+        migration_report.extend(update_log)
         
-    # for line in migration_report:
-    #     print(line)
+    for line in migration_report:
+        print(line)
 
 
 def update_model(class_name, force_update=False, self_ref=False):
