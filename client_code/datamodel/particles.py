@@ -1,6 +1,6 @@
 import sys
-from turtle import mode
-import anvil
+import anvil.server
+import anvil.js.window
 import datetime
 from . import types
 
