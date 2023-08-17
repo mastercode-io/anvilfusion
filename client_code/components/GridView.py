@@ -1,4 +1,3 @@
-from calendar import c
 from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
 from .FormBase import FormBase

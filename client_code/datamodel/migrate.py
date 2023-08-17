@@ -33,6 +33,7 @@ sample_values = {
 def migrate_db_schema():
     
     model_attrs = AppEnv.data_models.__dict__
+    print(model_attrs)
     models = [x for x in model_attrs if 
               'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
               # 'class' in str(model_attrs[x]) and MODEL_PACKAGE in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]

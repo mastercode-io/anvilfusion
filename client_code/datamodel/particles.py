@@ -1,4 +1,5 @@
 import sys
+from turtle import mode
 import anvil
 import datetime
 from . import types
@@ -194,6 +195,11 @@ def _constructor(attributes, relationships, computes):
             setattr(self, name, computed.compute(self.__class__, args))
 
     return init
+
+
+# Base class for model types to give it a common type name
+class ModelTypeBase:
+    pass
 
 
 def _equivalence(self, other):
@@ -470,5 +476,5 @@ def model_type(cls):
     members.update(methods)
     members.update(class_attributes)
 
-    model = type(cls.__name__, (object,), members)
+    model = type(cls.__name__, (ModelTypeBase,), members)
     return anvil.server.portable_class(model)
