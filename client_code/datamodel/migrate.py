@@ -36,6 +36,7 @@ def migrate_db_schema():
     model_attrs = AppEnv.data_models.__dict__
     # models = [x for x in model_attrs if 
     #           'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
+    print(dir(AppEnv.data_models))
     models = [attr for attr in dir(AppEnv.data_models) if isinstance(getattr(AppEnv.data_models, attr), ModelTypeBase)]
     print(models)
     migration_report = []
