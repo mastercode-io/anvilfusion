@@ -1,6 +1,6 @@
 import sys
 import anvil.server
-import anvil.js.window
+import anvil.js
 import datetime
 from . import types
 
