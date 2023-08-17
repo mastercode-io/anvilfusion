@@ -1,5 +1,6 @@
 import anvil.server
 from anvil import BlobMedia
+from .particles import ModelTypeBase
 from ..tools.utils import AppEnv
 from datetime import date, datetime
 
@@ -33,11 +34,10 @@ sample_values = {
 def migrate_db_schema():
     
     model_attrs = AppEnv.data_models.__dict__
-    print(AppEnv.data_models.__name__)
-    print(model_attrs)
-    models = [x for x in model_attrs if 
-              'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
-              # 'class' in str(model_attrs[x]) and MODEL_PACKAGE in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
+    # models = [x for x in model_attrs if 
+    #           'class' in str(model_attrs[x]) and x not in EXCLUDE_MIGRATION]
+    models = [attr for attr in dir(AppEnv.data_models) if isinstance(getattr(AppEnv.data_models, attr), ModelTypeBase)]
+    print(models)
     migration_report = []
     
     for class_name in models:
