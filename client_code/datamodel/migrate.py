@@ -40,7 +40,8 @@ def migrate_db_schema():
     # models = [attr for attr in dir(AppEnv.data_models) if isinstance(getattr(AppEnv.data_models, attr), ModelTypeBase)]
     models = [attr for attr in dir(AppEnv.data_models) 
               if type(getattr(AppEnv.data_models, attr)) == type 
-              and issubclass(getattr(AppEnv.data_models, attr), ModelTypeBase)]
+              and issubclass(getattr(AppEnv.data_models, attr), ModelTypeBase)
+              and attr not in EXCLUDE_MIGRATION]
 
     print(models)
     # for attr in dir(AppEnv.data_models):
