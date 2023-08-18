@@ -49,9 +49,9 @@ class BaseInput:
         self.edit_el = None
 
         self.html = f'\
-       <div class="form-group pm-form-group">\
-         <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
-       </div>'
+            <div class="form-group pm-form-group">\
+                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+            </div>'
 
         self.grid_column = {
             'field': self.name, 'headerText': self.label, 'type': 'string',
@@ -148,9 +148,9 @@ class TextInput(BaseInput):
         super().__init__(**kwargs)
 
         self.html = f'\
-       <div class="form-group pm-form-group">\
-         <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
-       </div>'
+            <div class="form-group pm-form-group">\
+                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+            </div>'
 
     def create_control(self):
         self.control = ej.inputs.TextBox({'placeholder': self.label})
@@ -162,9 +162,9 @@ class MultiLineInput(TextInput):
         super().__init__(**kwargs)
 
         self.html = f'\
-      <div class="form-group pm-form-group">\
-        <textarea class="form-control" id="{self.el_id}" name="{self.el_id}" rows="{rows}"></textarea>\
-      </div>'
+            <div class="form-group pm-form-group">\
+                <textarea class="form-control" id="{self.el_id}" name="{self.el_id}" rows="{rows}"></textarea>\
+            </div>'
 
 
 # Number input
