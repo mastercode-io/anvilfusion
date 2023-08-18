@@ -130,7 +130,7 @@ class GridView:
             self.model = self.view_config['model']
             self.grid_class = getattr(self.app_model, self.model)
         else:
-            self.model = 'CaseWorkflowItem'
+            # self.model = 'CaseWorkflowItem'
             self.grid_class = getattr(self.app_model, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
