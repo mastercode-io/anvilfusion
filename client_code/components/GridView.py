@@ -10,7 +10,7 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
-    {'id': 'delete', 'text': 'Search', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right'},
+    {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right'},
     {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
