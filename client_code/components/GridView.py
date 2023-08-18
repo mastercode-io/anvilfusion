@@ -292,7 +292,7 @@ class GridView:
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
             elif item.get('id') == 'delete':
-                self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'none'
+                self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
