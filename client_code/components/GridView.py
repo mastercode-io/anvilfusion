@@ -114,7 +114,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
-        print('model', self.model)
+        print('grid model', self.model)
         
         # depenencies
         self.app_model = AppEnv.data_models

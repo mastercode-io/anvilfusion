@@ -17,7 +17,7 @@ class SubformGrid(BaseInput, GridView):
         self.model = model
         BaseInput().__init__(name=name, label=label, container_id=container_id, **kwargs)
         print('self model', self.model)
-        GridView().__init__(model=self.model, container_id=self.el_id, **kwargs)
+        GridView().__init__(model='CaseWorkflowItem', container_id=self.el_id, **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
 
         
