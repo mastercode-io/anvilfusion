@@ -283,57 +283,6 @@ class FormBase:
 
 
 
-class SubformGrid(FormInputs.BaseInput, GridView):
-    def __init__(self, 
-                 name=None,
-                 label=None,
-                 container_id=None, 
-                 model=None, 
-                 link_model=None, 
-                 link_field=None, 
-                 data=None,
-                 **kwargs):
-        
-        BaseInput().__init__(name=name, label=label, container_id=container_id, **kwargs)
-        GridView().__init__(model=model, container_id=self.el_id, **kwargs)
-        self.html = f'<div id="{self.el_id}"></div>'
-
-        
-    @property
-    def control(self):
-        return self._control
-
-    @control.setter
-    def control(self, value):
-        self._control = value
-
-
-    @property
-    def enabled(self):
-        pass
-
-    @enabled.setter
-    def enabled(self, value):
-        pass
-
-
-    @property
-    def value(self):
-        pass
-
-    @value.setter
-    def value(self, value):
-        pass
-
-
-    def show(self):
-        if not self.visible:
-            anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
-            if self.grid:
-                self.grid.appendTo(f"#{self.el_id}")
-            self.visible = True
-
-
 # Basic class to build a subform grid on a form
 class SubformBase:
     def __init__(self, name=None, fields=None, model=None, link_model=None, link_field=None, data=None, rows=None,
@@ -466,118 +415,118 @@ class SubformBase:
                         model_class(**new_data).save()
 
 
-class SubformGrid_2(GridView):
-    def __init__(self, name=None, model=None, link_model=None, link_field=None, data=None, rows=None, **kwargs):
-        self.name = name
-        self.model = model
-        self.model_class = getattr(AppEnv.data_models, self.model) if self.model else None
-        self.link_model = link_model
-        self.link_field = link_field
-        self.data = data if data is not None else []
-        self.rows = rows if rows is not None else []
-        self.html = f'<div id="{self.el_id}"></div>'
-        self.visible = False
-        super().__init__(**kwargs)
+# class SubformGrid_2(GridView):
+#     def __init__(self, name=None, model=None, link_model=None, link_field=None, data=None, rows=None, **kwargs):
+#         self.name = name
+#         self.model = model
+#         self.model_class = getattr(AppEnv.data_models, self.model) if self.model else None
+#         self.link_model = link_model
+#         self.link_field = link_field
+#         self.data = data if data is not None else []
+#         self.rows = rows if rows is not None else []
+#         self.html = f'<div id="{self.el_id}"></div>'
+#         self.visible = False
+#         super().__init__(**kwargs)
 
-    def show(self):
-        if not self.visible:
-            anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-            self.control.appendTo(f"#{self.el_id}")
-            self.visible = True
+#     def show(self):
+#         if not self.visible:
+#             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
+#             self.control.appendTo(f"#{self.el_id}")
+#             self.visible = True
 
-    def hide(self):
-        if self.visible:
-            anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
-            self.visible = False
+#     def hide(self):
+#         if self.visible:
+#             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
+#             self.visible = False
 
-    def change(self, args):
-        if args.requestType not in ('save', 'delete'):
-            return
-        if self.model is not None:
-            if args.requestType == 'delete':
-                self.data.remove(args.data['obj'])
-            elif args.requestType == 'save':
-                args.data['state'] = 'save'
-        for field in self.fields:
-            if field.save:
-                args.data[f'{field.name}_orm'] = field.value
-                if hasattr(field, 'serialized'):
-                    args.data[f'{field.name}_serialized'] = field.serialized
-        print('change', args.data)
-        if self.on_change is not None:
-            self.on_change({'name': self.name, 'value': self.value})
+#     def change(self, args):
+#         if args.requestType not in ('save', 'delete'):
+#             return
+#         if self.model is not None:
+#             if args.requestType == 'delete':
+#                 self.data.remove(args.data['obj'])
+#             elif args.requestType == 'save':
+#                 args.data['state'] = 'save'
+#         for field in self.fields:
+#             if field.save:
+#                 args.data[f'{field.name}_orm'] = field.value
+#                 if hasattr(field, 'serialized'):
+#                     args.data[f'{field.name}_serialized'] = field.serialized
+#         print('change', args.data)
+#         if self.on_change is not None:
+#             self.on_change({'name': self.name, 'value': self.value})
 
-    def save_rows(self, link_obj=None):
-        if self.model is not None:
-            model_class = getattr(AppEnv.data_models, self.model, None)
-            # model_attrs = model_class._attributes
-            for obj in self.deleted:
-                obj.delete()
-            for row in self.control.dataSource:
-                if row['state'] == 'save':
-                    new_data = {field.name: row[f'{field.name}_orm'] for field in self.fields if field.save is True}
-                    if 'obj' in row:
-                        row['obj'].update(new_data)
-                        row['obj'].save()
-                    else:
-                        new_data[self.link_field] = link_obj
-                        model_class(**new_data).save()
+#     def save_rows(self, link_obj=None):
+#         if self.model is not None:
+#             model_class = getattr(AppEnv.data_models, self.model, None)
+#             # model_attrs = model_class._attributes
+#             for obj in self.deleted:
+#                 obj.delete()
+#             for row in self.control.dataSource:
+#                 if row['state'] == 'save':
+#                     new_data = {field.name: row[f'{field.name}_orm'] for field in self.fields if field.save is True}
+#                     if 'obj' in row:
+#                         row['obj'].update(new_data)
+#                         row['obj'].save()
+#                     else:
+#                         new_data[self.link_field] = link_obj
+#                         model_class(**new_data).save()
                         
                         
-class SubformGrid_3(GridView):
-    def __init__(self, name=None, fields=None, model=None, link_model=None, link_field=None, data=None, rows=None,
-                 container_id=None, on_change=None, save=True, **kwargs):
-        self.name = name
-        self.model = model
-        self.model_class = getattr(AppEnv.data_models, self.model) if self.model else None
-        self.link_model = link_model
-        self.link_field = link_field
-        self.fields = fields
-        self.container_id = container_id if container_id is not None else new_el_id()
-        self.el_id = new_el_id()
-        self.save = save
-        self.html = f'<div id="{self.el_id}"></div>'
-        self.visible = False
-        self.on_change = on_change
-        self.data = data if data is not None else []
-        self.deleted = []
+# class SubformGrid_3(GridView):
+#     def __init__(self, name=None, fields=None, model=None, link_model=None, link_field=None, data=None, rows=None,
+#                  container_id=None, on_change=None, save=True, **kwargs):
+#         self.name = name
+#         self.model = model
+#         self.model_class = getattr(AppEnv.data_models, self.model) if self.model else None
+#         self.link_model = link_model
+#         self.link_field = link_field
+#         self.fields = fields
+#         self.container_id = container_id if container_id is not None else new_el_id()
+#         self.el_id = new_el_id()
+#         self.save = save
+#         self.html = f'<div id="{self.el_id}"></div>'
+#         self.visible = False
+#         self.on_change = on_change
+#         self.data = data if data is not None else []
+#         self.deleted = []
 
-        super().__init__(name=name, fields=fields, model=model, link_model=link_model, link_field=link_field,
-                         data=data, rows=rows, container_id=container_id, on_change=on_change, save=save, **kwargs)
+#         super().__init__(name=name, fields=fields, model=model, link_model=link_model, link_field=link_field,
+#                          data=data, rows=rows, container_id=container_id, on_change=on_change, save=save, **kwargs)
 
-    @property
-    def value(self):
-        value = []
-        for row in self.control.dataSource:
-            row_value = {}
-            for field in self.fields:
-                if field.save is True:
-                    row_value[field.name] = row[f'{field.name}_serialized'] if hasattr(field, 'serialized') else row[
-                        f'{field.name}_orm']
-            value.append(row_value)
-        return value
+#     @property
+#     def value(self):
+#         value = []
+#         for row in self.control.dataSource:
+#             row_value = {}
+#             for field in self.fields:
+#                 if field.save is True:
+#                     row_value[field.name] = row[f'{field.name}_serialized'] if hasattr(field, 'serialized') else row[
+#                         f'{field.name}_orm']
+#             value.append(row_value)
+#         return value
 
-    @value.setter
-    def value(self, value):
-        if self.model is None:
-            self.data = value
-        else:
-            self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                       search_queries=self.search_queries,
-                                                       filters=self.filters,
-                                                       include_rows=False)
-            rows = self.model_class.search(**{self.link_field: value})
-            self.data = []
-            for obj in rows:
-                subgrid_row = obj.to_grid()
-                subgrid_row['obj'] = obj
-                subgrid_row['state'] = ''
-                self.data.append(subgrid_row)
-        self.control.dataSource = self.data
+#     @value.setter
+#     def value(self, value):
+#         if self.model is None:
+#             self.data = value
+#         else:
+#             self.grid_data = self.grid_class.get_grid_view(self.view_config,
+#                                                        search_queries=self.search_queries,
+#                                                        filters=self.filters,
+#                                                        include_rows=False)
+#             rows = self.model_class.search(**{self.link_field: value})
+#             self.data = []
+#             for obj in rows:
+#                 subgrid_row = obj.to_grid()
+#                 subgrid_row['obj'] = obj
+#                 subgrid_row['state'] = ''
+#                 self.data.append(subgrid_row)
+#         self.control.dataSource = self.data
 
-    @property
-    def rows(self):
-        rows = [
-            {field.name: row[f'{field.name}_orm'] if field.save is True else row[field.name] for field in self.fields}
-            for row in self.control.dataSource]
-        return rows
+#     @property
+#     def rows(self):
+#         rows = [
+#             {field.name: row[f'{field.name}_orm'] if field.save is True else row[field.name] for field in self.fields}
+#             for row in self.control.dataSource]
+#         return rows
