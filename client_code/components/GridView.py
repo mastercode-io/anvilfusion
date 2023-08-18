@@ -129,6 +129,7 @@ class GridView:
             self.model = self.view_config['model']
             self.grid_class = getattr(self.app_model, self.model)
         else:
+            print('model', self.model)
             self.grid_class = getattr(self.app_model, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
