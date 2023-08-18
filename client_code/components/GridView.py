@@ -114,6 +114,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
+        print('model', self.model)
         
         # depenencies
         self.app_model = AppEnv.data_models
@@ -129,7 +130,6 @@ class GridView:
             self.model = self.view_config['model']
             self.grid_class = getattr(self.app_model, self.model)
         else:
-            self.model = model
             self.grid_class = getattr(self.app_model, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
