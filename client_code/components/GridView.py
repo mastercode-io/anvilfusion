@@ -10,7 +10,7 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
-    {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right'},
+    {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right', 'style': 'color: #d6292c;'},
     {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
@@ -325,8 +325,9 @@ class GridView:
     
     
     def row_deselected(self, args):
-        print('row_deselected')
-        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+        print('row_deselected', self.grid.getSelectedRecords())
+        if not self.grid.getSelectedRecords():
+            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
         # self.grid.hideColumns(['grid-command'], 'field')
     
     
