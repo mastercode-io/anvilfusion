@@ -297,7 +297,7 @@ class SubformGrid(BaseInput, GridView):
                  **kwargs):
         
         BaseInput().__init__(name=name, label=label, container_id=container_id, **kwargs)
-        GridView().__init__(model=model, **kwargs)
+        GridView().__init__(model=model, container_id=self.el_id, **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
 
         
@@ -326,6 +326,14 @@ class SubformGrid(BaseInput, GridView):
     @value.setter
     def value(self, value):
         pass
+
+
+    def show(self):
+        if not self.visible:
+            anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
+            if self.grid:
+                self.grid.appendTo(f"#{self.el_id}")
+            self.visible = True
 
 
 # Basic class to build a subform grid on a form
