@@ -320,13 +320,13 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected')
-        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'inline-flex'
+        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
         # self.grid.showColumns(['grid-command'], 'field')
     
     
     def row_deselected(self, args):
         print('row_deselected')
-        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'none'
+        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
         # self.grid.hideColumns(['grid-command'], 'field')
     
     
