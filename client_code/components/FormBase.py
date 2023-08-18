@@ -2,7 +2,6 @@
 import anvil.js
 from anvil.js.window import jQuery, ej
 from . import FormInputs
-from .GridView import GridView
 from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
 import string
 
