@@ -1,8 +1,6 @@
 # Base generic data input form control
 import anvil.js
 from anvil.js.window import jQuery, ej
-
-from ...AnvilFusion.components.FormInputs import BaseInput
 from . import FormInputs
 from .GridView import GridView
 from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
@@ -285,7 +283,7 @@ class FormBase:
 
 
 
-class SubformGrid(BaseInput, GridView):
+class SubformGrid(FormInputs.BaseInput, GridView):
     def __init__(self, 
                  name=None,
                  label=None,
