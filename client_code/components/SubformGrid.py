@@ -7,7 +7,8 @@ class SubformGrid(BaseInput, GridView):
     def __init__(self, 
                  name=None,
                  label=None,
-                 container_id=None, 
+                 container_id=None,
+                 popup_container_id=None, 
                  model=None, 
                  link_model=None, 
                  link_field=None, 
@@ -15,7 +16,10 @@ class SubformGrid(BaseInput, GridView):
                  **kwargs):
         
         BaseInput.__init__(self, name=name, label=label, container_id=container_id, **kwargs)
-        GridView.__init__(self, model=model, container_id=self.el_id, **kwargs)
+        GridView.__init__(self, model=model, title=label, 
+                          container_id=self.el_id, 
+                          popup_container_id=kwargs.get('target'), 
+                          **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
 
         

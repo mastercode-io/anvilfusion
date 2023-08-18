@@ -97,6 +97,7 @@ def get_model_attribute(class_name, attr_name):
 class GridView:
     def __init__(self,
                  container_id=None,
+                 popup_container_id=None,
                  title=None,
                  model=None,
                  view_name=None,
@@ -110,6 +111,7 @@ class GridView:
         self.grid_height = None
         self.grid_el_id = None
         self.container_id = container_id
+        self.popup_container_id = popup_container_id or container_id
         self.container_el = None
         self.model = model
         self.search_queries = search_queries
@@ -386,10 +388,10 @@ class GridView:
             print('Dialog form: ', f"Forms.{self.model}Form")
             edit_form_class = getattr(self.app_forms, f"{self.model}Form")
             form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
-                                            target=self.container_id)
+                                            target=self.popup_container_id)
         else:
             form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
-                                            update_source=self.update_grid, target=self.container_id)
+                                            update_source=self.update_grid, target=self.popup_container_id)
         form_dialog.form_show()
 
 
