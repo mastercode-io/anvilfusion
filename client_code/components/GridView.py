@@ -10,6 +10,7 @@ import json
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
+    {'id': 'delete', 'text': 'Search', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right'},
     {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
     {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
@@ -61,6 +62,9 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
 }
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
+
+
+
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
@@ -219,11 +223,8 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            command_column = GRID_DEFAULT_COMMAND_COLUMN.copy()
-            # for command in command_column['commands']:
-            #     command['buttonOption']['created'] = self.command_created
-            #     command['buttonOption']['click'] = self.command_click
-            self.grid_config['columns'].insert(0, command_column)
+            # command_column = GRID_DEFAULT_COMMAND_COLUMN.copy()
+            # self.grid_config['columns'].insert(0, command_column)
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
@@ -290,6 +291,8 @@ class GridView:
                     text.style = item_style
             if item.get('id') == 'search-toggle':
                 self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
+            elif item.get('id') == 'delete':
+                self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'none'
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
@@ -317,12 +320,14 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected')
-        self.grid.showColumns(['grid-command'], 'field')
+        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'inline-flex'
+        # self.grid.showColumns(['grid-command'], 'field')
     
     
     def row_deselected(self, args):
         print('row_deselected')
-        self.grid.hideColumns(['grid-command'], 'field')
+        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.[title="Delete"]').style.display = 'none'
+        # self.grid.hideColumns(['grid-command'], 'field')
     
     
     def record_click(self, args):
