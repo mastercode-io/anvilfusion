@@ -15,6 +15,7 @@ class SubformGrid(BaseInput, GridView):
                  **kwargs):
         
         BaseInput().__init__(name=name, label=label, container_id=container_id, **kwargs)
+        print('model', model)
         GridView().__init__(model=model, container_id=self.el_id, **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
 
