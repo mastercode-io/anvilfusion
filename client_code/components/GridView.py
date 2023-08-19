@@ -111,7 +111,7 @@ class GridView:
         self.grid_height = None
         self.grid_el_id = None
         self.container_id = container_id
-        self.popup_container_id = popup_container_id or container_id
+        self.popup_container_id = popup_container_id
         self.container_el = None
         self.model = model
         self.search_queries = search_queries
