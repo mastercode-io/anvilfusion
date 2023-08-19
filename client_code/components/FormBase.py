@@ -48,6 +48,7 @@ class FormBase:
         self.fullscreen = False
         self.modal = modal
 
+        self.target = target
         self.target_el = anvil.js.call('$', f"#{target}" if target is not None else POPUP_DEFAULT_TARGET)[0]
         self.container_uid = new_el_id()
         self.container_el = anvil.js.window.document.createElement('div')
