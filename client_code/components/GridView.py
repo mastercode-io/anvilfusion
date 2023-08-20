@@ -6,7 +6,6 @@ from ..tools import utils
 import string
 import uuid
 import json
-import asyncio
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
