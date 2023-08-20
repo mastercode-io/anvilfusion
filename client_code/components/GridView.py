@@ -220,7 +220,7 @@ class GridView:
         else:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
-        self.grid_config['toolbarClick'] = self.toolbar_click
+        # self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(0, {'id': 'title', 
                                                 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 
                                                 'align': 'Left'}
