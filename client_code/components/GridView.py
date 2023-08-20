@@ -106,6 +106,7 @@ class GridView:
                  filters=None,
                  grid_modes=None,
                  toolbar_items=None,
+                 save=True,
                  ):
 
         self.grid_height = None
@@ -116,6 +117,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
+        self.save = save
         print('grid model', model, self.model)
         
         # depenencies
@@ -391,11 +393,20 @@ class GridView:
         if hasattr(self.app_forms, f"{self.model}Form"):
             print('Dialog form: ', f"Forms.{self.model}Form")
             edit_form_class = getattr(self.app_forms, f"{self.model}Form")
-            form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
-                                            target=self.popup_container_id)
+            form_dialog = edit_form_class(data=form_data, 
+                                          action=form_action, 
+                                          update_source=self.update_grid,
+                                          target=self.popup_container_id,
+                                          save=self.save,
+                                          )
         else:
-            form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
-                                            update_source=self.update_grid, target=self.popup_container_id)
+            form_dialog = FormBase(model=self.model, 
+                                   data=form_data, 
+                                   action=form_action, 
+                                   update_source=self.update_grid, 
+                                   target=self.popup_container_id,
+                                   save=self.save,
+                                   )
         form_dialog.form_show()
 
 
