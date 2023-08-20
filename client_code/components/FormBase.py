@@ -32,6 +32,7 @@ class FormBase:
                  content=None,
                  action='add',
                  data=None,
+                 save=True,
                  update_source=None,
                  width=POPUP_WIDTH_COL1,
                  height='auto',
@@ -43,6 +44,7 @@ class FormBase:
         self.class_name = getattr(AppEnv.data_models, self.form_model, None)
         self.form_fields = fields
         self.subforms = subforms if subforms is not None else []
+        self.save = save
         self.update_source = update_source
         self.form_tabs = None
         self.fullscreen = False
@@ -254,12 +256,15 @@ class FormBase:
             # update existing record
             if self.action == 'edit' and hasattr(self.data, 'uid'):
                 self.data.update(input_data)
-                self.data.save()
-                self.data = self.class_name.get(self.data.uid)
+                if self.save:
+                    self.data.save()
+                    self.data = self.class_name.get(self.data.uid)
             # add new record
             else:
                 add_new = True
-                self.data = self.class_name(**input_data).save()
+                self.data = self.class_name(**input_data)
+                if self.save:
+                    self.data.save()
             # save subform rows
             if self.subforms:
                 for subform in self.subforms:
