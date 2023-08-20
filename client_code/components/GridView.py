@@ -373,7 +373,8 @@ class GridView:
                 # form_dialog.form_show()
 
             elif args.requestType == 'delete':
-                self.confirm_delete(args)
+                pass
+                # self.confirm_delete(args)
 
             else:
                 print('\nUnknown requestType\n', args.requestType, '\n')
