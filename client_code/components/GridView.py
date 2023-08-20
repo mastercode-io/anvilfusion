@@ -356,9 +356,7 @@ class GridView:
                 self.add_edit_row(args)
 
         elif args.requestType == 'delete' and args.type == 'actionBegin':
-            if self.confirm_dialog:
-                args.cancel = True
-            else:
+            if not self.confirm_dialog:
                 self.confirm_delete(args)
 
         # else:
