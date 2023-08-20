@@ -318,6 +318,7 @@ class GridView:
     def toolbar_click(self, args):
         print('toolbar_click', args.item, args.cancel)
         if args.item.id == 'add':
+            args.cancel = True
             self.add_edit_row()
         elif args.item.id == 'search-toggle':
             print('toggle search')
@@ -325,23 +326,25 @@ class GridView:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
         elif args.item.id == 'search':
             pass
-        elif args.item.id == 'delete':
-            for record in self.grid.getSelectedRecords():
-                self.grid.startEdit()
-                self.grid.deleteRecord()
+        elif args.item.id == 'delete' and self.grid.getSelectedRecords():
+            args.cancel = True
+            ej.popups.DialogUtility.confirm({
+                'content': 'Are you sure you want to delete the selected record(s)?',
+                'okButton': {'text': 'Yes', 'click': self.delete_selected},
+                'cancelButton': {'text': 'No'},
+                'showCloseIcon': True,
+                })
 
 
     def row_selected(self, args):
         print('row_selected')
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
-        # self.grid.showColumns(['grid-command'], 'field')
     
     
     def row_deselected(self, args):
         print('row_deselected', self.grid.getSelectedRecords())
         if not self.grid.getSelectedRecords():
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
-        # self.grid.hideColumns(['grid-command'], 'field')
     
     
     def record_click(self, args):
@@ -415,6 +418,15 @@ class GridView:
                                    save=self.save,
                                    )
         form_dialog.form_show()
+        
+        
+    def delete_selected(self):
+        print('delete_selected')
+        for grid_row in self.grid.getSelectedRecords() or []:
+            db_row = self.grid_class.get(grid_row.uid)
+            if db_row is not None:
+                db_row.delete()
+            self.grid.deleteRecord()
 
 
     def update_grid(self, data_row, add_new):
