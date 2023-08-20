@@ -425,7 +425,8 @@ class GridView:
     def delete_selected(self, args):
         print('delete_selected')
         for grid_row in self.grid.getSelectedRecords() or []:
-            db_row = self.grid_class.get(grid_row.uid)
+            print('Delete row', grid_row)
+            db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
             if db_row is not None:
                 db_row.delete()
             self.grid.deleteRecord('uid', grid_row.uid)
