@@ -377,6 +377,7 @@ class GridView:
 
                             
     def add_edit_row(self, args=None):
+        print('add_edit_row', args)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
             if args.rowData.uid:
