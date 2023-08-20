@@ -379,11 +379,12 @@ class GridView:
                 # form_dialog.form_show()
 
             elif args.requestType == 'delete':
+                args.cancel = True
                 # print('\nDelete row(s)\n', args.data, '\n')
-                for gird_row in args.data:
-                    db_row = self.grid_class.get(gird_row.uid)
-                    if db_row is not None:
-                        db_row.delete()
+                # for gird_row in args.data:
+                #     db_row = self.grid_class.get(gird_row.uid)
+                #     if db_row is not None:
+                #         db_row.delete()
 
             else:
                 print('\nUnknown requestType\n', args.requestType, '\n')
