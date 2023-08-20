@@ -348,33 +348,16 @@ class GridView:
 
 
     def grid_action_handler(self, args):
-        # print('grid_action_handler', args)
+        print('grid_action_handler', args)
         if args.requestType in ('beginEdit', 'add', 'delete') and args.type == 'actionComplete':
             # print('\nactionComplete\n', args, '\n')
 
             if args.requestType in ('beginEdit', 'add'):
                 args.dialog.close()
                 self.add_edit_row(args)
-                # if args.requestType == 'beginEdit':
-                #     form_action = 'edit'
-                #     form_data = self.grid_class.get(args.rowData.uid)
-                # else:
-                #     form_action = 'add'
-                #     form_data = None
-                #     print('Add row')
-                # if hasattr(self.app_forms, f"{self.model}Form"):
-                #     print('Dialog form: ', f"Forms.{self.model}Form")
-                #     edit_form_class = getattr(self.app_forms, f"{self.model}Form")
-                #     form_dialog = edit_form_class(data=form_data, action=form_action, update_source=self.update_grid,
-                #                                   target=self.container_id)
-                # else:
-                #     form_dialog = FormBase(model=self.model, data=form_data, action=form_action,
-                #                                  update_source=self.update_grid, target=self.container_id)
-                # form_dialog.form_show()
 
             elif args.requestType == 'delete':
-                pass
-                # self.confirm_delete(args)
+                self.confirm_delete(args)
 
             else:
                 print('\nUnknown requestType\n', args.requestType, '\n')
