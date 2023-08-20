@@ -6,6 +6,7 @@ from ..tools import utils
 import string
 import uuid
 import json
+import asyncio
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
@@ -326,7 +327,7 @@ class GridView:
         elif args.item.id == 'search':
             pass
         elif args.item.id == 'delete':
-            if self.grid.getSelectedRecords():
+            for record in self.grid.getSelectedRecords():
                 self.grid.startEdit()
                 self.grid.deleteRecord()
 
