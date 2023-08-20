@@ -118,7 +118,7 @@ class GridView:
         self.search_queries = search_queries
         self.filters = filters
         self.save = save
-        self.confirm_delete = None
+        self.confirm_dialog = None
         print('grid model', model, self.model)
         
         # depenencies
@@ -328,14 +328,7 @@ class GridView:
         elif args.item.id == 'search':
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
-            args.cancel = True
-            self.confirm_delete = ej.popups.DialogUtility.confirm({
-                'title': 'Confirm Delete',
-                'content': 'Are you sure you want to delete selected record(s)?',
-                'okButton': {'text': 'Yes', 'click': self.delete_selected},
-                'cancelButton': {'text': 'Cancel'},
-                'showCloseIcon': True,
-                })
+            self.confirm_delete(args)
 
 
     def row_selected(self, args):
@@ -380,12 +373,7 @@ class GridView:
                 # form_dialog.form_show()
 
             elif args.requestType == 'delete':
-                args.cancel = True
-                # print('\nDelete row(s)\n', args.data, '\n')
-                # for gird_row in args.data:
-                #     db_row = self.grid_class.get(gird_row.uid)
-                #     if db_row is not None:
-                #         db_row.delete()
+                self.confirm_delete(args)
 
             else:
                 print('\nUnknown requestType\n', args.requestType, '\n')
@@ -423,12 +411,23 @@ class GridView:
         form_dialog.form_show()
         
         
+    def confirm_delete(self, args):
+        args.cancel = True
+        self.confirm_dialog = ej.popups.DialogUtility.confirm({
+            'title': 'Confirm Delete',
+            'content': 'Are you sure you want to delete selected record(s)?',
+            'okButton': {'text': 'Yes', 'click': self.delete_selected},
+            'cancelButton': {'text': 'Cancel'},
+            'showCloseIcon': True,
+            })
+    
+    
     def delete_selected(self, args):
         print('delete_selected')
-        if self.confirm_delete:
-            self.confirm_delete.hide()
-            self.confirm_delete.destroy()
-            self.confirm_delete = None
+        if self.confirm_dialog:
+            self.confirm_dialog.hide()
+            self.confirm_dialog.destroy()
+            self.confirm_dialog = None
         for grid_row in self.grid.getSelectedRecords() or []:
             print('Delete row', grid_row)
             db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
