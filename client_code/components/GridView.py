@@ -49,7 +49,7 @@ GRID_DEFAULT_EDIT_SETTINGS = {
     'mode': 'Dialog',
     'allowEditOnDblClick': True,
     'showConfirmDialog': True,
-    'showDeleteConfirmDialog': True,
+    'showDeleteConfirmDialog': False,
     'allowScrolling': True
 }
 GRID_DEFAULT_SELECTION_SETTINGS = {
@@ -118,6 +118,7 @@ class GridView:
         self.search_queries = search_queries
         self.filters = filters
         self.save = save
+        self.confirm_delete = None
         print('grid model', model, self.model)
         
         # depenencies
@@ -328,7 +329,7 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             args.cancel = True
-            ej.popups.DialogUtility.confirm({
+            self.confirm_delete = ej.popups.DialogUtility.confirm({
                 'title': 'Confirm Delete',
                 'content': 'Are you sure you want to delete selected record(s)?',
                 'okButton': {'text': 'Yes', 'click': self.delete_selected},
@@ -424,6 +425,10 @@ class GridView:
         
     def delete_selected(self, args):
         print('delete_selected')
+        if self.confirm_delete:
+            self.confirm_delete.hide()
+            self.confirm_delete.destroy()
+            self.confirm_delete = None
         for grid_row in self.grid.getSelectedRecords() or []:
             print('Delete row', grid_row)
             db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
