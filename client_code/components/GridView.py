@@ -316,7 +316,7 @@ class GridView:
 
 
     def toolbar_click(self, args):
-        print('toolbar_click', args)
+        print('toolbar_click', args.item, args.cancel)
         if args.item.id == 'add':
             self.add_edit_row()
         elif args.item.id == 'search-toggle':
