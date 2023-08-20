@@ -323,6 +323,12 @@ class GridView:
             print('toggle search')
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-toggle"]').parentElement.style.display = 'none'
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
+        elif args.item.id == 'search':
+            pass
+        elif args.item.id == 'delete':
+            if self.grid.getSelectedRecords():
+                self.grid.startEdit()
+                self.grid.deleteRecord()
 
 
     def row_selected(self, args):
