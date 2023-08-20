@@ -420,7 +420,7 @@ class GridView:
             if db_row is not None:
                 db_row.delete()
             self.grid.deleteRecord('uid', grid_row.uid)
-        self.grid.refresh()
+        # self.grid.refresh()
 
 
     def update_grid(self, data_row, add_new):
