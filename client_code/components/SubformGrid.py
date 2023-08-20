@@ -60,3 +60,11 @@ class SubformGrid(BaseInput, GridView):
             self.visible = True
 
 
+    def update_grid(self, data_row, add_new):
+        grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False, get_relationships=True)
+        if add_new:
+            self.grid.addRecord(grid_row)
+        else:
+            self.grid.setRowData(grid_row['uid'], grid_row)
+
+

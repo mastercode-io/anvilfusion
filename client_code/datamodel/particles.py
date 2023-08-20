@@ -319,7 +319,7 @@ def _search(
     return results
 
 
-def get_col_value(cls, data, col):
+def get_col_value(cls, data, col, get_relationships):
     if '.' not in col:
         if col not in cls._computes:
             value = data[col] if not isinstance(data, list) else [row[col] for row in data]
@@ -338,6 +338,10 @@ def get_col_value(cls, data, col):
                 value = data[parent][col]
             else:
                 rel = getattr(sys.modules[cls.__module__], cls._relationships[parent].class_name)
+                # if cls._relationships[parent].with_many:
+                #     value = [get_col_value(rel, x, col)[0] for x in value]
+                if get_relationships:
+                    data[parent] = rel.get(data[parent]['uid'])
                 value, _ = get_col_value(rel, data[parent], col)
 
     if isinstance(value, (datetime.date, datetime.datetime)):
@@ -346,11 +350,11 @@ def get_col_value(cls, data, col):
     return value, parent
 
 
-def _get_row_view(self, columns, include_row=True):
+def _get_row_view(self, columns, include_row=True, get_relationships=False):
     row_view = {'uid': self.uid if self.uid else ''}
     for col in columns:
         if not col.get('no_data', False):
-            value, field = get_col_value(self.__class__, self, col['name'])
+            value, field = get_col_value(self.__class__, self, col['name'], get_relationships=get_relationships)
             row_view[field] = value
     if include_row:
         row_view['row'] = self.get(self.uid) if self.uid else None
