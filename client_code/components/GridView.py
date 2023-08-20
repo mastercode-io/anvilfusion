@@ -329,9 +329,10 @@ class GridView:
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             args.cancel = True
             ej.popups.DialogUtility.confirm({
-                'content': 'Are you sure you want to delete the selected record(s)?',
+                'title': 'Confirm Delete',
+                'content': 'Are you sure you want to delete selected record(s)?',
                 'okButton': {'text': 'Yes', 'click': self.delete_selected},
-                'cancelButton': {'text': 'No'},
+                'cancelButton': {'text': 'Cancel'},
                 'showCloseIcon': True,
                 })
 
@@ -420,7 +421,7 @@ class GridView:
         form_dialog.form_show()
         
         
-    def delete_selected(self):
+    def delete_selected(self, args):
         print('delete_selected')
         for grid_row in self.grid.getSelectedRecords() or []:
             db_row = self.grid_class.get(grid_row.uid)
