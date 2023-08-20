@@ -319,7 +319,7 @@ def _search(
     return results
 
 
-def get_col_value(cls, data, col, get_relationships):
+def get_col_value(cls, data, col, get_relationships=False):
     if '.' not in col:
         if col not in cls._computes:
             value = data[col] if not isinstance(data, list) else [row[col] for row in data]
