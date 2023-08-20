@@ -21,7 +21,7 @@ class SubformGrid(BaseInput, GridView):
                           popup_container_id=popup_container_id, 
                           **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
-        print(self.container_id)
+        print('subform grid', self.container_id)
 
         
     @property
