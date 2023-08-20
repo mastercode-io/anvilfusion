@@ -410,16 +410,16 @@ class GridView:
     
     def delete_selected(self, args):
         print('delete_selected')
-        if self.confirm_dialog:
-            self.confirm_dialog.hide()
-            self.confirm_dialog.destroy()
-            self.confirm_dialog = None
         for grid_row in self.grid.getSelectedRecords() or []:
             print('Delete row', grid_row)
             db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
             if db_row is not None:
                 db_row.delete()
             self.grid.deleteRecord('uid', grid_row.uid)
+        if self.confirm_dialog:
+            self.confirm_dialog.hide()
+            self.confirm_dialog.destroy()
+            self.confirm_dialog = None
         # self.grid.refresh()
 
 
