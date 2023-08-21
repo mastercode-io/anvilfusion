@@ -55,6 +55,7 @@ class SubformGrid(BaseInput, GridView):
     def show(self):
         if not self.visible:
             self.visible = True
+            print(self.grid, self.grid.element)
             if self.grid.element:
                 self.grid.element.style.display = 'block'
             else:
