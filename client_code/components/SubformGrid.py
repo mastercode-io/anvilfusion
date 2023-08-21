@@ -9,6 +9,7 @@ class SubformGrid(BaseInput, GridView):
                  label=None,
                  container_id=None,
                  popup_container_id=None, 
+                 popup_data=None,
                  model=None, 
                  link_model=None, 
                  link_field=None, 
@@ -22,6 +23,7 @@ class SubformGrid(BaseInput, GridView):
                           save=False, 
                           **kwargs)
         self.html = f'<div id="{self.el_id}"></div>'
+        self.popup_data = popup_data
         print('subform grid', self.container_id)
 
         
@@ -72,6 +74,12 @@ class SubformGrid(BaseInput, GridView):
             self.visible = False
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
+                
+                
+    def add_edit_row(self, args=None):
+        args = args or {}
+        args['data'] = self.popup_data
+        return GridView.add_edit_row(self, args)
 
 
     def update_grid(self, data_row, add_new):
