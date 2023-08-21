@@ -375,7 +375,7 @@ class GridView:
                 form_data = self.grid_class(args.rowData)
         else:
             form_action = 'add'
-            form_data = popup_data.get('data', None) if popup_data else None
+            form_data = popup_data
             print('Add row')
         if hasattr(self.app_forms, f"{self.model}Form"):
             print('Dialog form: ', f"Forms.{self.model}Form")
