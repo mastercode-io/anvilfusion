@@ -348,7 +348,7 @@ class GridView:
 
 
     def grid_action_handler(self, args):
-        print('grid_action_handler', args)
+        # print('grid_action_handler', args)
         if args.requestType in ('beginEdit', 'add') and args.type == 'actionComplete':
 
             if args.requestType in ('beginEdit', 'add'):
@@ -413,7 +413,7 @@ class GridView:
             db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
             if db_row is not None:
                 db_row.delete()
-            self.grid.deleteRecord('uid', grid_row.uid)
+            self.grid.deleteRecord('uid', grid_row)
         if self.confirm_dialog:
             self.confirm_dialog.hide()
             self.confirm_dialog.destroy()
