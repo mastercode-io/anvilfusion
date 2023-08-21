@@ -365,7 +365,7 @@ class GridView:
         #     print('\nUnknown requestType\n', args.requestType, '\n')
 
                             
-    def add_edit_row(self, args=None):
+    def add_edit_row(self, args=None, popup_data=None):
         print('add_edit_row', args)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
@@ -375,7 +375,7 @@ class GridView:
                 form_data = self.grid_class(args.rowData)
         else:
             form_action = 'add'
-            form_data = args.get('data', None) if args else None
+            form_data = popup_data.get('data', None) if popup_data else None
             print('Add row')
         if hasattr(self.app_forms, f"{self.model}Form"):
             print('Dialog form: ', f"Forms.{self.model}Form")

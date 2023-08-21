@@ -76,10 +76,8 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.element.style.display = 'none'
                 
                 
-    def add_edit_row(self, args=None):
-        args = args or {}
-        args['data'] = self.popup_data
-        return GridView.add_edit_row(self, args)
+    def add_edit_row(self, args):
+        return GridView.add_edit_row(self, args=args, popup_data=self.popup_data)
 
 
     def update_grid(self, data_row, add_new):
