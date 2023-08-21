@@ -413,7 +413,12 @@ class GridView:
             db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
             if db_row is not None:
                 db_row.delete()
-            self.grid.deleteRecord('uid', grid_row) if grid_row.uid else self.grid.deleteRecord()
+            if grid_row.uid:
+                print('uid', grid_row.uid)
+                self.grid.deleteRecord('uid', grid_row)
+            else:
+                print('no uid')
+                self.grid.deleteRecord()
         if self.confirm_dialog:
             self.confirm_dialog.hide()
             self.confirm_dialog.destroy()
