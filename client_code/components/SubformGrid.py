@@ -57,7 +57,7 @@ class SubformGrid(BaseInput, GridView):
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             # if self.grid:
             #     self.grid.appendTo(f"#{self.el_id}")
-            print('show subform grid', self.container_id, self.el_id, self.html, self.grid),
+            print('show subform grid', self.container_id, self.el_id, self.html, self.grid)
             GridView.form_show(self, None)
             self.visible = True
 
