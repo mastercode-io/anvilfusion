@@ -418,7 +418,7 @@ class GridView:
                 self.grid.deleteRecord('uid', grid_row)
             else:
                 print('no uid')
-                self.grid.daraSource.remove(grid_row)
+                self.grid.dataSource.remove(grid_row)
                 self.grid.refresh()
         if self.confirm_dialog:
             self.confirm_dialog.hide()
