@@ -54,7 +54,8 @@ class SubformGrid(BaseInput, GridView):
 
     def show(self):
         print('show subformgrid')
-        print(self.grid, self.grid.element)
+        print(self.grid)
+        print(self.grid.element)
         if not self.visible:
             self.visible = True
             if self.grid.element:
@@ -69,7 +70,8 @@ class SubformGrid(BaseInput, GridView):
             
     def hide(self):
         print('hide subformgrid')
-        print(self.grid, self.grid.element)
+        print(self.grid)
+        print(self.grid.element)
         if self.visible:
             self.visible = False
             self.grid.element.style.display = 'none'
