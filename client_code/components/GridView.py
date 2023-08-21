@@ -281,6 +281,8 @@ class GridView:
                <div id="pm-grid-container" style="height:{self.grid_height}px;">\
                  <div id="{self.grid_el_id}"></div>\
                </div>'
+        print(jQuery(f"#{self.grid_el_id}")[0])
+        print(self.grid)
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
         for item in self.toolbar_items:
