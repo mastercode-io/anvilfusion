@@ -322,7 +322,7 @@ class GridView:
         print('toolbar_click', args.item, args.cancel)
         if args.item.id == 'add':
             args.cancel = True
-            self.add_edit_row(args)
+            self.add_edit_row(None)
         elif args.item.id == 'search-toggle':
             print('toggle search')
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-toggle"]').parentElement.style.display = 'none'
