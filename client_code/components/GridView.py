@@ -434,11 +434,11 @@ class GridView:
 
     def update_grid(self, data_row, add_new):
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
-        reverse = False
-        if self.grid.allowSelection:
-            print('stop selection')
-            self.grid.allowSelection = False
-            reverse = True
+        # reverse = False
+        # if self.grid.allowSelection:
+        #     print('stop selection')
+        #     self.grid.allowSelection = False
+        #     reverse = True
         if add_new:
             self.grid.addRecord(grid_row)
         else:
