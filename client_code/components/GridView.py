@@ -6,7 +6,6 @@ from ..tools import utils
 import string
 import uuid
 import json
-import time
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
@@ -57,7 +56,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'type': 'Multiple',
     'mode': 'Row',
     'checkboxOnly': True,
-    'persistSelection': True,
+    # 'persistSelection': True,
     'enableToggle': True,
     'checkboxWidth': 35,
 }
@@ -357,10 +356,10 @@ class GridView:
             print(args.rowIndex, args.rowData)
             
             
-    def data_bound(self, args):
-        if self.record_updated:
-            self.grid.clearRowSelection()
-            self.record_updated = False
+    # def data_bound(self, args):
+    #     if self.record_updated:
+    #         self.grid.clearRowSelection()
+    #         self.record_updated = False
 
 
     def grid_action_handler(self, args):
@@ -434,16 +433,7 @@ class GridView:
 
     def update_grid(self, data_row, add_new):
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
-        # reverse = False
-        # if self.grid.allowSelection:
-        #     print('stop selection')
-        #     self.grid.allowSelection = False
-        #     reverse = True
         if add_new:
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
-        # self.record_updated = True
-        # if reverse:
-        #     time.sleep(0.1)
-        #     self.grid.allowSelection = True
