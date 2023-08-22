@@ -97,7 +97,7 @@ def get_model_attribute(class_name, attr_name):
 class GridView:
     def __init__(self,
                  container_id=None,
-                 popup_container_id=None,
+                 form_container_id=None,
                  title=None,
                  model=None,
                  view_name=None,
@@ -112,13 +112,14 @@ class GridView:
         self.grid_height = None
         self.grid_el_id = None
         self.container_id = container_id
-        self.popup_container_id = popup_container_id or container_id
+        self.form_container_id = form_container_id or container_id
         self.container_el = None
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
         self.save = save
         self.confirm_dialog = None
+        self.form_class = getattr(AppEnv.forms, f"{self.model}Form")
         print('grid model', model, self.model)
 
         print('GridView', view_name)
@@ -149,6 +150,9 @@ class GridView:
                     'label': string.capwords(attr_name.replace("_", " ")),
                 })
             self.view_config['columns'] = view_columns
+            
+        self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
+        print('form class', self.form_class)
 
         grid_columns = [{'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'}]
         self.row_actions = {}
@@ -361,36 +365,25 @@ class GridView:
         #     print('\nUnknown requestType\n', args.requestType, '\n')
 
                             
-    def add_edit_row(self, args=None, popup_data=None):
+    def add_edit_row(self, args=None, form_data=None):
         print('add_edit_row', args)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
             if args.rowData.uid:
-                form_data = self.grid_class.get(args.rowData.uid)
+                instance = self.grid_class.get(args.rowData.uid)
             else:
-                form_data = self.grid_class(args.rowData)
+                instance = self.grid_class(args.rowData)
         else:
             form_action = 'add'
-            form_data = self.grid_class(**popup_data) if popup_data else None
+            instance = self.grid_class(**form_data) if form_data else None
         print(form_action, form_data)
-        if hasattr(AppEnv.forms, f"{self.model}Form"):
-            print('Dialog form: ', f"Forms.{self.model}Form")
-            edit_form_class = getattr(AppEnv.forms, f"{self.model}Form")
-            form_dialog = edit_form_class(data=form_data, 
-                                          action=form_action, 
-                                          update_source=self.update_grid,
-                                          target=self.popup_container_id,
-                                          save=self.save,
-                                          )
-        else:
-            form_dialog = FormBase(model=self.model, 
-                                   data=form_data, 
-                                   action=form_action, 
-                                   update_source=self.update_grid, 
-                                   target=self.popup_container_id,
-                                   save=self.save,
-                                   )
-        form_dialog.form_show()
+        self.form_class(model=self.model, 
+                        data=instance, 
+                        action=form_action, 
+                        update_source=self.update_grid, 
+                        target=self.form_container_id,
+                        save=self.save,
+                        ).form_show()
         
         
     def confirm_delete(self, args):
