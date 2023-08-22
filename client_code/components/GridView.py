@@ -6,6 +6,7 @@ from ..tools import utils
 import string
 import uuid
 import json
+import time
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
@@ -338,6 +339,7 @@ class GridView:
         print('row_selected')
         if self.record_updated:
             print('record updated')
+            time.sleep(0.1)
             self.grid.clearRowSelection()
             self.grid.selectRow(-1)
             self.grid.selecetedRowIndex = -1
