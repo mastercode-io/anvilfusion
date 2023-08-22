@@ -239,6 +239,7 @@ class GridView:
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
             self.grid_config['rowSelected'] = self.row_selected
             self.grid_config['rowDeselected'] = self.row_deselected
+            self.grid_config['dataBound'] = self.data_bound
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
@@ -337,14 +338,7 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected')
-        if self.record_updated:
-            print('record updated')
-            time.sleep(0.1)
-            self.grid.clearRowSelection()
-            self.grid.selectRow(-1)
-            self.grid.selecetedRowIndex = -1
-            self.record_updated = False
-        else:
+        if not self.record_updated:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
     
     
@@ -357,6 +351,12 @@ class GridView:
     def record_click(self, args):
         if args.target.id in self.row_actions:
             print(args.rowIndex, args.rowData)
+            
+            
+    def data_bound(self, args):
+        if self.record_updated:
+            self.grid.clearRowSelection()
+            self.record_updated = False
 
 
     def grid_action_handler(self, args):
