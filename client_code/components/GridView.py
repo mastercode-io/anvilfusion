@@ -339,6 +339,8 @@ class GridView:
         if self.record_updated:
             print('record updated')
             self.grid.clearRowSelection()
+            self.grid.selectRow(-1)
+            self.grid.selecetedRowIndex = -1
             self.record_updated = False
         else:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
