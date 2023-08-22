@@ -64,9 +64,6 @@ GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
 
 
-
-
-
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
     model = AppEnv.data_models
     cls = getattr(model, view_config['model'])
@@ -231,14 +228,11 @@ class GridView:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            # command_column = GRID_DEFAULT_COMMAND_COLUMN.copy()
-            # self.grid_config['columns'].insert(0, command_column)
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
             self.grid_config['rowSelected'] = self.row_selected
             self.grid_config['rowDeselected'] = self.row_deselected
-            # self.grid_config['dataBound'] = self.data_bound
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
         # self.grid_config['enableStickyHeader'] = True
@@ -336,17 +330,12 @@ class GridView:
 
 
     def row_selected(self, args):
-        print('row_selected')
-        # if self.record_updated:
-        #     time.sleep(0.01)
-        #     self.grid.clearSelection()
-        #     self.record_updated = False
-        # else:
+        print('row_selected', args)
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
     
     
     def row_deselected(self, args):
-        print('row_deselected', self.grid.getSelectedRecords())
+        print('row_deselected', args)
         if not self.grid.getSelectedRecords():
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
     
@@ -356,12 +345,6 @@ class GridView:
             print(args.rowIndex, args.rowData)
             
             
-    # def data_bound(self, args):
-    #     if self.record_updated:
-    #         self.grid.clearRowSelection()
-    #         self.record_updated = False
-
-
     def grid_action_handler(self, args):
         # print('grid_action_handler', args)
         if args.requestType in ('beginEdit', 'add') and args.type == 'actionComplete':
