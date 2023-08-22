@@ -340,7 +340,7 @@ class GridView:
         print('row_selected')
         if self.record_updated:
             time.sleep(0.1)
-            self.grid.cleaSelection()
+            self.grid.clearSelection()
             self.record_updated = False
         else:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
