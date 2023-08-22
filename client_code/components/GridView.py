@@ -420,3 +420,4 @@ class GridView:
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
+        self.grid.refresh()

@@ -87,5 +87,4 @@ class SubformGrid(BaseInput, GridView):
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
         self.record_updated = True
-
-
+        self.grid.refresh()
