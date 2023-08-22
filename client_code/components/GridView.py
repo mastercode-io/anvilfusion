@@ -436,6 +436,7 @@ class GridView:
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
         reverse = False
         if self.grid.allowSelection:
+            print('stop selcetion')
             self.grid.allowSelection = False
             reverse = True
         if add_new:
@@ -443,6 +444,6 @@ class GridView:
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
         self.record_updated = True
-        if reverse:
-            time.sleep(0.1)
-            self.grid.allowSelection = True
+        # if reverse:
+        #     time.sleep(0.1)
+        #     self.grid.allowSelection = True
