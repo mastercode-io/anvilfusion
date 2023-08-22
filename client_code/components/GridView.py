@@ -434,8 +434,13 @@ class GridView:
 
     def update_grid(self, data_row, add_new):
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
+        if 'Selection' in self.grid_view['config']['modes']:
+            self.grid.allowSelection = False
         if add_new:
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
         self.record_updated = True
+        if 'Selection' in self.grid_view['config']['modes']:
+            time.sleep(0.1)
+            self.grid.allowSelection = True
