@@ -120,7 +120,7 @@ class GridView:
         self.filters = filters
         self.save = save
         self.confirm_dialog = None
-        self.form_class = getattr(AppEnv.forms, f"{self.model}Form")
+        self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
         self.record_updated = False
         print('grid model', model, self.model)
 
@@ -436,7 +436,7 @@ class GridView:
         grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False)
         reverse = False
         if self.grid.allowSelection:
-            print('stop selcetion')
+            print('stop selection')
             self.grid.allowSelection = False
             reverse = True
         if add_new:
