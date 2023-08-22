@@ -56,7 +56,7 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'type': 'Multiple',
     'mode': 'Row',
     'checkboxOnly': True,
-    # 'persistSelection': True,
+    'persistSelection': True,
     'enableToggle': True,
     'checkboxWidth': 35,
 }
