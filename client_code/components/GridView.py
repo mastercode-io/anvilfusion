@@ -120,6 +120,7 @@ class GridView:
         self.save = save
         self.confirm_dialog = None
         self.form_class = getattr(AppEnv.forms, f"{self.model}Form")
+        self.record_updated = False
         print('grid model', model, self.model)
 
         print('GridView', view_name)
@@ -335,7 +336,10 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected')
-        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
+        if self.record_updated:
+            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
+            self.record_updated = False
+            self.grid.clearSelection()
     
     
     def row_deselected(self, args):
@@ -424,3 +428,4 @@ class GridView:
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
+        self.record_updated = True
