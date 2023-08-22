@@ -338,12 +338,12 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected')
-        if self.record_updated:
-            time.sleep(0.01)
-            self.grid.clearSelection()
-            self.record_updated = False
-        else:
-            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
+        # if self.record_updated:
+        #     time.sleep(0.01)
+        #     self.grid.clearSelection()
+        #     self.record_updated = False
+        # else:
+        self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
     
     
     def row_deselected(self, args):
