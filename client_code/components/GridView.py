@@ -339,7 +339,7 @@ class GridView:
     def row_selected(self, args):
         print('row_selected')
         if self.record_updated:
-            time.sleep(0.1)
+            time.sleep(0.05)
             self.grid.clearSelection()
             self.record_updated = False
         else:
