@@ -86,6 +86,7 @@ class SubformGrid(BaseInput, GridView):
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
+        print('clear selection')
         self.grid.clearSelection()
 
 
