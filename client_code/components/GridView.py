@@ -443,7 +443,7 @@ class GridView:
             self.grid.addRecord(grid_row)
         else:
             self.grid.setRowData(grid_row['uid'], grid_row)
-        self.record_updated = True
+        # self.record_updated = True
         # if reverse:
         #     time.sleep(0.1)
         #     self.grid.allowSelection = True
