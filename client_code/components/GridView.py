@@ -120,23 +120,19 @@ class GridView:
         self.save = save
         self.confirm_dialog = None
         print('grid model', model, self.model)
-        
-        # depenencies
-        self.app_model = AppEnv.data_models
-        self.app_forms = AppEnv.forms
 
         print('GridView', view_name)
         if view_name or view_config:
             if view_config is not None:
                 self.view_config = view_config
             else:
-                view_obj = self.app_model.appGridViews.get_by('name', view_name)
+                view_obj = AppEnv.data_models.appGridViews.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
-            self.grid_class = getattr(self.app_model, self.model)
+            self.grid_class = getattr(AppEnv.data_models, self.model)
         else:
             # self.model = 'CaseWorkflowItem'
-            self.grid_class = getattr(self.app_model, self.model)
+            self.grid_class = getattr(AppEnv.data_models, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
             model_members = self.grid_class._attributes.copy()
@@ -377,9 +373,9 @@ class GridView:
             form_action = 'add'
             form_data = self.grid_class(**popup_data) if popup_data else None
         print(form_action, form_data)
-        if hasattr(self.app_forms, f"{self.model}Form"):
+        if hasattr(AppEnv.forms, f"{self.model}Form"):
             print('Dialog form: ', f"Forms.{self.model}Form")
-            edit_form_class = getattr(self.app_forms, f"{self.model}Form")
+            edit_form_class = getattr(AppEnv.forms, f"{self.model}Form")
             form_dialog = edit_form_class(data=form_data, 
                                           action=form_action, 
                                           update_source=self.update_grid,
