@@ -117,7 +117,7 @@ class GridView:
         self.save = save
         self.confirm_dialog = None
         self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
-        self.record_updated = False
+        self.is_subform = False
         print('grid model', model, self.model)
 
         print('GridView', view_name)
@@ -415,7 +415,11 @@ class GridView:
 
 
     def update_grid(self, data_row, add_new):
-        grid_row = data_row.get_row_view(self.view_config['columns'], include_row=False, get_relationships=True)
+        grid_row = data_row.get_row_view(
+            self.view_config['columns'], 
+            include_row=False, 
+            get_relationships=self.is_subform,
+            )
         if add_new:
             self.grid.addRecord(grid_row)
         else:
