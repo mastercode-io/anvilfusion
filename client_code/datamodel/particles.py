@@ -344,7 +344,6 @@ def get_col_value(cls, data, col, get_relationships=False):
                     else:
                         rel_value = rel.get(data[parent]['uid'])
                     data[parent] = rel_value
-                print('get_rel', get_relationships, data[parent])
                 value, _ = get_col_value(rel, data[parent], col)
 
     if isinstance(value, (datetime.date, datetime.datetime)):
