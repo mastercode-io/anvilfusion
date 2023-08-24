@@ -338,6 +338,7 @@ def get_col_value(cls, data, col, get_relationships=False):
                 value = data[parent][col]
             else:
                 rel = getattr(sys.modules[cls.__module__], cls._relationships[parent].class_name)
+                print('get_rel', get_relationships)
                 if get_relationships:
                     if cls._relationships[parent].with_many:
                         rel_value = [rel.get(x['uid']) for x in data[parent]]
