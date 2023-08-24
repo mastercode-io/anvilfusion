@@ -99,7 +99,7 @@ class SubformGrid(BaseInput, GridView):
         GridView.update_grid(self, data_row, add_new, get_relationships=True)
     
     
-    def save(self, link_row=None):
+    def save_dependent(self, link_row=None):
         print('save subformgrid', self.to_save, self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save:
