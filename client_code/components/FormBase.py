@@ -251,7 +251,8 @@ class FormBase:
         print('SAVE', self.class_name)
         if self.form_validate():
             add_new = False
-            input_data = {field.name: field.value for field in self.form_fields if field.save is True}
+            input_data = {field.name: field.value for field in self.form_fields 
+                          if field.save and not field.get('is_dependent', False)}
             print('New Data: ', input_data)
             # update existing record
             if self.action == 'edit' and hasattr(self.data, 'uid'):
@@ -266,6 +267,9 @@ class FormBase:
                 if self.save:
                     self.data.save()
             # save subform rows
+            for field in [x for x in self.form_fields if x.get('is_dependent', False)]:
+                field.save(self.data.uid)
+                
             if self.subforms:
                 for subform in self.subforms:
                     subform.save_rows(self.data)

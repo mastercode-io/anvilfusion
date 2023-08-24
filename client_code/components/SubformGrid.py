@@ -1,6 +1,7 @@
 import anvil.js
 from .FormInputs import BaseInput
 from .GridView import GridView
+from ..tools.utils import AppEnv
 
 
 class SubformGrid(BaseInput, GridView):
@@ -27,9 +28,15 @@ class SubformGrid(BaseInput, GridView):
             form_container_id=form_container_id,
             save=False, 
             **kwargs)
+        self.link_model = link_model
+        self.link_field = link_field
+        self.data = data
         self.html = f'<div id="{self.el_id}"></div>'
         self.form_data = form_data
         self.is_subfrom = True
+        self.is_dependent = True if link_model else False
+        self.to_save = []
+        self.to_delete = []
         print('subform grid', self.container_id)
 
         
@@ -81,3 +88,24 @@ class SubformGrid(BaseInput, GridView):
                 
     def add_edit_row(self, args):
         return GridView.add_edit_row(self, args=args, form_data=self.form_data)
+    
+    
+    def delete_selected(self, args):
+        self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
+        GridView.delete_selected(self, args, persist=False)
+
+
+    def update_grid(self, data_row, add_new):
+        self.to_save.append(data_row)
+        GridView.update_grid(self, data_row, add_new)
+    
+    
+    def save(self, link_uid=None):
+        print('save subformgrid')
+        if self.link_field and self.link_model and link_uid:
+            link_row = AppEnv.data_models.getattr(self.link_model).get(link_uid)
+            for data_row in self.to_save:
+                data_row[self.link_field] = link_row
+                data_row.save()
+            for uid in self.to_delete:
+                self.grid_class.get(uid).delete()
