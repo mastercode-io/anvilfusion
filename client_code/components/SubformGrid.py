@@ -33,7 +33,7 @@ class SubformGrid(BaseInput, GridView):
         self.data = data
         self.html = f'<div id="{self.el_id}"></div>'
         self.form_data = form_data
-        # self.is_dependent = True if link_model else False
+        self.is_dependent = True if link_model and link_field else False
         self.to_save = []
         self.to_delete = []
         print('subform grid', self.container_id)

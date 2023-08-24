@@ -103,7 +103,7 @@ class GridView:
                  filters=None,
                  grid_modes=None,
                  toolbar_items=None,
-                 save=True,
+                 persist=True,
                  ):
 
         self.grid_height = None
@@ -114,7 +114,7 @@ class GridView:
         self.model = model
         self.search_queries = search_queries
         self.filters = filters
-        self.save = save
+        self.persist = persist
         self.confirm_dialog = None
         self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
         print('grid model', model, self.model)
@@ -377,7 +377,7 @@ class GridView:
                         action=form_action, 
                         update_source=self.update_grid, 
                         target=self.form_container_id,
-                        save=self.save,
+                        persist=self.persist,
                         ).form_show()
         
         

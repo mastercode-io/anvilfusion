@@ -32,7 +32,7 @@ class FormBase:
                  content=None,
                  action='add',
                  data=None,
-                 save=True,
+                 persist=True,
                  update_source=None,
                  width=POPUP_WIDTH_COL1,
                  height='auto',
@@ -44,7 +44,7 @@ class FormBase:
         self.class_name = getattr(AppEnv.data_models, self.form_model, None)
         self.form_fields = fields
         self.subforms = subforms if subforms is not None else []
-        self.save = save
+        self.persist = persist
         self.update_source = update_source
         self.form_tabs = None
         self.fullscreen = False
@@ -254,28 +254,23 @@ class FormBase:
             input_data = {field.name: field.value for field in self.form_fields 
                           if field.save and not field.is_dependent}
             print('New Data: ', input_data)
-            # update existing record
             if self.action == 'edit' and hasattr(self.data, 'uid'):
                 self.data.update(input_data)
-                if self.save:
-                    self.data.save()
-                    self.data = self.class_name.get(self.data.uid)
-            # add new record
             else:
                 add_new = True
                 self.data = self.class_name(**input_data)
-                if self.save:
-                    self.data.save()
-            # save subform rows
-            for field in [x for x in self.form_fields if x.save and x.is_dependent]:
-                field.save(self.data)
-                
-            if self.subforms:
-                for subform in self.subforms:
-                    subform.save_rows(self.data)
-            for field in self.form_fields:
-                field.hide()
-                field.value = None
+            if self.persist:
+                self.data.save()
+                self.data = self.class_name.get(self.data.uid)
+                # save subform rows
+                for field in [x for x in self.form_fields if x.save and x.is_dependent]:
+                    field.save(self.data)
+                if self.subforms:
+                    for subform in self.subforms:
+                        subform.save_rows(self.data)
+                for field in self.form_fields:
+                    field.hide()
+                    field.value = None
             self.form.hide()
             if self.update_source is not None:
                 self.update_source(self.data, add_new)
