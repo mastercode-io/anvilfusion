@@ -26,7 +26,7 @@ class SubformGrid(BaseInput, GridView):
             self, model=model, title=label, 
             container_id=self.el_id, 
             form_container_id=form_container_id,
-            save=False, 
+            persist=False, 
             **kwargs)
         self.link_model = link_model
         self.link_field = link_field
