@@ -268,7 +268,7 @@ class FormBase:
                     self.data.save()
             # save subform rows
             for field in [x for x in self.form_fields if x.save and x.is_dependent]:
-                field.save(self.data.uid)
+                field.save(self.data)
                 
             if self.subforms:
                 for subform in self.subforms:
