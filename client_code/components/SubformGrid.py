@@ -33,7 +33,6 @@ class SubformGrid(BaseInput, GridView):
         self.data = data
         self.html = f'<div id="{self.el_id}"></div>'
         self.form_data = form_data
-        self.is_subfrom = True
         self.is_dependent = True if link_model else False
         self.to_save = []
         self.to_delete = []
@@ -87,7 +86,7 @@ class SubformGrid(BaseInput, GridView):
                 
                 
     def add_edit_row(self, args):
-        return GridView.add_edit_row(self, args=args, form_data=self.form_data)
+        GridView.add_edit_row(self, args=args, form_data=self.form_data)
     
     
     def delete_selected(self, args):
@@ -97,7 +96,7 @@ class SubformGrid(BaseInput, GridView):
 
     def update_grid(self, data_row, add_new):
         self.to_save.append(data_row)
-        GridView.update_grid(self, data_row, add_new)
+        GridView.update_grid(self, data_row, add_new, get_relationships=True)
     
     
     def save(self, link_uid=None):
