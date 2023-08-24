@@ -252,7 +252,7 @@ class FormBase:
         if self.form_validate():
             add_new = False
             input_data = {field.name: field.value for field in self.form_fields 
-                          if field.save and not field.get('is_dependent', False)}
+                          if field.save and not field.is_dependent}
             print('New Data: ', input_data)
             # update existing record
             if self.action == 'edit' and hasattr(self.data, 'uid'):

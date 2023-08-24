@@ -28,7 +28,8 @@ import datetime
 class BaseInput:
 
     def __init__(self, name=None, label=None, float_label=True, shadow_label=False, col_class=None, col_style=None,
-                 value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None, **kwargs):
+                 value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None, 
+                 is_dependent=False, **kwargs):
         self.name = name
         self.label = label if shadow_label is False else ''
         self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
@@ -37,6 +38,7 @@ class BaseInput:
         self.col_style = col_style
         self._value = value
         self.save = save
+        self.is_dependent = is_dependent
         self._enabled = enabled
         self.el_id = el_id if el_id is not None else new_el_id()
         self.container_id = container_id if container_id is not None else new_el_id()
