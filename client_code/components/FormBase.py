@@ -216,29 +216,29 @@ class FormBase:
 
     def form_open(self, args):
         print('form open')
-        # try:
-        if not self.data:
-            self.data = self.default_data
-        print(self.data)
-        for field in [x for x in self.form_fields if not x.is_dependant and x not in self.subforms]:
-            # print(field.name, field.value)
-            field.value = self.data[field.name] if hasattr(self.data, field.name) else None
-            field.show()
-        for field in [x for x in self.form_fields if x.is_dependant]:
-            field.show()
-            field.value = self.data
-        for subform in self.subforms:
-            subform.value = self.data
-        for field in self.form_fields:
-            if field.on_change is not None:
-                field.on_change({'name': field.name, 'value': field.value})
-        self.container_el.style.visibility = 'visible'
-        self.form.cssClass = 'e-fixed'
-        if self.form_tabs is not None:
-            for i in range(len(self.form_tabs) - 1, -1, -1):
-                self.tabs.select(i)
-        # except Exception as e:
-        #     print(e)
+        try:
+            if not self.data:
+                self.data = self.default_data
+            print(self.data)
+            for field in [x for x in self.form_fields if not x.is_dependant and x not in self.subforms]:
+                # print(field.name, field.value)
+                field.value = self.data[field.name] if hasattr(self.data, field.name) else None
+                field.show()
+            for field in [x for x in self.form_fields if x.is_dependant]:
+                field.show()
+                field.value = self.data
+            for subform in self.subforms:
+                subform.value = self.data
+            for field in self.form_fields:
+                if field.on_change is not None:
+                    field.on_change({'name': field.name, 'value': field.value})
+            self.container_el.style.visibility = 'visible'
+            self.form.cssClass = 'e-fixed'
+            if self.form_tabs is not None:
+                for i in range(len(self.form_tabs) - 1, -1, -1):
+                    self.tabs.select(i)
+        except Exception as e:
+            print(e)
 
         if self.validation is not None:
             self.validation['customPlacement'] = lambda input_el, error: \
