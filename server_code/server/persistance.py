@@ -233,9 +233,11 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
     cols, links = parse_col_names(class_name, class_module, columns)
 
     fetch_query = build_fetch_list(cols, links)
+    print('Fetch query', class_name)
     cls = getattr(class_module, class_name)
     for key in filters:
         if key in cls._relationships:
+            print('Filter', key, cls._relationships.class_name)
             if isinstance(filters[key], str):
                 filters[key] = [filters[key]]
             rel_uids = [row['uid'] for row in filters[key]]
