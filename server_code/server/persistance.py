@@ -238,7 +238,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
     for key in filters:
         if key in cls._relationships:
             print('Filter', key, cls._relationships[key].class_name)
-            if isinstance(filters[key], str):
+            if not isinstance(filters[key], list):
                 filters[key] = [filters[key]]
             print(filters[key])
             rel_uids = [row['uid'] for row in filters[key]]
