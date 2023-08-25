@@ -242,7 +242,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
                 filters[key] = [filters[key]]
             print(filters[key])
             rel_uids = [row['uid'] for row in filters[key]]
-            print('debug 1')
+            print(rel_uids)
             rel_rows = [row for row in get_table(cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             print('debug 2')
             filters[key] = q.any_of(*rel_rows)
