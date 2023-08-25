@@ -220,11 +220,13 @@ class FormBase:
         if not self.data:
             self.data = self.default_data
         print(self.data)
-        for field in self.form_fields:
+        for field in [x for x in self.form_fields if not x.is_dependant and x not in self.subforms]:
             # print(field.name, field.value)
+            field.value = self.data[field.name] if hasattr(self.data, field.name) else None
             field.show()
-            if field.name and hasattr(self.data, field.name) and field not in self.subforms:
-                field.value = self.data[field.name]
+        for field in [x for x in self.form_fields if x.is_dependant]:
+            field.show()
+            field.value = self.data
         for subform in self.subforms:
             subform.value = self.data
         for field in self.form_fields:

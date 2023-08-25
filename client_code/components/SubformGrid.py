@@ -59,11 +59,32 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def value(self):
-        pass
+        if self.model:
+            pass
+        else:
+            pass
 
     @value.setter
     def value(self, value):
-        pass
+        if value:
+            self._value = value
+            if self.model and self.is_dependent:
+                if not self.filters:
+                    self.filters = {}
+                self.filters[self.link_field] = value
+                self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                                                            search_queries=self.search_queries,
+                                                            filters=self.filters,
+                                                            include_rows=False)
+                self.grid.dataSource = self.grid_data
+                self.grid.refresh()
+            else:
+                pass
+        else:
+            self._value = None
+            self.grid_data = []
+            self.grid.dataSource = self.grid_data
+            self.grid.refresh()
 
 
     def show(self):
@@ -73,7 +94,6 @@ class SubformGrid(BaseInput, GridView):
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'block'
             else:
-                print('show subform grid', self.container_id, self.el_id, self.html, self.grid)
                 GridView.form_show(self)
             
             

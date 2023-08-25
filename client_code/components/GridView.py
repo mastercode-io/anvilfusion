@@ -104,6 +104,8 @@ class GridView:
                  grid_modes=None,
                  toolbar_items=None,
                  persist=True,
+                 add_edit_form=None,
+                 data=None,
                  ):
 
         self.grid_height = None
@@ -116,7 +118,9 @@ class GridView:
         self.filters = filters
         self.persist = persist
         self.confirm_dialog = None
-        self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
+        self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
+        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
+        self.grid_data = data or []
         print('grid model', model, self.model)
 
         print('GridView', view_name)
@@ -127,10 +131,7 @@ class GridView:
                 view_obj = AppEnv.data_models.appGridViews.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
-            self.grid_class = getattr(AppEnv.data_models, self.model)
         else:
-            # self.model = 'CaseWorkflowItem'
-            self.grid_class = getattr(AppEnv.data_models, self.model)
             self.view_config = {'model': self.model}
             view_columns = []
             model_members = self.grid_class._attributes.copy()
@@ -191,8 +192,6 @@ class GridView:
         # configure Grid control
         self.grid_title = title if title is not None else utils.camel_to_title(self.model)
         self.grid_config = {}
-        self.grid_data = []
-        self.db_data = {}
         self.grid_config['columns'] = self.grid_view['config']['columns']
         self.grid_config['dataSource'] = self.grid_data
 
@@ -258,20 +257,10 @@ class GridView:
     def form_show(self, **args):
         print('show grid')
         # try:
-        self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                       search_queries=self.search_queries,
-                                                       filters=self.filters,
-                                                       include_rows=False)
-        self.grid['dataSource'] = self.grid_data
         # print('\nGrid data source\n', self.grid.dataSource, '\n')
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        # self.container_el.innerHTML = f'\
-        #        <div id="pm-grid-container" style="height:{self.grid_height}px;">\
-        #          <div class="pm-gridview-title">{self.grid_title}</div>\
-        #          <div id="{self.grid_el_id}"></div>\
-        #        </div>'
         self.container_el.innerHTML = f'\
                <div id="pm-grid-container" style="height:{self.grid_height}px;">\
                  <div id="{self.grid_el_id}"></div>\
@@ -297,6 +286,13 @@ class GridView:
                 self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
             elif item.get('id') == 'delete':
                 self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+        if not self.grid_data:
+            self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                                                        search_queries=self.search_queries,
+                                                        filters=self.filters,
+                                                        include_rows=False)
+            self.grid['dataSource'] = self.grid_data
+            self.grid.refresh()
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
