@@ -240,6 +240,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             print('Filter', key, cls._relationships[key].class_name)
             if isinstance(filters[key], str):
                 filters[key] = [filters[key]]
+            print(filters[key])
             rel_uids = [row['uid'] for row in filters[key]]
             print('debug 1')
             rel_rows = [row for row in get_table(cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
