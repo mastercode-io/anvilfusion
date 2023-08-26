@@ -114,6 +114,7 @@ class FormBase:
             self.tabs = ej.navigations.Tab({'items': self.form_tabs, })
             self.tabs.appendTo(jQuery(f"#{self.form_id}_tabs")[0])
 
+
     def tabs_content(self, tabs):
         html_content = f'<div id="{self.form_id}_tabs"></div>'
         tab_items = []
@@ -131,6 +132,7 @@ class FormBase:
                 form_fields.extend(tab['fields'])
             html_content += '</div>'
         return html_content, form_fields, tab_items
+
 
     @staticmethod
     def model_fields(model_class):
@@ -155,12 +157,14 @@ class FormBase:
                 )
         return form_fields
 
+
     @staticmethod
     def fields_content(fields):
         html_content = ''
         for field in fields:
             html_content += f'<div class="row"><div class="col-xs-12" id="{field.container_id}"></div></div>'
         return html_content
+
 
     @staticmethod
     def sections_content(sections):
@@ -195,6 +199,7 @@ class FormBase:
             html_content += '</div></div>'
         return html_content, form_fields
 
+
     def form_show(self, fullscreen=None):
         print('action: form show')
         view_mode = fullscreen if fullscreen is not None else self.fullscreen
@@ -202,17 +207,21 @@ class FormBase:
         self.form.cssClass = 'e-fixed'
         # print(anvil.js.window.document.activeElement.tagName)
 
+
     def form_created(self, args):
         self.form_el = jQuery(f"#{self.form_id}")[0]
         self.form_el.addEventListener('keypress', form_submit)
+
 
     def destroy(self):
         self.form.destroy()
         self.container_el.remove()
 
+
     def before_open(self, args):
         if not self.fullscreen:
             args.maxHeight = '80vh'
+
 
     def form_open(self, args):
         print('form open')
@@ -244,10 +253,13 @@ class FormBase:
             self.validation['customPlacement'] = lambda input_el, error: \
                 input_el.parentElement.parentElement.appendChild(error)
             self.validator = ej.inputs.FormValidator(f"#{self.form_id}", self.validation)
+        print('form open end')
+
 
     def form_validate(self):
         print('Validation')
         return self.validator.validate() if self.validator is not None else True
+
 
     def form_save(self, args):
         print('SAVE', self.class_name)
@@ -280,13 +292,13 @@ class FormBase:
         else:
             print('Invalid Data')
 
+
     def form_cancel(self, args):
         print('CANCEL BASE')
         for field in self.form_fields:
             field.hide()
             field.value = None
         self.form.hide()
-
 
 
 # Basic class to build a subform grid on a form
@@ -330,6 +342,7 @@ class SubformBase:
             'textWrapSettings': {'wrapMode': 'Content'},
         })
 
+
     @property
     def value(self):
         value = []
@@ -341,6 +354,7 @@ class SubformBase:
                         f'{field.name}_orm']
             value.append(row_value)
         return value
+
 
     @value.setter
     def value(self, value):
@@ -360,12 +374,14 @@ class SubformBase:
                 self.data.append(subgrid_row)
         self.control.dataSource = self.data
 
+
     @property
     def rows(self):
         rows = [
             {field.name: row[f'{field.name}_orm'] if field.save is True else row[field.name] for field in self.fields}
             for row in self.control.dataSource]
         return rows
+
 
     @property
     def control(self):
@@ -375,6 +391,7 @@ class SubformBase:
     def control(self, value):
         self._control = value
 
+
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
@@ -382,10 +399,12 @@ class SubformBase:
                 self.control.appendTo(f"#{self.el_id}")
             self.visible = True
 
+
     def hide(self):
         if self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
             self.visible = False
+
 
     def change(self, args):
         if args.requestType not in ('save', 'delete'):
@@ -403,6 +422,7 @@ class SubformBase:
         print('change', args.data)
         if self.on_change is not None:
             self.on_change({'name': self.name, 'value': self.value})
+
 
     def save_rows(self, link_obj=None):
         if self.model is not None:
