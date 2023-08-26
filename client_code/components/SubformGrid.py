@@ -66,6 +66,7 @@ class SubformGrid(BaseInput, GridView):
 
     @value.setter
     def value(self, value):
+        print('set subformgrid value', value)
         if value:
             self._value = value
             if self.model and self.is_dependent:
