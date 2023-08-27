@@ -87,7 +87,7 @@ class SubformGrid(BaseInput, GridView):
             self.grid.dataSource = self.grid_data
         if 'element' in self.grid.keys():
             self.grid.refresh()
-        print('subformgrid', self.grid_data)
+        print('subformgrid data', self.grid_data)
 
 
     def show(self):
@@ -97,7 +97,7 @@ class SubformGrid(BaseInput, GridView):
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'block'
             else:
-                GridView.form_show(self)
+                GridView.form_show(self, get_data=False)
             
             
     def hide(self):

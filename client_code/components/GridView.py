@@ -253,7 +253,7 @@ class GridView:
         return row[col] or ''
 
     # get Grid data and refresh the view
-    def form_show(self, **args):
+    def form_show(self, get_data=True, **args):
         print('show grid')
         try:
             # print('\nGrid data source\n', self.grid.dataSource, '\n')
