@@ -132,10 +132,11 @@ def get_object(class_name, module_name, uid, max_depth=None):
         instance = cls._from_row(
             _get_row(class_name, module_name, uid), max_depth=max_depth
         )
-        if security.has_update_permission(class_name, uid):
-            instance.update_capability = Capability([class_name, uid])
-        if security.has_delete_permission(class_name, uid):
-            instance.delete_capability = Capability([class_name, uid])
+        if instance is not None:
+            if security.has_update_permission(class_name, uid):
+                instance.update_capability = Capability([class_name, uid])
+            if security.has_delete_permission(class_name, uid):
+                instance.delete_capability = Capability([class_name, uid])
         return instance
 
 

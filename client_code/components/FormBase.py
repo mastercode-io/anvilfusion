@@ -313,6 +313,7 @@ class FormBase:
         print('CANCEL BASE')
         for field in self.form_fields:
             field.hide()
+            field.destroy()
             field.value = None
         self.form.hide()
 

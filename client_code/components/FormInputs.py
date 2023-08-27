@@ -142,6 +142,11 @@ class BaseInput:
 
     def grid_edit_destroy(self):
         pass
+    
+    def destroy(self):
+        if self._control is not None:
+            self.control.destroy()
+            self._control = None
 
 
 # Single line text input
