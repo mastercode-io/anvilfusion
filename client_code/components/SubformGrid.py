@@ -85,7 +85,8 @@ class SubformGrid(BaseInput, GridView):
             self._value = None
             self.grid_data = []
             self.grid.dataSource = self.grid_data
-            self.grid.refresh()
+            if self.grid.element:
+                self.grid.refresh()
 
 
     def show(self):
