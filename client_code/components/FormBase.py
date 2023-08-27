@@ -2,6 +2,8 @@
 import anvil.js
 from anvil.js.window import jQuery, ej
 from . import FormInputs
+from . MultiFieldInput import MultiFieldInput
+from SubformGrid import SubformGrid
 from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
 import string
 
@@ -140,8 +142,9 @@ class FormBase:
         if model_class is not None:
             print('class ', model_class)
             for attr_name, attr_class in model_class._attributes.items():
-                attr_input = getattr(FormInputs, attr_class.field_type.InputType)
-                form_fields.append(attr_input(name=attr_name, label=string.capwords(attr_name.replace("_", " "))))
+                if attr_class.field_type.InputType not in ('MultiFieldInput', 'SubformGrid'):
+                    attr_input = getattr(FormInputs, attr_class.field_type.InputType)
+                    form_fields.append(attr_input(name=attr_name, label=string.capwords(attr_name.replace("_", " "))))
             for ref_name in model_class._relationships.keys():
                 ref_class = model_class._relationships[ref_name].__dict__['class_name']
                 ref_class = getattr(AppEnv.data_models, ref_class, None)
@@ -155,6 +158,16 @@ class FormBase:
                         data=[*ref_class.search()]
                     )
                 )
+            for attr_name, attr_class in model_class._attributes.items():
+                if attr_class.field_type.InputType == 'MultiFieldInput':
+                    form_fields.append(MultiFieldInput(name=attr_name, 
+                                                       label=string.capwords(attr_name.replace("_", " ")),
+                                                       model=model_class,))
+            for attr_name, attr_class in model_class._attributes.items():
+                if attr_class.field_type.InputType == 'SubformGrid':
+                    form_fields.append(SubformGrid(name=attr_name, 
+                                                   label=string.capwords(attr_name.replace("_", " ")),
+                                                   schema=attr_class.schema,))
         return form_fields
 
 

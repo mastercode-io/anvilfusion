@@ -14,6 +14,7 @@ class SubformGrid(BaseInput, GridView):
                  model=None, 
                  link_model=None, 
                  link_field=None, 
+                 schema=None,
                  data=None,
                  **kwargs):
         
@@ -67,7 +68,7 @@ class SubformGrid(BaseInput, GridView):
     @value.setter
     def value(self, value):
         print('set subformgrid value', value)
-        if value:
+        if value and value.uid:
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:

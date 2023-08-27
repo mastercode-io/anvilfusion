@@ -100,6 +100,12 @@ FIELD_TYPES = {
         'GridType': 'string',
         'GridFormat': '',
     },
+    'object_list': {
+        'ColumnType': 'simpleObject',
+        'InputType': 'SubformGrid',
+        'GridType': 'string',
+        'GridFormat': '',
+    },
     'media': {
         'ColumnType': 'media',
         'InputType': 'FileUploadInput',
