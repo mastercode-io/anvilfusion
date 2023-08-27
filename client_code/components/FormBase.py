@@ -227,15 +227,15 @@ class FormBase:
         print('form open')
         try:
             if not self.data:
-                self.data = self.default_data
+                self.data = self.class_name(**self.default_data)
             print(self.data)
             for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
                 # print(field.name, field.value)
                 field.show()
                 field.value = self.data[field.name] if hasattr(self.data, field.name) else None
             for field in [x for x in self.form_fields if x.is_dependent]:
-                field.show()
                 field.value = self.data
+                field.show()
             for subform in self.subforms:
                 subform.value = self.data
             for field in self.form_fields:
