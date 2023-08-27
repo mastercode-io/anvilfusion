@@ -9,7 +9,7 @@ EXCLUDE_MIGRATION = [
     'Users',
     'appAuditLog',
     'appErrorLog',
-    'appGridViews',
+    'appGridView',
 ]
 
 default_cols = {

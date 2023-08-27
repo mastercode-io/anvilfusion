@@ -130,7 +130,7 @@ class GridView:
             if view_config is not None:
                 self.view_config = view_config
             else:
-                view_obj = AppEnv.data_models.appGridViews.get_by('name', view_name)
+                view_obj = AppEnv.data_models.appGridView.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
         else:
