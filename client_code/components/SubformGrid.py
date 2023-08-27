@@ -75,9 +75,9 @@ class SubformGrid(BaseInput, GridView):
                     self.filters = {}
                 self.filters[self.link_field] = value
                 self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                            search_queries=self.search_queries,
-                                                            filters=self.filters,
-                                                            include_rows=False)
+                                                               search_queries=self.search_queries,
+                                                               filters=self.filters,
+                                                               include_rows=False)
                 self.grid.dataSource = self.grid_data
             else:
                 pass
