@@ -79,6 +79,7 @@ class SubformGrid(BaseInput, GridView):
                                                             filters=self.filters,
                                                             include_rows=False)
                 self.grid.dataSource = self.grid_data
+                print('subformgrid', self.grid_data)
             else:
                 pass
         else:
