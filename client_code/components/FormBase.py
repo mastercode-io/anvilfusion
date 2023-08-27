@@ -315,6 +315,7 @@ class FormBase:
             field.hide()
             field.destroy()
             field.value = None
+        self.form_fields = []
         self.form.hide()
 
 
