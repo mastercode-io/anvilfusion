@@ -1,7 +1,6 @@
 from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
-# from .FormBase import FormBase
-from . import FormBase as fb
+from . import FormBase as fbase
 from ..tools.utils import AppEnv
 from ..tools import utils
 import string
@@ -120,7 +119,7 @@ class GridView:
         self.persist = persist
         self.confirm_dialog = None
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
-        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fb.FormBase
+        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
         self.grid_data = data or []
         print('grid model', model, self.model)
         print('form class', self.form_class)
