@@ -406,8 +406,8 @@ class GridView:
             #     print('no uid')
             # self.grid.deleteRecord('uid', grid_row.uid)
             self.grid.dataSource.remove(grid_row)
-            for row in self.grid.getSelectedRows():
-                self.grid.deleteRow(row)
+        for row in self.grid.getSelectedRows():
+            self.grid.deleteRow(row)
         self.grid.refresh()
         self.show_confirm_dialog = True
 
