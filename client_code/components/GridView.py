@@ -350,9 +350,6 @@ class GridView:
             if not self.confirm_dialog:
                 self.confirm_delete(args)
 
-        # else:
-        #     print('\nUnknown requestType\n', args.requestType, '\n')
-
                             
     def add_edit_row(self, args=None, form_data=None):
         print('add_edit_row', args)
@@ -399,12 +396,6 @@ class GridView:
         selected_rows  = self.grid.getSelectedRecords() or []
         for grid_row in selected_rows:
             print('Delete row', grid_row)
-            # if grid_row.uid:
-            #     print('uid', grid_row.uid)
-            #     self.grid.deleteRecord('uid', grid_row)
-            # else:
-            #     print('no uid')
-            # self.grid.deleteRecord('uid', grid_row.uid)
             self.grid.dataSource.remove(grid_row)
         for row in self.grid.getSelectedRows():
             self.grid.deleteRow(row)
