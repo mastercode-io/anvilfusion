@@ -118,6 +118,7 @@ class GridView:
         self.filters = filters
         self.persist = persist
         self.confirm_dialog = None
+        self.show_confirm_dialog = True
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
         self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
         self.grid_data = data or []
@@ -345,7 +346,7 @@ class GridView:
                 args.dialog.close()
                 self.add_edit_row(args)
 
-        elif args.requestType == 'delete' and args.type == 'actionBegin':
+        elif args.requestType == 'delete' and args.type == 'actionBegin' and self.show_confirm_dialog:
             if not self.confirm_dialog:
                 self.confirm_delete(args)
 
@@ -389,6 +390,7 @@ class GridView:
     
     def delete_selected(self, args, persist=True):
         print('delete_selected')
+        self.show_confirm_dialog = False
         if self.confirm_dialog:
             self.confirm_dialog.hide()
             self.confirm_dialog.destroy()
@@ -407,6 +409,7 @@ class GridView:
             for row in self.grid.getSelectedRows():
                 self.grid.deleteRow(row)
         self.grid.refresh()
+        self.show_confirm_dialog = True
 
         if persist:
             print('presist delete')
