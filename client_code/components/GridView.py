@@ -284,6 +284,7 @@ class GridView:
                 elif item.get('id') == 'delete':
                     self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
             if not self.grid_data:
+                print('get grid data', self.filters, self.search_queries)
                 self.grid_data = self.grid_class.get_grid_view(self.view_config,
                                                             search_queries=self.search_queries,
                                                             filters=self.filters,
