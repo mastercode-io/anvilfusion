@@ -392,21 +392,24 @@ class GridView:
             self.confirm_dialog.destroy()
             self.confirm_dialog = None
             
-        for grid_row in self.grid.getSelectedRecords() or []:
+        selected_rows  = self.grid.getSelectedRecords() or []
+        for grid_row in selected_rows:
             print('Delete row', grid_row)
-            if grid_row.uid:
-                print('uid', grid_row.uid)
-                self.grid.deleteRecord('uid', grid_row)
-            else:
-                print('no uid')
-                self.grid.dataSource.remove(grid_row)
+            # if grid_row.uid:
+            #     print('uid', grid_row.uid)
+            #     self.grid.deleteRecord('uid', grid_row)
+            # else:
+            #     print('no uid')
+            self.grid.dataSource.remove(grid_row)
         self.grid.refresh()
 
         if persist:
-            for grid_row in [x for x in self.grid.getSelectedRecords() or [] if x.uid]:
-                db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
-                if db_row is not None:
-                    db_row.delete()
+            print('presist delete')
+            for grid_row in selected_rows:
+                if grid_row.uid:
+                    db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
+                    if db_row is not None:
+                        db_row.delete()
 
 
     def update_grid(self, data_row, add_new, get_relationships=False):
