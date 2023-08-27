@@ -357,7 +357,7 @@ class GridView:
         print('add_edit_row', args)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
-            if args.rowData.uid:
+            if args.rowData.uid and 'grid' not in args.rowData.uid:
                 instance = self.grid_class.get(args.rowData.uid)
             else:
                 instance = self.grid_class(args.rowData)
@@ -413,6 +413,8 @@ class GridView:
 
 
     def update_grid(self, data_row, add_new, get_relationships=False):
+        if data_row.uid is None:
+            data_row.uid = f"grid_{uuid.uuid4()}"
         grid_row = data_row.get_row_view(
             self.view_config['columns'], 
             include_row=False, 
