@@ -1,5 +1,6 @@
 import anvil.js
-from .FormBase import FormBase
+# from .FormBase import FormBase
+from . import FormBase as fb
 from . import FormInputs
 from ..datamodel.particles import Attribute, Relationship
 from ..tools.utils import AppEnv
@@ -57,7 +58,7 @@ class MultiFieldInput(FormInputs.BaseInput):
             if len(section_cols[-1]) < rows_num:
                 section_cols[-1] += [None] * (rows_num - len(section_cols[-1]))
             self.sections = [{'name': self.name, 'label': section_label, 'cols': section_cols}]
-        self.html, _ = FormBase.sections_content(self.sections)
+        self.html, _ = fb.FormBase.sections_content(self.sections)
 
     @property
     def enabled(self):
