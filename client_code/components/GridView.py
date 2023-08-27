@@ -360,7 +360,9 @@ class GridView:
             if args.rowData.uid and 'grid' not in args.rowData.uid:
                 instance = self.grid_class.get(args.rowData.uid)
             else:
-                instance = self.grid_class(args.rowData)
+                props = args.rowData
+                props.pop('uid', None)
+                instance = self.grid_class(**props)
         else:
             form_action = 'add'
             instance = self.grid_class(**form_data) if form_data else None
@@ -400,13 +402,16 @@ class GridView:
             #     self.grid.deleteRecord('uid', grid_row)
             # else:
             #     print('no uid')
+            # self.grid.deleteRecord('uid', grid_row.uid)
             self.grid.dataSource.remove(grid_row)
+            for row in self.grid.getSelectedRows():
+                self.grid.deleteRow(row)
         self.grid.refresh()
 
         if persist:
             print('presist delete')
             for grid_row in selected_rows:
-                if grid_row.uid:
+                if grid_row.uid and 'grid' not in grid_row.uid:
                     db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
                     if db_row is not None:
                         db_row.delete()
