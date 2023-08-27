@@ -400,7 +400,7 @@ class GridView:
             #     self.grid.deleteRecord('uid', grid_row)
             # else:
             #     print('no uid')
-            self.grid.dataSource.remove('uid', grid_row.uid)
+            self.grid.dataSource.remove(grid_row)
         self.grid.refresh()
 
         if persist:
