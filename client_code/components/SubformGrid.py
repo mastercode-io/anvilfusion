@@ -16,6 +16,7 @@ class SubformGrid(BaseInput, GridView):
                  link_field=None, 
                  schema=None,
                  data=None,
+                 view_config=None,
                  **kwargs):
         
         BaseInput.__init__(
@@ -27,6 +28,7 @@ class SubformGrid(BaseInput, GridView):
             self, model=model, title=label, 
             container_id=self.el_id, 
             form_container_id=form_container_id,
+            view_config=view_config,
             persist=False, 
             **kwargs)
         self.link_model = link_model
