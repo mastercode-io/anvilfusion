@@ -120,6 +120,7 @@ class SubformGrid(BaseInput, GridView):
 
 
     def update_grid(self, data_row, add_new):
+        print('update subformgrid', data_row, add_new)
         if 'grid' in data_row.uid:
             data_row.uid = None
         self.to_save.append(data_row)
