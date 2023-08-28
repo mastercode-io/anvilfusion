@@ -241,13 +241,14 @@ class FormBase:
         # try:
         if not self.data:
             print('default data')
-            instance_data = {x: self.default_data[x] for x in self.default_data 
-                                if x in self.class_name._attributes or x in self.class_name._relationships} 
-            print('instance data', instance_data)
+            # instance_data = {x: self.default_data[x] for x in self.default_data 
+            #                     if x in self.class_name._attributes or x in self.class_name._relationships} 
+            # print('instance data', instance_data)
             # self.data = self.class_name(**instance_data)
-            self.data = self.class_name()
-            for attr in instance_data:
-                self.data[attr] = instance_data[attr]
+            # self.data = self.class_name()
+            # for attr in instance_data:
+            #     self.data[attr] = instance_data[attr]
+            self.data = self.default_data
             print('data', self.data)
         print(self.data)
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
