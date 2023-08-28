@@ -120,9 +120,6 @@ class SubformGrid(BaseInput, GridView):
 
 
     def update_grid(self, data_row, add_new):
-        print('update subformgrid', data_row, add_new)
-        if data_row.uid and 'grid' in data_row.uid:
-            data_row.uid = None
         self.to_save.append(data_row)
         GridView.update_grid(self, data_row, add_new, get_relationships=True)
     
@@ -131,7 +128,8 @@ class SubformGrid(BaseInput, GridView):
         print('save subformgrid', self.to_save, self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save:
-                print(data_row.uid)
+                if data_row.uid and 'grid' in data_row.uid:
+                    data_row.uid = None
                 data_row[self.link_field] = link_row
                 data_row.save()
             for uid in self.to_delete:
