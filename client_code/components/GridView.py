@@ -256,46 +256,46 @@ class GridView:
     # get Grid data and refresh the view
     def form_show(self, get_data=True, **args):
         print('show grid')
-        try:
+        # try:
             # print('\nGrid data source\n', self.grid.dataSource, '\n')
-            self.grid_el_id = uuid.uuid4()
-            self.container_el = jQuery(f"#{self.container_id}")[0]
-            self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-            self.container_el.innerHTML = f'\
-                <div id="pm-grid-container" style="height:{self.grid_height}px;">\
-                    <div id="{self.grid_el_id}"></div>\
-                </div>'
-            self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        self.grid_el_id = uuid.uuid4()
+        self.container_el = jQuery(f"#{self.container_id}")[0]
+        self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        self.container_el.innerHTML = f'\
+            <div id="pm-grid-container" style="height:{self.grid_height}px;">\
+                <div id="{self.grid_el_id}"></div>\
+            </div>'
+        self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
-            for item in self.toolbar_items:
-                item_title = item.get('tooltipText', item.get('text', ''))
-                item_css_class = item.get('cssClass')
-                item_style = item.get('style')
-                button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
-                if item_css_class:
-                    button.classList.add(item_css_class)
-                    for text in button.children:
-                        text.classList.add(item_css_class)
-                if item_style:
-                    button.style = item_style
-                    for text in button.children:
-                        text.style = item_style
-                if item.get('id') == 'search-toggle':
-                    self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
-                elif item.get('id') == 'delete':
-                    self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
-            if not self.grid_data and get_data:
-                print('get grid data', self.filters, self.search_queries)
-                self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                            search_queries=self.search_queries,
-                                                            filters=self.filters,
-                                                            include_rows=False)
-                self.grid['dataSource'] = self.grid_data
-                print(self.grid_data)
-                self.grid.refresh()
-            print('show grid done')
-        except Exception as e:
-            print('Error in Grid form_show', e)
+        for item in self.toolbar_items:
+            item_title = item.get('tooltipText', item.get('text', ''))
+            item_css_class = item.get('cssClass')
+            item_style = item.get('style')
+            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
+            if item_css_class:
+                button.classList.add(item_css_class)
+                for text in button.children:
+                    text.classList.add(item_css_class)
+            if item_style:
+                button.style = item_style
+                for text in button.children:
+                    text.style = item_style
+            if item.get('id') == 'search-toggle':
+                self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
+            elif item.get('id') == 'delete':
+                self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+        if not self.grid_data and get_data:
+            print('get grid data', self.filters, self.search_queries)
+            self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                                                        search_queries=self.search_queries,
+                                                        filters=self.filters,
+                                                        include_rows=False)
+            self.grid['dataSource'] = self.grid_data
+            print(self.grid_data)
+            self.grid.refresh()
+        print('show grid done')
+        # except Exception as e:
+        #     print('Error in Grid form_show', e)
 
     def destroy(self):
         self.grid.destroy()
