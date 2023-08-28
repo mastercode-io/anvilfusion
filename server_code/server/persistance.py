@@ -25,7 +25,7 @@ def caching_query(search_function):
     def wrapper(
             class_name, module_name, page_length, max_depth, with_class_name, **search_args
     ):
-        print('Caching query', class_name, module_name, page_length, max_depth, with_class_name, search_args)
+        print('Caching query', search_args)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
