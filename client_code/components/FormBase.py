@@ -238,32 +238,32 @@ class FormBase:
 
     def form_open(self, args):
         print('form open')
-        try:
-            if not self.data:
-                instance_data = {x: self.default_data[x] for x in self.default_data 
-                                 if x in self.class_name._attributes or x in self.class_name._relationships} 
-                self.data = self.class_name(**instance_data)
-            print(self.data)
-            for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
-                # print(field.name, field.value)
-                field.show()
-                field.value = self.data[field.name] if hasattr(self.data, field.name) else self.default_data.get(field.name, None)
-            for field in [x for x in self.form_fields if x.is_dependent]:
-                field.value = self.data
-                field.show()
-            for subform in self.subforms:
-                subform.value = self.data
-            for field in self.form_fields:
-                if field.on_change is not None:
-                    print('on_change', field.name)
-                    field.on_change({'name': field.name, 'value': field.value})
-            self.container_el.style.visibility = 'visible'
-            self.form.cssClass = 'e-fixed'
-            if self.form_tabs is not None:
-                for i in range(len(self.form_tabs) - 1, -1, -1):
-                    self.tabs.select(i)
-        except Exception as e:
-            print(e)
+        # try:
+        if not self.data:
+            instance_data = {x: self.default_data[x] for x in self.default_data 
+                                if x in self.class_name._attributes or x in self.class_name._relationships} 
+            self.data = self.class_name(**instance_data)
+        print(self.data)
+        for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
+            # print(field.name, field.value)
+            field.show()
+            field.value = self.data[field.name] if hasattr(self.data, field.name) else self.default_data.get(field.name, None)
+        for field in [x for x in self.form_fields if x.is_dependent]:
+            field.value = self.data
+            field.show()
+        for subform in self.subforms:
+            subform.value = self.data
+        for field in self.form_fields:
+            if field.on_change is not None:
+                print('on_change', field.name)
+                field.on_change({'name': field.name, 'value': field.value})
+        self.container_el.style.visibility = 'visible'
+        self.form.cssClass = 'e-fixed'
+        if self.form_tabs is not None:
+            for i in range(len(self.form_tabs) - 1, -1, -1):
+                self.tabs.select(i)
+        # except Exception as e:
+        #     print('exception', e)
 
         if self.validation is not None:
             self.validation['customPlacement'] = lambda input_el, error: \
