@@ -26,10 +26,17 @@ def caching_query(search_function):
             class_name, module_name, page_length, max_depth, with_class_name, **search_args
     ):
         for arg in search_args:
+            cls = getattr(import_module(module_name), class_name)
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
                 ref_row = _get_row(ref_obj.__class__.__name__, ref_obj.__module__, ref_obj.__dict__['uid'])
                 search_args[arg] = ref_row
+            elif arg in cls._relationships:
+                if cls._relationships[arg].with_many:
+                    pass
+                else:
+                    ref_row = _get_row(cls._relationships[arg].class_name, module_name, search_args[arg])
+                    search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
