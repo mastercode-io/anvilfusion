@@ -131,6 +131,7 @@ class SubformGrid(BaseInput, GridView):
         print('save subformgrid', self.to_save, self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save:
+                print(data_row.uid)
                 data_row[self.link_field] = link_row
                 data_row.save()
             for uid in self.to_delete:
