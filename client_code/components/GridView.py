@@ -6,6 +6,7 @@ from ..tools import utils
 import string
 import uuid
 import json
+import traceback
 
 
 GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
