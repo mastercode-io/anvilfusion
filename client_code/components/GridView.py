@@ -367,7 +367,7 @@ class GridView:
         else:
             form_action = 'add'
             instance = self.grid_class(**form_data) if form_data else None
-        print(form_action, form_data)
+        print(form_action, form_data, self.persist)
         self.form_class(model=self.model, 
                         data=instance, 
                         action=form_action, 

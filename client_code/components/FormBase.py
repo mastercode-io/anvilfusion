@@ -280,7 +280,7 @@ class FormBase:
 
 
     def form_save(self, args):
-        print('SAVE', self.class_name)
+        print('SAVE', self.class_name, self.persist)
         if self.form_validate():
             add_new = False
             input_data = {field.name: field.value for field in self.form_fields 
