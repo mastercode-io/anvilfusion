@@ -276,10 +276,7 @@ def _from_row(unique_identifier, attributes, relationships, computes):
                         ]
 
         for name, computed in computes.items():
-            if '_row' in computed.depends_on:
-                args = {'_row': row}
-            else:
-                args = {dep: attrs[dep] for dep in computed.depends_on}
+            args = {dep: attrs[dep] for dep in computed.depends_on}
             attrs[name] = computed.compute(cls, args)
 
         return cls(**attrs)
