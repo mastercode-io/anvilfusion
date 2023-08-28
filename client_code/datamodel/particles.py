@@ -126,6 +126,7 @@ class ModelSearchResults:
     def __init__(
             self, class_name, module_name, rows_id, page_length, max_depth, length
     ):
+        print('ModelSearchResults')
         self.class_name = class_name
         self.module_name = module_name
         self.rows_id = rows_id
