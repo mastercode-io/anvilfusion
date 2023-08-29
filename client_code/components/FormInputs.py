@@ -514,14 +514,16 @@ class LookupInput(DropdownInput):
                 self.control.value = None
                 
     @property
-    def options(self):
+    def data(self):
         return super().options
     
-    @options.setter
-    def options(self, options=None, data=None):
-        if data is not None:
-            options = self.get_optiions(data)
-        DropdownInput(self).options = options
+    @data.setter
+    def data(self, data):
+        # print('set options', options, data)
+        if data:
+            DropdownInput(self).options = self.get_optiions(data)
+        else:
+            DropdownInput(self).options = None
             
     def get_options(self, data):
         return [
