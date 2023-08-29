@@ -521,7 +521,7 @@ class LookupInput(DropdownInput):
     def options(self, options=None, data=None):
         if data is not None:
             options = self.get_optiions(data)
-        super().options = options
+        DropdownInput(self).options = options
             
     def get_options(self, data):
         return [
