@@ -120,8 +120,6 @@ class GridView:
         self.confirm_dialog = None
         self.show_confirm_dialog = True
         self.grid_data = data or []
-        print('grid model', model, self.model)
-        print('form class', self.form_class)
 
         print('GridView', view_name)
         if view_name or view_config:
@@ -150,6 +148,8 @@ class GridView:
             self.view_config['columns'] = view_columns
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
         self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
+        print('grid model', model, self.model)
+        print('form class', self.form_class)
             
         grid_columns = [{'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'}]
         self.row_actions = {}
