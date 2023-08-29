@@ -114,6 +114,7 @@ class GridView:
         self.form_container_id = form_container_id or container_id
         self.container_el = None
         self.model = model
+        self.view_config = view_config
         self.search_queries = search_queries
         self.filters = filters
         self.persist = persist
@@ -122,7 +123,7 @@ class GridView:
         self.grid_data = data or []
 
         print('GridView', view_name)
-        if view_name or view_config:
+        if view_name or not view_config:
             if view_config is not None:
                 self.view_config = view_config
             else:
