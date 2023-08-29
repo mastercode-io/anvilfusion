@@ -450,6 +450,7 @@ class DropdownInput(BaseInput):
         self._options = options
         if self._control is not None:
             self.control.dataSource = options
+            print('hello?', self.control.dataSource)
 
 
 # Lookup input (dropdown with options from a model)
