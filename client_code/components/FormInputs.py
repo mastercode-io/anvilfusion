@@ -427,6 +427,7 @@ class DropdownInput(BaseInput):
                 'showDropDownIcon': True,
                 'allowFiltering': True,
             })
+        print('create control', self._options)
         if self._options is not None:
             self.control.dataSource = self._options
 
