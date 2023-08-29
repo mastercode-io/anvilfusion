@@ -129,7 +129,9 @@ class GridView:
                 view_obj = AppEnv.data_models.appGridView.get_by('name', view_name)
                 self.view_config = json.loads(view_obj['config'].replace("'", "\""))
             self.model = self.view_config['model']
-        else:
+        self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
+        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
+        if not self.view_config or 'columns' not in self.view_config:
             self.view_config = {'model': self.model}
             view_columns = []
             model_members = self.grid_class._attributes.copy()
@@ -146,8 +148,6 @@ class GridView:
                     'label': string.capwords(attr_name.replace("_", " ")),
                 })
             self.view_config['columns'] = view_columns
-        self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
-        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
         print('grid model', model, self.model)
         print('form class', self.form_class)
             
