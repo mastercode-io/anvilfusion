@@ -455,7 +455,7 @@ class DropdownInput(BaseInput):
 class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None, data=None, 
                  add_item_label='Add Item', add_item_form=None, add_item_model=None, 
-                 search_queries=None, filters=None,
+                 search_queries=None, filters=None, get_data=True,
                  **kwargs):
         self.model = model
         self.text_field = text_field or 'name'
@@ -468,7 +468,7 @@ class LookupInput(DropdownInput):
         if self.model:
             if AppEnv.enum_models and self.model in AppEnv.enum_models:
                 options = AppEnv.enum_models[self.model].options
-            elif not data:
+            elif not data and get_data:
                 cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
                 data = getattr(AppEnv.data_models, self.model).get_grid_view(
                     view_config={'columns': [{'name': col} for col in cols]},
