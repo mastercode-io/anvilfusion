@@ -168,22 +168,31 @@ class GridView:
             # self.row_actions[f"row_action_{column['name']}"] = column['row_action']
             # else:
             else:
-                col_attr, _ = get_model_attribute(self.model, column['name'])
-                grid_column = {
-                    'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
-                    'headerText': column['label'],
-                    'type': col_attr.field_type.GridType,
-                    'format': column.get('format', None) or col_attr.field_type.GridFormat,
-                    'displayAsCheckBox': col_attr.field_type == dmtypes.FieldTypes.BOOLEAN,
-                    'textAlign': 'Left',
-                    'customAttributes': {'class': 'align-top'},
-                    'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
-                    # 'valueAccessor': self.format_value,
-                    # 'formatter': self.get_value,
-                    # def get_value(column, data):
-                    #   return '<span style="color:' + (data['Verified'] ? 'green' : 'red') +
-                    #   '"><i>' + data['Verified'] + '</i><span>';
-                }
+                if column['name'] == '_spacer':
+                    grid_column = {
+                        'headerText': '',
+                        'template': '<div class="a-grid-spacer"></div>',
+                        'textAlign': 'Left',
+                        'customAttributes': {'class': 'align-top'},
+                        'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
+                    }
+                else:
+                    col_attr, _ = get_model_attribute(self.model, column['name'])
+                    grid_column = {
+                        'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
+                        'headerText': column['label'],
+                        'type': col_attr.field_type.GridType,
+                        'format': column.get('format', None) or col_attr.field_type.GridFormat,
+                        'displayAsCheckBox': col_attr.field_type == dmtypes.FieldTypes.BOOLEAN,
+                        'textAlign': 'Left',
+                        'customAttributes': {'class': 'align-top'},
+                        'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
+                        # 'valueAccessor': self.format_value,
+                        # 'formatter': self.get_value,
+                        # def get_value(column, data):
+                        #   return '<span style="color:' + (data['Verified'] ? 'green' : 'red') +
+                        #   '"><i>' + data['Verified'] + '</i><span>';
+                    }
             grid_columns.append(grid_column)
         self.grid_view = {'config': self.view_config.copy()}
         self.grid_view['config']['columns'] = grid_columns
