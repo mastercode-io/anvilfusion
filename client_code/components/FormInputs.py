@@ -427,6 +427,8 @@ class DropdownInput(BaseInput):
                 'showDropDownIcon': True,
                 'allowFiltering': True,
             })
+        if self._options is not None:
+            self.control.dataSource = self._options
 
     @property
     def value(self):
