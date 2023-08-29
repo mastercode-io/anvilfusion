@@ -113,8 +113,6 @@ class GridView:
         self.container_id = container_id
         self.form_container_id = form_container_id or container_id
         self.container_el = None
-        self.model = model
-        self.view_config = view_config
         self.search_queries = search_queries
         self.filters = filters
         self.persist = persist
@@ -123,13 +121,14 @@ class GridView:
         self.grid_data = data or []
 
         print('GridView', view_name)
-        if view_name or not view_config:
-            if view_config is not None:
-                self.view_config = view_config
-            else:
-                view_obj = AppEnv.data_models.appGridView.get_by('name', view_name)
-                self.view_config = json.loads(view_obj['config'].replace("'", "\""))
-            self.model = self.view_config['model']
+        if view_config:
+            self.view_config = view_config
+        elif view_name:
+            view_obj = AppEnv.data_models.appGridView.get_by('name', view_name)
+            self.view_config = json.loads(view_obj['config'].replace("'", "\""))
+        else:
+            self.view_config = {}
+        self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
         self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
         if not self.view_config or 'columns' not in self.view_config:
