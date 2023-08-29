@@ -169,7 +169,6 @@ class GridView:
             # else:
             else:
                 col_attr, _ = get_model_attribute(self.model, column['name'])
-                print('grid column', column['name'], col_attr)
                 grid_column = {
                     'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
                     'headerText': column['label'],
