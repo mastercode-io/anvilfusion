@@ -512,6 +512,25 @@ class LookupInput(DropdownInput):
                     self.control.value = [item['uid'] for item in value]
             else:
                 self.control.value = None
+                
+    @property
+    def options(self):
+        return super().options
+    
+    @options.setter
+    def options(self, options=None, data=None):
+        if data is not None:
+            options = self.get_optiions(data)
+        super().options = options
+            
+    def get_options(self, data):
+        return [
+            {
+                'text': self.compute_option(option) if self.compute_option and callable(self.compute_option)
+                else option[self.text_field.split('.', 1)[0]], 
+                'value': option['uid']
+            } for option in data
+        ]
 
     def control_open(self, args):
         if self.add_item_form is not None:
