@@ -36,6 +36,7 @@ class FormBase:
                  data=None,
                  persist=True,
                  update_source=None,
+                 source=None,
                  width=POPUP_WIDTH_COL1,
                  height='auto',
                  validation=None,
@@ -48,6 +49,7 @@ class FormBase:
         self.subforms = subforms if subforms is not None else []
         self.persist = persist
         self.update_source = update_source
+        self.source = source
         self.form_tabs = None
         self.fullscreen = False
         self.modal = modal

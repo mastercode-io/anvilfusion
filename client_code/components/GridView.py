@@ -379,7 +379,8 @@ class GridView:
         self.form_class(model=self.model, 
                         data=instance, 
                         action=form_action, 
-                        update_source=self.update_grid, 
+                        update_source=self.update_grid,
+                        source=self, 
                         target=self.form_container_id,
                         persist=self.persist,
                         ).form_show()
