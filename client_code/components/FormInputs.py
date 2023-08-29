@@ -450,6 +450,8 @@ class DropdownInput(BaseInput):
         self._options = options
         if self._control is not None:
             self.control.dataSource = options
+            self.control.dataBind()
+            self.control.refresh()
             print('hello?', self.control.dataSource)
 
 
