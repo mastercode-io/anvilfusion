@@ -448,6 +448,7 @@ class DropdownInput(BaseInput):
     def options(self, options):
         print('set options', options)
         self._options = options
+        print('??', self._control)
         if self._control is not None:
             self.control.dataSource = options
             self.control.dataBind()
