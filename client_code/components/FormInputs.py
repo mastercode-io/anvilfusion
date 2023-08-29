@@ -446,6 +446,7 @@ class DropdownInput(BaseInput):
 
     @options.setter
     def options(self, options):
+        print('set options', options)
         self._options = options
         if self._control is not None:
             self.control.dataSource = options
@@ -513,7 +514,7 @@ class LookupInput(DropdownInput):
     
     @data.setter
     def data(self, data):
-        # print('set options', options, data)
+        print('set data', data)
         if data:
             DropdownInput(self).options = self.get_options(data)
         else:
