@@ -526,9 +526,9 @@ class LookupInput(DropdownInput):
     def data(self, data):
         print('set data', data)
         if data:
-            super(LookupInput, self).options = self.get_options(data)
+            super(DropdownInput, self).options = self.get_options(data)
         else:
-            super(LookupInput, self).options = None
+            super(DropdownInput, self).options = None
             
     def get_options(self, data):
         return [
