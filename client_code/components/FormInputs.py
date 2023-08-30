@@ -487,7 +487,7 @@ class LookupInput(DropdownInput):
                     filters=filters,)
         if data:
             options = self.get_options(data)
-        super().__init__(options=options, **kwargs)
+        super().__init__(text_field=self.text_field, options=options, **kwargs)
         print('lookup input', self.name, self.fields)
 
     def create_control(self):
