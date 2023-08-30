@@ -410,26 +410,26 @@ class DropdownInput(BaseInput):
         super().__init__(**kwargs)
 
     def create_control(self):
-        if self.select == 'single':
-            self.control = ej.dropdowns.DropDownList({
-                'placeholder': self.label,
-                'showClearButton': True,
-                'fields': self.fields,
-                'dataSource': self.options,
-                'allowFiltering': True,
-            })
-        elif self.select == 'multi':
-            self.control = ej.dropdowns.MultiSelect({
-                'placeholder': self.label,
-                'showClearButton': True,
-                'fields': self.fields,
-                'dataSource': self.options,
-                'showDropDownIcon': True,
-                'allowFiltering': True,
-            })
         print('create control', self._options)
-        if self._options is not None:
-            self.control.dataSource = self._options
+        if self._control is None:
+            if self.select == 'single':
+                self.control = ej.dropdowns.DropDownList({
+                    'placeholder': self.label,
+                    'showClearButton': True,
+                    'fields': self.fields,
+                    'dataSource': self.options,
+                    'allowFiltering': True,
+                })
+            elif self.select == 'multi':
+                self.control = ej.dropdowns.MultiSelect({
+                    'placeholder': self.label,
+                    'showClearButton': True,
+                    'fields': self.fields,
+                    'dataSource': self.options,
+                    'showDropDownIcon': True,
+                    'allowFiltering': True,
+                })
+        self.control.dataSource = self._options
 
     @property
     def value(self):
