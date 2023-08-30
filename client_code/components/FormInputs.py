@@ -113,7 +113,7 @@ class BaseInput:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             if self._control is None:
                 self.create_control()
-            print('control', self._control')
+            print('control', self._control)
             self.control.appendTo(f"#{self.el_id}")
             self.value = self._value
             self.visible = True
