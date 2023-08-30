@@ -404,11 +404,11 @@ class DropdownInput(BaseInput):
         self.select = select
         self.add_el_id = None
         self.value_field = value_field
+        self.fields = {'text': 'text', 'value': 'value'}
         if isinstance(options, list) and options != [] and isinstance(options[0], str):
-            self.fields = {'text': 'text', 'value': 'value'}
             self._options = [{'text': option, 'value': option} for option in options]
         else:
-            self.fields = {'text': text_field, 'value': value_field}
+            # self.fields = {'text': text_field, 'value': value_field}
             self._options = options
         super().__init__(**kwargs)
 
@@ -527,6 +527,7 @@ class LookupInput(DropdownInput):
         print('set data', data)
         if data:
             self.options = self.get_options(data)
+            print(self.options)
         else:
             self.options = None
             
