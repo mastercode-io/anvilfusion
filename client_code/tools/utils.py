@@ -14,6 +14,30 @@ def print_exception(e):
     print(f"Exception occurred: {e}, in file: {file_name}, at line: {line_no}")
 
 
+def get_plural_name(name):
+    if name.endswith('y'):
+        return name[:-1] + 'ies'
+    elif name[-1] in 'sx' or name[-2:] in ['sh', 'ch']:
+        return name + 'es'
+    else:
+        return name + 's'
+    
+    
+def get_singular_name(name):
+    if name.endswith('ies'):
+        return name[:-3] + 'y'
+    elif name.endswith('es'):
+        return name[:-2]
+    elif name.endswith('s'):
+        return name[:-1]
+    else:
+        return name
+
+
+def get_table_name(name):
+    return camel_to_snake(name)
+
+
 def camel_to_snake(string):
     """Convert a CamelCase string to snake_case"""
     return '_'.join(re.findall('[A-Z][^A-Z]*', string)).lower()

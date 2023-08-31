@@ -3,6 +3,7 @@ import anvil.server
 import anvil.js
 import datetime
 from . import types
+from ..tools.utils import get_plural_name, get_table_name
 
 
 class Attribute:
@@ -423,6 +424,11 @@ def model_type(cls):
             raise AttributeError("Multiple unique identifiers defined")
         else:
             unique_identifier = unique_identifiers[0]
+    
+    _singular_name = class_members.get('_singular_name', cls.__name__)
+    _plural_name = class_members.get('_plural_name', get_plural_name(_singular_name))
+    _table_name = class_members.get('_table_name', get_table_name(_plural_name))
+    _title = class_members.get('_title', attributes.get('name', next(iter(attributes.values()))))
 
     relationships = {
         key: value
@@ -463,7 +469,11 @@ def model_type(cls):
         "_properties": class_properties,
         "_from_row": _from_row(unique_identifier, attributes, relationships, computes),
         "_unique_identifier": unique_identifier,
-        "_model_type": class_members.get('model_type', types.ModelTypes.DATA),
+        "_model_type": class_members.get('_model_type', types.ModelTypes.DATA),
+        "_singular_name": _singular_name,
+        "_plural_name": _plural_name,
+        "_table_name": _table_name,
+        "_title": _title,
         "update_capability": None,
         "delete_capability": None,
         "search_capability": None,

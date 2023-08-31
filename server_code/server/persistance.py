@@ -12,6 +12,7 @@ from datetime import datetime
 
 from ..datamodel.particles import ModelSearchResults
 from ..datamodel import types
+from ..tools.utils import AppEnv
 from . import security
 
 
@@ -62,7 +63,8 @@ def _camel_to_snake(name):
 
 def get_table(class_name):
     """Return the data table for the given class name"""
-    table_name = _camel_to_snake(class_name)
+    # table_name = _camel_to_snake(class_name)
+    table_name = getattr(AppEnv.data_models, class_name)._table_name
     return getattr(app_tables, table_name)
 
 
