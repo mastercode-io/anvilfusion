@@ -274,7 +274,8 @@ def save_object(instance, audit):
     """Persist an instance to the database by adding or updating a row"""
     class_name = type(instance).__name__
     # table = get_table(class_name)
-    table = instance._table_name
+    table = getattr(app_tables, instance._table_name)
+    # print('Save object', class_name, instance, instance._table_name)
 
     attributes = {
         name: getattr(instance, name)
