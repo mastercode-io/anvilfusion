@@ -12,7 +12,6 @@ from datetime import datetime
 
 from ..datamodel.particles import ModelSearchResults
 from ..datamodel import types
-from ..tools.utils import AppEnv
 from . import security
 
 
@@ -29,12 +28,12 @@ def caching_query(search_function):
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
-                ref_row = _get_row(ref_obj.__class__.__name__, ref_obj.__module__, ref_obj.__dict__['uid'])
+                ref_row = _get_row(ref_obj.__module__, ref_obj.__class__.__name__, ref_obj.__dict__['uid'])
                 search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
-        table = get_table(class_name)
+        table = get_table(module_name, class_name)
         if search_query is not None:
             length = len(table.search(search_query, **search_args))
         else:
@@ -61,32 +60,37 @@ def _camel_to_snake(name):
     return CAMEL_PATTERN.sub("_", name).lower()
 
 
-def get_table(class_name):
+def get_table(module_name, class_name):
     """Return the data table for the given class name"""
     # table_name = _camel_to_snake(class_name)
-    table_name = getattr(AppEnv.data_models, class_name)._table_name
+    models = import_module(module_name)
+    table_name = getattr(models, class_name)._table_name
     return getattr(app_tables, table_name)
 
 
-def _get_row(class_name, module_name, uid):
+def _get_row(module_name, class_name, uid):
     """Return the data tables row for a given object instance"""
     module = import_module(module_name)
-    table = getattr(app_tables, _camel_to_snake(class_name))
+    # table = getattr(app_tables, _camel_to_snake(class_name))
     cls = getattr(module, class_name)
+    table = cls._table_name
     search_kwargs = {cls._unique_identifier: uid}
     return table.get(**search_kwargs)
 
 
-def _get_row_by(class_name, module_name, prop, value):
+def _get_row_by(module_name, class_name, prop, value):
     """Return the data tables row for a given object instance"""
-    table = getattr(app_tables, _camel_to_snake(class_name))
+    # table = getattr(app_tables, _camel_to_snake(class_name))
+    module = import_module(module_name)
+    cls = getattr(module, class_name)
+    table = cls._table_name
     search_kwargs = {prop: value}
     return table.get(**search_kwargs)
 
 
-def _search_rows(class_name, uids):
+def _search_rows(module_name, class_name, uids):
     """Return the data tables rows for a given list of object instances"""
-    return get_table(class_name).search(uid=q.any_of(*uids))
+    return get_table(module_name, class_name).search(uid=q.any_of(*uids))
 
 
 def _serialize_row(table, row):
@@ -132,7 +136,7 @@ def get_object(class_name, module_name, uid, max_depth=None):
         module = import_module(module_name)
         cls = getattr(module, class_name)
         instance = cls._from_row(
-            _get_row(class_name, module_name, uid), max_depth=max_depth
+            _get_row(module_name, class_name, uid), max_depth=max_depth
         )
         if instance is not None:
             if security.has_update_permission(class_name, uid):
@@ -148,7 +152,7 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None):
     module = import_module(module_name)
     cls = getattr(module, class_name)
     instance = cls._from_row(
-        _get_row_by(class_name, module_name, prop, value), max_depth=max_depth
+        _get_row_by(module_name, class_name, prop, value), max_depth=max_depth
     )
     if instance is not None and security.has_read_permission(class_name, instance.uid):
         if security.has_update_permission(class_name, instance.uid):
@@ -167,9 +171,9 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
         if search_query is not None:
-            rows = get_table(class_name).search(search_query, **search_definition)
+            rows = get_table(module_name, class_name).search(search_query, **search_definition)
         else:
-            rows = get_table(class_name).search(**search_definition)
+            rows = get_table(module_name, class_name).search(**search_definition)
     else:
         rows = []
 
@@ -247,12 +251,12 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             # print(filters[key])
             rel_uids = [row['uid'] for row in filters[key]]
             # print(rel_uids)
-            rel_rows = [row for row in get_table(cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
+            rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
     filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
-    rows = get_table(class_name).search(fetch_query, *search_queries, **filters)
+    rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
 
     return rows
 
@@ -269,7 +273,8 @@ def basic_search(class_name, **search_args):
 def save_object(instance, audit):
     """Persist an instance to the database by adding or updating a row"""
     class_name = type(instance).__name__
-    table = get_table(class_name)
+    # table = get_table(class_name)
+    table = instance._table_name
 
     attributes = {
         name: getattr(instance, name)
@@ -277,8 +282,8 @@ def save_object(instance, audit):
     }
     single_relationships = {
         name: _get_row(
-            relationship.cls.__name__,
             relationship.cls.__module__,
+            relationship.cls.__name__,
             getattr(instance, name)['uid'],
         )
         for name, relationship in instance._relationships.items()
@@ -287,6 +292,7 @@ def save_object(instance, audit):
     multi_relationships = {
         name: list(
             _search_rows(
+                relationship.cls.__module__,
                 relationship.cls.__name__,
                 [
                     member['uid']
@@ -380,7 +386,9 @@ def delete_object(instance, audit):
     """Delete the data tables row for the given model instance"""
     class_name = type(instance).__name__
     Capability.require(instance.delete_capability, [class_name, instance.uid])
-    table = get_table(type(instance).__name__)
+    # table = get_table(type(instance).__name__)
+    # row = table.get(uid=instance.uid)
+    table = instance._table_name
     row = table.get(uid=instance.uid)
     prev_row = _serialize_row(table, row)
     new_row = {}

@@ -3,7 +3,6 @@ import anvil.server
 import anvil.users
 from importlib import import_module
 from .persistance import get_table
-from ..tools.utils import AppEnv
 
 
 @anvil.server.callable
