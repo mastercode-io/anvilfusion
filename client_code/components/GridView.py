@@ -120,7 +120,7 @@ class GridView:
         self.show_confirm_dialog = True
         self.grid_data = data or []
 
-        print('GridView', view_name, self.model)
+        print('GridView', view_name, model)
         if view_config:
             self.view_config = view_config
         elif view_name:
