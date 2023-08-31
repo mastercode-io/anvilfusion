@@ -324,13 +324,13 @@ def save_object(instance, audit):
             has_permission = True
             row = table.get(uid=instance.uid)
             prev_row = _serialize_row(table, row)
-            if instance._model_type == types.ModelTypes.DATA:
-                system_attributes = {
-                    'updated_time': current_time,
-                    'updated_by': current_user_uid
-                }
-            else:
-                system_attributes = {}
+            # if instance._model_type == types.ModelTypes.DATA:
+            system_attributes = {
+                'updated_time': current_time,
+                'updated_by': current_user_uid
+            }
+            # else:
+            #     system_attributes = {}
             row.update(**members, **system_attributes)
             new_row = _serialize_row(table, row)
         else:
@@ -341,16 +341,16 @@ def save_object(instance, audit):
             uid = str(uuid4())
             instance = copy(instance)
             instance.uid = uid
-            if instance._model_type == types.ModelTypes.DATA:
-                system_attributes = {
-                    'tenant_uid': current_tenant_uid,
-                    'created_time': current_time,
-                    'created_by': current_user_uid,
-                    'updated_time': current_time,
-                    'updated_by': current_user_uid
-                }
-            else:
-                system_attributes = {}
+            # if instance._model_type == types.ModelTypes.DATA:
+            system_attributes = {
+                'tenant_uid': current_tenant_uid,
+                'created_time': current_time,
+                'created_by': current_user_uid,
+                'updated_time': current_time,
+                'updated_by': current_user_uid
+            }
+            # else:
+            #     system_attributes = {}
             row = table.add_row(uid=uid, **members, **system_attributes)
             new_row = _serialize_row(table, row)
             if security.has_update_permission(class_name, uid):

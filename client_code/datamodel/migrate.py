@@ -5,11 +5,11 @@ from ..tools.utils import AppEnv
 from datetime import date, datetime
 
 EXCLUDE_MIGRATION = [
-    'Tenants',
-    'Users',
-    'AppAuditLogs',
-    'AppErrorLogs',
-    'AppGridViews',
+    # 'Tenants',
+    # 'Users',
+    # 'AppAuditLogs',
+    # 'AppErrorLogs',
+    # 'AppGridViews',
 ]
 
 default_cols = {
