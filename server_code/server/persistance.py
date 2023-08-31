@@ -122,7 +122,7 @@ def _audit_log(class_name, action, prev_row, new_row):
         'new_state': new_row,
         'tenant_uid': current_tenant_uid,
     }
-    app_tables.app_audit_log.add_row(uid=log_uid, **log_record)
+    app_tables.app_audit_logs.add_row(uid=log_uid, **log_record)
 
 
 @anvil.server.callable

@@ -124,7 +124,7 @@ class GridView:
         if view_config:
             self.view_config = view_config
         elif view_name:
-            view_obj = AppEnv.data_models.appGridView.get_by('name', view_name)
+            view_obj = AppEnv.data_models.AppGridView.get_by('name', view_name)
             self.view_config = json.loads(view_obj['config'].replace("'", "\""))
         else:
             self.view_config = {}
