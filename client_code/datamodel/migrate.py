@@ -38,8 +38,8 @@ def migrate_db_schema():
               and issubclass(getattr(AppEnv.data_models, attr), ModelTypeBase)
               and attr not in EXCLUDE_MIGRATION]
 
-    for attr in dir(AppEnv.data_models):
-        print(attr, getattr(AppEnv.data_models, attr))
+    # for attr in dir(AppEnv.data_models):
+    #     print(attr, getattr(AppEnv.data_models, attr))
     
     migration_report = []
     
