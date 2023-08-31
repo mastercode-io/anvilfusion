@@ -389,7 +389,7 @@ def delete_object(instance, audit):
     Capability.require(instance.delete_capability, [class_name, instance.uid])
     # table = get_table(type(instance).__name__)
     # row = table.get(uid=instance.uid)
-    table = instance._table_name
+    table = getattr(app_tables, instance._table_name)
     row = table.get(uid=instance.uid)
     prev_row = _serialize_row(table, row)
     new_row = {}
