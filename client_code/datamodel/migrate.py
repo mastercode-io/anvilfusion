@@ -65,14 +65,14 @@ def update_model(class_name, force_update=False, self_ref=False):
     sample_obj = None
     sample_refs = []
     update_log.append(f'MODEL: {class_name}')
-    cols = anvil.server.call('check_table', class_name)
+    cls = getattr(AppEnv.data_models, class_name)
+    cols = anvil.server.call('check_table', cls._table_name)
     
     if cols is None:
         update_log.append(f'>>> ERROR: Create table for {class_name} model and run migrate again')
         
     else:
         table_cols = {x['name']: x['type'] for x in cols}
-        cls = getattr(AppEnv.data_models, class_name)
         class_cols = {k: cls._attributes[k].field_type.ColumnType for k in cls._attributes}
         class_cols.update({k: 'liveObject' for k in cls._relationships})
         class_cols.update(default_cols)

@@ -2,7 +2,7 @@
 import anvil.server
 import anvil.users
 from importlib import import_module
-from .persistance import get_table
+from anvil.tables import app_tables
 
 
 @anvil.server.callable
@@ -63,10 +63,9 @@ def init_model_enumerations(module, model_list):
 
 
 @anvil.server.callable
-def check_table(class_name=None):
+def check_table(table_name=None):
     try:
-        table = get_table(class_name=class_name)
+        table = getattr(app_tables, table_name)
         return table.list_columns()
     except Exception as e:
         return None
-
