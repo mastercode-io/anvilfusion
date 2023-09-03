@@ -413,7 +413,7 @@ class DropdownInput(BaseInput):
         super().__init__(**kwargs)
 
     def create_control(self):
-        print('create control', self._options)
+        # print('create control', self._options)
         if self._control is None:
             if self.select == 'single':
                 self.control = ej.dropdowns.DropDownList({
