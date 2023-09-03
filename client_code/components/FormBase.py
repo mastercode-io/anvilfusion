@@ -253,6 +253,7 @@ class FormBase:
             field.show()
             field.value = self.data.get(field.name, None) if field.name else None
             print('show field', field, field.name, field.label, field.value)
+            print('data', self.data[field.name])
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
