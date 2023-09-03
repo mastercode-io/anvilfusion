@@ -70,22 +70,24 @@ def get_table(module_name, class_name):
 
 def _get_row(module_name, class_name, uid):
     """Return the data tables row for a given object instance"""
-    module = import_module(module_name)
+    # module = import_module(module_name)
     # table = getattr(app_tables, _camel_to_snake(class_name))
-    cls = getattr(module, class_name)
-    table = cls._table_name
-    search_kwargs = {cls._unique_identifier: uid}
-    return table.get(**search_kwargs)
+    # cls = getattr(module, class_name)
+    # table = getattr(app_tables, cls._table_name)
+    # search_kwargs = {cls._unique_identifier: uid}
+    # return table.get(**search_kwargs)
+    return get_table(module_name, class_name).get(uid=uid)
 
 
 def _get_row_by(module_name, class_name, prop, value):
     """Return the data tables row for a given object instance"""
     # table = getattr(app_tables, _camel_to_snake(class_name))
-    module = import_module(module_name)
-    cls = getattr(module, class_name)
-    table = cls._table_name
-    search_kwargs = {prop: value}
-    return table.get(**search_kwargs)
+    # module = import_module(module_name)
+    # cls = getattr(module, class_name)
+    # table = getattr(app_tables, cls._table_name)
+    # search_kwargs = {prop: value}
+    # return table.get(**search_kwargs)
+    return get_table(module_name, class_name).get(**{prop: value})
 
 
 def _search_rows(module_name, class_name, uids):
