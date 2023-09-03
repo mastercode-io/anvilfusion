@@ -224,6 +224,7 @@ class FormBase:
 
 
     def form_created(self, args):
+        print('form created')
         self.form_el = jQuery(f"#{self.form_id}")[0]
         self.form_el.addEventListener('keypress', form_submit)
 
