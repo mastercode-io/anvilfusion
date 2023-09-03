@@ -249,9 +249,9 @@ class FormBase:
             # self.data = self.default_data
         print(self.data)
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
-            print('show field', field, field.name, field.label, field.value)
             field.show()
             field.value = self.data.get(field.name, None) if field.name else None
+            print('show field', field, field.name, field.label, field.value)
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
