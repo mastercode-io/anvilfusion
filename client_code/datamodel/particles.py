@@ -428,7 +428,7 @@ def model_type(cls):
     _singular_name = class_members.get('_singular_name', cls.__name__)
     _plural_name = class_members.get('_plural_name', get_plural_name(_singular_name))
     _table_name = class_members.get('_table_name', get_table_name(_plural_name))
-    _title = class_members.get('_title', attributes.get('name', next(iter(attributes.values()))))
+    _title = class_members.get('_title', attributes.get('name', next(iter(attributes.values()), _singular_name)))
 
     relationships = {
         key: value
