@@ -368,6 +368,7 @@ class GridView:
             form_action = 'edit'
             if args.rowData.uid and 'grid' not in args.rowData.uid:
                 instance = self.grid_class.get(args.rowData.uid)
+                print(args.rowData.uid, instance)
             else:
                 props = args.rowData
                 props.pop('uid', None)
