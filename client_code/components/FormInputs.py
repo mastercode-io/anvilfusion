@@ -483,6 +483,7 @@ class LookupInput(DropdownInput):
             ]
         super().__init__(options=options, **kwargs)
 
+
     def create_control(self):
         super().create_control()
         if self.add_item_form is not None or self.add_item_model is not None:
@@ -491,6 +492,30 @@ class LookupInput(DropdownInput):
                                           f'id="{self.add_el_id}">+ {self.add_item_label}</button>'
             self.control.open = self.control_open
             self.control.close = self.control_close
+
+
+    @property
+    def data(self):
+        return super().options
+    
+    @data.setter
+    def data(self, data):
+        print('set data', data)
+        if data:
+            self.options = self.get_options(data)
+            print(self.options)
+        else:
+            self.options = None
+            
+    def get_options(self, data):
+        return [
+            {
+                self.text_field or 'text': self.compute_option(option) if self.compute_option and callable(self.compute_option)
+                else option[self.text_field.split('.', 1)[0]], 
+                'value': option['uid']
+            } for option in data
+        ]
+
 
     @property
     def value(self):
@@ -512,6 +537,7 @@ class LookupInput(DropdownInput):
             else:
                 self.control.value = None
 
+
     def control_open(self, args):
         if self.add_item_form is not None:
             anvil.js.window.document.addEventListener('click', self.add_item)
@@ -519,6 +545,7 @@ class LookupInput(DropdownInput):
     def control_close(self, args):
         if self.add_item_form is not None:
             anvil.js.window.document.removeEventListener('click', self.add_item)
+
 
     def add_item(self, event):
         if event.target and event.target.id == self.add_el_id:
