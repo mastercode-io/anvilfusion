@@ -511,17 +511,17 @@ class LookupInput(DropdownInput):
     @value.setter
     def value(self, value):
         print('lookup set value', self.name, value)
-        if value:
-            print('uid', value['uid'] if not isinstance(value, list) else value[0]['uid'])
-            print('control', self._control)
-        if self._control is not None:
-            if value:
-                if self.select == 'single':
-                    self.control.value = value['uid']
-                else:
-                    self.control.value = [item['uid'] for item in value]
-            else:
-                self.control.value = None
+        # if value:
+        #     print('uid', value['uid'] if not isinstance(value, list) else value[0]['uid'])
+        #     print('control', self._control)
+        # if self._control is not None:
+        #     if value:
+        #         if self.select == 'single':
+        #             self.control.value = value['uid']
+        #         else:
+        #             self.control.value = [item['uid'] for item in value]
+        #     else:
+        #         self.control.value = None
                 
     @property
     def data(self):
