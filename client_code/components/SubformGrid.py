@@ -39,7 +39,7 @@ class SubformGrid(BaseInput, GridView):
         self.is_dependent = True if link_model and link_field else False
         self.to_save = []
         self.to_delete = []
-        print('subform grid', self.container_id)
+        # print('subform grid', self.container_id)
 
         
     @property
@@ -69,7 +69,7 @@ class SubformGrid(BaseInput, GridView):
 
     @value.setter
     def value(self, value):
-        print('set subformgrid value', value)
+        # print('set subformgrid value', value)
         if value and value.uid:
             self._value = value
             if self.model and self.is_dependent:
@@ -89,7 +89,7 @@ class SubformGrid(BaseInput, GridView):
             self.grid.dataSource = self.grid_data
         if 'element' in self.grid.keys():
             self.grid.refresh()
-        print('subformgrid data', self.grid_data)
+        # print('subformgrid data', self.grid_data)
 
 
     def show(self):
@@ -125,7 +125,7 @@ class SubformGrid(BaseInput, GridView):
     
     
     def save_dependent(self, link_row=None):
-        print('save subformgrid', self.to_save, self.to_delete)
+        # print('save subformgrid', self.to_save, self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save:
                 if data_row.uid and 'grid' in data_row.uid:

@@ -482,7 +482,6 @@ class LookupInput(DropdownInput):
                 } for option in data
             ]
         super().__init__(options=options, **kwargs)
-        print('lookup input', self.model, self.text_field, self.options)
 
 
     def create_control(self):
@@ -501,10 +500,9 @@ class LookupInput(DropdownInput):
     
     @data.setter
     def data(self, data):
-        print('set data', data)
         if data:
             self.options = self.get_options(data)
-            print(self.options)
+            # print(self.options)
         else:
             self.options = None
             
