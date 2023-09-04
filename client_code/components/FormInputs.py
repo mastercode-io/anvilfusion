@@ -516,11 +516,11 @@ class LookupInput(DropdownInput):
             print('control', self._control)
         if self._control is not None:
             if value:
-                pass
-                # if self.select == 'single':
-                #     self.control.value = value['uid']
-                # else:
-                #     self.control.value = [item['uid'] for item in value]
+                if self.select == 'single':
+                    # self.control.value = value['uid']
+                    pass
+                else:
+                    self.control.value = [item['uid'] for item in value]
             else:
                 self.control.value = None
                 
