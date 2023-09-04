@@ -286,6 +286,7 @@ class FormBase:
 
     def form_save(self, args):
         print('SAVE', self.class_name, self.persist)
+        args.cancel = True
         if self.form_validate():
             add_new = False
             input_data = {field.name: field.value for field in self.form_fields 
@@ -318,6 +319,7 @@ class FormBase:
 
     def form_cancel(self, args):
         print('CANCEL BASE')
+        args.cancel = True
         for field in self.form_fields:
             field.hide()
             field.destroy()
