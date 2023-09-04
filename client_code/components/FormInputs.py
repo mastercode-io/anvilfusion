@@ -499,7 +499,7 @@ class LookupInput(DropdownInput):
                                           f'id="{self.add_el_id}">+ {self.add_item_label}</button>'
             self.control.open = self.control_open
             self.control.close = self.control_close
-            self.control.select = self.control_select
+        self.control.select = self.control_select
 
                         
     def control_select(self, args):
