@@ -482,6 +482,7 @@ class LookupInput(DropdownInput):
                 } for option in data
             ]
         super().__init__(options=options, **kwargs)
+        print('lookup input', self.model, self.text_field, self.options)
 
 
     def create_control(self):
