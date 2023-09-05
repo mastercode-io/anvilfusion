@@ -147,6 +147,7 @@ class GridView:
                     'name': f"{attr_name}.{title_name}",
                     'label': string.capwords(attr_name.replace("_", " ")),
                 })
+            view_columns = [{'name': 'name', 'label': 'Name'}]
             self.view_config['columns'] = view_columns
         print('grid model', model, self.model)
         print('form class', self.form_class)
