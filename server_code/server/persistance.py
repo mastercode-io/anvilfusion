@@ -258,8 +258,8 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             filters[key] = q.any_of(*rel_rows)
     filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
-    # rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
-    rows = get_table(module_name, class_name).search(*search_queries, **filters)
+    rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
+    # rows = get_table(module_name, class_name).search(*search_queries, **filters)
 
     return rows
 
