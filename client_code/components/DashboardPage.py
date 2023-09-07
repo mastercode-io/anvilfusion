@@ -14,6 +14,7 @@ class DashboardPage:
                  layout=None,
                  **properties):
         
+        print('DashboardPage')
         self.container_id = container_id or AppEnv.content_container_id
         self.layout = layout or {}
         
