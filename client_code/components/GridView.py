@@ -8,15 +8,26 @@ import uuid
 import json
 
 
-GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
+GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
+GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right', 
+                               'style': 'color: #d6292c;'}
+GRID_TOOLBAR_COMMAND_SEARCH = {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'}
+GRID_TOOLBAR_COMMAND_SEARCH_TOGGLE = {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 
+                                      'align': 'Right'}
+
+GRID_TOOLBAR_ITEMS = {
+    'add': GRID_TOOLBAR_COMMAND_ADD,
+    'delete': GRID_TOOLBAR_COMMAND_DELETE,
+    'search': GRID_TOOLBAR_COMMAND_SEARCH,
+    'search-toggle': GRID_TOOLBAR_COMMAND_SEARCH_TOGGLE,
+}
 GRID_DEFAULT_TOOLBAR_ITEMS = [
-    {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right', 'style': 'color: #d6292c;'},
-    {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
-    {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'},
-    {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}, 
-    # {'text': 'Edit'}, 
-    # {'text': 'Delete'}, 
+    GRID_TOOLBAR_COMMAND_DELETE,
+    GRID_TOOLBAR_COMMAND_SEARCH,
+    GRID_TOOLBAR_COMMAND_SEARCH_TOGGLE,
+    GRID_TOOLBAR_COMMAND_ADD,
 ]
+
 GRID_DEFAULT_COMMAND_COLUMN = {
     'type': 'CommandColumn',
     'field': 'grid-command',
@@ -28,6 +39,7 @@ GRID_DEFAULT_COMMAND_COLUMN = {
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat q-grid-command-delete'}},
     ]
 }
+
 GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey', 'Selection']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
@@ -42,6 +54,7 @@ GRID_MODE_TO_SWITCH = {
     'RowDD': 'allowRowDragAndDrop',
     'Selection': 'allowSelection',
 }
+
 GRID_DEFAULT_EDIT_SETTINGS = {
     'allowAdding': True,
     'allowEditing': True,
@@ -52,6 +65,7 @@ GRID_DEFAULT_EDIT_SETTINGS = {
     'showDeleteConfirmDialog': False,
     'allowScrolling': True
 }
+
 GRID_DEFAULT_SELECTION_SETTINGS = {
     'type': 'Multiple',
     'mode': 'Row',
@@ -60,6 +74,9 @@ GRID_DEFAULT_SELECTION_SETTINGS = {
     'enableToggle': True,
     'checkboxWidth': 35,
 }
+
+GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
+
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
 
