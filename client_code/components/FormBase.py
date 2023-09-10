@@ -320,9 +320,9 @@ class FormBase:
         print('CANCEL BASE')
         args.cancel = True
         for field in self.form_fields:
+            field.value = None
             field.hide()
             field.destroy()
-            field.value = None
         self.form_fields = []
         self.form.hide()
 
