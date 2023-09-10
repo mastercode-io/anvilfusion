@@ -2,11 +2,10 @@
 import anvil.js
 from anvil.js.window import jQuery, ej
 from . import FormInputs
-from . MultiFieldInput import MultiFieldInput
+from .MultiFieldInput import MultiFieldInput
 from SubformGrid import SubformGrid
 from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
 import string
-
 
 POPUP_DEFAULT_TARGET = 'body'
 POPUP_WIDTH_COL1 = '400px'
@@ -118,7 +117,6 @@ class FormBase:
             self.tabs = ej.navigations.Tab({'items': self.form_tabs, })
             self.tabs.appendTo(jQuery(f"#{self.form_id}_tabs")[0])
 
-
     def tabs_content(self, tabs):
         html_content = f'<div id="{self.form_id}_tabs"></div>'
         tab_items = []
@@ -162,14 +160,14 @@ class FormBase:
                 )
             for attr_name, attr_class in model_class._attributes.items():
                 if attr_class.field_type.InputType == 'MultiFieldInput':
-                    form_fields.append(MultiFieldInput(name=attr_name, 
+                    form_fields.append(MultiFieldInput(name=attr_name,
                                                        label=string.capwords(attr_name.replace("_", " ")),
-                                                       model=model_class,))
+                                                       model=model_class, ))
             for attr_name, attr_class in model_class._attributes.items():
                 if attr_class.field_type.InputType == 'SubformGrid':
-                    form_fields.append(SubformGrid(name=attr_name, 
+                    form_fields.append(SubformGrid(name=attr_name,
                                                    label=string.capwords(attr_name.replace("_", " ")),
-                                                   schema=attr_class.schema,))
+                                                   schema=attr_class.schema, ))
         return form_fields
 
 
@@ -214,7 +212,6 @@ class FormBase:
             html_content += '</div></div>'
         return html_content, form_fields
 
-
     def form_show(self, fullscreen=None):
         print('action: form show')
         view_mode = fullscreen if fullscreen is not None else self.fullscreen
@@ -244,9 +241,10 @@ class FormBase:
         # try:
         if not self.data:
             print('default data')
-            instance_data = {x: self.default_data[x] for x in self.default_data 
-                                if x in self.class_name._attributes or x in self.class_name._relationships} 
+            instance_data = {x: self.default_data[x] for x in self.default_data
+                             if x in self.class_name._attributes or x in self.class_name._relationships}
             self.data = self.class_name(**instance_data)
+            print('debug-1')
             # self.data = self.default_data
         print(self.data)
         # print([attr for attr in dir(self.data) if isinstance(getattr(type(self.data), attr, None), property)])
@@ -289,7 +287,7 @@ class FormBase:
         args.cancel = True
         if self.form_validate():
             add_new = False
-            input_data = {field.name: field.value for field in self.form_fields 
+            input_data = {field.name: field.value for field in self.form_fields
                           if field.save and not field.is_dependent}
             print('New Data: ', input_data)
             if self.action == 'edit' and hasattr(self.data, 'uid'):
@@ -369,7 +367,6 @@ class SubformBase:
             'textWrapSettings': {'wrapMode': 'Content'},
         })
 
-
     @property
     def value(self):
         value = []
@@ -382,16 +379,15 @@ class SubformBase:
             value.append(row_value)
         return value
 
-
     @value.setter
     def value(self, value):
         if self.model is None:
             self.data = value
         else:
             self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                       search_queries=self.search_queries,
-                                                       filters=self.filters,
-                                                       include_rows=False)
+                                                           search_queries=self.search_queries,
+                                                           filters=self.filters,
+                                                           include_rows=False)
             rows = self.model_class.search(**{self.link_field: value})
             self.data = []
             for obj in rows:
@@ -401,14 +397,12 @@ class SubformBase:
                 self.data.append(subgrid_row)
         self.control.dataSource = self.data
 
-
     @property
     def rows(self):
         rows = [
             {field.name: row[f'{field.name}_orm'] if field.save is True else row[field.name] for field in self.fields}
             for row in self.control.dataSource]
         return rows
-
 
     @property
     def control(self):
@@ -418,7 +412,6 @@ class SubformBase:
     def control(self, value):
         self._control = value
 
-
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
@@ -426,12 +419,10 @@ class SubformBase:
                 self.control.appendTo(f"#{self.el_id}")
             self.visible = True
 
-
     def hide(self):
         if self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
             self.visible = False
-
 
     def change(self, args):
         if args.requestType not in ('save', 'delete'):
@@ -449,7 +440,6 @@ class SubformBase:
         print('change', args.data)
         if self.on_change is not None:
             self.on_change({'name': self.name, 'value': self.value})
-
 
     def save_rows(self, link_obj=None):
         if self.model is not None:
