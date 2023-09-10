@@ -92,6 +92,7 @@ class AppEnv:
     pages = None
     enum_models = None
     grid_settings = {}
+    start_menu = None
     
     
     @staticmethod
