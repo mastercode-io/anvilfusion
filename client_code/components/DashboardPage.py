@@ -36,7 +36,7 @@ class DashboardPage:
                 <div id="{self._element_id}_header" class="{self.title_style}" style="{self.title_style}">\
                     {self.page_title}\
                 </div>\
-                <div id="{self._element_id}" style="margin-top: 30px;"></div>\
+                <div id="{self._element_id}"></div>\
             </div>'
 
         # if self.page_title:
