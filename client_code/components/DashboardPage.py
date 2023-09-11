@@ -46,6 +46,6 @@ class DashboardPage:
     
     
     def destroy(self):
-        # self.grid.destroy()
+        self.dashboard.destroy()
         if self.container_id:
             self.container_el.innerHTML = ''
