@@ -10,6 +10,7 @@ class DashboardPage:
                  container_id,
                  container_style=None,
                  container_class=None,
+                 page_title=None,
                  **properties):
         
         print('DashboardPage')
@@ -19,6 +20,7 @@ class DashboardPage:
         self.container_style = container_style or 'margin: 10px;'
         self.container_class = container_class or ''
         self.layout = layout or {}
+        self.page_title = page_title or ''
         
         self.dashboard = ej.layouts.DashboardLayout(self.layout)
     
@@ -27,6 +29,7 @@ class DashboardPage:
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         self.container_el.innerHTML = f'\
             <div id="da-dashboard-container" class="{self.container_class}" style="{self.container_style}">\
+                <div class="h4">{self.page_title}</div>\
                 <div id="{self._element_id}"></div>\
             </div>'
 
