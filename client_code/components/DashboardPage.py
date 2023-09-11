@@ -22,7 +22,7 @@ class DashboardPage:
     def form_show(self):
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         self.container_el.innerHTML = f'\
-            <div id="da-dashboard-container" style="height:100%;width:100%;">\
+            <div id="da-dashboard-container" style="width:{self.container_el.clientWidth};">\
                 <div id="{self._element_id}"></div>\
             </div>'
 
