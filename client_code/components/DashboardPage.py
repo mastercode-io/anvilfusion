@@ -27,15 +27,16 @@ class DashboardPage:
     
     def form_show(self):
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        header_style = "position: sticky; top: 0; z-index: 1000;"
         self.container_el.innerHTML = f'\
             <div id="da-dashboard-container" class="{self.container_class}" style="{self.container_style}">\
-                <header id="{self._element_id}_header">{self.page_title}</header>\
+                <header id="{self._element_id}_header" style="{header_style}">{self.page_title}</header>\
                 <div id="{self._element_id}"></div>\
             </div>'
 
-        if self.page_title:
-            dashboard_header = ej.navigations.AppBar({'isSticky': True, 'colorMode': 'Inherit'})
-            dashboard_header.appendTo(f"#{self._element_id}_header")
+        # if self.page_title:
+        #     dashboard_header = ej.navigations.AppBar({'isSticky': True, 'colorMode': 'Inherit'})
+        #     dashboard_header.appendTo(f"#{self._element_id}_header")
         self.dashboard.appendTo(f"#{self._element_id}")
     
     
