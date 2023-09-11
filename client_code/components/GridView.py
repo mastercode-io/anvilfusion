@@ -243,10 +243,7 @@ class GridView:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
-        self.grid_config['toolbar'].insert(0, {'id': 'title', 
-                                                'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 
-                                                'align': 'Left'}
-                                            )
+        self.grid_config['toolbar'].insert(0, {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'})
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
@@ -282,7 +279,7 @@ class GridView:
     def form_show(self, get_data=True, **args):
         print('show grid')
         # try:
-            # print('\nGrid data source\n', self.grid.dataSource, '\n')
+        # print('\nGrid data source\n', self.grid.dataSource, '\n')
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
@@ -312,9 +309,9 @@ class GridView:
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
             self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                        search_queries=self.search_queries,
-                                                        filters=self.filters,
-                                                        include_rows=False)
+                                                           search_queries=self.search_queries,
+                                                           filters=self.filters,
+                                                           include_rows=False)
             self.grid['dataSource'] = self.grid_data
             # print(self.grid_data)
             self.grid.refresh()

@@ -6,13 +6,14 @@ from ..tools import utils
 
 class DashboardPage:
     def __init__(self, 
-                 container_id = None,
-                 layout=None,
+                 container_id,
+                 layout,
                  **properties):
         
         print('DashboardPage')
         self._element_id = utils.new_el_id()
         self.container_id = container_id or AppEnv.content_container_id
+        self.container_el = jQuery(f"#{self.container_id}")[0]
         self.layout = layout or {}
         
         self.dashboard = ej.layouts.DashboardLayout(self.layout)
@@ -20,15 +21,15 @@ class DashboardPage:
     
     def form_show(self):
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        jQuery(f"#{self.container_id}")[0].innerHTML = f'\
-            <div id="-dashboard-container" style="height:{self.grid_height}px;">\
-                <div id="{self.grid_el_id}"></div>\
+        self.container_el.innerHTML = f'\
+            <div id="da-dashboard-container" style="height:100%;width:100%;">\
+                <div id="{self._element_id}"></div>\
             </div>'
 
-        self.dashboard.appendTo(f"#{self.container_id}")
+        self.dashboard.appendTo(f"#{self._element_id}")
     
     
     def destroy(self):
         # self.grid.destroy()
         if self.container_id:
-            jQuery(f"#{self.container_id}")[0].innerHTML = ''
+            self.container_el.innerHTML = ''
