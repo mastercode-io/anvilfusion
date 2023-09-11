@@ -10,6 +10,8 @@ class DashboardPage:
                  container_id,
                  container_style=None,
                  container_class=None,
+                 header_style=None,
+                 header_class=None,
                  page_title=None,
                  **properties):
         
@@ -19,6 +21,8 @@ class DashboardPage:
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.container_style = container_style or 'margin: 10px;'
         self.container_class = container_class or ''
+        self.header_style = header_style or ''
+        self.header_class = header_class or 'h4'
         self.layout = layout or {}
         self.page_title = page_title or ''
         
@@ -27,11 +31,11 @@ class DashboardPage:
     
     def form_show(self):
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        container_style = "position: relative;"
-        header_style = "position: absolute; top: 0; z-index: 1000;"
         self.container_el.innerHTML = f'\
-            <div id="da-dashboard-container" class="{self.container_class}" style="{container_style}">\
-                <header id="{self._element_id}_header" style="{header_style}">{self.page_title}</header>\
+            <div id="da-dashboard-container" class="{self.container_class}" style="{self.container_style}">\
+                <div id="{self._element_id}_header" class="{self.header_style}" style="{self.container_style}">\
+                    {self.page_title}\
+                </div>\
                 <div id="{self._element_id}" style="margin-top: 30px;"></div>\
             </div>'
 
