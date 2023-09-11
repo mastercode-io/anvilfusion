@@ -29,10 +29,13 @@ class DashboardPage:
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         self.container_el.innerHTML = f'\
             <div id="da-dashboard-container" class="{self.container_class}" style="{self.container_style}">\
-                <div class="h4" style="margin-bottom:10px;">{self.page_title}</div>\
+                <header id="{self._element_id}_header">{self.page_title}</header>\
                 <div id="{self._element_id}"></div>\
             </div>'
 
+        if self.page_title:
+            dashboard_header = ej.navigations.AppBar({'isSticky': True, 'colorMode': 'Inherit'})
+            dashboard_header.appendTo(f"#{self._element_id}_header")
         self.dashboard.appendTo(f"#{self._element_id}")
     
     
