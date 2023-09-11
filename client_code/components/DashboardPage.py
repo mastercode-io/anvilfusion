@@ -16,7 +16,7 @@ class DashboardPage:
         self._element_id = utils.new_el_id()
         self.container_id = container_id or AppEnv.content_container_id
         self.container_el = jQuery(f"#{self.container_id}")[0]
-        self.container_style = container_style or ''
+        self.container_style = container_style or 'padding: 10px;'
         self.container_class = container_class or ''
         self.layout = layout or {}
         
