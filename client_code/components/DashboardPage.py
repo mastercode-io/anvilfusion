@@ -27,12 +27,12 @@ class DashboardPage:
     
     def form_show(self):
         # self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        container_style = "display: grid; grid-template-rows: auto 1fr;"
+        container_style = "display: flex; direction: column;"
         header_style = "position: sticky; top: 0; z-index: 1000;"
         self.container_el.innerHTML = f'\
             <div id="da-dashboard-container" class="{self.container_class}" style="{container_style}">\
                 <header id="{self._element_id}_header" style="{header_style}">{self.page_title}</header>\
-                <div id="{self._element_id}"></div>\
+                <div id="{self._element_id}" style="flex-grow: 1;"></div>\
             </div>'
 
         # if self.page_title:
