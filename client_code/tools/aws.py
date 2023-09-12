@@ -1,3 +1,4 @@
+# from anvil.js.window import CognitoIdentity, S3Client
 from anvil.js.window import AWS
 
 
@@ -20,7 +21,7 @@ class AmazonAccess:
 
 
     def get_credentials(self):
-        AWS.config.credentials.get(self.set_credentials)
+        AWS.config.credentials.get()
 
 
     def set_credentials(self, error):
