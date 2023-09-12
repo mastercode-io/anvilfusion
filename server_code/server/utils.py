@@ -29,7 +29,7 @@ def init_user_session():
 
 @anvil.server.callable
 def check_session(tag=None):
-    print(f'seesion check {tag}', anvil.server.session)
+    print(f'session check {tag}', anvil.server.session)
     
 
 @anvil.server.callable
@@ -73,5 +73,5 @@ def check_table(table_name=None):
 
 
 @anvil.server.callable
-def get_secret(secret_name):
-    return anvil.secrets.get_secret(secret_name)
+def get_secrets(*secret_names):
+    return {secret: anvil.secrets.get_secret(secret) for secret in secret_names}
