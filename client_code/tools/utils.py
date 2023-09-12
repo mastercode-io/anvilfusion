@@ -4,7 +4,7 @@ import sys
 import re
 import uuid
 import datetime
-from .aws import AmazonAccess, AmazonS3
+# from .aws import AmazonAccess, AmazonS3
 # from anvil.js.window import AWS
 
 
