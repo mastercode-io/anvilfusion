@@ -3,6 +3,7 @@ import anvil.server
 import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
+import anvil.secrets
 
 
 @anvil.server.callable
@@ -69,3 +70,8 @@ def check_table(table_name=None):
         return table.list_columns()
     except Exception as e:
         return None
+
+
+@anvil.server.callable
+def get_secret(secret_name):
+    return anvil.secrets.get_secret(secret_name)
