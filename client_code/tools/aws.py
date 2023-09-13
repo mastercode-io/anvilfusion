@@ -6,26 +6,39 @@ class AmazonAccess:
     def __init__(self, region, identity_pool_id):
         self.region = region
         self.identity_pool_id = identity_pool_id
+        self.cognito_id = None
 
         # self.cognito_client = AWS.CognitoIdentity.CognitoIdentity({'region': self.region})
         self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
-
-    def get_credentials(self):
         command = AWS.CognitoIdentity.GetIdCommand({
             'IdentityPoolId': self.identity_pool_id
         })
+        self.cognito_client.send(command, self.resolve)
 
-        # Assuming you have a callback to handle the credentials
-        def resolve(error, data):
-            if not error:
-                # Do something with the credentials
-                self.cognito_id = data['IdentityId']
-                print(f"Received Cognito ID: {self.cognito_id}")
-            else:
-                print(f"Error receiving Cognito ID: {error}")
+    def resolve(self, error, data):
+        if not error:
+            # Do something with the credentials
+            self.cognito_id = data['IdentityId']
+            print(f"Received Cognito ID: {self.cognito_id}")
+        else:
+            print(f"Error receiving Cognito ID: {error}")
 
-        self.cognito_client.send(command, resolve)
+    # def get_credentials(self):
+    #     command = AWS.CognitoIdentity.GetIdCommand({
+    #         'IdentityPoolId': self.identity_pool_id
+    #     })
+    #
+    #     # Assuming you have a callback to handle the credentials
+    #     def resolve(error, data):
+    #         if not error:
+    #             # Do something with the credentials
+    #             self.cognito_id = data['IdentityId']
+    #             print(f"Received Cognito ID: {self.cognito_id}")
+    #         else:
+    #             print(f"Error receiving Cognito ID: {error}")
+    #
+    #     self.cognito_client.send(command, resolve)
 
 
 class AmazonS3:
@@ -56,7 +69,7 @@ class AmazonS3:
 # Initial Python code for the home page to instantiate AWS objects
 def initialize_aws():
     aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
-    aws_access.get_credentials()
+    # aws_access.get_credentials()
 
     aws_s3 = AmazonS3('us-east-1', 'practice-manager-storage')
     print(f"Successfully initialized AWS Access and S3 objects.")
