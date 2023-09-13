@@ -55,3 +55,11 @@ class AmazonS3:
                 print(f"Upload failed: {error}")
 
         self.s3_client.send(command, resolve)
+
+
+def initialize_aws():
+    aws_access = AmazonAccess(region='us-east-1', identity_pool_id='us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
+    aws_access.refresh()
+
+    aws_s3 = AmazonS3(region='us-east-1', bucket_name='practice-manager-storage')
+    print(f"Successfully initialized AWS Access and S3 objects.")
