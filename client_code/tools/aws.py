@@ -3,36 +3,41 @@ from anvil.js.window import AWS  # Assuming AWS is the global variable that hold
 
 
 class AmazonAccess:
-    def __init__(self, region, identity_pool_id):
+    def __init__(
+            self,
+            region=None,
+            identity_pool_id=None
+    ):
         self.region = region
         self.identity_pool_id = identity_pool_id
+        self.cognito_id = None
 
-        # self.cognito_client = AWS.CognitoIdentity.CognitoIdentity({'region': self.region})
         self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
 
-    def get_credentials(self):
+    def refresh(self):
         command = AWS.CognitoIdentity.GetIdCommand({
             'IdentityPoolId': self.identity_pool_id
         })
 
-        # Assuming you have a callback to handle the credentials
-        def handle_response(err, data):
-            if not err:
-                # Do something with the credentials
+        def resolve(error, data):
+            if not error:
                 self.cognito_id = data['IdentityId']
                 print(f"Received Cognito ID: {self.cognito_id}")
             else:
-                print(f"Error receiving Cognito ID: {err}")
+                print(f"Error receiving Cognito ID: {error}")
 
-        self.cognito_client.send(command, handle_response)
+        self.cognito_client.send(command, resolve)
 
 
 class AmazonS3:
-    def __init__(self, region, bucket_name):
+    def __init__(
+            self,
+            region=None,
+            bucket_name=None,
+    ):
         self.region = region
         self.bucket_name = bucket_name
-        # self.s3_client = AWS.S3Client.new({'region': self.region})
         self.s3_client = anvil.js.new(AWS.S3Client.S3Client, {'region': self.region})
         print(f"Initialized S3 Client: {self.s3_client}")
 
@@ -43,20 +48,23 @@ class AmazonS3:
             'Body': file_body
         })
 
-        # Assuming you have a callback to handle the upload result
-        def handle_upload(err, data):
-            if not err:
-                print('Upload successful')
+        def resolve(error, data):
+            if not error:
+                print(f"Upload successful: {data}")
             else:
-                print(f'Upload failed: {err}')
+                print(f"Upload failed: {error}")
 
-        self.s3_client.send(command, handle_upload)
+        self.s3_client.send(command, resolve)
 
 
 # Initial Python code for the home page to instantiate AWS objects
-def initialize_aws():
-    aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
-    aws_access.get_credentials()
+def initialize_aws(
+    region=None,
+    identity_pool_id=None,
+    bucket_name=None,
+):
+    aws_access = AmazonAccess(region=region, identity_pool_id=identity_pool_id)
+    aws_access.refresh()
 
-    aws_s3 = AmazonS3('us-east-1', 'practice-manager-storage')
+    aws_s3 = AmazonS3(region=region, bucket_name=bucket_name)
     print(f"Successfully initialized AWS Access and S3 objects.")
