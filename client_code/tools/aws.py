@@ -17,15 +17,15 @@ class AmazonAccess:
         })
 
         # Assuming you have a callback to handle the credentials
-        def handle_response(err, data):
-            if not err:
+        def resolve(error, data):
+            if not error:
                 # Do something with the credentials
                 self.cognito_id = data['IdentityId']
                 print(f"Received Cognito ID: {self.cognito_id}")
             else:
-                print(f"Error receiving Cognito ID: {err}")
+                print(f"Error receiving Cognito ID: {error}")
 
-        self.cognito_client.send(command, handle_response)
+        self.cognito_client.send(command, resolve)
 
 
 class AmazonS3:
@@ -44,13 +44,13 @@ class AmazonS3:
         })
 
         # Assuming you have a callback to handle the upload result
-        def handle_upload(err, data):
-            if not err:
+        def resolve(error, data):
+            if not error:
                 print('Upload successful')
             else:
-                print(f'Upload failed: {err}')
+                print(f'Upload failed: {error}')
 
-        self.s3_client.send(command, handle_upload)
+        self.s3_client.send(command, resolve)
 
 
 # Initial Python code for the home page to instantiate AWS objects
