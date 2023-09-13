@@ -7,8 +7,8 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
 
-        self.cognito_client = AWS.CognitoIdentity.CognitoIdentity({'region': self.region})
-        # self.cognito_client = anvil.js.call(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
+        # self.cognito_client = AWS.CognitoIdentity.CognitoIdentity({'region': self.region})
+        self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
 
     def get_credentials(self):
