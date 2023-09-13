@@ -1,5 +1,6 @@
 import anvil.js
 from anvil.js.window import AWS  # Assuming AWS is the global variable that holds the AWS SDK bundle
+import time
 
 
 class AmazonAccess:
@@ -23,6 +24,7 @@ class AmazonAccess:
             'IdentityPoolId': self.identity_pool_id
         })
         send_result = self.cognito_client.send(command, resolve)
+        time.sleep(5)
         print(f"Sent GetIdCommand: {command}, result: {send_result}")
         # print(f"Received Cognito ID: {self.cognito_id}")
 
