@@ -6,7 +6,7 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
 
-        self.cognito_client = AWS.CognitoIdentity({ 'region': self.region })
+        self.cognito_client = AWS.CognitoIdentity({'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
 
     def get_credentials(self):
@@ -30,7 +30,7 @@ class AmazonS3:
     def __init__(self, region, bucket_name):
         self.region = region
         self.bucket_name = bucket_name
-        self.s3_client = AWS.S3Client({ 'region': self.region })
+        self.s3_client = AWS.S3Client({'region': self.region})
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
@@ -52,8 +52,8 @@ class AmazonS3:
 
 # Initial Python code for the home page to instantiate AWS objects
 def initialize_aws():
-    aws_access = AmazonAccess('your-region', 'your-identity-pool-id')
+    aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
     aws_access.get_credentials()
 
-    aws_s3 = AmazonS3('your-region', 'your-bucket-name')
+    aws_s3 = AmazonS3('us-east-1', 'practice-manager-storage')
     print(f"Successfully initialized AWS Access and S3 objects.")
