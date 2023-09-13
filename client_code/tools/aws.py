@@ -55,16 +55,3 @@ class AmazonS3:
                 print(f"Upload failed: {error}")
 
         self.s3_client.send(command, resolve)
-
-
-# Initial Python code for the home page to instantiate AWS objects
-def init_aws(
-    region=None,
-    identity_pool_id=None,
-    bucket_name=None,
-):
-    aws_access = AmazonAccess(region=region, identity_pool_id=identity_pool_id)
-    aws_access.refresh()
-
-    aws_s3 = AmazonS3(region=region, bucket_name=bucket_name)
-    print(f"Successfully initialized AWS Access and S3 objects.")
