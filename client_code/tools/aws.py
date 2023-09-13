@@ -15,6 +15,8 @@ class AmazonAccess:
             'IdentityPoolId': self.identity_pool_id
         })
         self.cognito_client.send(command, self.resolve)
+        print(f"Sent GetIdCommand: {command}")
+        print(f"Received Cognito ID: {self.cognito_id}")
 
     def resolve(self, error, data):
         if not error:
