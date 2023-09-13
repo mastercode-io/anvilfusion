@@ -1,44 +1,39 @@
-from anvil import js
-from anvil.js.window import AWS
+import anvil.js
+from anvil.js.window import AWS  # Assuming AWS is the global variable that holds the AWS SDK bundle
 
 
 class AmazonAccess:
-    def __init__(
-            self,
-            region=None,
-            identity_pool_id=None
-    ):
+    def __init__(self, region, identity_pool_id):
         self.region = region
         self.identity_pool_id = identity_pool_id
-        self.cognito_id = None
 
-        self.cognito_client = js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
+        # self.cognito_client = AWS.CognitoIdentity.CognitoIdentity({'region': self.region})
+        self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
 
-    def refresh(self):
+    def get_credentials(self):
         command = AWS.CognitoIdentity.GetIdCommand({
             'IdentityPoolId': self.identity_pool_id
         })
 
-        def resolve(error, data):
-            if not error:
+        # Assuming you have a callback to handle the credentials
+        def handle_response(err, data):
+            if not err:
+                # Do something with the credentials
                 self.cognito_id = data['IdentityId']
                 print(f"Received Cognito ID: {self.cognito_id}")
             else:
-                print(f"Error receiving Cognito ID: {error}")
+                print(f"Error receiving Cognito ID: {err}")
 
-        self.cognito_client.send(command, resolve)
+        self.cognito_client.send(command, handle_response)
 
 
 class AmazonS3:
-    def __init__(
-            self,
-            region=None,
-            bucket_name=None,
-    ):
+    def __init__(self, region, bucket_name):
         self.region = region
         self.bucket_name = bucket_name
-        self.s3_client = js.new(AWS.S3Client.S3Client, {'region': self.region})
+        # self.s3_client = AWS.S3Client.new({'region': self.region})
+        self.s3_client = anvil.js.new(AWS.S3Client.S3Client, {'region': self.region})
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
@@ -48,18 +43,20 @@ class AmazonS3:
             'Body': file_body
         })
 
-        def resolve(error, data):
-            if not error:
-                print(f"Upload successful: {data}")
+        # Assuming you have a callback to handle the upload result
+        def handle_upload(err, data):
+            if not err:
+                print('Upload successful')
             else:
-                print(f"Upload failed: {error}")
+                print(f'Upload failed: {err}')
 
-        self.s3_client.send(command, resolve)
+        self.s3_client.send(command, handle_upload)
 
 
+# Initial Python code for the home page to instantiate AWS objects
 def initialize_aws():
-    aws_access = AmazonAccess(region='us-east-1', identity_pool_id='us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
-    aws_access.refresh()
+    aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
+    aws_access.get_credentials()
 
-    aws_s3 = AmazonS3(region='us-east-1', bucket_name='practice-manager-storage')
+    aws_s3 = AmazonS3('us-east-1', 'practice-manager-storage')
     print(f"Successfully initialized AWS Access and S3 objects.")

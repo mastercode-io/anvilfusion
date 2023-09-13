@@ -4,7 +4,7 @@ import sys
 import re
 import uuid
 import datetime
-from .aws import AmazonAccess, AmazonS3
+# from ._aws import AmazonAccess, AmazonS3
 # from anvil.js.window import AWS
 
 
@@ -113,20 +113,20 @@ class AppEnv:
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
 
-    @classmethod
-    def init_aws(cls):
-        cls.aws_secrets = anvil.server.call('get_secrets', *cls.aws_config.values())
-        cls.aws_config = {k: cls.aws_secrets[v] for k, v in cls.aws_config.items() if v in cls.aws_secrets}
-        cls.aws_access = AmazonAccess(
-            region=cls.aws_secrets['region'],
-            identity_pool_id=cls.aws_secrets['identity_pool_id'],
-        )
-        cls.aws_access.refresh()
-        cls.aws_s3 = AmazonS3(
-            region=cls.aws_secrets['region'],
-            bucket_name=cls.aws_secrets['bucket_name'],
-        )
-        print(f"Successfully initialized AWS Access and S3 objects.")
+    # @classmethod
+    # def init_aws(cls):
+    #     cls.aws_secrets = anvil.server.call('get_secrets', *cls.aws_config.values())
+    #     cls.aws_config = {k: cls.aws_secrets[v] for k, v in cls.aws_config.items() if v in cls.aws_secrets}
+    #     cls.aws_access = AmazonAccess(
+    #         region=cls.aws_secrets['region'],
+    #         identity_pool_id=cls.aws_secrets['identity_pool_id'],
+    #     )
+    #     cls.aws_access.refresh()
+    #     cls.aws_s3 = AmazonS3(
+    #         region=cls.aws_secrets['region'],
+    #         bucket_name=cls.aws_secrets['bucket_name'],
+    #     )
+    #     print(f"Successfully initialized AWS Access and S3 objects.")
 
 
 # Initialise user session and store user info app session
