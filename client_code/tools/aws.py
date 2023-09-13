@@ -33,7 +33,7 @@ class AmazonS3:
         self.region = region
         self.bucket_name = bucket_name
         # self.s3_client = AWS.S3Client.new({'region': self.region})
-        self.s3_client = anvil.js.call(AWS.S3Client, {'region': self.region})
+        self.s3_client = anvil.js.new(AWS.S3Client.S3Client, {'region': self.region})
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
