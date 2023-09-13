@@ -113,17 +113,18 @@ class AppEnv:
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
 
-    def init_aws(self):
-        self.aws_secrets = anvil.server.call('get_secrets', *self.aws_config.values())
-        self.aws_config = {k: self.aws_secrets[v] for k, v in self.aws_config.items() if v in self.aws_secrets}
-        self.aws_access = AmazonAccess(
-            region=self.aws_secrets['region'],
-            identity_pool_id=self.aws_secrets['identity_pool_id'],
+    @classmethod
+    def init_aws(cls):
+        cls.aws_secrets = anvil.server.call('get_secrets', *cls.aws_config.values())
+        cls.aws_config = {k: cls.aws_secrets[v] for k, v in cls.aws_config.items() if v in cls.aws_secrets}
+        cls.aws_access = AmazonAccess(
+            region=cls.aws_secrets['region'],
+            identity_pool_id=cls.aws_secrets['identity_pool_id'],
         )
-        self.aws_access.refresh()
-        self.aws_s3 = AmazonS3(
-            region=self.aws_secrets['region'],
-            bucket_name=self.aws_secrets['bucket_name'],
+        cls.aws_access.refresh()
+        cls.aws_s3 = AmazonS3(
+            region=cls.aws_secrets['region'],
+            bucket_name=cls.aws_secrets['bucket_name'],
         )
         print(f"Successfully initialized AWS Access and S3 objects.")
 
