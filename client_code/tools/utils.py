@@ -106,7 +106,7 @@ class AppEnv:
 
     
     @staticmethod
-    def init_enumerations(model_list=None):
+    def add_enumerations(model_list=None):
         if model_list is None:
             model_list = {}
         AppEnv.enum_models = DotDict(
