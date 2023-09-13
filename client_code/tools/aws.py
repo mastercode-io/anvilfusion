@@ -1,3 +1,4 @@
+import anvil.js
 from anvil.js.window import AWS  # Assuming AWS is the global variable that holds the AWS SDK bundle
 
 
@@ -6,7 +7,8 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
 
-        self.cognito_client = AWS.CognitoIdentity.new({'region': self.region})
+        # self.cognito_client = AWS.CognitoIdentity.new({'region': self.region})
+        self.cognito_client = anvil.js.new('AWS.CognitoIdentity', {'region': self.region})
         print(f"Initialized Cognito Client: {self.cognito_client}")
 
     def get_credentials(self):
@@ -30,7 +32,8 @@ class AmazonS3:
     def __init__(self, region, bucket_name):
         self.region = region
         self.bucket_name = bucket_name
-        self.s3_client = AWS.S3Client.new({'region': self.region})
+        # self.s3_client = AWS.S3Client.new({'region': self.region})
+        self.s3_client = anvil.js.new('AWS.S3Client', {'region': self.region})
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
