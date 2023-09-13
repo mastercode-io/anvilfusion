@@ -58,7 +58,7 @@ class AmazonS3:
 
 
 # Initial Python code for the home page to instantiate AWS objects
-def initialize_aws(
+def init_aws(
     region=None,
     identity_pool_id=None,
     bucket_name=None,

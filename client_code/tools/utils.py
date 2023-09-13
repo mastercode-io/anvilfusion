@@ -4,7 +4,7 @@ import sys
 import re
 import uuid
 import datetime
-# from .aws import AmazonAccess, AmazonS3
+from .aws import AmazonAccess, AmazonS3
 # from anvil.js.window import AWS
 
 
@@ -100,24 +100,32 @@ class AppEnv:
         'cognito_identity_pool_id': None,
         's3_bucket': None,
     }
+    aws_secrets = None
     aws_access = None
+    aws_s3 = None
 
     
     @staticmethod
-    def add_enumerations(model_list=None):
+    def init_enumerations(model_list=None):
         if model_list is None:
             model_list = {}
         AppEnv.enum_models = DotDict(
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
 
-    # def get_aws_access(self):
-    #     aws_secrets = anvil.server.call('get_secrets', *self.aws_config.values())
-    #     self.aws_config = {k: aws_secrets[v] for k, v in self.aws_config.items() if v in aws_secrets}
-    #     self.aws_access = AmazonAccess(self.aws_config['aws_region'], self.aws_config['aws_cognito_identity_pool_id'])
-    #     print('AWS ACCESS: ', self.aws_access.cognito_identity, AWS.config.credentials)
-    #     # npm install @aws-sdk/client-cognito-identity
-    #     # npm install @aws-sdk/client-s3
+    def init_aws(self):
+        self.aws_secrets = anvil.server.call('get_secrets', *self.aws_config.values())
+        self.aws_config = {k: self.aws_secrets[v] for k, v in self.aws_config.items() if v in self.aws_secrets}
+        self.aws_access = AmazonAccess(
+            region=self.aws_secrets['region'],
+            identity_pool_id=self.aws_secrets['identity_pool_id'],
+        )
+        self.aws_access.refresh()
+        self.aws_s3 = AmazonS3(
+            region=self.aws_secrets['region'],
+            bucket_name=self.aws_secrets['bucket_name'],
+        )
+        print(f"Successfully initialized AWS Access and S3 objects.")
 
 
 # Initialise user session and store user info app session
