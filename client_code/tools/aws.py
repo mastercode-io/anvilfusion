@@ -40,13 +40,26 @@ class AmazonS3:
         return self.response['$metadata'].httpStatusCode == 200
 
 
-# Initial Python code for the home page to instantiate AWS objects
-def initialize_aws():
-    aws_access = AmazonAccess('us-east-1', 'us-east-1:759bd02e-0d9f-49ff-8270-1b94a37af8a2')
-    # aws_access.get_credentials()
+    def download_file(self, file_name):
+        command = AWS.S3Client.GetObjectCommand({
+            'Bucket': self.bucket_name,
+            'Key': file_name,
+        })
+        self.response = self.s3_client.send(command)
+        if self.response['$metadata'].httpStatusCode == 200:
+            return self.response['Body']
+        else:
+            return None
 
-    aws_s3 = AmazonS3('us-east-1', aws_access.credentials, 'practice-manager-storage')
-    print(f"Successfully initialized AWS Access and S3 objects.")
-    print("Uploading file")
-    result = aws_s3.upload_file('test', 'test.txt')
-    print(f"Upload result: {result}")
+
+    def get_presigned_url(self, file_name, expires_in=3600):
+        command = AWS.S3Client.GetPresignedUrlCommand({
+            'Bucket': self.bucket_name,
+            'Key': file_name,
+            'Expires': expires_in,
+        })
+        self.response = self.s3_client.send(command)
+        if self.response['$metadata'].httpStatusCode == 200:
+            return self.response['PresignedUrl']
+        else:
+            return None
