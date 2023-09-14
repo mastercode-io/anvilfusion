@@ -4,8 +4,6 @@ import sys
 import re
 import uuid
 import datetime
-from .aws import AmazonAccess, AmazonS3
-# from anvil.js.window import AWS
 
 
 # name string conversions
@@ -100,7 +98,6 @@ class AppEnv:
         'cognito_identity_pool_id': None,
         's3_bucket': None,
     }
-    aws_secrets = None
     aws_access = None
     aws_s3 = None
 

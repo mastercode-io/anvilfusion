@@ -1,6 +1,5 @@
 import anvil.js
 from anvil.js.window import AWS  # Assuming AWS is the global variable that holds the AWS SDK bundle
-import time
 
 
 class AmazonAccess:
