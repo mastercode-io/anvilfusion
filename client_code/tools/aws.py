@@ -50,11 +50,17 @@ class AmazonAccess:
 
 
 class AmazonS3:
-    def __init__(self, region, bucket_name):
+    def __init__(self, region, credentials, bucket_name):
         self.region = region
         self.bucket_name = bucket_name
         # self.s3_client = AWS.S3Client.new({'region': self.region})
-        self.s3_client = anvil.js.new(AWS.S3Client.S3Client, {'region': self.region})
+        self.s3_client = anvil.js.new(
+            AWS.S3Client.S3Client,
+            {
+                'region': self.region,
+                'credentials': credentials,
+            },
+        )
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
@@ -79,5 +85,5 @@ def initialize_aws():
     aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
     # aws_access.get_credentials()
 
-    aws_s3 = AmazonS3('us-east-1', 'practice-manager-storage')
+    aws_s3 = AmazonS3('us-east-1', aws_access.credentials, 'practice-manager-storage')
     print(f"Successfully initialized AWS Access and S3 objects.")
