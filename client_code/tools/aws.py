@@ -8,9 +8,9 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
 
-        print('\n\nAWS:')
-        for key, value in AWS.items():
-            print(f"Key: {key}, Value: {value}")
+        print('\nAWS:')
+        for k in AWS:
+            print(k, AWS[k])
 
         self.credentials = anvil.js.new(AWS.fromCognitoIdentityPool({
             'client': anvil.js.new(AWS.CognitoIdentityClient({'region': self.region})),
