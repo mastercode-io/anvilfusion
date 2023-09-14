@@ -15,40 +15,6 @@ class AmazonAccess:
         })()
         print(f"Initialized Cognito Credentials: {self.credentials.accessKeyId}, {self.credentials.secretAccessKey}")
 
-        def resolve(error, data):
-            if not error:
-                # Do something with the credentials
-                self.cognito_id = data['IdentityId']
-                print(f"Received Cognito ID: {self.cognito_id}")
-            else:
-                print(f"Error receiving Cognito ID: {error}")
-
-        # self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
-        # print(f"Initialized Cognito Client: {self.cognito_client}")
-        # command = AWS.CognitoIdentity.GetIdCommand({
-        #     'IdentityPoolId': self.identity_pool_id
-        # })
-        # send_result = self.cognito_client.send(command, resolve)
-        # time.sleep(5)
-        # print(f"Sent GetIdCommand: {command}, result: {send_result}")
-        # print(f"Received Cognito ID: {self.cognito_id}")
-
-    # def get_credentials(self):
-    #     command = AWS.CognitoIdentity.GetIdCommand({
-    #         'IdentityPoolId': self.identity_pool_id
-    #     })
-    #
-    #     # Assuming you have a callback to handle the credentials
-    #     def resolve(error, data):
-    #         if not error:
-    #             # Do something with the credentials
-    #             self.cognito_id = data['IdentityId']
-    #             print(f"Received Cognito ID: {self.cognito_id}")
-    #         else:
-    #             print(f"Error receiving Cognito ID: {error}")
-    #
-    #     self.cognito_client.send(command, resolve)
-
 
 class AmazonS3:
     def __init__(self, region, credentials, bucket_name):
@@ -63,10 +29,6 @@ class AmazonS3:
         )
         self.response = None
         print(f"Initialized S3 Client: {self.s3_client}")
-
-        # command = AWS.S3Client.ListObjectsCommand({'Bucket': self.bucket_name})
-        # result = self.s3_client.send(command)
-        # print(f"Result: {result}")
 
 
     def upload_file(self, file_body, file_name):
