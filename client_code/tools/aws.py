@@ -64,7 +64,15 @@ class AmazonS3:
         print(f"Initialized S3 Client: {self.s3_client}")
 
         command = AWS.S3Client.ListBucketsCommand({})
-        self.s3_client.send(command, lambda error, data: print(f"ListBucketsCommand: {error}, {data}"))
+        # self.s3_client.send(command, lambda error, data: print(f"ListBucketsCommand: {error}, {data}"))
+        self.s3_client.send(command, self.resolve)
+        print(f"Sent ListBucketsCommand: {command}")
+
+    def resolve(self, error, data):
+        if not error:
+            print('data: ', data)
+        else:
+            print('error:', error)
 
     def upload_file(self, file_body, file_name):
         command = AWS.S3Client.PutObjectCommand({
