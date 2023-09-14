@@ -7,14 +7,12 @@ class AmazonAccess:
     def __init__(self, region, identity_pool_id):
         self.region = region
         self.identity_pool_id = identity_pool_id
-        self.cognito_id = None
 
-        AWS.config.region = self.region
-        AWS.config.credentials = anvil.js.new(AWS.CognitoIdentityCredentials({
-            'IdentityPoolId': self.identity_pool_id
-        }))
-        print(f"Initialized AWS Config: {AWS.config}")
-
+        self.credentials = AWS.fromCogintoIdentityPool({
+            'client': anvil.js.new(AWS.CognitoIdentityClient({'region': self.region})),
+            'IdentityPoolId': self.identity_pool_id,
+        })
+        print(f"Initialized Cognito Credentials: {self.credentials}")
 
         def resolve(error, data):
             if not error:
