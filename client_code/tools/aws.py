@@ -66,7 +66,7 @@ class AmazonS3:
 
         # command = AWS.S3Client.ListObjectsCommand({'Bucket': self.bucket_name})
         # result = self.s3_client.send(command)
-        # print(f"Result? {result}")
+        # print(f"Result: {result}")
 
 
     def upload_file(self, file_body, file_name):
