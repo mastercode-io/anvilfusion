@@ -8,13 +8,9 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
         self.cognito_client = AWS.CognitoIdentity.CognitoIdentityClient({'region': self.region})
-        print(f"Initialized Cognito Client: {self.cognito_client}")
-        print(self.cognito_client.config.region())
-        print(self.cognito_client.keys())
         self.credentials = AWS.fromCognitoIdentityPool.fromCognitoIdentityPool({
-            'region': self.region,  # 'us-east-1
             'client': self.cognito_client,
-            'IdentityPoolId': self.identity_pool_id,
+            'identityPoolId': self.identity_pool_id,
         })()
         print(f"Initialized Cognito Credentials: {self.cognito_client}, {self.credentials}")
 
