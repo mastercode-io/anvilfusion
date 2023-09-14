@@ -9,7 +9,7 @@ class AmazonAccess:
         self.identity_pool_id = identity_pool_id
 
         self.credentials = AWS.fromCognitoIdentityPool.fromCognitoIdentityPool({
-            'client': anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient({'region': self.region})),
+            'client': AWS.CognitoIdentity.CognitoIdentityClient({'region': self.region}),
             'IdentityPoolId': self.identity_pool_id,
         })
         print(f"Initialized Cognito Credentials: {self.credentials}")
