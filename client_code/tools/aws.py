@@ -9,6 +9,12 @@ class AmazonAccess:
         self.identity_pool_id = identity_pool_id
         self.cognito_id = None
 
+        AWS.config.region = self.region
+        AWS.config.credentials = anvil.js.new(AWS.CognitoIdentityCredentials({
+            'IdentityPoolId': self.identity_pool_id
+        }))
+        print(f"Initialized AWS Config: {AWS.config}")
+
 
         def resolve(error, data):
             if not error:
@@ -18,14 +24,14 @@ class AmazonAccess:
             else:
                 print(f"Error receiving Cognito ID: {error}")
 
-        self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
-        print(f"Initialized Cognito Client: {self.cognito_client}")
-        command = AWS.CognitoIdentity.GetIdCommand({
-            'IdentityPoolId': self.identity_pool_id
-        })
-        send_result = self.cognito_client.send(command, resolve)
-        time.sleep(5)
-        print(f"Sent GetIdCommand: {command}, result: {send_result}")
+        # self.cognito_client = anvil.js.new(AWS.CognitoIdentity.CognitoIdentityClient, {'region': self.region})
+        # print(f"Initialized Cognito Client: {self.cognito_client}")
+        # command = AWS.CognitoIdentity.GetIdCommand({
+        #     'IdentityPoolId': self.identity_pool_id
+        # })
+        # send_result = self.cognito_client.send(command, resolve)
+        # time.sleep(5)
+        # print(f"Sent GetIdCommand: {command}, result: {send_result}")
         # print(f"Received Cognito ID: {self.cognito_id}")
 
     # def get_credentials(self):
