@@ -65,8 +65,10 @@ class AmazonS3:
 
         command = AWS.S3Client.ListBucketsCommand({})
         # self.s3_client.send(command, lambda error, data: print(f"ListBucketsCommand: {error}, {data}"))
-        self.s3_client.send(command, self.resolve)
-        print(f"Sent ListBucketsCommand: {command}")
+        result = self.s3_client.send(command)
+        print(f"Sent ListBucketsCommand: {command}, {result}")
+        time.sleep(3)
+        print(f"Result? {result}")
 
     def resolve(self, error, data):
         if not error:
