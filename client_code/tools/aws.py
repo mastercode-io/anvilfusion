@@ -97,7 +97,7 @@ class AmazonS3:
 
 # Initial Python code for the home page to instantiate AWS objects
 def initialize_aws():
-    aws_access = AmazonAccess('us-east-1', 'us-east-1:3fd6ffb9-92e0-4381-8354-4eb66d6c6141')
+    aws_access = AmazonAccess('us-east-1', 'us-east-1:1272fdbe-96d9-4e00-a365-82b7ba914340')
     # aws_access.get_credentials()
 
     aws_s3 = AmazonS3('us-east-1', aws_access.credentials, 'practice-manager-storage')
