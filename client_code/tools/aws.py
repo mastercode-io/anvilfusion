@@ -10,8 +10,10 @@ class AmazonAccess:
         self.cognito_client = AWS.CognitoIdentity.CognitoIdentityClient({'region': self.region})
         self.credentials = AWS.fromCognitoIdentityPool.fromCognitoIdentityPool({
             'client': self.cognito_client,
+            'clientConfig': {'region': self.region},
             'identityPoolId': self.identity_pool_id,
         })()
+        # self.credentials = func()
         print(f"Initialized Cognito Credentials: {self.cognito_client}, {self.credentials}")
 
         def resolve(error, data):
