@@ -29,7 +29,6 @@ class AmazonS3:
         self.response = None
         print(f"Initialized S3 Client: {self.s3_client}")
 
-
     def upload_file(self, file_body, file_name):
         command = AWS.S3Client.PutObjectCommand({
             'Bucket': self.bucket_name,
@@ -38,7 +37,6 @@ class AmazonS3:
         })
         self.response = self.s3_client.send(command)
         return self.response['$metadata'].httpStatusCode == 200
-
 
     def download_file(self, file_name):
         command = AWS.S3Client.GetObjectCommand({
@@ -51,15 +49,10 @@ class AmazonS3:
         else:
             return None
 
-
     def get_presigned_url(self, file_name, expires_in=3600):
-        command = AWS.S3Client.GetPresignedUrlCommand({
+        command = AWS.S3Client.GetObjectCommand({
             'Bucket': self.bucket_name,
             'Key': file_name,
-            'Expires': expires_in,
         })
-        self.response = self.s3_client.send(command)
-        if self.response['$metadata'].httpStatusCode == 200:
-            return self.response['PresignedUrl']
-        else:
-            return None
+        url = AWS.SignedUrl.getSignedUrl(self.s3_client, command, {'expiresIn': expires_in})
+        return url
