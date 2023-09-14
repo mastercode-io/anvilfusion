@@ -13,8 +13,7 @@ class AmazonAccess:
             'clientConfig': {'region': self.region},
             'identityPoolId': self.identity_pool_id,
         })()
-        # self.credentials = func()
-        print(f"Initialized Cognito Credentials: {self.cognito_client}, {self.credentials}")
+        print(f"Initialized Cognito Credentials: {self.credentials.accessKeyId}, {self.credentials.secretAccessKey}")
 
         def resolve(error, data):
             if not error:
@@ -67,7 +66,7 @@ class AmazonS3:
 
         command = AWS.S3Client.ListBucketsCommand({})
         # self.s3_client.send(command, lambda error, data: print(f"ListBucketsCommand: {error}, {data}"))
-        result = self.s3_client.send(command)
+        result = self.s3_client.send(command, self.resolve)
         print(f"Sent ListBucketsCommand: {command}, {result}")
         time.sleep(3)
         print(f"Result? {result}")
