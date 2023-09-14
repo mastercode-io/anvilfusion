@@ -65,7 +65,7 @@ class AmazonS3:
         print(f"Initialized S3 Client: {self.s3_client}")
 
         command = AWS.S3Client.ListBucketsCommand({})
-        # self.s3_client.send(command, lambda error, data: print(f"ListBucketsCommand: {error}, {data}"))
+        print(f"Sending ListBucketsCommand: {command}")
         result = self.s3_client.send(command)
         # print(f"Sent ListBucketsCommand: {command}, {result}")
         time.sleep(3)
