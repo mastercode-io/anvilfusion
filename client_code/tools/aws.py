@@ -54,7 +54,6 @@ class AmazonS3:
     def __init__(self, region, credentials, bucket_name):
         self.region = region
         self.bucket_name = bucket_name
-        # self.s3_client = AWS.S3Client.new({'region': self.region})
         self.s3_client = anvil.js.new(
             AWS.S3Client.S3Client,
             {
@@ -62,6 +61,7 @@ class AmazonS3:
                 'credentials': credentials,
             },
         )
+        self.response = None
         print(f"Initialized S3 Client: {self.s3_client}")
 
         # command = AWS.S3Client.ListObjectsCommand({'Bucket': self.bucket_name})
@@ -75,7 +75,8 @@ class AmazonS3:
             'Key': file_name,
             'Body': file_body
         })
-        return self.s3_client.send(command)
+        self.response = self.s3_client.send(command)
+        return self.response['$metadata'].httpStatusCode == 200
 
 
 # Initial Python code for the home page to instantiate AWS objects
