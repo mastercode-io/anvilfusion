@@ -64,18 +64,10 @@ class AmazonS3:
         )
         print(f"Initialized S3 Client: {self.s3_client}")
 
-        command = AWS.S3Client.ListObjectsCommand({'Bucket': self.bucket_name})
-        print(f"Sending ListObjectsCommand: {command}")
-        result = self.s3_client.send(command)
-        # print(f"Sent ListBucketsCommand: {command}, {result}")
-        # time.sleep(3)
-        print(f"Result? {result}")
+        # command = AWS.S3Client.ListObjectsCommand({'Bucket': self.bucket_name})
+        # result = self.s3_client.send(command)
+        # print(f"Result? {result}")
 
-    def resolve(self, error, data):
-        if not error:
-            print('data: ', data)
-        else:
-            print('error:', error)
 
     def upload_file(self, file_body, file_name):
         command = AWS.S3Client.PutObjectCommand({
@@ -83,15 +75,7 @@ class AmazonS3:
             'Key': file_name,
             'Body': file_body
         })
-
-        # Assuming you have a callback to handle the upload result
-        def resolve(error, data):
-            if not error:
-                print('Upload successful')
-            else:
-                print(f'Upload failed: {error}')
-
-        self.s3_client.send(command, resolve)
+        return self.s3_client.send(command)
 
 
 # Initial Python code for the home page to instantiate AWS objects
@@ -101,3 +85,6 @@ def initialize_aws():
 
     aws_s3 = AmazonS3('us-east-1', aws_access.credentials, 'practice-manager-storage')
     print(f"Successfully initialized AWS Access and S3 objects.")
+    print("Uploading file")
+    result = aws_s3.upload_file('test', 'test.txt')
+    print(f"Upload result: {result}")
