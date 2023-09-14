@@ -68,7 +68,7 @@ class AmazonS3:
         print(f"Sending ListObjectsCommand: {command}")
         result = self.s3_client.send(command)
         # print(f"Sent ListBucketsCommand: {command}, {result}")
-        time.sleep(3)
+        # time.sleep(3)
         print(f"Result? {result}")
 
     def resolve(self, error, data):
