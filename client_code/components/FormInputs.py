@@ -563,7 +563,7 @@ class LookupInput(DropdownInput):
                 # self.add_item_popup.form_show()
 
 
-    def new_item(self, item):
+    def new_item(self, item, action):
         self.control.addItem(
             {
                 'text': self.compute_option(item) if self.compute_option and callable(self.compute_option)
