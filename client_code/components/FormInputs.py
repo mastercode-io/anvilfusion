@@ -338,6 +338,18 @@ class CheckboxInput(BaseInput):
         if self._control:
             self.control.checked = self._value
 
+    @property
+    def enabled(self):
+        if self._control is not None:
+            self._enabled = not self.control.disbled
+            return self._enabled
+
+    @enabled.setter
+    def enabled(self, value):
+        self._enabled = value
+        if self._control is not None:
+            self.control.disabled = not value
+
     def grid_edit_read(self, input_element, input_value):
         return self.control.checked
 
