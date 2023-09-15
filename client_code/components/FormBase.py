@@ -309,6 +309,8 @@ class FormBase:
                     field.hide()
                     field.value = None
             self.form.hide()
+            self.form.destroy()
+            self.form = None
             if self.update_source is not None:
                 self.update_source(self.data, add_new)
                 # print('update_source', self.data)
@@ -325,6 +327,8 @@ class FormBase:
             field.destroy()
         self.form_fields = []
         self.form.hide()
+        self.form.destroy()
+        self.form = None
 
 
 # Basic class to build a subform grid on a form

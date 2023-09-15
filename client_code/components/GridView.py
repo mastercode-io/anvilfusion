@@ -216,9 +216,10 @@ class GridView:
 
         # configure Grid control
         self.grid_title = title if title is not None else utils.camel_to_title(self.model)
-        self.grid_config = {}
-        self.grid_config['columns'] = self.grid_view['config']['columns']
-        self.grid_config['dataSource'] = self.grid_data
+        self.grid_config = {
+            'columns': self.grid_view['config']['columns'],
+            'dataSource': self.grid_data,
+        }
 
         # configure grid settings
         if 'modes' not in self.grid_view['config']:
