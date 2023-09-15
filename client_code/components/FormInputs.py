@@ -554,6 +554,7 @@ class LookupInput(DropdownInput):
                     props['model'] = self.add_item_model
                 dialog = self.add_item_form(**props)
                 dialog.form_show()
+                dialog = None
                 # if self.add_item_popup is None:
                 #     props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
                 #     if self.add_item_model is not None:
