@@ -322,7 +322,7 @@ class FormBase:
         for field in self.form_fields:
             field.value = None
             field.hide()
-        self.form_fields = []
+        # self.form_fields = []
         self.form.hide()
 
 
