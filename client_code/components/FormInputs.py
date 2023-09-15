@@ -562,10 +562,10 @@ class LookupInput(DropdownInput):
         if item:
             self.control.addItem(
                 {
-                    'text': self.compute_option(item) if self.compute_option and callable(self.compute_option)
+                    'name': self.compute_option(item) if self.compute_option and callable(self.compute_option)
                     else item[self.text_field],
-                    'value': item.uid,
-                    'row': item
+                    'uid': item.uid,
+                    # 'row': item
                 }, 0
             )
             if self.select == 'single':

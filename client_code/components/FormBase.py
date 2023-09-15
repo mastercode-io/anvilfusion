@@ -240,12 +240,9 @@ class FormBase:
         print('form open')
         # try:
         if not self.data:
-            print('default data')
             instance_data = {x: self.default_data[x] for x in self.default_data
                              if x in self.class_name._attributes or x in self.class_name._relationships}
-            print('debug-0', self.class_name, instance_data)
             self.data = self.class_name(**instance_data)
-            print('debug-1')
             # self.data = self.default_data
         print(self.data)
         # print([attr for attr in dir(self.data) if isinstance(getattr(type(self.data), attr, None), property)])
