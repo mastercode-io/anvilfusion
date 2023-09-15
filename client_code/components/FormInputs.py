@@ -564,20 +564,22 @@ class LookupInput(DropdownInput):
 
 
     def new_item(self, item, action):
-        self.control.addItem(
-            {
-                'text': self.compute_option(item) if self.compute_option and callable(self.compute_option)
-                else item[self.text_field],
-                'value': item.uid,
-                'row': item
-            }, 0
-        )
-        if self.select == 'single':
-            self.control.index = 0
-        elif self.value:
-            self.control.value.append(item.uid)
-        else:
-            self.control.value = [item.uid]
+        print('new item', item, action)
+        if item:
+            self.control.addItem(
+                {
+                    'text': self.compute_option(item) if self.compute_option and callable(self.compute_option)
+                    else item[self.text_field],
+                    'value': item.uid,
+                    'row': item
+                }, 0
+            )
+            if self.select == 'single':
+                self.control.index = 0
+            elif self.value:
+                self.control.value.append(item.uid)
+            else:
+                self.control.value = [item.uid]
 
 
 # Dropdown input
