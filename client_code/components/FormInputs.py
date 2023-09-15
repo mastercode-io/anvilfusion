@@ -767,6 +767,7 @@ class LookupInput(DropdownInput):
             self.control.value = [item.uid]
 '''
 
+
 # Signature input
 class SignatureInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
