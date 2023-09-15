@@ -549,18 +549,12 @@ class LookupInput(DropdownInput):
     def add_item(self, event):
         if event.target and event.target.id == self.add_el_id:
             if self.add_item_form is not None:
-                props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
-                if self.add_item_model is not None:
-                    props['model'] = self.add_item_model
-                dialog = self.add_item_form(**props)
-                dialog.form_show()
-                dialog = None
-                # if self.add_item_popup is None:
-                #     props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
-                #     if self.add_item_model is not None:
-                #         props['model'] = self.add_item_model
-                #     self.add_item_popup = self.add_item_form(**props)
-                # self.add_item_popup.form_show()
+                if self.add_item_popup is None:
+                    props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
+                    if self.add_item_model is not None:
+                        props['model'] = self.add_item_model
+                    self.add_item_popup = self.add_item_form(**props)
+                self.add_item_popup.form_show()
 
 
     def new_item(self, item, action):
