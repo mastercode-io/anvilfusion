@@ -463,7 +463,7 @@ class LookupInput(DropdownInput):
         self.compute_option = compute_option
         self.add_item_label = add_item_label
         self.add_item_form = add_item_form
-        self.add_item_model = add_item_model
+        self.add_item_model = add_item_model or model
         self.add_item_popup = None
         options = None
         if self.model:
