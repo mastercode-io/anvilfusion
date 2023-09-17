@@ -7,7 +7,7 @@ class AmazonAccess:
         self.region = region
         self.identity_pool_id = identity_pool_id
         self.cognito_client = AWS.CognitoIdentity.CognitoIdentityClient({'region': self.region})
-        self.credentials = AWS.fromCognitoIdentityPool.fromCognitoIdentityPool({
+        self.credentials = AWS.CognitoIdentityPool.fromCognitoIdentityPool({
             'client': self.cognito_client,
             'clientConfig': {'region': self.region},
             'identityPoolId': self.identity_pool_id,
@@ -20,7 +20,7 @@ class AmazonS3:
         self.region = region
         self.bucket_name = bucket_name
         self.s3_client = anvil.js.new(
-            AWS.S3Client.S3Client,
+            AWS.S3.S3Client,
             {
                 'region': self.region,
                 'credentials': credentials,
@@ -30,7 +30,7 @@ class AmazonS3:
         print(f"Initialized S3 Client: {self.s3_client}")
 
     def upload_file(self, file_body, file_name):
-        command = AWS.S3Client.PutObjectCommand({
+        command = AWS.S3.PutObjectCommand({
             'Bucket': self.bucket_name,
             'Key': file_name,
             'Body': file_body
@@ -39,7 +39,7 @@ class AmazonS3:
         return self.response['$metadata'].httpStatusCode == 200
 
     def download_file(self, file_name):
-        command = AWS.S3Client.GetObjectCommand({
+        command = AWS.S3.GetObjectCommand({
             'Bucket': self.bucket_name,
             'Key': file_name,
         })
@@ -50,7 +50,7 @@ class AmazonS3:
             return None
 
     def get_presigned_url(self, file_name, expires_in=3600):
-        command = AWS.S3Client.GetObjectCommand({
+        command = AWS.S3.GetObjectCommand({
             'Bucket': self.bucket_name,
             'Key': file_name,
         })
