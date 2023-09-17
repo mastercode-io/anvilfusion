@@ -28,7 +28,7 @@ import datetime
 class BaseInput:
 
     def __init__(self, name=None, label=None, float_label=True, shadow_label=False, col_class=None, col_style=None,
-                 value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None, 
+                 value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None,
                  is_dependent=False, **kwargs):
         self.name = name
         self.label = label if shadow_label is False else ''
@@ -145,7 +145,7 @@ class BaseInput:
 
     def grid_edit_destroy(self):
         pass
-    
+
     def destroy(self):
         if self._control is not None:
             self.control.destroy()
@@ -489,12 +489,11 @@ class LookupInput(DropdownInput):
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                    else option[self.text_field.split('.', 1)[0]], 
+                    else option[self.text_field.split('.', 1)[0]],
                     'uid': option['uid']
                 } for option in data
             ]
         super().__init__(options=options, **kwargs)
-
 
     def create_control(self):
         super().create_control()
@@ -505,11 +504,10 @@ class LookupInput(DropdownInput):
             self.control.open = self.control_open
             self.control.close = self.control_close
 
-
     @property
     def data(self):
         return super().options
-    
+
     @data.setter
     def data(self, data):
         if data:
@@ -517,16 +515,15 @@ class LookupInput(DropdownInput):
             # print(self.options)
         else:
             self.options = None
-            
+
     def get_options(self, data):
         return [
             {
                 'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                else option[self.text_field.split('.', 1)[0]], 
+                else option[self.text_field.split('.', 1)[0]],
                 'uid': option['uid']
             } for option in data
         ]
-
 
     @property
     def value(self):
@@ -548,7 +545,6 @@ class LookupInput(DropdownInput):
             else:
                 self.control.value = None
 
-
     def control_open(self, args):
         if self.add_item_form is not None:
             anvil.js.window.document.addEventListener('click', self.add_item)
@@ -556,7 +552,6 @@ class LookupInput(DropdownInput):
     def control_close(self, args):
         if self.add_item_form is not None:
             anvil.js.window.document.removeEventListener('click', self.add_item)
-
 
     def add_item(self, event):
         if event.target and event.target.id == self.add_el_id:
@@ -567,7 +562,6 @@ class LookupInput(DropdownInput):
                         props['model'] = self.add_item_model
                     self.add_item_popup = self.add_item_form(**props)
                 self.add_item_popup.form_show()
-
 
     def new_item(self, item, action):
         print('new item', item, action)
@@ -586,201 +580,6 @@ class LookupInput(DropdownInput):
                 self.control.value.append(item.uid)
             else:
                 self.control.value = [item.uid]
-
-
-# Dropdown input
-'''
-class DropdownInput(BaseInput):
-    def __init__(self, text_field='name', value_field='uid', select='single', options=None, **kwargs):
-        self.select = select
-        self.add_el_id = None
-        self.value_field = value_field
-        if isinstance(options, list) and options != [] and isinstance(options[0], str):
-            self.fields = {'text': 'text', 'value': 'value'}
-            self._options = [{'text': option, 'value': option} for option in options]
-        else:
-            self.fields = {'text': text_field, 'value': value_field}
-            self._options = options
-        super().__init__(**kwargs)
-
-    def create_control(self):
-        # print('create control', self._options)
-        if self._control is None:
-            if self.select == 'single':
-                self.control = ej.dropdowns.DropDownList({
-                    'placeholder': self.label,
-                    'showClearButton': True,
-                    'fields': self.fields,
-                    'dataSource': self.options,
-                    'allowFiltering': True,
-                })
-            elif self.select == 'multi':
-                self.control = ej.dropdowns.MultiSelect({
-                    'placeholder': self.label,
-                    'showClearButton': True,
-                    'fields': self.fields,
-                    'dataSource': self.options,
-                    'showDropDownIcon': True,
-                    'allowFiltering': True,
-                })
-        self.control.dataSource = self._options
-
-    @property
-    def value(self):
-        if self._control and self.control.value is not None:
-            self._value = self.control.value
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        if self._control is not None:
-            self.control.value = value
-
-    @property
-    def options(self):
-        return self._options
-
-    @options.setter
-    def options(self, options):
-        print('set options', options)
-        self._options = options
-        print('??', self._control)
-        if self._control is not None:
-            self.control.dataSource = options
-            self.control.dataBind()
-            self.control.refresh()
-            print('hello?', self.control.dataSource)
-
-
-# Lookup input (dropdown with options from a model)
-class LookupInput(DropdownInput):
-    def __init__(self, model=None, text_field=None, compute_option=None, data=None, 
-                 add_item_label='Add Item', add_item_form=None, add_item_model=None, 
-                 search_queries=None, filters=None, get_data=True,
-                 **kwargs):
-        self.model = model
-        self.text_field = text_field or 'name'
-        self.compute_option = compute_option
-        self.add_item_label = add_item_label
-        self.add_item_form = add_item_form
-        self.add_item_model = add_item_model
-        self.add_item_popup = None
-        options = None
-        if self.model:
-            if AppEnv.enum_models and self.model in AppEnv.enum_models:
-                options = AppEnv.enum_models[self.model].options
-            elif not data and get_data:
-                cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
-                data = getattr(AppEnv.data_models, self.model).get_grid_view(
-                    view_config={'columns': [{'name': col} for col in cols]},
-                    search_queries=search_queries,
-                    filters=filters,)
-        if data:
-            options = self.get_options(data)
-        super().__init__(text_field=self.text_field, options=options, **kwargs)
-        print('lookup input', self.name, self.fields)
-
-
-    def create_control(self):
-        super().create_control()
-        if self.add_item_form is not None or self.add_item_model is not None:
-            self.add_el_id = new_el_id()
-            self.control.footerTemplate = f'<button class="e-control e-btn e-lib e-flat" type="button" ' \
-                                          f'id="{self.add_el_id}">+ {self.add_item_label}</button>'
-            self.control.open = self.control_open
-            self.control.close = self.control_close
-        self.control.select = self.control_select
-
-                        
-    def control_select(self, args):
-        print('select', args)
-
-
-    @property
-    def value(self):
-        if self._control and self.control.value is not None:
-            if self.select == 'single':
-                self._value = self.control.getDataByValue(self.control.value)
-            else:
-                self._value = [self.control.getDataByValue(item) for item in self.control.value]
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        print('lookup set value', self.name, value)
-        if value:
-            print('uid', value['uid'] if not isinstance(value, list) else value[0]['uid'])
-            print('control', self._control)
-        if self._control is not None:
-            if value:
-                if self.select == 'single':
-                    pass
-                    # self.control.value = value['uid']
-                else:
-                    pass
-                    # self.control.value = [item['uid'] for item in value]
-            else:
-                self.control.value = None
-                
-    @property
-    def data(self):
-        return super().options
-    
-    @data.setter
-    def data(self, data):
-        print('set data', data)
-        if data:
-            self.options = self.get_options(data)
-            print(self.options)
-        else:
-            self.options = None
-            
-    def get_options(self, data):
-        return [
-            {
-                self.text_field or 'text': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                else option[self.text_field.split('.', 1)[0]], 
-                'value': option['uid']
-            } for option in data
-        ]
-
-
-    def control_open(self, args):
-        if self.add_item_form is not None:
-            anvil.js.window.document.addEventListener('click', self.add_item)
-
-    def control_close(self, args):
-        if self.add_item_form is not None:
-            anvil.js.window.document.removeEventListener('click', self.add_item)
-
-
-    def add_item(self, event):
-        if event.target and event.target.id == self.add_el_id:
-            if self.add_item_form is not None:
-                if self.add_item_popup is None:
-                    props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
-                    if self.add_item_model is not None:
-                        props['model'] = self.add_item_model
-                    self.add_item_popup = self.add_item_form(**props)
-                self.add_item_popup.form_show()
-
-    def new_item(self, item):
-        self.control.addItem(
-            {
-                'text': self.compute_option(item) if self.compute_option and callable(self.compute_option)
-                else item[self.text_field],
-                'value': item.uid,
-                'row': item
-            }, 0
-        )
-        if self.select == 'single':
-            self.control.index = 0
-        elif self.value:
-            self.control.value.append(item.uid)
-        else:
-            self.control.value = [item.uid]
-'''
 
 
 # Signature input
