@@ -650,7 +650,7 @@ class FileUploadInput(BaseInput):
             return self._files
 
     def upload_files(self, files):
-        print(self.files)
+        print('selected', self.files)
 
 
 # Form inline message area
