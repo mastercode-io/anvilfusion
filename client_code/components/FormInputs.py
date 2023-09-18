@@ -618,7 +618,7 @@ class FileUploadInput(BaseInput):
         super().__init__(**kwargs)
         self._files = None
         self.multiple = multiple
-        self.on_change = self.upload_files
+        # self.on_change = self.upload_files
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -652,15 +652,16 @@ class FileUploadInput(BaseInput):
             return self._files
 
     def upload_files(self, args):
-        print('uploading file(s)')
-        for file in args.filesData:
-            print(file.name, file.type, file.size, file.size)
-            upload_result = AppEnv.aws_s3.upload_file(file.name, file.rawFile)
-            print('upload result', upload_result)
-            # file_data = file.rawFile
-            # file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-            # self._files = args.filesData
+        if args:
+            print('uploading file(s)')
+            for file in args.filesData:
+                print(file.name, file.type, file.size, file.size)
+                upload_result = AppEnv.aws_s3.upload_file(file.name, file.rawFile)
+                print('upload result', upload_result)
+                # file_data = file.rawFile
+                # file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
+                # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+                # self._files = args.filesData
 
 
 # Form inline message area
