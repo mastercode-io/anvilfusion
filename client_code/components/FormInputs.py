@@ -627,8 +627,9 @@ class FileUploadInput(BaseInput):
        </div>'
 
     def create_control(self):
-        self.control = ej.inputs.Uploader({'multiple': self.multiple})
-        self.control.selected = self.upload_files
+        self.control = ej.inputs.Uploader({'multiple': self.multiple, 'selected': self.upload_files})
+        # self.control.selected = self.upload_files
+        self.control.actionComplete = self.action_complete
 
     @property
     def value(self):
@@ -663,6 +664,8 @@ class FileUploadInput(BaseInput):
                 # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
                 # self._files = args.filesData
 
+    def action_complete(self, args):
+        print('action complete', args)
 
 # Form inline message area
 class InlineMessage(BaseInput):
