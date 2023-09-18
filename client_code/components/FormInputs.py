@@ -618,6 +618,7 @@ class FileUploadInput(BaseInput):
         super().__init__(**kwargs)
         self._files = None
         self.multiple = multiple
+        self.on_change = self.upload_files
 
         self.html = f'\
        <div class="form-group pm-form-group">\

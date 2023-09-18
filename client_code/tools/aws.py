@@ -16,9 +16,9 @@ class AmazonAccess:
 
 
 class AmazonS3:
-    def __init__(self, region, credentials, bucket_name):
+    def __init__(self, region, credentials, bucket):
         self.region = region
-        self.bucket_name = bucket_name
+        self.bucket = bucket
         self.s3_client = anvil.js.new(
             AWS.S3.S3Client,
             {
@@ -29,18 +29,18 @@ class AmazonS3:
         self.response = None
         print(f"Initialized S3 Client: {self.s3_client}")
 
-    def upload_file(self, file_name, file_body):
+    def upload_file(self, file_name, file_body, bucket=None):
         command = AWS.S3.PutObjectCommand({
-            'Bucket': self.bucket_name,
+            'Bucket': bucket or self.bucket,
             'Key': file_name,
             'Body': file_body
         })
         self.response = self.s3_client.send(command)
         return self.response['$metadata'].httpStatusCode == 200
 
-    def download_file(self, file_name):
+    def download_file(self, file_name, bucket=None):
         command = AWS.S3.GetObjectCommand({
-            'Bucket': self.bucket_name,
+            'Bucket': bucket or self.bucket,
             'Key': file_name,
         })
         self.response = self.s3_client.send(command)
@@ -49,9 +49,9 @@ class AmazonS3:
         else:
             return None
 
-    def get_presigned_url(self, file_name, expires_in=3600):
+    def get_presigned_url(self, file_name, bucket=None, expires_in=3600):
         command = AWS.S3.GetObjectCommand({
-            'Bucket': self.bucket_name,
+            'Bucket': bucket or self.bucket,
             'Key': file_name,
         })
         url = AWS.SignedUrl.getSignedUrl(self.s3_client, command, {'expiresIn': expires_in})
