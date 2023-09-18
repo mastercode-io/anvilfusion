@@ -630,6 +630,10 @@ class FileUploadInput(BaseInput):
         self.control = ej.inputs.Uploader({'multiple': self.multiple, 'selected': self.upload_files})
         # self.control.selected = self.upload_files
         self.control.actionComplete = self.action_complete
+        self.control.beforeRemove= self.action_complete
+        self.control.change = self.action_complete
+        self.control. clearing = self.action_complete
+        self.control.removing = self.action_complete
 
     @property
     def value(self):
