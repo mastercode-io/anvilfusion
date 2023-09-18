@@ -616,7 +616,7 @@ class SignatureInput(BaseInput):
 class FileUploadInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
         super().__init__(**kwargs)
-        self._file = None
+        # self._file = None
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -632,14 +632,14 @@ class FileUploadInput(BaseInput):
         if self._control:
             file_data = self.control.getFilesData()[0].rawFile
             file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            self._file = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-            return self._file
+            self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+            return self._value
 
     @value.setter
-    def value(self, file):
-        self._file = file
-        if self._control is not None and file is not None:
-            self.control.load(file)
+    def value(self, value):
+        self._value = value
+        if self._control is not None and value is not None:
+            self.control.load(value)
 
     # @property
     # def value(self):
