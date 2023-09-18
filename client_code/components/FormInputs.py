@@ -614,9 +614,10 @@ class SignatureInput(BaseInput):
 
 # File Upload input
 class FileUploadInput(BaseInput):
-    def __init__(self, width=None, height=None, **kwargs):
+    def __init__(self, width=None, height=None, multiple=False, **kwargs):
         super().__init__(**kwargs)
         self._files = None
+        self.multiple = multiple
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -625,7 +626,7 @@ class FileUploadInput(BaseInput):
        </div>'
 
     def create_control(self):
-        self.control = ej.inputs.Uploader({'placeholder': self.label})
+        self.control = ej.inputs.Uploader({'placeholder': self.label, 'multiple': self.multiple})
 
     # @property
     # def value(self):

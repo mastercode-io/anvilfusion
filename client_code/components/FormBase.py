@@ -258,7 +258,7 @@ class FormBase:
             subform.value = self.data
         for field in self.form_fields:
             if field.on_change is not None:
-                print('on_change', field.name)
+                # print('on_change', field.name)
                 field.on_change({'name': field.name, 'value': field.value})
         self.container_el.style.visibility = 'visible'
         self.form.cssClass = 'e-fixed'
