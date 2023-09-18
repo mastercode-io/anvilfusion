@@ -627,8 +627,7 @@ class FileUploadInput(BaseInput):
 
     def create_control(self):
         self.control = ej.inputs.Uploader({'multiple': self.multiple})
-        if self.on_change:
-            self.control.selected = self.on_change
+        self.control.selected = self.upload_files
 
     @property
     def value(self):
@@ -651,8 +650,8 @@ class FileUploadInput(BaseInput):
             # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
             return self._files
 
-    def upload_files(self):
-        print('selected', self.files, self.control.getFilesData())
+    def upload_files(self, args):
+        print('upload(s) selected', args, self.control.getFilesData())
 
 
 # Form inline message area
