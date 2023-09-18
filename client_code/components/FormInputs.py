@@ -627,6 +627,7 @@ class FileUploadInput(BaseInput):
 
     def create_control(self):
         self.control = ej.inputs.Uploader({'multiple': self.multiple, 'selected': self.upload_files})
+        self.control.selected = self.upload_files
 
     @property
     def value(self):
