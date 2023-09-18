@@ -616,7 +616,7 @@ class SignatureInput(BaseInput):
 class FileUploadInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
         super().__init__(**kwargs)
-        # self._file = None
+        self._files = None
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -627,45 +627,46 @@ class FileUploadInput(BaseInput):
     def create_control(self):
         self.control = ej.inputs.Uploader({'placeholder': self.label})
 
-    @property
-    def value(self):
-        if self._control:
-            file_data = self.control.getFilesData()[0].rawFile
-            file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-            return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
-        if self._control is not None and value is not None:
-            self.control.load(value)
-
     # @property
     # def value(self):
     #     if self._control:
-    #         self._value = self.control.getFilesData()
+    #         file_data = self.control.getFilesData()[0].rawFile
+    #         file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
+    #         self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
     #         return self._value
     #
     # @value.setter
     # def value(self, value):
     #     self._value = value
-    #     # if self._control is not None and value is not None:
-    #     #     self.control.load(value)
-    #
-    # @property
-    # def file(self):
-    #     if self._control:
-    #         file_data = self.control.getFilesData()[0].rawFile
-    #         file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-    #         self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-    #         return self._file
-    #
-    # @file.setter
-    # def file(self, file):
-    #     self._file = file
-    #     if self._control is not None and file is not None:
-    #         self.control.load(file)
+    #     if self._control is not None and value is not None:
+    #         self.control.load(value)
+
+    @property
+    def value(self):
+        if self._control:
+            self._value = self.control.getFilesData()
+            return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        # if self._control is not None and value is not None:
+        #     self.control.load(value)
+
+    @property
+    def files(self):
+        if self._control:
+            self._files = self.control.getFilesData()
+            # file_data = self.control.getFilesData()[0].rawFile
+            # file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
+            # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+            return self._files
+
+    # @files.setter
+    # def files(self, files):
+    #     self._files = files
+    #     if self._control is not None and files is not None:
+    #         self.control.load(files)
 
 
 # Form inline message area
