@@ -29,7 +29,7 @@ class AmazonS3:
         self.response = None
         print(f"Initialized S3 Client: {self.s3_client}")
 
-    def upload_file(self, file_body, file_name):
+    def upload_file(self, file_name, file_body):
         command = AWS.S3.PutObjectCommand({
             'Bucket': self.bucket_name,
             'Key': file_name,

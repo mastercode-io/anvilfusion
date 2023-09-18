@@ -626,25 +626,7 @@ class FileUploadInput(BaseInput):
        </div>'
 
     def create_control(self):
-        self.control = ej.inputs.Uploader({'placeholder': self.label, 'multiple': self.multiple})
-        print('create control', self.control, self.control.change)
-        if self.on_change:
-            print('selected event')
-            self.control.selected = self.on_change
-
-    # @property
-    # def value(self):
-    #     if self._control:
-    #         file_data = self.control.getFilesData()[0].rawFile
-    #         file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-    #         self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-    #         return self._value
-    #
-    # @value.setter
-    # def value(self, value):
-    #     self._value = value
-    #     if self._control is not None and value is not None:
-    #         self.control.load(value)
+        self.control = ej.inputs.Uploader({'multiple': self.multiple, 'selected': self.upload_files})
 
     @property
     def value(self):
@@ -667,11 +649,8 @@ class FileUploadInput(BaseInput):
             # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
             return self._files
 
-    # @files.setter
-    # def files(self, files):
-    #     self._files = files
-    #     if self._control is not None and files is not None:
-    #         self.control.load(files)
+    def upload_files(self, files):
+        print(self.files)
 
 
 # Form inline message area
