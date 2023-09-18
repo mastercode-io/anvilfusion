@@ -616,6 +616,7 @@ class SignatureInput(BaseInput):
 class FileUploadInput(BaseInput):
     def __init__(self, width=None, height=None, **kwargs):
         super().__init__(**kwargs)
+        self._file = None
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -629,16 +630,28 @@ class FileUploadInput(BaseInput):
     @property
     def value(self):
         if self._control:
-            file_data = self.control.getFilesData()[0].rawFile
-            file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+            self._value = self.control.getFilesData()
             return self._value
 
     @value.setter
     def value(self, value):
         self._value = value
-        if self._control is not None and value is not None:
-            self.control.load(value)
+        # if self._control is not None and value is not None:
+        #     self.control.load(value)
+
+    @property
+    def file(self):
+        if self._control:
+            file_data = self.control.getFilesData()[0].rawFile
+            file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
+            self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
+            return self._file
+
+    @file.setter
+    def file(self, file):
+        self._file = file
+        if self._control is not None and file is not None:
+            self.control.load(file)
 
 
 # Form inline message area
