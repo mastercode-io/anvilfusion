@@ -651,7 +651,7 @@ class FileUploadInput(BaseInput):
             # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
             return self._files
 
-    def upload_files(self, files):
+    def upload_files(self):
         print('selected', self.files, self.control.getFilesData())
 
 
