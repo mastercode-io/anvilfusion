@@ -310,6 +310,7 @@ class FormBase:
                 self.update_source(self.data, add_new)
                 # print('update_source', self.data)
         else:
+            args.cancel = True
             print('Invalid Data')
 
 

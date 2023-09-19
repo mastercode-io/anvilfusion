@@ -616,16 +616,19 @@ class SignatureInput(BaseInput):
 
 # File Upload input
 class FileUploadInput(BaseInput):
-    def __init__(self, width=None, height=None, multiple=False, storage_config=None, **kwargs):
+    def __init__(self, width=None, height=None, multiple=False, required=False, storage_config=None, **kwargs):
         super().__init__(**kwargs)
         self.multiple = multiple
         self.storage_config = storage_config
         self._value = []
+        required_text = ('data-required-message="* Select file(s) to upload" required="" '
+                         'data-msg-containerid="uploadError"') if required else ''
 
         self.html = f'\
        <div class="form-group pm-form-group">\
          <h6>{self.label}</h6>\
-         <input type="file" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+         <input type="file" class="form-control" id="{self.el_id}" name="{self.el_id} {required_text}">\
+         <div id="required-message"></div>\
        </div>'
 
     def create_control(self):
@@ -633,6 +636,11 @@ class FileUploadInput(BaseInput):
             'multiple': self.multiple,
             'selected': self.upload_files,
             'removing': self.remove_upload,
+            'buttons': {
+                'browse': 'Select File(s)',
+                'clear': 'Clear All',
+                'upload': 'Upload All',
+            }
         })
 
     @property
