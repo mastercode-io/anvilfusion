@@ -622,7 +622,7 @@ class FileUploadInput(BaseInput):
         self.storage_config = storage_config
         self._value = []
         required_text = ('data-required-message="* Select file(s) to upload" required="" '
-                         'data-msg-containerid="uploadError"') if required else ''
+                         'data-msg-containerid="required-message"') if required else ''
 
         self.html = f'\
        <div class="form-group pm-form-group">\
