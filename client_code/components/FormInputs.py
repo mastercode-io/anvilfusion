@@ -621,15 +621,13 @@ class FileUploadInput(BaseInput):
         self.multiple = multiple
         self.storage_config = storage_config
         self._value = []
-        required_text = ('data-required-message="* Select file(s) to upload" required="" '
-                         'data-msg-containerid="required-message"') if required else ''
 
         self.html = f'\
-       <div class="form-group pm-form-group">\
-         <h6>{self.label}</h6>\
-         <input type="file" class="form-control" id="{self.el_id}" name="{self.el_id} {required_text}">\
-         <div id="required-message"></div>\
-       </div>'
+           <div class="form-group pm-form-group">\
+             <h6>{self.label}</h6>\
+             <input type="file" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+             <div id="{self.el_id}-required" class="e-error" style="display:none;">* Select file(s) to upload</div>\
+           </div>'
 
     def create_control(self):
         self.control = ej.inputs.Uploader({
