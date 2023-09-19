@@ -75,7 +75,8 @@ class AmazonS3:
         })
         response = self.s3_client.send(command)
         if response:
-            return response['Errors']
+            print(response)
+            return response
 
     def get_presigned_url(self, file_key, bucket=None, expires_in=3600):
         command = AWS.S3.GetObjectCommand({
