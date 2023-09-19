@@ -641,7 +641,7 @@ class FileUploadInput(BaseInput):
 
     @value.setter
     def value(self, value):
-        self._value = value
+        self._value = value or []
 
     def upload_files(self, args):
         if args:
