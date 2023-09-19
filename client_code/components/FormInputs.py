@@ -614,11 +614,11 @@ class SignatureInput(BaseInput):
 
 # File Upload input
 class FileUploadInput(BaseInput):
-    def __init__(self, width=None, height=None, multiple=False, **kwargs):
+    def __init__(self, width=None, height=None, multiple=False, storage_config=None, **kwargs):
         super().__init__(**kwargs)
-        self._files = None
         self.multiple = multiple
-        # self.on_change = self.upload_files
+        self.storage_config = storage_config
+        self._value = []
 
         self.html = f'\
        <div class="form-group pm-form-group">\
@@ -627,49 +627,51 @@ class FileUploadInput(BaseInput):
        </div>'
 
     def create_control(self):
-        self.control = ej.inputs.Uploader({'multiple': self.multiple, 'selected': self.upload_files})
-        # self.control.selected = self.upload_files
-        self.control.actionComplete = self.action_complete
-        self.control.beforeRemove= self.action_complete
-        self.control.change = self.action_complete
-        self.control. clearing = self.action_complete
-        self.control.removing = self.action_complete
+        self.control = ej.inputs.Uploader({
+            'multiple': self.multiple,
+            'selected': self.upload_files,
+            'removing': self.remove_upload,
+        })
 
     @property
     def value(self):
-        if self._control:
-            self._value = self.control.getFilesData()
-            return self._value
+        return self._value
 
     @value.setter
     def value(self, value):
         self._value = value
-        # if self._control is not None and value is not None:
-        #     self.control.load(value)
-
-    @property
-    def files(self):
-        if self._control:
-            self._files = self.control.getFilesData()
-            # file_data = self.control.getFilesData()[0].rawFile
-            # file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-            # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-            return self._files
 
     def upload_files(self, args):
         if args:
             print('uploading file(s)')
-            for file in args.filesData:
-                print(file.name, file.type, file.size, file.size)
-                upload_result = AppEnv.aws_s3.upload_file(file.name, file.rawFile)
-                print('upload result', upload_result)
-                # file_data = file.rawFile
-                # file_content = anvil.js.window.Uint8Array(file_data.arrayBuffer())
-                # self._value = BlobMedia(name=file_data.name, content_type=file_data.type, content=file_content)
-                # self._files = args.filesData
+            if self.storage_config.get('type') == 'aws_s3':
+                for file in args.filesData:
+                    print(file.name, file.type, file.size, file.size)
+                    file_key = f"{self.storage_config.get('key_prefix')}/{file.name}"
+                    if AppEnv.aws_s3.upload_file(file_key, file.rawFile, bucket=self.storage_config.get('bucket')):
+                        print('uploaded file', file_key)
+                        self._value.append({
+                            'name': file.name,
+                            'size': file.size,
+                            'type': file.type,
+                            'storage': {
+                                'type': 'aws_s3',
+                                'bucket': self.storage_config.get('bucket', AppEnv.aws_s3.get('s3_bucket')),
+                                'key': file_key,
+                            },
+                        })
+                    else:
+                        self.remove_upload({'filesData': [file]})
 
-    def action_complete(self, args):
+    def remove_upload(self, args):
         print('action complete', args)
+        for file in self._value:
+            if file['name'] == args['filesData'][0].name:
+                AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
+                self._value.remove(file)
+                self.control.remove(file)
+                break
+
 
 # Form inline message area
 class InlineMessage(BaseInput):
