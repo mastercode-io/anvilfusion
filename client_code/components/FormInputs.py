@@ -666,15 +666,17 @@ class FileUploadInput(BaseInput):
                         })
                     else:
                         self.remove_upload({'filesData': [file]})
+        print('upload complete', self._value)
 
     def remove_upload(self, args):
-        print('action complete', args)
+        print('removing', args)
         for file in self._value:
             if file['name'] == args['filesData'][0].name:
                 AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
                 self._value.remove(file)
                 self.control.remove(file)
                 break
+        print('remove complete', self._value)
 
 
 # Form inline message area
