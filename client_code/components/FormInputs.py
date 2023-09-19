@@ -647,7 +647,7 @@ class FileUploadInput(BaseInput):
         if args:
             print('uploading file(s)', self.storage_config)
             if self.storage_config.get('type') == 'aws_s3':
-                s3_bucket = self.storage_config.get('bucket')
+                s3_bucket = self.storage_config.get('bucket', AppEnv.aws_config.get('s3_bucket'))
                 for file in args.filesData:
                     print(file.name, file.type, file.size, file.size)
                     file_key = (f"{AppEnv.logged_user['tenant_uid']}/{self.storage_config.get('key_prefix')}/"
@@ -660,7 +660,7 @@ class FileUploadInput(BaseInput):
                             'type': file.type,
                             'storage': {
                                 'type': 'aws_s3',
-                                'bucket': self.storage_config.get('bucket', AppEnv.aws_s3.get('s3_bucket')),
+                                'bucket': s3_bucket,
                                 'key': file_key,
                             },
                         })
