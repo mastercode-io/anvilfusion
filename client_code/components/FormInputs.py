@@ -671,12 +671,15 @@ class FileUploadInput(BaseInput):
 
     def remove_upload(self, args):
         print('removing', args)
-        for file in self._value:
-            if file['name'] == args['filesData'][0].name:
-                AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
-                self._value.remove(file)
-                self.control.remove(file)
-                break
+        if 'cancel' in args:
+            args.cancel = True
+        if self.storage_config.get('type') == 'aws_s3':
+            for file in self._value:
+                if file['name'] == args['filesData'][0].name:
+                    AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
+                    self._value.remove(file)
+                    self.control.remove(file)
+                    break
         print('remove complete', self._value)
 
 
