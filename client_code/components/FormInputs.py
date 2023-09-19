@@ -645,7 +645,7 @@ class FileUploadInput(BaseInput):
 
     def upload_files(self, args):
         if args:
-            print('uploading file(s)')
+            print('uploading file(s)', self.storage_config)
             if self.storage_config.get('type') == 'aws_s3':
                 s3_bucket = self.storage_config.get('bucket')
                 for file in args.filesData:
