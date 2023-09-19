@@ -1,4 +1,6 @@
 # Form input fields and controls
+import uuid
+
 import anvil.js
 from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
@@ -645,10 +647,12 @@ class FileUploadInput(BaseInput):
         if args:
             print('uploading file(s)')
             if self.storage_config.get('type') == 'aws_s3':
+                s3_bucket = self.storage_config.get('bucket')
                 for file in args.filesData:
                     print(file.name, file.type, file.size, file.size)
-                    file_key = f"{AppEnv.logged_user['tenant_uid']}/{self.storage_config.get('key_prefix')}/{file.name}"
-                    if AppEnv.aws_s3.upload_file(file_key, file.rawFile, bucket=self.storage_config.get('bucket')):
+                    file_key = (f"{AppEnv.logged_user['tenant_uid']}/{self.storage_config.get('key_prefix')}/"
+                                f"{uuid.uuid4()}/{file.name}")
+                    if AppEnv.aws_s3.upload_file(file_key, file.rawFile, bucket=s3_bucket):
                         print('uploaded file', file_key)
                         self._value.append({
                             'name': file.name,
