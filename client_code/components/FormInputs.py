@@ -154,6 +154,32 @@ class BaseInput:
             self._control = None
 
 
+class HiddenInput(BaseInput):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.html = f'<input type="hidden" id="{self.el_id}" name="{self.el_id}">'
+
+    def create_control(self):
+        pass
+
+    def show(self):
+        pass
+
+    def hide(self):
+        pass
+
+    def destroy(self):
+        pass
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+
+
 # Single line text input
 class TextInput(BaseInput):
     def __init__(self, **kwargs):
