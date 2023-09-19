@@ -647,7 +647,7 @@ class FileUploadInput(BaseInput):
             if self.storage_config.get('type') == 'aws_s3':
                 for file in args.filesData:
                     print(file.name, file.type, file.size, file.size)
-                    file_key = f"{self.storage_config.get('key_prefix')}/{file.name}"
+                    file_key = f"{AppEnv.logged_user['tenant_uid']}/{self.storage_config.get('key_prefix')}/{file.name}"
                     if AppEnv.aws_s3.upload_file(file_key, file.rawFile, bucket=self.storage_config.get('bucket')):
                         print('uploaded file', file_key)
                         self._value.append({
