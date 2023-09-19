@@ -652,6 +652,7 @@ class FileUploadInput(BaseInput):
     def upload_files(self, args):
         if args:
             print('uploading file(s)', self.storage_config)
+            anvil.js.window.document.getElementById(f'{self.el_id}-required').style.display = 'none'
             if self.storage_config.get('type') == 'aws_s3':
                 s3_bucket = self.storage_config.get('bucket', AppEnv.aws_config.get('s3_bucket'))
                 key_prefix = self.storage_config.get('key_prefix', 'files')
@@ -683,9 +684,11 @@ class FileUploadInput(BaseInput):
                 if file['name'] == args['filesData'][0].name:
                     AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
                     self._value.remove(file)
-                    # self.control.remove(file)
                     break
         print('remove complete', self._value)
+
+    def show_required(self):
+        anvil.js.window.document.getElementById(f'{self.el_id}-required').style.display = 'block'
 
 
 # Form inline message area
