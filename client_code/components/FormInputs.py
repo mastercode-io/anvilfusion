@@ -665,11 +665,11 @@ class FileUploadInput(BaseInput):
                 'clear': 'Clear All',
                 'upload': 'Upload All',
             },
-            'autoUpload': False,
-            'asyncSettings': {
-                'saveUrl': self.upload_files,
-                'removeUrl': self.remove_upload,
-            }
+            # 'autoUpload': False,
+            # 'asyncSettings': {
+            #     'saveUrl': self.upload_files,
+            #     'removeUrl': self.remove_upload,
+            # }
         })
 
     @property
