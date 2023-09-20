@@ -1,5 +1,6 @@
 # Helper classes and functions
 import anvil.server
+import anvil.users
 import sys
 import re
 import uuid
@@ -127,11 +128,15 @@ class AppEnv:
 
 
 # Initialise user session and store user info app session
-def init_user_session():
+def init_user_session(login_form=None):
     anvil.server.call('check_session', 'a')
     logged_user = anvil.server.call('init_user_session')
     if not logged_user:
-        anvil.users.login_with_form()
+        if login_form:
+            login_form = login_form()
+            login_form.show()
+        else:
+            anvil.users.login_with_form()
         logged_user = anvil.server.call('init_user_session')
     print('USER: ', logged_user)
     anvil.server.call('check_session', 'b')
