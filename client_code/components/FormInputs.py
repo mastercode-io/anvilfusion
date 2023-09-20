@@ -664,6 +664,11 @@ class FileUploadInput(BaseInput):
                 'browse': 'Select File(s)',
                 'clear': 'Clear All',
                 'upload': 'Upload All',
+            },
+            'autoUpload': False,
+            'asyncSettings': {
+                'saveUrl': 'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save',
+                'removeUrl': 'https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove',
             }
         })
 

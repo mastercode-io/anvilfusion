@@ -110,16 +110,16 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.element.style.display = 'none'
                 
                 
-    def add_edit_row(self, args):
+    def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
     
     
-    def delete_selected(self, args):
+    def delete_selected(self, args, persist=False):
         self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
         GridView.delete_selected(self, args, persist=False)
 
 
-    def update_grid(self, data_row, add_new):
+    def update_grid(self, data_row, add_new, get_relationships=True):
         self.to_save.append(data_row)
         GridView.update_grid(self, data_row, add_new, get_relationships=True)
     

@@ -421,7 +421,7 @@ class GridView:
             self.confirm_dialog.destroy()
             self.confirm_dialog = None
             
-        selected_rows  = self.grid.getSelectedRecords() or []
+        selected_rows = self.grid.getSelectedRecords() or []
         for grid_row in selected_rows:
             print('Delete row', grid_row)
             self.grid.dataSource.remove(grid_row)
