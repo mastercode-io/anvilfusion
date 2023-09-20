@@ -729,6 +729,7 @@ class InlineMessage(BaseInput):
 
         self.html = f'<div id="{self.el_id}"></div>'
         self.message = message
+        self._type = None
         self.save = False
 
     @property
@@ -740,6 +741,18 @@ class InlineMessage(BaseInput):
     def value(self, value):
         self.message = value
         anvil.js.window.document.getElementById(self.el_id).innerHTML = self.message
+
+    @property
+    def type(self):
+        return self._type
+
+    @type.setter
+    def type(self, value):
+        self._type = value
+        if self._type is not None:
+            anvil.js.window.document.getElementById(self.el_id).className = self._type
+        else:
+            anvil.js.window.document.getElementById(self.el_id).className = ''
 
     def show(self):
         if not self.visible:
