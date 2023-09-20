@@ -26,6 +26,7 @@ class FormBase:
                  target=None,
                  modal=False,
                  model='Base',
+                 header=None,
                  fields=None,
                  sections=None,
                  tabs=None,
@@ -95,7 +96,7 @@ class FormBase:
 
 
         self.form = ej.popups.Dialog({
-            'header': string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
+            'header': header or string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
             'content': self.form_content,
             'showCloseIcon': True,
             'buttons': buttons or [
