@@ -134,7 +134,7 @@ def init_user_session(login_form=None):
     if not logged_user:
         if login_form:
             login_form = login_form()
-            login_form.show()
+            login_form.form_show()
         else:
             anvil.users.login_with_form()
         logged_user = anvil.server.call('init_user_session')
