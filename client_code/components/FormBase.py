@@ -29,6 +29,9 @@ class FormBase:
                  fields=None,
                  sections=None,
                  tabs=None,
+                 buttons=None,
+                 button_save_label='Save',
+                 button_cancel_label='Cancel',
                  subforms=None,
                  content=None,
                  action='add',
@@ -89,13 +92,15 @@ class FormBase:
         self.default_data = {field.name: field.value for field in self.form_fields}
 
         # create form control
+
+
         self.form = ej.popups.Dialog({
             'header': string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
             'content': self.form_content,
             'showCloseIcon': True,
-            'buttons': [
-                {'buttonModel': {'isPrimary': True, 'content': 'Save'}, 'click': self.form_save},
-                {'buttonModel': {'isPrimary': False, 'content': 'Cancel'}, 'click': self.form_cancel},
+            'buttons': buttons or [
+                {'buttonModel': {'isPrimary': True, 'content': button_save_label}, 'click': self.form_save},
+                {'buttonModel': {'isPrimary': False, 'content': button_cancel_label}, 'click': self.form_cancel},
             ],
             'target': self.target_el,
             'isModal': self.modal,
