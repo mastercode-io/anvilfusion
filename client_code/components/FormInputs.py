@@ -193,6 +193,9 @@ class TextInput(BaseInput):
 
     def create_control(self):
         self.control = ej.inputs.TextBox({'placeholder': self.label})
+
+    def show(self):
+        super().show()
         anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
 
