@@ -182,12 +182,12 @@ class HiddenInput(BaseInput):
 
 # Single line text input
 class TextInput(BaseInput):
-    def __init__(self, **kwargs):
+    def __init__(self, input_type='text', **kwargs):
         super().__init__(**kwargs)
 
         self.html = f'\
             <div class="form-group pm-form-group">\
-                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <input type="{input_type}" class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
     def create_control(self):
