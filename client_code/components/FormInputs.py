@@ -184,14 +184,16 @@ class HiddenInput(BaseInput):
 class TextInput(BaseInput):
     def __init__(self, input_type='text', **kwargs):
         super().__init__(**kwargs)
+        self.input_type = input_type
 
         self.html = f'\
             <div class="form-group pm-form-group">\
-                <input type="{input_type}" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
     def create_control(self):
         self.control = ej.inputs.TextBox({'placeholder': self.label})
+        anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
 
 # Multi line text input
