@@ -734,19 +734,18 @@ class InlineMessage(BaseInput):
         super().__init__(**kwargs)
 
         self.html = f'<div id="{self.el_id}"></div>'
-        self.message = message
+        self._message = message
         self._type = None
         self.save = False
 
     @property
-    def value(self):
-        self._value = self.message
-        return self._value
+    def message(self):
+        return self._message
 
-    @value.setter
-    def value(self, value):
-        self.message = value
-        anvil.js.window.document.getElementById(self.el_id).innerHTML = self.message
+    @message.setter
+    def message(self, message):
+        self._message = message
+        anvil.js.window.document.getElementById(self.el_id).innerHTML = message
 
     @property
     def type(self):
@@ -763,5 +762,5 @@ class InlineMessage(BaseInput):
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-            anvil.js.window.document.getElementById(self.el_id).innerHTML = self.message
+            anvil.js.window.document.getElementById(self.el_id).innerHTML = self._message
             self.visible = True
