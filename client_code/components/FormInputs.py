@@ -208,6 +208,8 @@ class MultiLineInput(TextInput):
                 <textarea class="form-control" id="{self.el_id}" name="{self.el_id}" rows="{rows}"></textarea>\
             </div>'
 
+    def show(self):
+        super().show()
 
 # Number input
 class NumberInput(BaseInput):
