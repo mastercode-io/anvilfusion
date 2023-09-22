@@ -209,7 +209,7 @@ class MultiLineInput(TextInput):
             </div>'
 
     def show(self):
-        super().show()
+        BaseInput.show(self)
 
 # Number input
 class NumberInput(BaseInput):
