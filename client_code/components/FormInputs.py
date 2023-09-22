@@ -199,7 +199,7 @@ class TextInput(BaseInput):
 
 
 # Multi line text input
-class MultiLineInput(TextInput):
+class MultiLineInput(BaseInput):
     def __init__(self, rows=2, **kwargs):
         super().__init__(**kwargs)
 
@@ -208,8 +208,9 @@ class MultiLineInput(TextInput):
                 <textarea class="form-control" id="{self.el_id}" name="{self.el_id}" rows="{rows}"></textarea>\
             </div>'
 
-    def show(self):
-        BaseInput.show(self)
+    def create_control(self):
+        self.control = ej.inputs.TextBox({'placeholder': self.label})
+
 
 # Number input
 class NumberInput(BaseInput):
