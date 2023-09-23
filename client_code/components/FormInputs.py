@@ -504,13 +504,15 @@ class DropdownInput(BaseInput):
 # Lookup input (dropdown with options from a model)
 class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None, data=None, get_data=True,
-                 add_item_label='Add Item', add_item_form=None, add_item_model=None, **kwargs):
+                 add_item_label='Add Item', add_item_form=None, add_item_model=None, add_item_data=None,
+                 **kwargs):
         self.model = model
         self.text_field = text_field or 'name'
         self.compute_option = compute_option
         self.add_item_label = add_item_label
         self.add_item_form = add_item_form
         self.add_item_model = add_item_model or model
+        self.add_item_data = add_item_data
         self.add_item_popup = None
         options = None
         if self.model:
@@ -592,7 +594,12 @@ class LookupInput(DropdownInput):
         if event.target and event.target.id == self.add_el_id:
             if self.add_item_form is not None:
                 if self.add_item_popup is None:
-                    props = {'action': 'add', 'modal': True, 'update_source': self.new_item}
+                    props = {
+                        'action': 'add',
+                        'modal': True,
+                        'data': self.add_item_data,
+                        'update_source': self.new_item,
+                    }
                     if self.add_item_model is not None:
                         props['model'] = self.add_item_model
                     self.add_item_popup = self.add_item_form(**props)
