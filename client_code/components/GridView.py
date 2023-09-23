@@ -368,7 +368,7 @@ class GridView:
         # print('grid_action_handler', args)
         if args.requestType in ('beginEdit', 'add') and args.type == 'actionComplete':
 
-            if args.requestType in ('beginEdit', 'add'):
+            if args.requestType in ('beginEdit', 'add') and 'dialog' in args:
                 args.dialog.close()
                 self.add_edit_row(args)
 
