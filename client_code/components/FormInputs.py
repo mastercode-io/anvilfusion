@@ -195,7 +195,6 @@ class TextInput(BaseInput):
     def show(self):
         super().show()
         anvil.js.window.document.getElementById(self.el_id).type = self.input_type
-        print(self.input_type, anvil.js.window.document.getElementById(self.el_id).type)
 
 
 # Multi line text input
