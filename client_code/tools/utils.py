@@ -139,6 +139,8 @@ def init_user_session(login_form=None, after_login=None):
             anvil.users.login_with_form()
         logged_user = anvil.server.call('init_user_session')
     print('USER: ', logged_user)
+    if logged_user and after_login:
+        after_login()
     anvil.server.call('check_session', 'b')
     return logged_user
 
