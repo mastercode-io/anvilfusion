@@ -129,6 +129,7 @@ class AppEnv:
 
 # Initialise user session and store user info app session
 def init_user_session(login_form=None, after_login=None):
+    anvil.users.get_user()
     anvil.server.call('check_session', 'a')
     logged_user = anvil.server.call('init_user_session')
     if not logged_user:
