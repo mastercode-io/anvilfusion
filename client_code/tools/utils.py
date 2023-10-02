@@ -146,6 +146,7 @@ def init_user_session(login_form=None, after_login=None):
 
 # Dictionary extension that allows dot notation access to keys
 @anvil.server.portable_class
+@anvil.server.serializable_type
 class DotDict(dict):
     def __getattr__(self, item):
         return self[item] if item in self else None
