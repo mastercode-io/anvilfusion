@@ -4,7 +4,7 @@ import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
-from .tools.utils import DotDict
+from ..tools.utils import DotDict
 
 
 @anvil.server.callable
