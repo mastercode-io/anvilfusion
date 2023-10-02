@@ -66,7 +66,8 @@ def get_logged_user():
         'tenant_uid': anvil.server.session['tenant_uid'],
         'email': anvil.server.session['email'],
         'timezone': anvil.server.session['timezone'],
-        'permissions': DotDictServer(anvil.server.session['permissions'])
+        'permissions': anvil.server.session['permissions'],
+        # 'permissions': DotDictServer(anvil.server.session['permissions'])
     }
     return logged_user
 
