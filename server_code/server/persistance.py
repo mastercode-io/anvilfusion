@@ -72,29 +72,26 @@ def get_table(module_name, class_name):
 
 def _get_row(module_name, class_name, uid):
     """Return the data tables row for a given object instance"""
-    # module = import_module(module_name)
-    # table = getattr(app_tables, _camel_to_snake(class_name))
-    # cls = getattr(module, class_name)
-    # table = getattr(app_tables, cls._table_name)
-    # search_kwargs = {cls._unique_identifier: uid}
-    # return table.get(**search_kwargs)
-    return get_table(module_name, class_name).get(uid=uid)
+    search_args = {'uid': uid}
+    if not anvil.server.session['user_permissions'].get('super_admin', False):
+        search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    return get_table(module_name, class_name).get(**search_args)
 
 
 def _get_row_by(module_name, class_name, prop, value):
     """Return the data tables row for a given object instance"""
-    # table = getattr(app_tables, _camel_to_snake(class_name))
-    # module = import_module(module_name)
-    # cls = getattr(module, class_name)
-    # table = getattr(app_tables, cls._table_name)
-    # search_kwargs = {prop: value}
-    # return table.get(**search_kwargs)
-    return get_table(module_name, class_name).get(**{prop: value})
+    search_args = {prop: value}
+    if not anvil.server.session['user_permissions'].get('super_admin', False):
+        search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    return get_table(module_name, class_name).get(**search_args)
 
 
 def _search_rows(module_name, class_name, uids):
     """Return the data tables rows for a given list of object instances"""
-    return get_table(module_name, class_name).search(uid=q.any_of(*uids))
+    search_args = {'uid': q.any_of(*uids)}
+    if not anvil.server.session['user_permissions'].get('super_admin', False):
+        search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    return get_table(module_name, class_name).search(**search_args)
 
 
 def _serialize_row(table, row):
@@ -172,6 +169,10 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     # print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
     search_definition = anvil.server.session.get(rows_id, None).copy()
     if search_definition is not None:
+        if not anvil.server.session['user_permissions'].get('super_admin', False):
+            search_definition['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+        else:
+            search_definition.pop('tenant_uid', None)
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
         if search_query is not None:
