@@ -4,38 +4,6 @@ import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
-# from ..tools.utils import DotDict
-
-
-@anvil.server.portable_class
-@anvil.server.serializable_type
-class DotDictServer(dict):
-    def __getattr__(self, item):
-        return self[item] if item in self else None
-
-    def __setattr__(self, key, value):
-        if key in self:
-            self[key] = value if not isinstance(value, dict) else DotDictServer(value)
-        else:
-            super(DotDictServer, self).__setattr__(key, value)
-
-    def __delattr__(self, item):
-        if item in self:
-            del self[item]
-        else:
-            super(DotDictServer, self).__delattr__(item)
-
-    def __getitem__(self, key):
-        item = super().__getitem__(key)
-        if isinstance(item, dict):
-            return DotDictServer(item)
-        elif isinstance(item, list):
-            return [DotDictServer(i) if isinstance(i, dict) else i for i in item]
-        else:
-            return item
-
-    def __setitem__(self, key, value):
-        self.__setattr__(key, value)
 
 
 @anvil.server.callable
@@ -48,9 +16,9 @@ def init_user_session():
 
     anvil.server.session['user_uid'] = user_row['uid']
     anvil.server.session['tenant_uid'] = user_row['tenant_uid']
-    anvil.server.session['timezone'] = user_row['timezone']
-    anvil.server.session['email'] = user_row['email']
-    anvil.server.session['permissions'] = user_row['permissions']
+    anvil.server.session['user_timezone'] = user_row['timezone']
+    anvil.server.session['user_email'] = user_row['email']
+    anvil.server.session['user_permissions'] = user_row['permissions'] or {}
     return get_logged_user()
 
 
@@ -64,10 +32,9 @@ def get_logged_user():
     logged_user = {
         'user_uid': anvil.server.session['user_uid'],
         'tenant_uid': anvil.server.session['tenant_uid'],
-        'email': anvil.server.session['email'],
-        'timezone': anvil.server.session['timezone'],
-        'permissions': anvil.server.session['permissions'],
-        # 'permissions': DotDictServer(anvil.server.session['permissions'])
+        'email': anvil.server.session['user_email'],
+        'timezone': anvil.server.session['user_timezone'],
+        'permissions': anvil.server.session['user_permissions'],
     }
     return logged_user
 

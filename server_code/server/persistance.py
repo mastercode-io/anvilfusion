@@ -32,6 +32,8 @@ def caching_query(search_function):
                 search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+        if anvil.server.session['user_permissions'].get('super_admin', False):
+            search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
         if search_query is not None:
@@ -256,7 +258,8 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
-    filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    if not anvil.server.session['user_permissions'].get('super_admin', False):
+        filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
 
