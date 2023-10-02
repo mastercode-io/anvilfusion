@@ -34,6 +34,9 @@ class DotDictServer(dict):
         else:
             return item
 
+    def __setitem__(self, key, value):
+        self.__setattr__(key, value)
+
 
 @anvil.server.callable
 def init_user_session():
