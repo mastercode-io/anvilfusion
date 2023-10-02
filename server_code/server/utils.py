@@ -4,6 +4,7 @@ import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
+from .tools.utils import DotDict
 
 
 @anvil.server.callable
@@ -18,13 +19,8 @@ def init_user_session():
     anvil.server.session['tenant_uid'] = user_row['tenant_uid']
     anvil.server.session['timezone'] = user_row['timezone']
     anvil.server.session['email'] = user_row['email']
-    logged_user = {
-        'user_uid': anvil.server.session['user_uid'],
-        'tenant_uid': anvil.server.session['tenant_uid'],
-        'email': anvil.server.session['email'],
-        'timezone': anvil.server.session['timezone']
-    }
-    return logged_user
+    anvil.server.session['permissions'] = user_row['permissions']
+    return get_logged_user()
 
 
 @anvil.server.callable
@@ -38,7 +34,8 @@ def get_logged_user():
         'user_uid': anvil.server.session['user_uid'],
         'tenant_uid': anvil.server.session['tenant_uid'],
         'email': anvil.server.session['email'],
-        'timezone': anvil.server.session['timezone']
+        'timezone': anvil.server.session['timezone'],
+        'permissions': DotDict(anvil.server.session['permissions'])
     }
     return logged_user
 
