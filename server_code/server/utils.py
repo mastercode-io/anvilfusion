@@ -4,7 +4,35 @@ import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
-from ..tools.utils import DotDict
+# from ..tools.utils import DotDict
+
+
+@anvil.server.portable_class
+@anvil.server.serializable_type
+class DotDictServer(dict):
+    def __getattr__(self, item):
+        return self[item] if item in self else None
+
+    def __setattr__(self, key, value):
+        if key in self:
+            self[key] = value if not isinstance(value, dict) else DotDictServer(value)
+        else:
+            super(DotDictServer, self).__setattr__(key, value)
+
+    def __delattr__(self, item):
+        if item in self:
+            del self[item]
+        else:
+            super(DotDictServer, self).__delattr__(item)
+
+    def __getitem__(self, key):
+        item = super().__getitem__(key)
+        if isinstance(item, dict):
+            return DotDictServer(item)
+        elif isinstance(item, list):
+            return [DotDictServer(i) if isinstance(i, dict) else i for i in item]
+        else:
+            return item
 
 
 @anvil.server.callable
@@ -35,7 +63,7 @@ def get_logged_user():
         'tenant_uid': anvil.server.session['tenant_uid'],
         'email': anvil.server.session['email'],
         'timezone': anvil.server.session['timezone'],
-        'permissions': DotDict(anvil.server.session['permissions'])
+        'permissions': DotDictServer(anvil.server.session['permissions'])
     }
     return logged_user
 
