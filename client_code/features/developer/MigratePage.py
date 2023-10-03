@@ -13,7 +13,6 @@ class MigratePage(PageBase):
             'content': 'Migrate DB',
             'isPrimary': True,
             'size': 'large',
-            'click': self.migrate_button_action
         })
         self.migrate_button_id = f'migrate-button-{uuid.uuid4()}'
         self.execution_log = InlineMessage(name='execution_log')
@@ -27,8 +26,9 @@ class MigratePage(PageBase):
         print('MigratePage.form_show')
         super().form_show(**args)
         self.migrate_button.appendTo(f'#{self.migrate_button_id}')
+        self.migrate_button.addEventListener('click', self.migrate_button_action)
         self.execution_log.show()
-        self.execution_log.message = 'Click Migrate DB to start migration'
+        self.execution_log.message = 'Click <b>Migrate DB</b> to start migration'
 
 
     def migrate_button_action(self, **event_args):
