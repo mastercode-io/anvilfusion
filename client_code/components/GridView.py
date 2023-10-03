@@ -2,18 +2,18 @@ from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
 from . import FormBase as fbase
 from ..tools.utils import AppEnv
-from ..tools import utils
 import string
 import uuid
 import json
 
 
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
-GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete', 'align': 'Right', 
-                               'style': 'color: #d6292c;'}
-GRID_TOOLBAR_COMMAND_SEARCH = {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 'align': 'Right'}
-GRID_TOOLBAR_COMMAND_SEARCH_TOGGLE = {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search', 'tooltipText': 'Search', 
-                                      'align': 'Right'}
+GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
+                               'align': 'Right', 'style': 'color: #d6292c;'}
+GRID_TOOLBAR_COMMAND_SEARCH = {'id': 'search', 'text': 'Search', 'prefixIcon': 'e-search', 'tooltipText': 'Search',
+                               'align': 'Right'}
+GRID_TOOLBAR_COMMAND_SEARCH_TOGGLE = {'id': 'search-toggle', 'text': '', 'prefixIcon': 'e-search',
+                                      'tooltipText': 'Search', 'align': 'Right'}
 
 GRID_TOOLBAR_ITEMS = {
     'add': GRID_TOOLBAR_COMMAND_ADD,
@@ -244,14 +244,18 @@ class GridView:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
-        self.grid_config['toolbar'].insert(0, {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'})
+        self.grid_config['toolbar'].insert(
+            0,
+            {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
+        )
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
             self.grid_config['columns'].insert(0, 
                                                {'type': 'checkbox', 'lockColumn': True,
-                                                'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']})
+                                                'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']}
+                                               )
             self.grid_config['rowSelected'] = self.row_selected
             self.grid_config['rowDeselected'] = self.row_deselected
         self.grid_config['showColumnMenu'] = True

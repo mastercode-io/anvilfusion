@@ -1,5 +1,4 @@
 from anvil.js.window import ej, jQuery
-# from ..datamodel import types as dmtypes
 from ..tools.utils import AppEnv
 from ..tools import utils
 

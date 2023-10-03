@@ -93,8 +93,6 @@ class FormBase:
         self.default_data = {field.name: field.value for field in self.form_fields}
 
         # create form control
-
-
         self.form = ej.popups.Dialog({
             'header': header or string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
             'content': self.form_content,
