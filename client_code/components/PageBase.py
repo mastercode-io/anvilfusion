@@ -30,7 +30,7 @@ class PageBase:
         self.visible = False
 
 
-    def form_show(self, args):
+    def form_show(self, **args):
         print('PageBase.form_show')
         self.container_el = anvil.js.get_dom_node(self.container_id)
         self.container_el.innerHTML = f'\
