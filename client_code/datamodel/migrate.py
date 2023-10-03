@@ -31,7 +31,7 @@ sample_values = {
 }
 
 
-def migrate_db_schema():
+def migrate_db_schema(logger=None):
     
     models = [attr for attr in dir(AppEnv.data_models) 
               if type(getattr(AppEnv.data_models, attr)) == type 
@@ -44,7 +44,10 @@ def migrate_db_schema():
     migration_report = []
     
     for class_name in models:
-        print(class_name)
+        if logger:
+            logger(class_name)
+        else:
+            print(class_name)
         sample_obj, sample_refs, update_log = update_model(class_name)
         
         if sample_obj:
@@ -56,7 +59,10 @@ def migrate_db_schema():
         migration_report.extend(update_log)
         
     for line in migration_report:
-        print(line)
+        if logger:
+            logger(line)
+        else:
+            print(line)
 
 
 def update_model(class_name, force_update=False, self_ref=False):

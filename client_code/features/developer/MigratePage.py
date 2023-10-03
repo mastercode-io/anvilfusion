@@ -1,5 +1,6 @@
 from ...components.PageBase import PageBase
 from ...components.FormInputs import *
+from ...datamodel.migrate import migrate_db_schema
 from anvil.js.window import ej
 import uuid
 
@@ -8,7 +9,12 @@ class MigratePage(PageBase):
     def __init__(self, **kwargs):
         print('MigratePage')
         title = 'Migrate DB Schema'
-        self.migrate_button = ej.buttons.Button({'content': 'Migrate DB', 'isPrimary': True, 'size': 'large'})
+        self.migrate_button = ej.buttons.Button({
+            'content': 'Migrate DB',
+            'isPrimary': True,
+            'size': 'large',
+            'click': self.migrate_button_action
+        })
         self.migrate_button_id = f'migrate-button-{uuid.uuid4()}'
         self.execution_log = InlineMessage(name='execution_log')
         self.content = f'<br><div id="{self.migrate_button_id}"></div><br><br>'
@@ -22,5 +28,15 @@ class MigratePage(PageBase):
         super().form_show(**args)
         self.migrate_button.appendTo(f'#{self.migrate_button_id}')
         self.execution_log.show()
-        self.execution_log.message = 'This is a test message.'
-        # self.migrate_button.on_click = self.migrate_button_click
+        self.execution_log.message = 'Click Migrate DB to start migration'
+
+
+    def migrate_button_action(self, **event_args):
+        print('MigratePage.migrate_button_action')
+        self.execution_log.message = 'Starting migration...<br><br>'
+        migrate_db_schema(logger=self.log_message)
+        self.execution_log.message += '<br>Migration complete.'
+
+
+    def log_message(self, message):
+        self.execution_log.message += message + '<br>'
