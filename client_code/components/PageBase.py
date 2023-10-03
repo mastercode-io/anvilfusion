@@ -32,7 +32,7 @@ class PageBase:
 
     def form_show(self, **args):
         print('PageBase.form_show')
-        self.container_el = anvil.js.get_dom_node(self.container_id)
+        self.container_el = anvil.js.window.documnet.getElementById(self.container_id)
         self.container_el.innerHTML = f'\
             <div id="{self.page_el_id}" class="{self.page_el_class}" style="{self.page_el_style}">\
                 <div id="{self.page_el_id}-title" class="{self.page_title_class}" style="{self.page_title_style}">\
@@ -40,7 +40,7 @@ class PageBase:
                 </div>\
                 <div id="{self.page_el_id}-content" style="overflow: auto;">{self._page_content}</div>\
             </div>'
-        self.page_el = anvil.js.get_dom_node(f'{self.page_el_id}')
+        self.page_el = anvil.js.window.documnet.getElementById(f'{self.page_el_id}')
         self.show()
 
 
@@ -53,7 +53,7 @@ class PageBase:
     def page_content(self, value):
         self._page_content = value
         if self.page_el:
-            content_el = anvil.js.get_dom_node(f'{self.page_el_id}-content')
+            content_el = anvil.js.window.documnet.getElementById(f'{self.page_el_id}-content')
             content_el.innerHTML = value
 
 
