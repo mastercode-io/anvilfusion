@@ -1,5 +1,5 @@
-from ..components.PageBase import PageBase
-from ..components.FormInputs import *
+from client_code.components.PageBase import PageBase
+from client_code.components.FormInputs import *
 
 
 class MigratePage(PageBase):
