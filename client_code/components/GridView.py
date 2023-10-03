@@ -215,7 +215,7 @@ class GridView:
         self.grid_view['config']['columns'] = grid_columns
 
         # configure Grid control
-        self.grid_title = title if title is not None else utils.camel_to_title(self.model)
+        self.grid_title = title or self.grid_class._plural_name
         self.grid_config = {
             'columns': self.grid_view['config']['columns'],
             'dataSource': self.grid_data,
