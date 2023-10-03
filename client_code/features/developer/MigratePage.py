@@ -40,4 +40,4 @@ class MigratePage(PageBase):
 
 
     def log_message(self, message):
-        self.execution_log.message += message + '<br>'
+        self.execution_log.message += str(message) + '<br>'
