@@ -32,7 +32,7 @@ class MigratePage(PageBase):
         self.execution_log.message = 'Click <b>Migrate DB</b> to start migration'
 
 
-    def migrate_button_action(self, **event_args):
+    def migrate_button_action(self, args):
         print('MigratePage.migrate_button_action')
         self.execution_log.message = 'Starting migration...<br><br>'
         migrate_db_schema(logger=self.log_message)
