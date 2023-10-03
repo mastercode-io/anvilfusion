@@ -14,6 +14,7 @@ class PageBase:
             page_title_class=None,
             page_title=None,
             content=None,
+            overflow=None,
             **kwargs
     ):
         print('PageBase')
@@ -27,6 +28,7 @@ class PageBase:
         self.page_title_class = page_title_class or 'h4'
         self.page_title = page_title or ''
         self._page_content = content or ''
+        self.overflow = overflow or 'auto'
         self.visible = False
 
 

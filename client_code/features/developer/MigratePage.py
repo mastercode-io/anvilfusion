@@ -19,7 +19,7 @@ class MigratePage(PageBase):
         self.content = f'<br><div id="{self.migrate_button_id}"></div><br><br>'
         self.content += f'<div id="{self.execution_log.container_id}" style="overflow: auto;"></div>'
 
-        super().__init__(page_title=title, content=self.content, **kwargs)
+        super().__init__(page_title=title, content=self.content, overflow='none', **kwargs)
 
 
     def form_show(self, **args):
