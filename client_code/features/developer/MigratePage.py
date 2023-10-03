@@ -11,7 +11,8 @@ class MigratePage(PageBase):
         self.migrate_button = ej.buttons.Button({'content': 'Migrate DB', 'isPrimary': True, 'size': 'large'})
         self.migrate_button_id = f'migrate-button-{uuid.uuid4()}'
         self.execution_log = InlineMessage(name='execution_log')
-        self.content = f'<div id="{self.migrate_button_id}"></div>' + self.execution_log.html
+        self.content = f'<br><div id="{self.migrate_button_id}"></div><br><br>'
+        self.content += f'<div id="{self.execution_log.container_id}"></div>'
 
         super().__init__(page_title=title, content=self.content, **kwargs)
 
