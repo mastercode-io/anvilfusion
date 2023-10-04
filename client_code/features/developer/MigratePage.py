@@ -25,7 +25,7 @@ class MigratePage(PageBase):
     def form_show(self, **args):
         print('MigratePage.form_show')
         super().form_show(**args)
-        anvil.js.window.document.getElementById(self.container_id).style.overflow = 'none'
+        anvil.js.window.document.getElementById(self.container_id).style.overflow = 'hidden'
         self.migrate_button.appendTo(f'#{self.migrate_button_id}')
         self.migrate_button.addEventListener('onclick', self.migrate_button_action)
         self.migrate_button.element.onclick = self.migrate_button_action
