@@ -740,7 +740,7 @@ class InlineMessage(BaseInput):
     def __init__(self, message=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.html = f'<div id="{self.el_id}" style="overflow: visible;"></div>'
+        self.html = f'<div id="{self.el_id}"></div>'
         self._message = message
         self._type = None
         self.save = False
