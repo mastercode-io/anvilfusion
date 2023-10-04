@@ -19,12 +19,13 @@ class MigratePage(PageBase):
         self.content = f'<br><div id="{self.migrate_button_id}"></div><br><br>'
         self.content += f'<div id="{self.execution_log.container_id}" style="overflow: auto;"></div>'
 
-        super().__init__(page_title=title, content=self.content, overflow='none', **kwargs)
+        super().__init__(page_title=title, content=self.content, overflow='auto', **kwargs)
 
 
     def form_show(self, **args):
         print('MigratePage.form_show')
         super().form_show(**args)
+        anvil.js.window.document.getElementById(self.container_id).style.overflow = 'none'
         self.migrate_button.appendTo(f'#{self.migrate_button_id}')
         self.migrate_button.addEventListener('onclick', self.migrate_button_action)
         self.migrate_button.element.onclick = self.migrate_button_action
