@@ -39,7 +39,7 @@ class MultiFieldInput(FormInputs.BaseInput):
         else:
             self.fields = fields
         if label == '_':
-            self.label = None
+            section_label = None
         elif label:
             section_label = label
         else:
