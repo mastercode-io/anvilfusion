@@ -79,6 +79,4 @@ class PageBase:
         print('PageBase.destroy')
         self.hide()
         self.container_el.innerHTML = ''
-        self.container_el = None
-        self.container_id = None
-        self.page_content = None
+        self._page_content = None
