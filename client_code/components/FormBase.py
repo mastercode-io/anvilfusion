@@ -131,7 +131,7 @@ class FormBase:
             html_content += f'<div id="{tab_id}">'
             if 'sections' in tab:
                 tab_html, tab_fields = self.sections_content(tab['sections'])
-                html_content += f'<div style="margin-bottom:10px;">{tab_html}</div>'
+                html_content += f'{tab_html}'
                 form_fields.extend(tab_fields)
             elif 'fields' in tab:
                 html_content += self.fields_content(tab['fields'])
