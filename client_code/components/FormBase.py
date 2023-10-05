@@ -179,7 +179,10 @@ class FormBase:
     def fields_content(fields):
         html_content = ''
         for field in fields:
-            html_content += f'<div class="row"><div class="col-xs-12" id="{field.container_id}"></div></div>'
+            if field is None or isinstance(field, str):
+                html_content += f'<div class="row"><div class="col-xs-12" id="{str(field)}"></div></div>'
+            else:
+                html_content += f'<div class="row"><div class="col-xs-12" id="{field.container_id}"></div></div>'
         return html_content
 
 
@@ -197,7 +200,7 @@ class FormBase:
                     html_content += '<div class="row">'
                     col_size = 12 // len(row)
                     for field in row:
-                        print('field', field)
+                        # print('field', field)
                         if field is None or isinstance(field, str):
                             html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
                         else:
@@ -210,8 +213,11 @@ class FormBase:
                 for col in section['cols']:
                     html_content += f'<div class="col-xs-{col_size}">'
                     for field in col:
-                        form_fields.append(field)
-                        html_content += f'<div id="{field.container_id}"></div>'
+                        if field is None or isinstance(field, str):
+                            html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
+                        else:
+                            form_fields.append(field)
+                            html_content += f'<div id="{field.container_id}"></div>'
                     html_content += '</div>'
                 html_content += '</div>'
             html_content += '</div></div>'
