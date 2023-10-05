@@ -192,6 +192,7 @@ def _constructor(attributes, relationships, computes):
 
         # Compute the values of any computed members and set the instance attributes
         for name, computed in computes.items():
+            print(name, computed.depends_on)
             args = {dep: getattr(self, dep) for dep in computed.depends_on}
             setattr(self, name, computed.compute(self.__class__, args))
 
