@@ -128,10 +128,10 @@ class FormBase:
         for tab in tabs:
             tab_id = f"{self.form_id}_tab_{tab['name']}"
             tab_items.append({'header': {'text': tab['label']}, 'content': f"#{tab_id}"})
-            html_content += f'<div id="{tab_id}" style="margin-bottom: 10px;">'
+            html_content += f'<div id="{tab_id}">'
             if 'sections' in tab:
                 tab_html, tab_fields = self.sections_content(tab['sections'])
-                html_content += tab_html
+                html_content += f'<div style="margin-bottom:10px;">{tab_html}</div>'
                 form_fields.extend(tab_fields)
             elif 'fields' in tab:
                 html_content += self.fields_content(tab['fields'])
