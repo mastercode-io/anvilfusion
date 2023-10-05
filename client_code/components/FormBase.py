@@ -198,11 +198,11 @@ class FormBase:
                     col_size = 12 // len(row)
                     for field in row:
                         print('field', field)
-                        if field and not isinstance(field, str):
+                        if field is None or isinstance(field, str):
+                            html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
+                        else:
                             form_fields.append(field)
                             html_content += f'<div class="col-xs-{col_size}" id="{field.container_id}"></div>'
-                        else:
-                            html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
                     html_content += '</div>'
             elif 'cols' in section:
                 col_size = 12 // len(section['cols'])
