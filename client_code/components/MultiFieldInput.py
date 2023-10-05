@@ -38,7 +38,9 @@ class MultiFieldInput(FormInputs.BaseInput):
             self.fields = schema_fields
         else:
             self.fields = fields
-        if label:
+        if label == '_':
+            self.label = None
+        elif label:
             section_label = label
         else:
             section_label = string.capwords(self.name.replace("_", " ")) if self.name else None
