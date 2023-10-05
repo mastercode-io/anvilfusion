@@ -21,13 +21,13 @@ default_cols = {
     'updated_time': 'datetime'
 }
 sample_values = {
-    'string': 'practice manager',
+    'string': 'AnvilFusion',
     'number': 1,
     'boolean': True,
     'date': date.today(),
     'datetime': datetime.now(),
     'simpleObject': {'key': 'value'},
-    'media': BlobMedia(content_type="text/plain", content="AnvilFusion ORM".encode(), name="anvilfusion.txt")
+    'media': BlobMedia(content_type="text/plain", content="AnvilFusion".encode(), name="anvilfusion.txt")
 }
 
 
