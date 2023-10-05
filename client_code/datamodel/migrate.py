@@ -66,6 +66,7 @@ def migrate_db_schema(logger=None):
 
 
 def update_model(class_name, force_update=False, self_ref=False):
+    print('update model', class_name, force_update, self_ref)
     
     update_log = []
     sample_obj = None
