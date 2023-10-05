@@ -100,9 +100,9 @@ def update_model(class_name, force_update=False, self_ref=False):
             
             # add linked sample rows
             for ref_name, ref_obj in cls._relationships.items():
+                print(ref_name, ref_obj, self_ref)
                 
                 if self_ref is not True:
-                    print(ref_name, ref_obj)
                     ref_sample, ref_refs, ref_log = update_model(ref_obj.class_name, force_update=True, self_ref=True)
                     
                     if ref_sample:
