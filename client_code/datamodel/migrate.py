@@ -90,6 +90,7 @@ def update_model(class_name, force_update=False, self_ref=False):
             print('Timesheet', set(table_cols), set(class_cols), del_cols)
 
         if del_cols:
+            print('del_cols', del_cols)
             update_log.append(f'>>> DELETE unused columns in the table {class_name}:')
             update_log.append([k for k in del_cols.keys()])
             
