@@ -88,6 +88,7 @@ def _get_row_by(module_name, class_name, prop, value):
 
 def _search_rows(module_name, class_name, uids):
     """Return the data tables rows for a given list of object instances"""
+    print('Search rows', module_name, class_name, uids)
     search_args = {'uid': q.any_of(*uids)}
     if not anvil.server.session['user_permissions'].get('super_admin', False):
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
