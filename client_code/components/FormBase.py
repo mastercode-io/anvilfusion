@@ -197,6 +197,7 @@ class FormBase:
                     html_content += '<div class="row">'
                     col_size = 12 // len(row)
                     for field in row:
+                        print('field', field)
                         if field and not isinstance(field, str):
                             form_fields.append(field)
                             html_content += f'<div class="col-xs-{col_size}" id="{field.container_id}"></div>'
