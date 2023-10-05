@@ -128,7 +128,7 @@ class FormBase:
         for tab in tabs:
             tab_id = f"{self.form_id}_tab_{tab['name']}"
             tab_items.append({'header': {'text': tab['label']}, 'content': f"#{tab_id}"})
-            html_content += f'<div id="{tab_id}">'
+            html_content += f'<div id="{tab_id}" style="margin-bottom: 10px;">'
             if 'sections' in tab:
                 tab_html, tab_fields = self.sections_content(tab['sections'])
                 html_content += tab_html
@@ -180,7 +180,7 @@ class FormBase:
         html_content = ''
         for field in fields:
             if field is None or isinstance(field, str):
-                html_content += f'<div class="row"><div class="col-xs-12" id="{str(field)}"></div></div>'
+                html_content += f'<div class="row"><div class="col-xs-12" id="{field}"></div></div>'
             else:
                 html_content += f'<div class="row"><div class="col-xs-12" id="{field.container_id}"></div></div>'
         return html_content
@@ -202,7 +202,7 @@ class FormBase:
                     for field in row:
                         # print('field', field)
                         if field is None or isinstance(field, str):
-                            html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
+                            html_content += f'<div class="col-xs-{col_size}">{field}</div>'
                         else:
                             form_fields.append(field)
                             html_content += f'<div class="col-xs-{col_size}" id="{field.container_id}"></div>'
@@ -214,7 +214,7 @@ class FormBase:
                     html_content += f'<div class="col-xs-{col_size}">'
                     for field in col:
                         if field is None or isinstance(field, str):
-                            html_content += f'<div class="col-xs-{col_size}">{str(field)}</div>'
+                            html_content += f'<div class="col-xs-{col_size}">{field}</div>'
                         else:
                             form_fields.append(field)
                             html_content += f'<div id="{field.container_id}"></div>'
