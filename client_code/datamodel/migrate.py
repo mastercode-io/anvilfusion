@@ -85,10 +85,10 @@ def update_model(class_name, force_update=False, self_ref=False):
         class_cols.update(default_cols)
         
         # get columns to delete
-        if class_name == 'Timesheet':
-            print('Timesheet', set(table_cols), set(class_cols))
         del_cols = {k: table_cols[k] for k in set(table_cols) - set(class_cols)}
-        
+        if class_name == 'Timesheet':
+            print('Timesheet', set(table_cols), set(class_cols), del_cols)
+
         if del_cols:
             update_log.append(f'>>> DELETE unused columns in the table {class_name}:')
             update_log.append([k for k in del_cols.keys()])
