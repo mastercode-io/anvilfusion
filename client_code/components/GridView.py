@@ -146,6 +146,7 @@ class GridView:
 
         # v.0.0.2 variant
         elif model and AppEnv.ANVIL_FUSION_VERSION == '0.0.2':
+            print('v.0.0.2 model', model)
             view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
             print('v.0.0.2 view_obj', view_obj)
             self.view_config = view_obj['config'] or {}
