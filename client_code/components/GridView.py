@@ -148,10 +148,13 @@ class GridView:
         elif model and AppEnv.ANVIL_FUSION_VERSION == '0.0.2':
             print('v.0.0.2 model', model)
             view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
-            print('v.0.0.2 view_obj', view_obj)
-            self.view_config = view_obj['config'] or {}
-            self.view_config['model'] = model
-            self.view_config['columns'] = view_obj['columns'] or []
+            if view_obj:
+                print('v.0.0.2 view_obj', view_obj)
+                self.view_config = view_obj['config'] or {}
+                self.view_config['model'] = model
+                self.view_config['columns'] = view_obj['columns'] or []
+            else:
+                self.view_config = {}
 
         else:
             self.view_config = {}
