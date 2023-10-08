@@ -251,6 +251,7 @@ class FormBase:
         print('form open')
         # try:
         if not self.data:
+            print('no data')
             instance_data = {x: self.default_data[x] for x in self.default_data
                              if x in self.class_name._attributes or x in self.class_name._relationships}
             self.data = self.class_name(**instance_data)
@@ -260,8 +261,8 @@ class FormBase:
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
             field.show()
             field.value = self.data.get(field.name) if field.name else None
-            # print('show field', field, field.name, field.label, field.value)
-            # print('data', self.data[field.name])
+            print('show field', field, field.name, field.label, field.value)
+            print('data', self.data[field.name])
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
