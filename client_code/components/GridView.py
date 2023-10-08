@@ -329,7 +329,7 @@ class GridView:
                                                            filters=self.filters,
                                                            include_rows=False)
             self.grid['dataSource'] = self.grid_data
-            # print(self.grid_data)
+            print(self.grid_data)
             # self.grid.refresh()
         print('show grid done')
         # except Exception as e:
