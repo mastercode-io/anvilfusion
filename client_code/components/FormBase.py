@@ -257,13 +257,12 @@ class FormBase:
             self.data = self.class_name(**instance_data)
             # self.data = self.default_data
         print(self.data)
-        # print([attr for attr in dir(self.data) if isinstance(getattr(type(self.data), attr, None), property)])
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
             field.show()
-            field.value = self.data[field.name]
-            # field.value = self.data[field.name] if field.name and field.name in self.data else None
-            print('show field', field, field.name, field.label, field.value)
-            print('data', self.data[field.name], self.data.get(field.name))
+            try:
+                field.value = self.data[field.name]
+            except KeyError as e:
+                pass
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
