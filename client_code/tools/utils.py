@@ -85,6 +85,7 @@ def time_js_to_py(time):
 # Application environment cache
 class AppEnv:
     APP_ID = None
+    ANVIL_FUSION_VERSION = '0.0.1'
     content_container_id = None
     logged_user = {}
     data_models = None

@@ -143,6 +143,15 @@ class GridView:
         elif view_name:
             view_obj = AppEnv.data_models.AppGridView.get_by('name', view_name)
             self.view_config = json.loads(view_obj['config'].replace("'", "\""))
+
+        # v.0.0.2 variant
+        elif model and AppEnv.ANVIL_FUSION_VERSION == '0.0.2':
+            view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
+            print('v.0.0.2 view_obj', view_obj)
+            self.view_config = view_obj['config'] or {}
+            self.view_config['model'] = model
+            self.view_config['columns'] = view_obj['columns'] or []
+
         else:
             self.view_config = {}
         self.model = self.view_config.get('model', model)
