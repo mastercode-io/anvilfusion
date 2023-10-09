@@ -371,6 +371,7 @@ class GridView:
 
     def row_selected(self, args):
         print('row_selected', args)
+        print(args.rowIndex, args.rowData)
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
     
     
