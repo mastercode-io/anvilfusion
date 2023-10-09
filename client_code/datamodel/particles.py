@@ -352,7 +352,7 @@ def get_col_value(cls, data, col, get_relationships=False):
     if isinstance(value, (datetime.date, datetime.datetime)):
         value = anvil.js.window.Date(int(value.strftime('%s')) * 1000)
     value = value or ''
-    return value, parent
+    return value, parent.replace('.', '__')
 
 
 def _get_row_view(self, columns, include_row=True, get_relationships=False):

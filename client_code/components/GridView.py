@@ -212,7 +212,7 @@ class GridView:
                             # print('object', column['name'], col_attr)
                     grid_column = {
                         # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
-                        'field': column['name'],
+                        'field': column['name'].replace('.', '__'),
                         'headerText': column['label'],
                         'type': col_attr.field_type.GridType,
                         'format': column.get('format', None) or col_attr.field_type.GridFormat,
