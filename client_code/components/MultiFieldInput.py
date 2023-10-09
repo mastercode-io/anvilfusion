@@ -50,7 +50,12 @@ class MultiFieldInput(FormInputs.BaseInput):
                 section_rows.append(self.fields[i:i + cols])
             if len(section_rows[-1]) < cols:
                 section_rows[-1] += [None] * (cols - len(section_rows[-1]))
-            self.sections = [{'name': self.name, 'label': section_label, 'rows': section_rows}]
+            self.sections = [{
+                'name': self.name,
+                'label': section_label,
+                'label_style': 'margin_top:0px;',
+                'rows': section_rows,
+            }]
         else:
             section_cols = []
             rows_num = len(self.fields) // cols
