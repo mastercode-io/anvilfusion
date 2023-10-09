@@ -209,7 +209,7 @@ class GridView:
                     if '.' in column['name']:
                         if col_attr.field_type == dmtypes.FieldTypes.OBJECT and col_attr.schema:
                             col_attr = col_attr.schema[column['name'].split('.')[1]]
-                            print('object', column['name'], col_attr)
+                            # print('object', column['name'], col_attr)
                     grid_column = {
                         # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
                         'field': column['name'],
@@ -335,6 +335,7 @@ class GridView:
                                                            include_rows=False)
             self.grid['dataSource'] = self.grid_data
             print(self.grid_data)
+            print(self.grid.getRowByIndex(0))
             # self.grid.refresh()
         print('show grid done')
         # except Exception as e:
@@ -451,7 +452,7 @@ class GridView:
         self.show_confirm_dialog = True
 
         if persist:
-            print('presist delete')
+            print('persist delete')
             for grid_row in selected_rows:
                 if grid_row.uid and 'grid' not in grid_row.uid:
                     db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
