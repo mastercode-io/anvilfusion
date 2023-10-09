@@ -207,7 +207,8 @@ class GridView:
                 else:
                     col_attr, _ = get_model_attribute(self.model, column['name'])
                     grid_column = {
-                        'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
+                        # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
+                        'field': column['name'],
                         'headerText': column['label'],
                         'type': col_attr.field_type.GridType,
                         'format': column.get('format', None) or col_attr.field_type.GridFormat,

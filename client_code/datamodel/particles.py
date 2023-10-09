@@ -347,6 +347,7 @@ def get_col_value(cls, data, col, get_relationships=False):
                         rel_value = rel.get(data[parent]['uid'])
                     data[parent] = rel_value
                 value, _ = get_col_value(rel, data[parent], col)
+                parent = f'{parent}.{col}'
 
     if isinstance(value, (datetime.date, datetime.datetime)):
         value = anvil.js.window.Date(int(value.strftime('%s')) * 1000)
