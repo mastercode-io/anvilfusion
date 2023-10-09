@@ -697,7 +697,7 @@ class FileUploadInput(BaseInput):
         if args:
             print('uploading file(s)', self.storage_config)
             anvil.js.window.document.getElementById(f'{self.el_id}-required').style.display = 'none'
-            if self.storage_config.get('type') == 'aws_s3':
+            if self.storage_config and self.storage_config.get('type') == 'aws_s3':
                 s3_bucket = self.storage_config.get('bucket', AppEnv.aws_config.get('s3_bucket'))
                 key_prefix = self.storage_config.get('key_prefix', 'files')
                 for file in args.filesData:
@@ -719,6 +719,8 @@ class FileUploadInput(BaseInput):
                     else:
                         self.control.remove(file)
                         # self.remove_upload({'filesData': [file]})
+            else:
+                self._value = args.filesData if self.multiple else args.filesData[0]
         print('upload complete', self._value)
 
     def remove_upload(self, args):
