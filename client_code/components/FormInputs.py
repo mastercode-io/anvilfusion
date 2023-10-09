@@ -723,6 +723,7 @@ class FileUploadInput(BaseInput):
                         # self.remove_upload({'filesData': [file]})
             else:
                 self._value = args.filesData if self.multiple else args.filesData[0]
+                super().change({'value': self._value})
         print('upload complete', self._value)
 
     def remove_upload(self, args):
