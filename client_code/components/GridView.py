@@ -335,7 +335,7 @@ class GridView:
                                                            include_rows=False)
             self.grid['dataSource'] = self.grid_data
             print(self.grid_data)
-            print(self.grid.getRowByIndex(0))
+            print(self.grid.getDataRows(0))
             # self.grid.refresh()
         print('show grid done')
         # except Exception as e:
