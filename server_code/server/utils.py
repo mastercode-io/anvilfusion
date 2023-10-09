@@ -56,9 +56,9 @@ def init_model_enumerations(module, model_list):
             filters = props['filters'] if 'filters' in props else {}
             model_list[model]['options'] = cls.get_grid_view(view_config, search_queries, filters)
             if props['name_field'] != 'name':
-                name_field = props['name_field'].split('.', 1)[0]
+                # name_field = props['name_field'].split('.', 1)[0]
                 for option in model_list[model]['options']:
-                    option['name'] = option[name_field]
+                    option['name'] = option[props['name_field']]
     return model_list
 
 
