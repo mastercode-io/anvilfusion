@@ -58,7 +58,7 @@ def init_model_enumerations(module, model_list):
             if props['name_field'] != 'name':
                 # name_field = props['name_field'].split('.', 1)[0]
                 for option in model_list[model]['options']:
-                    option['name'] = option[props['name_field']]
+                    option['name'] = option[props['name_field'].replace('.', '__')]
     return model_list
 
 
