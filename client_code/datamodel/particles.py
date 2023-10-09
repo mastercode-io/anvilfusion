@@ -351,6 +351,8 @@ def get_col_value(cls, data, col, get_relationships=False):
 
     if isinstance(value, (datetime.date, datetime.datetime)):
         value = anvil.js.window.Date(int(value.strftime('%s')) * 1000)
+    elif isinstance(value, dict) and '.' not in parent:
+        value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
     value = value or ''
     return value, parent.replace('.', '__')
 
