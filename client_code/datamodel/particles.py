@@ -391,7 +391,7 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
             grid_row['row'] = row
         results.append(grid_row)
         print('get_grid_row', row, grid_row)
-        print('configuration', row.configuration)
+        print('configuration', row['configuration'])
 
     return results
 
