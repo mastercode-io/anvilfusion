@@ -206,8 +206,10 @@ class GridView:
                     }
                 else:
                     col_attr, _ = get_model_attribute(self.model, column['name'])
-                    if col_attr.field_type == dmtypes.FieldTypes.OBJECT:
-                        print('object', column['name'], col_attr.schema)
+                    if '.' in column['name']:
+                        if col_attr.field_type == dmtypes.FieldTypes.OBJECT and col_attr.schema:
+                            col_attr = col_attr.schema[column['name'].split('.')[1]]
+                            print('object', column['name'], col_attr)
                     grid_column = {
                         # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
                         'field': column['name'],
