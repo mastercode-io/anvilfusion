@@ -334,9 +334,7 @@ class GridView:
                                                            filters=self.filters,
                                                            include_rows=False)
             self.grid['dataSource'] = self.grid_data
-            print(self.grid_data)
-            print(self.grid.dataSource)
-            # self.grid.refresh()
+            # print(self.grid_data)
         print('show grid done')
         # except Exception as e:
         #     print('Error in Grid form_show', e)
@@ -370,10 +368,6 @@ class GridView:
 
 
     def row_selected(self, args):
-        print('row_selected', args)
-        row = self.grid.getRowByIndex(0)
-        for key in row.keys():
-            print(key, row[key])
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
     
     
