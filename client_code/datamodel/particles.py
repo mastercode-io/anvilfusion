@@ -390,6 +390,7 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
         if include_rows:
             grid_row['row'] = row
         results.append(grid_row)
+        print('get_grid_row', row, grid_row)
 
     return results
 
