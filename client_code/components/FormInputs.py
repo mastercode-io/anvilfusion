@@ -126,6 +126,7 @@ class BaseInput:
             self.visible = False
 
     def change(self, args):
+        print('change', self.name, args)
         if self.on_change is not None:
             self.on_change(DotDict({'name': self.name, 'value': self.value if args.get('value') else None}))
 
@@ -684,7 +685,7 @@ class FileUploadInput(BaseInput):
             #     'removeUrl': self.remove_upload,
             # }
         })
-        print('upload', self.control.change)
+        # print('upload', self.control.change)
 
     @property
     def value(self):
@@ -726,7 +727,7 @@ class FileUploadInput(BaseInput):
 
     def remove_upload(self, args):
         print('removing', args)
-        if self.storage_config.get('type') == 'aws_s3':
+        if self.storage_config and self.storage_config.get('type') == 'aws_s3':
             for file in self._value:
                 if file['name'] == args['filesData'][0].name:
                     AppEnv.aws_s3.delete_files([file['storage']['key']], bucket=file['storage']['bucket'])
