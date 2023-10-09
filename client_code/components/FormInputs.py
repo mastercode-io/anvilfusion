@@ -684,6 +684,7 @@ class FileUploadInput(BaseInput):
             #     'removeUrl': self.remove_upload,
             # }
         })
+        print('upload', self.control.change)
 
     @property
     def value(self):
