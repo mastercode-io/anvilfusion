@@ -126,7 +126,7 @@ class BaseInput:
             self.visible = False
 
     def change(self, args):
-        print('change', self.name, args)
+        # print('change', self.name, args)
         if self.on_change is not None:
             self.on_change(DotDict({'name': self.name, 'value': self.value if args.get('value') else None}))
 
@@ -724,7 +724,7 @@ class FileUploadInput(BaseInput):
             else:
                 self._value = args.filesData if self.multiple else args.filesData[0]
                 super().change({'value': self._value})
-        print('upload complete', self._value)
+        # print('upload complete', self._value)
 
     def remove_upload(self, args):
         print('removing', args)
