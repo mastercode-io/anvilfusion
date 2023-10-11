@@ -336,7 +336,7 @@ class GridView:
                                                            include_rows=False)
             self.grid['dataSource'] = self.grid_data
             print(self.grid_data)
-            print(self.grid.columns)
+            print(self.grid_config['columns'])
         print('show grid done')
         # except Exception as e:
         #     print('Error in Grid form_show', e)
