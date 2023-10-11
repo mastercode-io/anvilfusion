@@ -205,7 +205,7 @@ class FormBase:
                     for field in row:
                         # print('field', field)
                         if field is None or isinstance(field, str):
-                            html_content += f'<div class="col-xs-{col_size}">{field}</div>'
+                            html_content += f'<div class="col-xs-{col_size}">{field or ""}</div>'
                         else:
                             form_fields.append(field)
                             html_content += f'<div class="col-xs-{col_size}" id="{field.container_id}"></div>'
