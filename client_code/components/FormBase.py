@@ -261,9 +261,9 @@ class FormBase:
             # self.data = self.default_data
         print(self.data)
         print('debug')
-        print(self.form_fields)
+        # print(self.form_fields)
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
-            print(field)
+            print(field.name)
             field.show()
             try:
                 field.value = self.data[field.name]
