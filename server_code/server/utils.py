@@ -45,7 +45,7 @@ def get_logged_user():
 def init_model_enumerations(module, model_list):
     models = import_module(module)
     for model, props in model_list.items():
-        print(model, props)
+        # print(model, props)
         view_config = {
             'model': props['model'],
             'columns': [{'name': props['name_field']}],
