@@ -152,13 +152,14 @@ class FormBase:
             for ref_name in model_class._relationships.keys():
                 ref_class = model_class._relationships[ref_name].__dict__['class_name']
                 ref_class = getattr(AppEnv.data_models, ref_class, None)
-                ref_title = [*ref_class._attributes.keys()][0]
+                # ref_title = [*ref_class._attributes.keys()][0]
+                ref_title = ref_class._title
                 form_fields.append(
                     FormInputs.LookupInput(
                         name=ref_name,
                         label=string.capwords(ref_name.replace("_", " ")),
                         id_field='uid',
-                        text_field=ref_title,
+                        text_field=f'{ref_class}.{ref_title}',
                         data=[*ref_class.search()]
                     )
                 )
