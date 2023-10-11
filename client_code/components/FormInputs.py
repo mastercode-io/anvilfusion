@@ -536,7 +536,7 @@ class LookupInput(DropdownInput):
 
     def create_control(self):
         super().create_control()
-        if self.add_item_form is not None or self.add_item_model is not None:
+        if self.add_item_form or self.add_item_model:
             self.add_el_id = new_el_id()
             self.control.footerTemplate = f'<button class="e-control e-btn e-lib e-flat" type="button" ' \
                                           f'id="{self.add_el_id}">+ {self.add_item_label}</button>'
