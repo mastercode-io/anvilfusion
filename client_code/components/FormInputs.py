@@ -523,6 +523,7 @@ class LookupInput(DropdownInput):
                 data = getattr(AppEnv.data_models, self.model).get_grid_view(
                     view_config={'columns': [{'name': col} for col in cols]})
         if data:
+            print('lookup data', data)
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
