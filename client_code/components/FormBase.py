@@ -156,11 +156,12 @@ class FormBase:
                 ref_title = ref_class._title
                 form_fields.append(
                     FormInputs.LookupInput(
+                        model=ref_class.__name__,
                         name=ref_name,
                         label=string.capwords(ref_name.replace("_", " ")),
                         id_field='uid',
-                        text_field=f'{ref_class}.{ref_title}',
-                        data=[*ref_class.search()]
+                        text_field=ref_title,
+                        # data=[*ref_class.search()]
                     )
                 )
             for attr_name, attr_class in model_class._attributes.items():
