@@ -221,6 +221,7 @@ class GridView:
                         'textAlign': 'Left',
                         'customAttributes': {'class': 'align-top'},
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
+                        'visible': column.get('visible', True),
                         # 'valueAccessor': self.format_value,
                         # 'formatter': self.get_value,
                         # def get_value(column, data):
