@@ -526,7 +526,8 @@ class LookupInput(DropdownInput):
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                    else option[self.text_field.split('.', 1)[0]],
+                    # else option[self.text_field.split('.', 1)[0]],
+                    else option[self.text_field],
                     'uid': option['uid']
                 } for option in data
             ]
