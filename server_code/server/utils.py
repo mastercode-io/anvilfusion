@@ -15,6 +15,7 @@ def init_user_session():
         return None
 
     user_dict = dict(user_row)
+    print('init_user_session', user_dict)
     anvil.server.session['user_uid'] = user_dict['uid']
     anvil.server.session['tenant_uid'] = user_dict['tenant_uid']
     anvil.server.session['user_timezone'] = user_dict['timezone']
