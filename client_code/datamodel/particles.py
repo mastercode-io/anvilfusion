@@ -328,8 +328,8 @@ def get_col_value(cls, data, col, get_relationships=False):
             value = cls._computes[col].compute(cls, data, grid_view=True) if not isinstance(data, list) \
                 else [cls._computes[col].compute(cls, x, grid_view=True) for x in data]
         if isinstance(value, list):
-            print(col, value)
-            value = ', '.join(value)
+            # print(col, value)
+            value = ', '.join([str(v) for v in value] if isinstance(value[0], dict) else value)
 
         parent = col
     else:
