@@ -97,7 +97,7 @@ def init_user_session(login_form=None, after_login=None):
         logged_user = anvil.server.call('init_user_session')
     print('USER: ', logged_user)
     anvil.server.call('check_session', 'b')
-    return logged_user
+    return DotDict(logged_user)
 
 
 # Dictionary extension that allows dot notation access to keys
@@ -203,15 +203,15 @@ class AppEnv:
     }
     aws_access = None
     aws_s3 = None
-    _logged_user = DotDict({})
+    logged_user = DotDict({})
 
-    @property
-    def logged_user(self):
-        return self._logged_user
-
-    @logged_user.setter
-    def logged_user(self, value):
-        self._logged_user = DotDict(value)
+    # @property
+    # def logged_user(self):
+    #     return self._logged_user
+    #
+    # @logged_user.setter
+    # def logged_user(self, value):
+    #     self._logged_user = DotDict(value)
 
     @staticmethod
     def init_enumerations(model_list=None):
