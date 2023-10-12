@@ -87,7 +87,6 @@ class AppEnv:
     APP_ID = None
     ANVIL_FUSION_VERSION = '0.0.1'
     content_container_id = None
-    logged_user = {}
     data_models = None
     forms = None
     views = None
@@ -102,7 +101,15 @@ class AppEnv:
     }
     aws_access = None
     aws_s3 = None
+    _logged_user = None
 
+    @property
+    def logged_user(self):
+        return self._logged_user
+
+    @logged_user.setter
+    def logged_user(self, value):
+        self._logged_user = DotDict(value)
     
     @staticmethod
     def init_enumerations(model_list=None):
