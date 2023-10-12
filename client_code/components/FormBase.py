@@ -264,11 +264,10 @@ class FormBase:
             print(field.name)
             field.show()
             if field.name:
-                field.value = self.data.get(field.name)
-            # try:
-            #     field.value = self.data[field.name]
-            # except KeyError as e:
-            #     pass
+                try:
+                    field.value = self.data[field.name]
+                except KeyError as e:
+                    pass
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
