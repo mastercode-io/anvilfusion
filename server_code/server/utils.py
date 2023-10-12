@@ -21,7 +21,7 @@ def init_user_session():
     anvil.server.session['user_timezone'] = user_dict['timezone']
     anvil.server.session['user_name'] = (user_dict.get('first_name', '') + ' ' + user_dict.get('last_name', '')).strip()
     anvil.server.session['user_email'] = user_dict['email']
-    anvil.server.session['user_permissions'] = user_dict.get('permissions', {})
+    anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
     if anvil.server.session['user_permissions'].get('super_admin', False):
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
     return get_logged_user()
