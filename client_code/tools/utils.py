@@ -83,58 +83,6 @@ def time_js_to_py(time):
 
 
 # Application environment cache
-class AppEnv:
-    APP_ID = None
-    ANVIL_FUSION_VERSION = '0.0.1'
-    content_container_id = None
-    data_models = None
-    forms = None
-    views = None
-    pages = None
-    enum_models = None
-    grid_settings = {}
-    start_menu = None
-    aws_config = {
-        'region': None,
-        'cognito_identity_pool_id': None,
-        's3_bucket': None,
-    }
-    aws_access = None
-    aws_s3 = None
-    _logged_user = None
-
-    @property
-    def logged_user(self):
-        return self._logged_user
-
-    @logged_user.setter
-    def logged_user(self, value):
-        self._logged_user = DotDict(value)
-    
-    @staticmethod
-    def init_enumerations(model_list=None):
-        if model_list is None:
-            model_list = {}
-        AppEnv.enum_models = DotDict(
-            anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
-        )
-
-    # @classmethod
-    # def init_aws(cls):
-    #     cls.aws_secrets = anvil.server.call('get_secrets', *cls.aws_config.values())
-    #     cls.aws_config = {k: cls.aws_secrets[v] for k, v in cls.aws_config.items() if v in cls.aws_secrets}
-    #     cls.aws_access = AmazonAccess(
-    #         region=cls.aws_secrets['region'],
-    #         identity_pool_id=cls.aws_secrets['identity_pool_id'],
-    #     )
-    #     cls.aws_access.refresh()
-    #     cls.aws_s3 = AmazonS3(
-    #         region=cls.aws_secrets['region'],
-    #         bucket_name=cls.aws_secrets['bucket_name'],
-    #     )
-    #     print(f"Successfully initialized AWS Access and S3 objects.")
-
-
 # Initialise user session and store user info app session
 def init_user_session(login_form=None, after_login=None):
     anvil.users.get_user()
@@ -235,3 +183,40 @@ class Enumeration:
         if name in self._values:
             return self._values[name]
         raise KeyError(name)
+
+
+class AppEnv:
+    APP_ID = None
+    ANVIL_FUSION_VERSION = '0.0.1'
+    content_container_id = None
+    data_models = None
+    forms = None
+    views = None
+    pages = None
+    enum_models = None
+    grid_settings = {}
+    start_menu = None
+    aws_config = {
+        'region': None,
+        'cognito_identity_pool_id': None,
+        's3_bucket': None,
+    }
+    aws_access = None
+    aws_s3 = None
+    _logged_user = DotDict({})
+
+    @property
+    def logged_user(self):
+        return self._logged_user
+
+    @logged_user.setter
+    def logged_user(self, value):
+        self._logged_user = DotDict(value)
+
+    @staticmethod
+    def init_enumerations(model_list=None):
+        if model_list is None:
+            model_list = {}
+        AppEnv.enum_models = DotDict(
+            anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
+        )
