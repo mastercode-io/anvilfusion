@@ -504,12 +504,14 @@ class DropdownInput(BaseInput):
 # Lookup input (dropdown with options from a model)
 class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None, data=None, get_data=True,
-                 add_item_label='Add Item', add_item_form=None, add_item_model=None, add_item_data=None,
+                 add_item_label=None, add_item_form=None, add_item_model=None, add_item_data=None,
+                 add_item=False,
                  **kwargs):
         self.model = model
         self.text_field = text_field or 'name'
         self.compute_option = compute_option
-        self.add_item_label = add_item_label
+        self.add_item = add_item
+        self.add_item_label = add_item_label or 'Add Item'
         self.add_item_form = add_item_form
         self.add_item_model = add_item_model or model
         self.add_item_data = add_item_data
@@ -536,7 +538,7 @@ class LookupInput(DropdownInput):
 
     def create_control(self):
         super().create_control()
-        if self.add_item_form or self.add_item_model:
+        if self.add_item:
             self.add_el_id = new_el_id()
             self.control.footerTemplate = f'<button class="e-control e-btn e-lib e-flat" type="button" ' \
                                           f'id="{self.add_el_id}">+ {self.add_item_label}</button>'
