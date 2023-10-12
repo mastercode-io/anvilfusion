@@ -263,10 +263,12 @@ class FormBase:
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
             print(field.name)
             field.show()
-            try:
-                field.value = self.data[field.name]
-            except KeyError as e:
-                pass
+            if field.name:
+                field.value = self.data.get(field.name)
+            # try:
+            #     field.value = self.data[field.name]
+            # except KeyError as e:
+            #     pass
         for field in [x for x in self.form_fields if x.is_dependent]:
             field.value = self.data
             field.show()
