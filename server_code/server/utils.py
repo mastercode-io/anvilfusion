@@ -14,11 +14,12 @@ def init_user_session():
     if user_row is None:
         return None
 
-    anvil.server.session['user_uid'] = user_row['uid']
-    anvil.server.session['tenant_uid'] = user_row['tenant_uid']
-    anvil.server.session['user_timezone'] = user_row['timezone']
-    anvil.server.session['user_name'] = (user_row.get('first_name') + ' ' + user_row.get('last_name')).strip()
-    anvil.server.session['user_email'] = user_row['email']
+    user_dict = user_row.to_dict()
+    anvil.server.session['user_uid'] = user_dict['uid']
+    anvil.server.session['tenant_uid'] = user_dict['tenant_uid']
+    anvil.server.session['user_timezone'] = user_dict['timezone']
+    anvil.server.session['user_name'] = (user_dict.get('first_name', '') + ' ' + user_dict.get('last_name', '')).strip()
+    anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_row.get('permissions', {})
     if anvil.server.session.get('user_permissions', {}).get('super_admin', False):
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
