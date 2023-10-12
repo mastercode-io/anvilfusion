@@ -35,6 +35,7 @@ def get_logged_user():
     logged_user = {
         'user_uid': anvil.server.session['user_uid'],
         'tenant_uid': anvil.server.session['tenant_uid'],
+        'user_name': anvil.server.session['user_name'],
         'email': anvil.server.session['user_email'],
         'timezone': anvil.server.session['user_timezone'],
         'permissions': anvil.server.session['user_permissions'],
