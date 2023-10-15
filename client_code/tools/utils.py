@@ -220,3 +220,13 @@ class AppEnv:
         AppEnv.enum_models = DotDict(
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
+
+    def set_tenant(self, tenant_uid=None, tenant_name=None):
+        if self.logged_user.permissions.super_admin or self.logged_user.permission.developer:
+            self.logged_user = anvil.server.call('set_tenant',
+                                                 tenant_uid=tenant_uid,
+                                                 tenant_name=tenant_name)
+
+    def reset_tenant(self):
+        if self.logged_user.permissions.super_admin or self.logged_user.permission.developer:
+            self.logged_user = anvil.server.call('set_tenant')

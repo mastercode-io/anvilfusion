@@ -45,6 +45,18 @@ def get_logged_user():
 
 
 @anvil.server.callable
+def set_tenant(tenant_uid=None, tenant_name=None):
+    set_tenant_uid = tenant_uid
+    if tenant_uid is None and tenant_name is None:
+        set_tenant_uid = '00000000-0000-0000-0000-000000000000'
+    elif tenant_uid is None:
+        tenant = app_tables.tenants.get(name=tenant_name)
+        set_tenant_uid = tenant['uid']
+    anvil.server.session['tenant_uid'] = set_tenant_uid
+    return get_logged_user()
+
+
+@anvil.server.callable
 def init_model_enumerations(module, model_list):
     models = import_module(module)
     for model, props in model_list.items():
