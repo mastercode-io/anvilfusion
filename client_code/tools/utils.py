@@ -205,13 +205,6 @@ class AppEnv:
     aws_s3 = None
     logged_user = DotDict({})
 
-    # @property
-    # def logged_user(self):
-    #     return self._logged_user
-    #
-    # @logged_user.setter
-    # def logged_user(self, value):
-    #     self._logged_user = DotDict(value)
 
     @staticmethod
     def init_enumerations(model_list=None):
