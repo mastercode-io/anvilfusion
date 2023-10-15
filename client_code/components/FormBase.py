@@ -98,8 +98,16 @@ class FormBase:
             'content': self.form_content,
             'showCloseIcon': True,
             'buttons': buttons or [
-                {'buttonModel': {'isPrimary': True, 'content': button_save_label}, 'click': self.form_save},
-                {'buttonModel': {'isPrimary': False, 'content': button_cancel_label}, 'click': self.form_cancel},
+                {
+                    'buttonModel':
+                        {'isPrimary': True, 'content': button_save_label, 'cssClass': 'da-save-button'},
+                    'click': self.form_save,
+                },
+                {
+                    'buttonModel':
+                        {'isPrimary': False, 'content': button_cancel_label, 'cssClass': 'da-cancel-button'},
+                    'click': self.form_cancel,
+                },
             ],
             'target': self.target_el,
             'isModal': self.modal,
