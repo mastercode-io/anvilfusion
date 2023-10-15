@@ -105,7 +105,7 @@ class FormBase:
                 },
                 {
                     'buttonModel':
-                        {'isPrimary': False, 'content': button_cancel_label, 'cssClass': 'da-cancel-button'},
+                        {'isPrimary': False, 'content': button_cancel_label, },
                     'click': self.form_cancel,
                 },
             ],
