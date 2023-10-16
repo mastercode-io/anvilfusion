@@ -34,8 +34,6 @@ class BaseInput:
                  is_dependent=False, **kwargs):
         self.name = name
         self.label = label if shadow_label is False else ''
-        if self.label:
-            self.label += '<span style="font-color:red;"> *</span>'
         self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
         self.float_label = float_label
         self.col_class = col_class
