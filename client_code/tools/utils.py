@@ -214,13 +214,13 @@ class AppEnv:
         )
 
     @staticmethod
-    def set_tenant(cls, tenant_uid=None, tenant_name=None):
-        if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
-            cls.logged_user = anvil.server.call('set_tenant',
-                                                tenant_uid=tenant_uid,
-                                                tenant_name=tenant_name)
+    def set_tenant(tenant_uid=None, tenant_name=None):
+        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permission.developer:
+            AppEnv.logged_user = anvil.server.call('set_tenant',
+                                                   tenant_uid=tenant_uid,
+                                                   tenant_name=tenant_name)
 
     @staticmethod
-    def reset_tenant(cls):
-        if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
-            cls.logged_user = anvil.server.call('set_tenant')
+    def reset_tenant():
+        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permission.developer:
+            AppEnv.logged_user = anvil.server.call('set_tenant')
