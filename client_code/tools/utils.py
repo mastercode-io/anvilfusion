@@ -213,14 +213,14 @@ class AppEnv:
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
 
-    @classmethod
+    @staticmethod
     def set_tenant(cls, tenant_uid=None, tenant_name=None):
         if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
             cls.logged_user = anvil.server.call('set_tenant',
                                                 tenant_uid=tenant_uid,
                                                 tenant_name=tenant_name)
 
-    @classmethod
+    @staticmethod
     def reset_tenant(cls):
         if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
             cls.logged_user = anvil.server.call('set_tenant')
