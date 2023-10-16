@@ -133,6 +133,7 @@ class GridView:
         self.search_queries = search_queries
         self.filters = filters
         self.persist = persist
+        self.form_class = None
         self.confirm_dialog = None
         self.show_confirm_dialog = True
         self.grid_data = data or []
