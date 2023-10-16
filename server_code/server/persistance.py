@@ -365,6 +365,7 @@ def save_object(instance, audit):
             instance = copy(instance)
             instance.uid = uid
             # if instance._model_type == types.ModelTypes.DATA:
+            print('tenant_uid in instance?', getattr(instance, 'tenant_uid', None))
             system_attributes = {
                 'tenant_uid': getattr(instance, 'tenant_uid', None) or current_tenant_uid,
                 'created_time': current_time,
