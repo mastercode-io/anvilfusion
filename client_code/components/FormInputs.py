@@ -29,9 +29,22 @@ import datetime
 # Base form input class
 class BaseInput:
 
-    def __init__(self, name=None, label=None, float_label=True, shadow_label=False, col_class=None, col_style=None,
-                 value=None, save=True, enabled=True, el_id=None, container_id=None, on_change=None,
-                 is_dependent=False, **kwargs):
+    def __init__(self,
+                 name=None,
+                 label=None,
+                 float_label=True,
+                 shadow_label=False,
+                 col_class=None,
+                 col_style=None,
+                 value=None,
+                 save=True,
+                 enabled=True,
+                 el_id=None,
+                 container_id=None,
+                 on_change=None,
+                 is_dependent=False,
+                 required=False,
+                 **kwargs):
         self.name = name
         self.label = label if shadow_label is False else ''
         self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
@@ -42,6 +55,7 @@ class BaseInput:
         self.save = save
         self.is_dependent = is_dependent
         self._enabled = enabled
+        self._required = required
         self.el_id = el_id if el_id is not None else new_el_id()
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
@@ -106,6 +120,17 @@ class BaseInput:
         if self._control is not None:
             self.control.value = value
 
+    @property
+    def required(self):
+        return self._required
+
+    @required.setter
+    def required(self, value):
+        self._required = value
+        if self._required and self.visible and self.label:
+            label_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+            label_el.innerHTML += '<span style="color:red;!important"> *</span>'
+
     def create_control(self):
         pass
 
@@ -118,8 +143,9 @@ class BaseInput:
             self.value = self._value
             self.visible = True
             self.enabled = self._enabled
-            label = anvil.js.window.document.getElementById(f'label_{self.el_id}')
-            label.innerHTML += '<span style="color:red;!important"> *</span>'
+            self.required = self._required
+            # label = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+            # label.innerHTML += '<span style="color:red;!important"> *</span>'
 
     def hide(self):
         if self.visible:
