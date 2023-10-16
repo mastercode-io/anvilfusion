@@ -171,7 +171,7 @@ def _constructor(attributes, relationships, computes, system_attributes):
         self.uid = kwargs.pop("uid", None)
 
         # Check that we've received arguments for all required members
-        required_args = [name for name, member in members.items() if member.get('required', False)]
+        required_args = [name for name, member in members.items() if hasattr(member, 'required') and member.required]
         for name in required_args:
             if name not in kwargs:
                 raise ValueError(f"No argument provided for required {name}")
