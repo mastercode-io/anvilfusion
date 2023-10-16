@@ -22,8 +22,8 @@ def get_plural_name(name):
         return name + 'es'
     else:
         return name + 's'
-    
-    
+
+
 def get_singular_name(name):
     if name.endswith('ies'):
         return name[:-3] + 'y'
@@ -205,7 +205,6 @@ class AppEnv:
     aws_s3 = None
     logged_user = DotDict({})
 
-
     @staticmethod
     def init_enumerations(model_list=None):
         if model_list is None:
@@ -214,12 +213,14 @@ class AppEnv:
             anvil.server.call('init_model_enumerations', AppEnv.data_models.__name__, model_list)
         )
 
-    def set_tenant(self, tenant_uid=None, tenant_name=None):
-        if self.logged_user.permissions.super_admin or self.logged_user.permission.developer:
-            self.logged_user = anvil.server.call('set_tenant',
-                                                 tenant_uid=tenant_uid,
-                                                 tenant_name=tenant_name)
+    @classmethod
+    def set_tenant(cls, tenant_uid=None, tenant_name=None):
+        if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
+            cls.logged_user = anvil.server.call('set_tenant',
+                                                tenant_uid=tenant_uid,
+                                                tenant_name=tenant_name)
 
-    def reset_tenant(self):
-        if self.logged_user.permissions.super_admin or self.logged_user.permission.developer:
-            self.logged_user = anvil.server.call('set_tenant')
+    @classmethod
+    def reset_tenant(cls):
+        if cls.logged_user.permissions.super_admin or cls.logged_user.permission.developer:
+            cls.logged_user = anvil.server.call('set_tenant')
