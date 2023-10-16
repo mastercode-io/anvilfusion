@@ -70,18 +70,30 @@ def get_table(module_name, class_name):
     return getattr(app_tables, table_name)
 
 
-def _get_row(module_name, class_name, uid):
+def get_user_permissions():
+    """Return the user permissions"""
+    user_permissions = anvil.server.session['user_permissions']
+    if 'administrator' not in user_permissions:
+        user_permissions['administrator'] = False
+    if 'super_admin' not in user_permissions:
+        user_permissions['super_admin'] = False
+    if 'developer' not in user_permissions:
+        user_permissions['developer'] = False
+    return user_permissions
+
+
+def _get_row(module_name, class_name, uid, **search_args):
     """Return the data tables row for a given object instance"""
     search_args = {'uid': uid}
-    if not anvil.server.session['user_permissions'].get('super_admin', False):
+    if not get_user_permissions()['super_admin']:
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
 
-def _get_row_by(module_name, class_name, prop, value):
+def _get_row_by(module_name, class_name, prop, value, **search_args):
     """Return the data tables row for a given object instance"""
     search_args = {prop: value}
-    if not anvil.server.session['user_permissions'].get('super_admin', False):
+    if not get_user_permissions()['super_admin']:
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
