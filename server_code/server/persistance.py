@@ -350,7 +350,7 @@ def save_object(instance, audit):
             instance.uid = uid
             # if instance._model_type == types.ModelTypes.DATA:
             system_attributes = {
-                'tenant_uid': current_tenant_uid,
+                'tenant_uid': getattr(instance, 'tenant_uid', None) or current_tenant_uid,
                 'created_time': current_time,
                 'created_by': current_user_uid,
                 'updated_time': current_time,
