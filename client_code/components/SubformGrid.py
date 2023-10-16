@@ -69,13 +69,14 @@ class SubformGrid(BaseInput, GridView):
 
     @value.setter
     def value(self, value):
-        # print('set subformgrid value', value)
+        print('set subformgrid value', value)
         if value and value.uid:
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:
                     self.filters = {}
-                self.filters[self.link_field] = value
+                if self.link_field:
+                    self.filters[self.link_field] = value
                 self.grid_data = self.grid_class.get_grid_view(self.view_config,
                                                                search_queries=self.search_queries,
                                                                filters=self.filters,
@@ -89,7 +90,7 @@ class SubformGrid(BaseInput, GridView):
             self.grid.dataSource = self.grid_data
         if 'element' in self.grid.keys():
             self.grid.refresh()
-        # print('subformgrid data', self.grid_data)
+        print('subformgrid data', self.search_queries, self.grid_data)
 
 
     def show(self):
