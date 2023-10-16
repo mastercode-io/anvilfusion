@@ -159,12 +159,13 @@ def attribute_value(self, name, title=None):
     return AttributeValue(name=name, value=value, title=title)
 
 
-def _constructor(attributes, relationships, computes):
+def _constructor(attributes, relationships, computes, system_attributes):
     """A function to return the __init__ function for the eventual model class"""
     # We're just merging dicts here but skulpt doesn't support the ** operator
     members = attributes.copy()
     members.update(relationships)
     members.update(computes)
+    members.update(system_attributes)
 
     def init(self, **kwargs):
         self.uid = kwargs.pop("uid", None)
@@ -472,7 +473,7 @@ def model_type(cls):
 
     members = {
         "__module__": cls.__module__,
-        "__init__": _constructor(attributes, relationships, computes),
+        "__init__": _constructor(attributes, relationships, computes, system_attributes),
         "__eq__": _equivalence,
         "__getitem__": _getitem,
         "__setitem__": _setitem,
