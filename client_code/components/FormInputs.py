@@ -118,6 +118,8 @@ class BaseInput:
             self.value = self._value
             self.visible = True
             self.enabled = self._enabled
+            label = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+            label.innerHTML += '<span style="text-color:red;"> *</span>'
 
     def hide(self):
         if self.visible:
