@@ -223,7 +223,7 @@ def _update(self, attrs):
         setattr(self, key, value)
 
 
-def _from_row(unique_identifier, attributes, relationships, computes):
+def _from_row(unique_identifier, attributes, relationships, computes, system_attributes):
     """A factory function to generate a model instance from a data tables row."""
 
     @classmethod
@@ -243,7 +243,7 @@ def _from_row(unique_identifier, attributes, relationships, computes):
         attrs = {
             key: value
             for key, value in attrs.items()
-            if key in attributes or key == "uid"
+            if key in attributes or key in system_attributes or key == "uid"
         }
         if "uid" not in attrs:
             attrs["uid"] = attrs[unique_identifier]
@@ -462,6 +462,14 @@ def model_type(cls):
         if isinstance(value, property)
     }
 
+    system_attributes = {
+        'tenant_uid': None,
+        'created_time': None,
+        'created_by': None,
+        'updated_time': None,
+        'updated_by': None,
+    }
+
     members = {
         "__module__": cls.__module__,
         "__init__": _constructor(attributes, relationships, computes),
@@ -472,8 +480,9 @@ def model_type(cls):
         "_relationships": relationships,
         "_computes": computes,
         "_properties": class_properties,
-        "_from_row": _from_row(unique_identifier, attributes, relationships, computes),
+        "_from_row": _from_row(unique_identifier, attributes, relationships, computes, system_attributes),
         "_unique_identifier": unique_identifier,
+        "_system_attributes": system_attributes,
         "_model_type": class_members.get('_model_type', types.ModelTypes.DATA),
         "_singular_name": _singular_name,
         "_plural_name": _plural_name,
