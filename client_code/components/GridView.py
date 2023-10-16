@@ -1,6 +1,6 @@
 from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
-from . import FormBase as fbase
+from .FormBase import FormBase
 from ..tools.utils import AppEnv
 import string
 import uuid
@@ -158,7 +158,13 @@ class GridView:
             self.view_config = {}
         self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
-        self.form_class = add_edit_form or getattr(AppEnv.forms, f"{self.model}Form", None) or fbase.FormBase
+        if add_edit_form:
+            if isinstance(add_edit_form, str):
+                self.form_class = getattr(AppEnv.forms, add_edit_form, None)
+            else:
+                self.form_class = add_edit_form
+        if not self.form_class:
+            self.form_class = getattr(AppEnv.forms, f"{self.model}Form", None) or FormBase
         if not self.view_config or 'columns' not in self.view_config:
             self.view_config = {'model': self.model}
             view_columns = []
