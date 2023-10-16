@@ -216,12 +216,12 @@ class AppEnv:
     @staticmethod
     def set_tenant(tenant_uid=None, tenant_name=None):
         print(AppEnv, AppEnv.logged_user)
-        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permission.developer:
+        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
             AppEnv.logged_user = anvil.server.call('set_tenant',
                                                    tenant_uid=tenant_uid,
                                                    tenant_name=tenant_name)
 
     @staticmethod
     def reset_tenant():
-        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permission.developer:
+        if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
             AppEnv.logged_user = anvil.server.call('set_tenant')
