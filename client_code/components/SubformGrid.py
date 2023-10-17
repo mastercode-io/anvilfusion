@@ -86,6 +86,7 @@ class SubformGrid(BaseInput, GridView):
             self._value = None
             self.grid_data = []
             self.grid.dataSource = self.grid_data
+            self.grid.refresh()
         if 'element' in self.grid.keys():
             self.grid.refresh()
         print('subformgrid data', self.filters, self.grid_data)
