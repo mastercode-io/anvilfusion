@@ -29,5 +29,5 @@ __version__ = "0.5.01"
 
 from . import particles
 from . import types
-from ..tools import utils
 from . import migrate
+from .particles import ModelTypeBase
