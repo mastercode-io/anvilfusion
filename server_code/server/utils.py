@@ -64,9 +64,9 @@ def set_tenant(tenant_uid=None, tenant_name=None):
 
 
 @anvil.server.callable
-def signup_user(user_instance, tenant_uid):
+def signup_user(email, password, tenant_uid):
     try:
-        user_row = anvil.users.signup_with_email(user_instance['email'], user_instance['password'])
+        user_row = anvil.users.signup_with_email(email, password)
         user_row['tenant_uid'] = tenant_uid
         user_row['uid'] = uuid.uuid4()
         # user_row['first_name'] = user_instance['first_name']
