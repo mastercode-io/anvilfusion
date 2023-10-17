@@ -54,7 +54,7 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def enabled(self):
-        pass
+        return None
 
     @enabled.setter
     def enabled(self, value):
