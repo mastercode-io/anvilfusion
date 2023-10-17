@@ -86,8 +86,10 @@ def _get_row(module_name, class_name, uid, **search_args):
     """Return the data tables row for a given object instance"""
     search_args['uid'] = uid
     user_permissions = get_user_permissions()
-    if (not user_permissions['super_admin'] or
-            (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
+    # if (not user_permissions['super_admin'] or
+    #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
+    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    if not user_permissions['super_admin'] and 'tenant_uid' not in search_args.keys():
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
@@ -96,8 +98,10 @@ def _get_row_by(module_name, class_name, prop, value, **search_args):
     """Return the data tables row for a given object instance"""
     search_args[prop] = value
     user_permissions = get_user_permissions()
-    if (not user_permissions['super_admin'] or
-            (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
+    # if (not user_permissions['super_admin'] or
+    #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
+    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    if not user_permissions['super_admin'] and 'tenant_uid' not in search_args.keys():
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
