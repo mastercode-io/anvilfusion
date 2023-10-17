@@ -90,6 +90,7 @@ class SubformGrid(BaseInput, GridView):
             self.grid.refresh()
             self.grid.dataBind()
         print('subformgrid data', self.filters, self.grid_data)
+        print('subformgrid dataSource', self.grid.dataSource)
 
 
     def show(self):
