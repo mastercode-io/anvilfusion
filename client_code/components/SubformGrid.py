@@ -88,8 +88,8 @@ class SubformGrid(BaseInput, GridView):
             self.grid.dataSource = self.grid_data
         if 'element' in self.grid.keys():
             self.grid.refresh()
+            self.grid.dataBound()
         print('subformgrid data', self.filters, self.grid_data)
-        self.grid.dataBind()
 
 
     def show(self):
