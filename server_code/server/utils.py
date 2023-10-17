@@ -16,13 +16,17 @@ def init_user_session():
 
     user_dict = dict(user_row)
     anvil.server.session['user_uid'] = user_dict['uid']
-    anvil.server.session['tenant_uid'] = user_dict['tenant_uid']
     anvil.server.session['user_timezone'] = user_dict['timezone']
     anvil.server.session['user_name'] = (user_dict.get('first_name', '') + ' ' + user_dict.get('last_name', '')).strip()
     anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
     if anvil.server.session['user_permissions'].get('super_admin', False):
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
+        anvil.server.session['tenant_name'] = 'Super Admin'
+    else:
+        tenant = app_tables.tenants.get(uid=user_dict['tenant_uid'])
+        anvil.server.session['tenant_uid'] = tenant['uid']
+        anvil.server.session['tenant_name'] = tenant['name']
     return get_logged_user()
 
 
@@ -34,8 +38,9 @@ def check_session(tag=None):
 @anvil.server.callable
 def get_logged_user():
     logged_user = {
-        'user_uid': anvil.server.session['user_uid'],
         'tenant_uid': anvil.server.session['tenant_uid'],
+        'tenant_name': anvil.server.session['tenant_name'],
+        'user_uid': anvil.server.session['user_uid'],
         'user_name': anvil.server.session['user_name'],
         'email': anvil.server.session['user_email'],
         'timezone': anvil.server.session['user_timezone'],
@@ -48,11 +53,12 @@ def get_logged_user():
 def set_tenant(tenant_uid=None, tenant_name=None):
     set_tenant_uid = tenant_uid
     if tenant_uid is None and tenant_name is None:
-        set_tenant_uid = '00000000-0000-0000-0000-000000000000'
+        anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
+        anvil.server.session['tenant_name'] = 'Super Admin'
     elif tenant_uid is None:
         tenant = app_tables.tenants.get(name=tenant_name)
-        set_tenant_uid = tenant['uid']
-    anvil.server.session['tenant_uid'] = set_tenant_uid
+        anvil.server.session['tenant_uid'] = tenant['uid']
+        anvil.server.session['tenant_name'] = tenant['name']
     return get_logged_user()
 
 
