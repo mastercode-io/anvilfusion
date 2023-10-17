@@ -117,6 +117,7 @@ class BaseInput:
 
     @value.setter
     def value(self, value):
+        self._value = value
         if self._control is not None:
             self.control.value = value
 
