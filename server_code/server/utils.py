@@ -68,7 +68,7 @@ def signup_user(email, password, tenant_uid):
     try:
         user_row = anvil.users.signup_with_email(email, password)
         user_row['tenant_uid'] = tenant_uid
-        user_row['uid'] = uuid.uuid4()
+        user_row['uid'] = str(uuid.uuid4())
         # user_row['first_name'] = user_instance['first_name']
         # user_row['last_name'] = user_instance['last_name']
         # user_row['enabled'] = user_instance['enabled']
