@@ -352,8 +352,8 @@ def save_object(instance, audit):
                 'updated_time': current_time,
                 'updated_by': current_user_uid
             }
-            # else:
-            #     system_attributes = {}
+            if getattr(instance, 'tenant_uid', False):
+                system_attributes['tenant_uid'] = instance.tenant_uid
             row.update(**members, **system_attributes)
             new_row = _serialize_row(table, row)
         else:
