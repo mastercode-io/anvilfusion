@@ -69,7 +69,7 @@ class FormBase:
         self.form_id = f"{AppEnv.APP_ID}_{self.form_uid}_{self.form_name}"
         self.form_el = None
         self.action = action
-        self.data = {} if data is None else data
+        self.data = data or self.class_name()
         self.validation = validation
         self.validator = None
 
