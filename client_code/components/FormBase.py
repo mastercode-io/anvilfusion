@@ -316,7 +316,7 @@ class FormBase:
             add_new = False
             input_data = {field.name: field.value for field in self.form_fields
                           if field.save and not field.is_dependent}
-            print('New Data: ', input_data)
+            print('New Data: ', input_data, self.action)
             if self.action == 'edit' and hasattr(self.data, 'uid'):
                 self.data.update(input_data)
             else:
@@ -337,7 +337,7 @@ class FormBase:
             self.form.hide()
             if self.update_source is not None:
                 self.update_source(self.data, add_new)
-                # print('update_source', self.data)
+                print('update_source', self.data)
         else:
             args.cancel = True
             print('Invalid Data')
