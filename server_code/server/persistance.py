@@ -373,6 +373,7 @@ def save_object(instance, audit):
                 'updated_time': current_time,
                 'updated_by': current_user_uid
             }
+            print('system attributes', system_attributes)
             # else:
             #     system_attributes = {}
             row = table.add_row(uid=uid, **members, **system_attributes)
