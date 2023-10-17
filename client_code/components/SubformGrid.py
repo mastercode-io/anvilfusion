@@ -63,10 +63,7 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def value(self):
-        if self.model:
-            pass
-        else:
-            pass
+        return self._value
 
     @value.setter
     def value(self, value):
