@@ -275,6 +275,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
+    print('Filters', filters)
     if not anvil.server.session['user_permissions'].get('super_admin', False) and not filters.get('tenant_uid', None):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
