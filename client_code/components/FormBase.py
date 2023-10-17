@@ -69,7 +69,7 @@ class FormBase:
         self.form_id = f"{AppEnv.APP_ID}_{self.form_uid}_{self.form_name}"
         self.form_el = None
         self.action = action
-        self.data = data or self.class_name()
+        self.data = data
         self.validation = validation
         self.validator = None
 
@@ -91,6 +91,12 @@ class FormBase:
 
         self.form_content = f'<form id="{self.form_id}">' + self.form_content + '</form>'
         self.default_data = {field.name: field.value for field in self.form_fields}
+        if not self.data:
+            print('no data')
+            instance_data = {x: self.default_data[x] for x in self.default_data
+                             if x in self.class_name._attributes or x in self.class_name._relationships}
+            self.data = self.class_name(**instance_data)
+
 
         # create form control
         self.form = ej.popups.Dialog({
@@ -261,12 +267,12 @@ class FormBase:
     def form_open(self, args):
         print('form open')
         # try:
-        if not self.data:
-            print('no data')
-            instance_data = {x: self.default_data[x] for x in self.default_data
-                             if x in self.class_name._attributes or x in self.class_name._relationships}
-            self.data = self.class_name(**instance_data)
-            # self.data = self.default_data
+        # if not self.data:
+        #     print('no data')
+        #     instance_data = {x: self.default_data[x] for x in self.default_data
+        #                      if x in self.class_name._attributes or x in self.class_name._relationships}
+        #     self.data = self.class_name(**instance_data)
+        #     self.data = self.default_data
         print(self.data)
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
             # print(field.name)
