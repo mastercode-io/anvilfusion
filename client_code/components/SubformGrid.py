@@ -80,7 +80,6 @@ class SubformGrid(BaseInput, GridView):
                                                                filters=self.filters,
                                                                include_rows=False)
                 self.grid.dataSource = self.grid_data
-                self.grid.refresh()
             else:
                 pass
         else:
@@ -98,6 +97,7 @@ class SubformGrid(BaseInput, GridView):
             self.visible = True
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'block'
+                self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
             
