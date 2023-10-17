@@ -4,6 +4,7 @@ import anvil.users
 from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
+import uuid
 
 
 @anvil.server.callable
@@ -60,6 +61,29 @@ def set_tenant(tenant_uid=None, tenant_name=None):
         anvil.server.session['tenant_uid'] = tenant['uid']
         anvil.server.session['tenant_name'] = tenant['name']
     return get_logged_user()
+
+
+@anvil.server.callable
+def signup_user(user_instance, tenant_uid):
+    try:
+        user_row = anvil.users.signup_with_email(user_instance['email'], user_instance['password'])
+        user_row['tenant_uid'] = tenant_uid
+        user_row['uid'] = uuid.uuid4()
+        # user_row['first_name'] = user_instance['first_name']
+        # user_row['last_name'] = user_instance['last_name']
+        # user_row['enabled'] = user_instance['enabled']
+        return {
+            'status': 'success',
+            'error': None,
+            'uid': user_row['uid'],
+        }
+    except Exception as e:
+        print('error', e)
+        return {
+            'status': 'error',
+            'error': str(e),
+            'uid': None,
+        }
 
 
 @anvil.server.callable
