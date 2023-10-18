@@ -279,7 +279,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
-    print('Filters', filters)
+    # print('Filters', filters)
     if not anvil.server.session['user_permissions'].get('super_admin', False) and not filters.get('tenant_uid', None):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
@@ -292,7 +292,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
 @caching_query
 def basic_search(class_name, **search_args):
     """Perform a data tables search against the relevant table for the given class"""
-    print('Basic search', class_name, search_args)
+    # print('Basic search', class_name, search_args)
     return get_table(class_name).search(**search_args)
 
 
@@ -370,7 +370,7 @@ def save_object(instance, audit):
             instance = copy(instance)
             instance.uid = uid
             # if instance._model_type == types.ModelTypes.DATA:
-            print('tenant_uid in instance?', getattr(instance, 'tenant_uid', None))
+            # print('tenant_uid in instance?', getattr(instance, 'tenant_uid', None))
             system_attributes = {
                 'tenant_uid': getattr(instance, 'tenant_uid', None) or current_tenant_uid,
                 'created_time': current_time,
@@ -378,7 +378,7 @@ def save_object(instance, audit):
                 'updated_time': current_time,
                 'updated_by': current_user_uid
             }
-            print('system attributes', system_attributes)
+            # print('system attributes', system_attributes)
             # else:
             #     system_attributes = {}
             row = table.add_row(uid=uid, **members, **system_attributes)
