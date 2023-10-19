@@ -246,6 +246,7 @@ class TextInput(BaseInput):
         input_value = ''.join(filter(str.isdigit, self.element.value))
         print(input_value)
         if input_value:
+            print('debug')
             input_value = input_value[:10]
             formatted_value = ""
             if len(input_value) > 0:
