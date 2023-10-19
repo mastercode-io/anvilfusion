@@ -238,8 +238,8 @@ class TextInput(BaseInput):
             self.control.addEventListener('input', self.format_phone_number(element))
         # anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
-    @staticmethod
-    def format_phone_number(element):
+    # @staticmethod
+    def format_phone_number(self, element):
         print('format_phone_number', element, element.value)
         input_value = element.value.replace(r'/\D/g', "")
         if input_value:
