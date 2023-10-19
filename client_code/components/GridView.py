@@ -150,7 +150,7 @@ class GridView:
             elif model:
                 view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
             if view_obj:
-                print('view_obj', view_obj)
+                # print('view_obj', view_obj)
                 self.view_config = view_obj['config'] or {}
                 self.view_config['model'] = model or view_obj['model']
                 self.view_config['columns'] = view_obj['columns'] or []
