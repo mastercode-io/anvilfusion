@@ -227,23 +227,15 @@ class TextInput(BaseInput):
             'placeholder': self.placeholder,
             'type': self.input_type,
         })
-        if self.input_type == 'tel':
-            print('create_control', self.input_type)
-            # anvil.js.window[f'{self.el_id}_format_phone_number'] = self.format_phone_number
 
     def show(self):
         super().show()
         if self.input_type == 'tel':
-            print('show', self.input_type)
             self.element = anvil.js.window.document.getElementById(self.el_id)
-            # element.addEventListener('input', self.format_phone_number(element))
             self.control.addEventListener('input', self.format_phone_number)
-        # anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
     # @staticmethod
     def format_phone_number(self, args):
-        print('format_phone_number', args, self.element, self.element.value)
-        input_value = ''.join(filter(str.isdigit, self.element.value))
         input_value = "".join(filter(str.isdigit, self.element.value))
         print(input_value)
         if input_value:
