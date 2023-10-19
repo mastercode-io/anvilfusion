@@ -108,7 +108,7 @@ class MultiFieldInput(FormInputs.BaseInput):
             self.visible = False
 
 
-class HyperLinkInput(MultiFieldInput):
+class HyperlinkInput(MultiFieldInput):
 
     def __init__(self, **kwargs):
 

@@ -2,7 +2,7 @@
 import anvil.js
 from anvil.js.window import jQuery, ej
 from . import FormInputs
-from .MultiFieldInput import MultiFieldInput, HyperLinkInput
+from .MultiFieldInput import MultiFieldInput, HyperlinkInput
 from SubformGrid import SubformGrid
 from ..tools.utils import AppEnv, camel_to_snake, camel_to_title, new_el_id
 import string
@@ -162,8 +162,8 @@ class FormBase:
                     form_fields.append(MultiFieldInput(name=attr_name,
                                                        label=string.capwords(attr_name.replace("_", " ")),
                                                        model=model_class, ))
-                elif attr_class.field_type.InputType == 'HyperLinkInput':
-                    form_fields.append(HyperLinkInput(name=attr_name,
+                elif attr_class.field_type.InputType == 'HyperlinkInput':
+                    form_fields.append(HyperlinkInput(name=attr_name,
                                                       label=string.capwords(attr_name.replace("_", " ")), ))
                 elif attr_class.field_type.InputType == 'SubformGrid':
                     form_fields.append(SubformGrid(name=attr_name,
