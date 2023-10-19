@@ -139,24 +139,21 @@ class GridView:
         self.grid_data = data or []
 
         print('GridView', view_name, model)
+
+        self.view_config = {}
         if view_config:
             self.view_config = view_config
-        elif view_name:
-            view_obj = AppEnv.data_models.AppGridView.get_by('name', view_name)
-            self.view_config = json.loads(view_obj['config'].replace("'", "\""))
-
-        # v.0.0.2 variant
-        elif model and AppEnv.ANVIL_FUSION_VERSION == '0.0.2':
-            view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
+        else:
+            view_obj = None
+            if view_name:
+                view_obj = AppEnv.data_models.AppGridView.get_by('name', view_name)
+            elif model:
+                view_obj = AppEnv.data_models.AppGridView.get_by('model', model)
             if view_obj:
                 self.view_config = view_obj['config'] or {}
-                self.view_config['model'] = model
+                self.view_config['model'] = model or view_obj['model']
                 self.view_config['columns'] = view_obj['columns'] or []
-            else:
-                self.view_config = {}
 
-        else:
-            self.view_config = {}
         self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
         if add_edit_form:

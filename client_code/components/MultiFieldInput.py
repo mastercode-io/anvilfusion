@@ -112,6 +112,7 @@ class HyperlinkInput(MultiFieldInput):
 
     def __init__(self, **kwargs):
 
+        label = kwargs.get('label', 'URL')
         schema = {
             'title': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
             'link': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
