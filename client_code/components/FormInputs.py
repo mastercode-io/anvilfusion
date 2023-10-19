@@ -244,6 +244,7 @@ class TextInput(BaseInput):
     def format_phone_number(self, args):
         print('format_phone_number', args, self.element, self.element.value)
         input_value = ''.join(filter(str.isdigit, self.element.value))
+        input_value = "".join(filter(str.isdigit, self.element.value))
         print(input_value)
         if input_value:
             print('debug')
@@ -256,6 +257,8 @@ class TextInput(BaseInput):
             if len(input_value) > 6:
                 formatted_value += "-" + input_value[6:]
             self.element.value = formatted_value
+        else:
+            self.element.value = input_value
 
 
 # Multi line text input
