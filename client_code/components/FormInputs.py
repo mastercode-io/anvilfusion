@@ -244,6 +244,7 @@ class TextInput(BaseInput):
     def format_phone_number(self, args):
         print('format_phone_number', args, self.element, self.element.value)
         input_value = ''.join(filter(str.isdigit, self.element.value))
+        print(input_value)
         if input_value:
             input_value = input_value[:10]
             formatted_value = ""
