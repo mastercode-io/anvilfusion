@@ -34,6 +34,7 @@ class BaseInput:
                  label=None,
                  float_label=True,
                  shadow_label=False,
+                 placeholder=None,
                  col_class=None,
                  col_style=None,
                  value=None,
@@ -49,6 +50,7 @@ class BaseInput:
         self.label = label if shadow_label is False else ''
         self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
         self.float_label = float_label
+        self.placeholder = placeholder or self.label
         self.col_class = col_class
         self.col_style = col_style
         self._value = value
@@ -220,7 +222,7 @@ class TextInput(BaseInput):
             </div>'
 
     def create_control(self):
-        self.control = ej.inputs.TextBox({'placeholder': self.label})
+        self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
 
     def show(self):
         super().show()
@@ -238,7 +240,7 @@ class MultiLineInput(BaseInput):
             </div>'
 
     def create_control(self):
-        self.control = ej.inputs.TextBox({'placeholder': self.label})
+        self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
 
 
 # Number input
@@ -250,7 +252,7 @@ class NumberInput(BaseInput):
         self.grid_column['format'] = 'C2'
 
     def create_control(self):
-        self.control = ej.inputs.NumericTextBox({'placeholder': self.label, 'showSpinButton': False})
+        self.control = ej.inputs.NumericTextBox({'placeholder': self.placeholder, 'showSpinButton': False})
 
 
 # Date picker input
@@ -261,7 +263,7 @@ class DateInput(BaseInput):
         self.grid_column['format'] = {'type': 'date', 'format': 'dd/MM/yyyy'}
 
     def create_control(self):
-        self.control = ej.calendars.DatePicker({'placeholder': self.label})
+        self.control = ej.calendars.DatePicker({'placeholder': self.placeholder})
 
     @property
     def value(self):
@@ -300,7 +302,7 @@ class DateTimeInput(BaseInput):
         self.grid_column['format'] = {'type': 'dateTime', 'format': 'dd/MM/yyyy hh:mm a'}
 
     def create_control(self):
-        self.control = ej.calendars.DateTimePicker({'placeholder': self.label})
+        self.control = ej.calendars.DateTimePicker({'placeholder': self.placeholder})
 
     @property
     def value(self):
@@ -338,7 +340,7 @@ class TimeInput(BaseInput):
         self.grid_column['format'] = {'type': 'dateTime', 'format': 'hh:mm a'}
 
     def create_control(self):
-        self.control = ej.calendars.TimePicker({'placeholder': self.label})
+        self.control = ej.calendars.TimePicker({'placeholder': self.placeholder})
 
     @property
     def value(self):
@@ -491,7 +493,7 @@ class DropdownInput(BaseInput):
     def create_control(self):
         if self.select == 'single':
             self.control = ej.dropdowns.DropDownList({
-                'placeholder': self.label,
+                'placeholder': self.placeholder,
                 'showClearButton': True,
                 'fields': self.fields,
                 'dataSource': self.options,
@@ -499,7 +501,7 @@ class DropdownInput(BaseInput):
             })
         elif self.select == 'multi':
             self.control = ej.dropdowns.MultiSelect({
-                'placeholder': self.label,
+                'placeholder': self.placeholder,
                 'showClearButton': True,
                 'fields': self.fields,
                 'dataSource': self.options,
@@ -672,7 +674,7 @@ class SignatureInput(BaseInput):
       </div></div>'
 
     def create_control(self):
-        self.control = ej.inputs.Signature({'placeholder': self.label})
+        self.control = ej.inputs.Signature({'placeholder': self.placeholder})
 
     @property
     def value(self):

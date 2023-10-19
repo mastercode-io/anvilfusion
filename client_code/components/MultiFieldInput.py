@@ -114,6 +114,10 @@ class HyperlinkInput(MultiFieldInput):
 
         schema = {
             'title': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
-            'url': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
+            'link': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
         }
-        super().__init__(schema=schema, **kwargs)
+        fields = [
+            FormInputs.TextInput(name='title', label='Title'),
+            FormInputs.TextInput(name='link', label='Link', placeholder='https://'),
+        ]
+        super().__init__(schema=schema, fields=fields, **kwargs)
