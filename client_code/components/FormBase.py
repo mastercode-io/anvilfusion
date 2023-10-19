@@ -97,7 +97,6 @@ class FormBase:
                              if x in self.class_name._attributes or x in self.class_name._relationships}
             self.data = self.class_name(**instance_data)
 
-
         # create form control
         self.form = ej.popups.Dialog({
             'header': header or string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
@@ -153,14 +152,25 @@ class FormBase:
             html_content += '</div>'
         return html_content, form_fields, tab_items
 
-
     @staticmethod
     def model_fields(model_class):
         form_fields = []
         if model_class is not None:
             print('class ', model_class)
             for attr_name, attr_class in model_class._attributes.items():
-                if attr_class.field_type.InputType not in ('MultiFieldInput', 'SubformGrid'):
+                if attr_class.field_type.InputType == 'MultiFieldInput':
+                    form_fields.append(MultiFieldInput(name=attr_name,
+                                                       label=string.capwords(attr_name.replace("_", " ")),
+                                                       model=model_class, ))
+                elif attr_class.field_type.InputType == 'HyperLinkInput':
+                    form_fields.append(HyperLinkInput(name=attr_name,
+                                                      label=string.capwords(attr_name.replace("_", " ")), ))
+                elif attr_class.field_type.InputType == 'SubformGrid':
+                    form_fields.append(SubformGrid(name=attr_name,
+                                                   label=string.capwords(attr_name.replace("_", " ")),
+                                                   schema=attr_class.schema, ))
+                # if attr_class.field_type.InputType not in ('MultiFieldInput', 'SubformGrid'):
+                else:
                     attr_input = getattr(FormInputs, attr_class.field_type.InputType)
                     form_fields.append(attr_input(name=attr_name, label=string.capwords(attr_name.replace("_", " "))))
             for ref_name in model_class._relationships.keys():
@@ -178,18 +188,17 @@ class FormBase:
                         # data=[*ref_class.search()]
                     )
                 )
-            for attr_name, attr_class in model_class._attributes.items():
-                if attr_class.field_type.InputType == 'MultiFieldInput':
-                    form_fields.append(MultiFieldInput(name=attr_name,
-                                                       label=string.capwords(attr_name.replace("_", " ")),
-                                                       model=model_class, ))
-            for attr_name, attr_class in model_class._attributes.items():
-                if attr_class.field_type.InputType == 'SubformGrid':
-                    form_fields.append(SubformGrid(name=attr_name,
-                                                   label=string.capwords(attr_name.replace("_", " ")),
-                                                   schema=attr_class.schema, ))
+            # for attr_name, attr_class in model_class._attributes.items():
+            #     if attr_class.field_type.InputType == 'MultiFieldInput':
+            #         form_fields.append(MultiFieldInput(name=attr_name,
+            #                                            label=string.capwords(attr_name.replace("_", " ")),
+            #                                            model=model_class, ))
+            # for attr_name, attr_class in model_class._attributes.items():
+            #     if attr_class.field_type.InputType == 'SubformGrid':
+            #         form_fields.append(SubformGrid(name=attr_name,
+            #                                        label=string.capwords(attr_name.replace("_", " ")),
+            #                                        schema=attr_class.schema, ))
         return form_fields
-
 
     @staticmethod
     def fields_content(fields):
@@ -200,7 +209,6 @@ class FormBase:
             else:
                 html_content += f'<div class="row"><div class="col-xs-12" id="{field.container_id}"></div></div>'
         return html_content
-
 
     @staticmethod
     def sections_content(sections):
@@ -247,22 +255,18 @@ class FormBase:
         self.form.cssClass = 'e-fixed'
         # print(anvil.js.window.document.activeElement.tagName)
 
-
     def form_created(self, args):
         print('form created')
         self.form_el = jQuery(f"#{self.form_id}")[0]
         self.form_el.addEventListener('keypress', form_submit)
 
-
     def destroy(self):
         self.form.destroy()
         self.container_el.remove()
 
-
     def before_open(self, args):
         if not self.fullscreen:
             args.maxHeight = '80vh'
-
 
     def form_open(self, args):
         print('form open')
@@ -303,11 +307,9 @@ class FormBase:
             self.validator = ej.inputs.FormValidator(f"#{self.form_id}", self.validation)
         print('form open end')
 
-
     def form_validate(self):
         print('Validation')
         return self.validator.validate() if self.validator is not None else True
-
 
     def form_save(self, args):
         print('SAVE', self.class_name, self.persist)
@@ -341,7 +343,6 @@ class FormBase:
         else:
             args.cancel = True
             print('Invalid Data')
-
 
     def form_cancel(self, args):
         print('CANCEL BASE')
