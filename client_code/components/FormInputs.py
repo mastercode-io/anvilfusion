@@ -215,6 +215,7 @@ class TextInput(BaseInput):
     def __init__(self, input_type='text', **kwargs):
         super().__init__(**kwargs)
         self.input_type = input_type
+        self.element = None
 
         self.html = f'\
             <div class="form-group pm-form-group">\
@@ -228,20 +229,21 @@ class TextInput(BaseInput):
         })
         if self.input_type == 'tel':
             print('create_control', self.input_type)
+            # anvil.js.window[f'{self.el_id}_format_phone_number'] = self.format_phone_number
 
     def show(self):
         super().show()
         if self.input_type == 'tel':
             print('show', self.input_type)
-            element = anvil.js.window.document.getElementById(self.el_id)
+            self.element = anvil.js.window.document.getElementById(self.el_id)
             # element.addEventListener('input', self.format_phone_number(element))
-            self.control.addEventListener('input', self.format_phone_number(element))
+            self.control.addEventListener('input', self.format_phone_number)
         # anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
     # @staticmethod
-    def format_phone_number(self, element):
-        print('format_phone_number', element, element.value)
-        input_value = element.value.replace(r'/\D/g', "")
+    def format_phone_number(self):
+        print('format_phone_number', self.element, self.element.value)
+        input_value = self.element.value.replace(r'/\D/g', "")
         if input_value:
             input_value = input_value[0:10]
             if len(input_value) > 0:
@@ -250,7 +252,7 @@ class TextInput(BaseInput):
                 input_value = input_value[0:4] + ") " + input_value[4:]
             if len(input_value) > 6:
                 input_value = input_value[0:6] + "-" + input_value[6:]
-        element.value = input_value
+        self.element.value = input_value
 
 
 # Multi line text input
