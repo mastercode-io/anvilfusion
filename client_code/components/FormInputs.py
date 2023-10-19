@@ -243,16 +243,17 @@ class TextInput(BaseInput):
     # @staticmethod
     def format_phone_number(self, args):
         print('format_phone_number', args, self.element, self.element.value)
-        input_value = self.element.value.replace(r'/\D/g', "")
+        input_value = ''.join(filter(str.isdigit, self.element.value))
         if input_value:
-            input_value = input_value[0:10]
+            input_value = input_value[:10]
+            formatted_value = ""
             if len(input_value) > 0:
-                input_value = "(" + input_value
+                formatted_value = "(" + input_value[:3]
             if len(input_value) > 3:
-                input_value = input_value[0:4] + ") " + input_value[4:]
+                formatted_value += ") " + input_value[3:6]
             if len(input_value) > 6:
-                input_value = input_value[0:6] + "-" + input_value[6:]
-        self.element.value = input_value
+                formatted_value += "-" + input_value[6:]
+            self.element.value = formatted_value
 
 
 # Multi line text input
