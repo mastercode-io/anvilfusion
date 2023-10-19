@@ -104,7 +104,7 @@ def update_model(class_name, force_update=False, self_ref=False):
                 print(ref_name, ref_obj, self_ref)
                 
                 if self_ref is not True:
-                    ref_sample, ref_refs, ref_log = update_model(ref_obj.class_name, force_update=True, self_ref=False)
+                    ref_sample, ref_refs, ref_log = update_model(ref_obj.class_name, force_update=True, self_ref=True)
                     
                     if ref_sample:
                         sample_data[ref_name] = [ref_sample] if ref_obj.with_many else ref_sample
