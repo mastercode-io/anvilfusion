@@ -1,7 +1,7 @@
 import anvil.js
-from . import FormBase as fbase
+from . import FormBase as form_base
 from . import FormInputs
-from ..datamodel.particles import Attribute, Relationship
+from ..datamodel.particles import Attribute, Relationship, types
 from ..tools.utils import AppEnv
 import datetime
 import string
@@ -64,7 +64,7 @@ class MultiFieldInput(FormInputs.BaseInput):
             if len(section_cols[-1]) < rows_num:
                 section_cols[-1] += [None] * (rows_num - len(section_cols[-1]))
             self.sections = [{'name': self.name, 'label': section_label, 'cols': section_cols}]
-        self.html, _ = fbase.FormBase.sections_content(self.sections)
+        self.html, _ = form_base.FormBase.sections_content(self.sections)
 
     @property
     def enabled(self):
@@ -106,3 +106,14 @@ class MultiFieldInput(FormInputs.BaseInput):
                 field.hide()
             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
             self.visible = False
+
+
+class HyperLinkInput(MultiFieldInput):
+
+    def __init__(self, **kwargs):
+
+        schema = {
+            'title': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
+            'url': Attribute(field_type=types.FieldTypes.SINGLE_LINE),
+        }
+        super().__init__(schema=schema, **kwargs)
