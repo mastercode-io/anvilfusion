@@ -230,7 +230,8 @@ class TextInput(BaseInput):
     def show(self):
         super().show()
         element = anvil.js.window.document.getElementById(self.el_id)
-        self.control.addEventListener('input', self.format_phone_number(element))
+        element.addEventListener('input', self.format_phone_number(element))
+        # self.control.addEventListener('input', self.format_phone_number(element))
         # anvil.js.window.document.getElementById(self.el_id).type = self.input_type
 
     @staticmethod
