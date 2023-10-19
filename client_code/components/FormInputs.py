@@ -222,11 +222,29 @@ class TextInput(BaseInput):
             </div>'
 
     def create_control(self):
-        self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
+        self.control = ej.inputs.TextBox({
+            'placeholder': self.placeholder,
+            'type': self.input_type,
+        })
 
     def show(self):
         super().show()
-        anvil.js.window.document.getElementById(self.el_id).type = self.input_type
+        element = anvil.js.window.document.getElementById(self.el_id)
+        self.control.addEventListener('input', self.format_phone_number(element))
+        # anvil.js.window.document.getElementById(self.el_id).type = self.input_type
+
+    @staticmethod
+    def format_phone_number(element):
+        input_value = element.value.replace(r'/\D/g', "")
+        if input_value:
+            input_value = input_value[0:10]
+            if len(input_value) > 0:
+                input_value = "(" + input_value
+            if len(input_value) > 3:
+                input_value = input_value[0:4] + ") " + input_value[4:]
+            if len(input_value) > 6:
+                input_value = input_value[0:6] + "-" + input_value[6:]
+        element.value = input_value
 
 
 # Multi line text input
