@@ -236,6 +236,7 @@ class TextInput(BaseInput):
 
     @staticmethod
     def format_phone_number(element):
+        print('format_phone_number', element, element.value)
         input_value = element.value.replace(r'/\D/g', "")
         if input_value:
             input_value = input_value[0:10]
