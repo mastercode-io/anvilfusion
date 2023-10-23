@@ -64,7 +64,6 @@ class Relationship:
 
     @property
     def cls(self):
-        print('Relationship.cls', self.class_name, self.__module__)
         try:
             return getattr(sys.modules[self.__module__], self.class_name)
         except AttributeError:
