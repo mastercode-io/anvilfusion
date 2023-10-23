@@ -3,7 +3,7 @@ import anvil.server
 import anvil.js
 import datetime
 from . import types
-from ..tools.utils import get_plural_name, get_table_name
+from ..tools.utils import AppEnv, get_plural_name, get_table_name
 
 
 class Attribute:
@@ -381,7 +381,8 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
     rows = anvil.server.call(
         "fetch_view",
         cls.__name__,
-        cls.__module__,
+        # cls.__module__,
+        AppEnv.data_models.__name__,
         column_names,
         search_queries,
         filters,
