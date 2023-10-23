@@ -65,8 +65,10 @@ class Relationship:
     @property
     def cls(self):
         print('Relationship.cls', self.class_name, self.__module__)
-        # return getattr(sys.modules[self.__module__], self.class_name)
-        return getattr(sys.modules[__name__], self.class_name)
+        try:
+            return getattr(sys.modules[self.__module__], self.class_name)
+        except AttributeError:
+            return getattr(sys.modules[self.__module__[:self.__module__.rfind(".")]], self.class_name)
 
 
 class Computed:
