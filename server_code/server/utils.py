@@ -68,8 +68,9 @@ def set_tenant(tenant_uid=None, tenant_name=None):
         user['tenant_uid'] = tenant_row['uid']
         user['permissions']['locked_tenant'] = True
         user_row = app_tables.users.get(uid=user['uid'])
-        print('user_row', user_row)
-        user_row.update(tenant_uid=tenant_row['uid'], permissions=user['permissions'])
+        print('user_row', user_row, user['permissions'])
+        user_row['tenant_uid'] = tenant_row['uid']
+        user_row['permissions'] = user['permissions']
     return get_logged_user()
 
 
