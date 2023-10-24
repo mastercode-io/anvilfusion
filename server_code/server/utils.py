@@ -58,8 +58,11 @@ def set_tenant(tenant_uid=None, tenant_name=None):
         anvil.server.session['tenant_name'] = 'Super Admin'
         user_row['permissions'].pop('locked_tenant')
         user_row.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user_row['permissions'])
-    elif tenant_uid is None:
-        tenant = app_tables.tenants.get(name=tenant_name)
+    else:
+        if tenant_uid is None:
+            tenant = app_tables.tenants.get(name=tenant_name)
+        else:
+            tenant = app_tables.tenants.get(uid=tenant_uid)
         anvil.server.session['tenant_uid'] = tenant['uid']
         anvil.server.session['tenant_name'] = 'Super Admin: ' + tenant['name']
         user_row['tenant_uid'] = tenant['uid']
