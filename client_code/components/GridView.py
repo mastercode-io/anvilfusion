@@ -6,7 +6,6 @@ import string
 import uuid
 import json
 
-
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
 GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
                                'align': 'Right', 'style': 'color: #d6292c;'}
@@ -35,7 +34,7 @@ GRID_DEFAULT_COMMAND_COLUMN = {
     'width': 80,
     'visible': False,
     'commands': [
-        {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat q-grid-command-edit',}},
+        {'type': 'Edit', 'buttonOption': {'iconCss': 'e-icons e-edit', 'cssClass': 'e-flat q-grid-command-edit', }},
         {'type': 'Delete', 'buttonOption': {'iconCss': 'e-icons e-delete', 'cssClass': 'e-flat q-grid-command-delete'}},
     ]
 }
@@ -137,6 +136,7 @@ class GridView:
         self.form_class = None
         self.confirm_dialog = None
         self.show_confirm_dialog = True
+        self.context_menu_actions = {}
         self.grid_data = data or []
 
         print('GridView', view_name, model)
@@ -184,7 +184,7 @@ class GridView:
             self.view_config['columns'] = view_columns
         print('grid model', model, self.model)
         print('form class', self.form_class)
-            
+
         grid_columns = [{'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'}]
         self.row_actions = {}
         for column in self.view_config['columns']:
@@ -261,8 +261,8 @@ class GridView:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
             toolbar_items = toolbar_items or \
-                self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
-                GRID_DEFAULT_TOOLBAR_ITEMS
+                            self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
+                            GRID_DEFAULT_TOOLBAR_ITEMS
             self.toolbar_items = toolbar_items.copy()
         else:
             self.toolbar_items = []
@@ -270,20 +270,27 @@ class GridView:
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(
             0,
-            {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
+            {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},  # type: ignore
         )
         if 'Filter' in self.grid_view['config']['modes']:
             self.grid_config['filterSettings'] = GRID_DEFAULT_FILTER_SETTINGS
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
-            self.grid_config['columns'].insert(0, 
-                                               {'type': 'checkbox', 'lockColumn': True,
+            self.grid_config['columns'].insert(0,
+                                               {'type': 'checkbox', 'lockColumn': True,  # type: ignore
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']}
                                                )
             self.grid_config['rowSelected'] = self.row_selected
             self.grid_config['rowDeselected'] = self.row_deselected
         self.grid_config['showColumnMenu'] = True
         self.grid_config['allowTextWrap'] = True
+        if context_menu_items:
+            self.grid_config['contextMenuItems'] = []
+            for item in context_menu_items:
+                self.context_menu_actions[item['id']] = item['action']
+                self.grid_config['contextMenuItems'].append(
+                    {'text': item['label'], 'target': '.e-content', 'id': item['id']}  # type: ignore
+                )
         # self.grid_config['enableStickyHeader'] = True
         self.grid_config['width'] = '100%'
         self.grid_config['height'] = '100%'
@@ -332,9 +339,11 @@ class GridView:
                 for text in button.children:
                     text.style = item_style
             if item.get('id') == 'search-toggle':
-                self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
+                self.grid.element.querySelector(
+                    f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
             elif item.get('id') == 'delete':
-                self.grid.element.querySelector(f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+                self.grid.element.querySelector(
+                    f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
             self.grid_data = self.grid_class.get_grid_view(self.view_config,
@@ -360,7 +369,6 @@ class GridView:
                 button = ej.buttons.Button({'content': props['content']})
                 button.appendTo(el)
 
-
     def toolbar_click(self, args):
         print('toolbar_click', args.item, args.cancel)
         if args.item.id == 'add':
@@ -368,35 +376,32 @@ class GridView:
             self.add_edit_row(args=None)
         elif args.item.id == 'search-toggle':
             print('toggle search')
-            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item button[id="search-toggle"]').parentElement.style.display = 'none'
-            self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
+            self.grid.element.querySelector(
+                f'.e-toolbar .e-toolbar-item button[id="search-toggle"]').parentElement.style.display = 'none'
+            self.grid.element.querySelector(
+                f'.e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'inline-flex'
         elif args.item.id == 'search':
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
-
 
     def context_menu_click(self, args):
         print('context_menu_click', args)
         if args.item.id in self.context_menu_actions:
             self.context_menu_actions[args.item.id](args)
 
-
     def row_selected(self, args):
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
-    
-    
+
     def row_deselected(self, args):
         # print('row_deselected', args)
         if not self.grid.getSelectedRecords():
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
-    
-    
+
     def record_click(self, args):
         if args.target.id in self.row_actions:
             print(args.rowIndex, args.rowData)
-            
-            
+
     def grid_action_handler(self, args):
         # print('grid_action_handler', args)
         if args.requestType in ('beginEdit', 'add') and args.type == 'actionComplete':
@@ -409,7 +414,6 @@ class GridView:
             if not self.confirm_dialog:
                 self.confirm_delete(args)
 
-                            
     def add_edit_row(self, args=None, form_data=None):
         print('add_edit_row', args, form_data)
         if args is not None and args.requestType == 'beginEdit':
@@ -425,16 +429,15 @@ class GridView:
             form_action = 'add'
             instance = self.grid_class(**form_data) if form_data else None
         print(form_action, form_data, self.persist)
-        self.form_class(model=self.model, 
-                        data=instance, 
-                        action=form_action, 
+        self.form_class(model=self.model,
+                        data=instance,
+                        action=form_action,
                         update_source=self.update_grid,
-                        source=self, 
+                        source=self,
                         target=self.form_container_id,
                         persist=self.persist,
                         ).form_show()
-        
-        
+
     def confirm_delete(self, args):
         args.cancel = True
         self.confirm_dialog = ej.popups.DialogUtility.confirm({
@@ -443,9 +446,8 @@ class GridView:
             'okButton': {'text': 'Yes', 'click': self.delete_selected},
             'cancelButton': {'text': 'Cancel'},
             'showCloseIcon': True,
-            })
-    
-    
+        })
+
     def delete_selected(self, args, persist=True):
         print('delete_selected')
         self.show_confirm_dialog = False
@@ -453,7 +455,7 @@ class GridView:
             self.confirm_dialog.hide()
             self.confirm_dialog.destroy()
             self.confirm_dialog = None
-            
+
         selected_rows = self.grid.getSelectedRecords() or []
         for grid_row in selected_rows:
             print('Delete row', grid_row)
@@ -471,15 +473,14 @@ class GridView:
                     if db_row is not None:
                         db_row.delete()
 
-
     def update_grid(self, data_row, add_new, get_relationships=False):
         if data_row.uid is None:
             data_row.uid = f"grid_{uuid.uuid4()}"
         grid_row = data_row.get_row_view(
-            self.view_config['columns'], 
-            include_row=False, 
+            self.view_config['columns'],
+            include_row=False,
             get_relationships=get_relationships,
-            )
+        )
         if add_new:
             self.grid.addRecord(grid_row)
         else:
