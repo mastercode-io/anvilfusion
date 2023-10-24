@@ -287,7 +287,7 @@ class GridView:
         if context_menu_items:
             self.grid_config['contextMenuItems'] = []
             for item in context_menu_items:
-                self.context_menu_actions[item['id']] = item['action']
+                self.context_menu_actions[item['id']] = item.get('action', None)
                 self.grid_config['contextMenuItems'].append(
                     {'text': item['label'], 'target': '.e-content', 'id': item['id']}  # type: ignore
                 )
@@ -388,7 +388,7 @@ class GridView:
 
     def context_menu_click(self, args):
         print('context_menu_click', args)
-        if args.item.id in self.context_menu_actions:
+        if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
             self.context_menu_actions[args.item.id](args)
 
     def row_selected(self, args):
