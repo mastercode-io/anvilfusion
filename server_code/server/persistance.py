@@ -32,7 +32,8 @@ def caching_query(search_function):
                 search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-        if anvil.server.session['user_permissions'].get('super_admin', False):
+        if (anvil.server.session['user_permissions'].get('super_admin', False)
+                and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
             search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
@@ -89,7 +90,9 @@ def _get_row(module_name, class_name, uid, **search_args):
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not user_permissions['super_admin'] and 'tenant_uid' not in search_args.keys():
+    if (not user_permissions['super_admin']
+            and not user_permissions.get('locked_tenant', False)
+            and 'tenant_uid' not in search_args.keys()):
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
@@ -101,7 +104,9 @@ def _get_row_by(module_name, class_name, prop, value, **search_args):
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not user_permissions['super_admin'] and 'tenant_uid' not in search_args.keys():
+    if (not user_permissions['super_admin']
+            and not user_permissions.get('locked_tenant', False)
+            and 'tenant_uid' not in search_args.keys()):
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
@@ -109,7 +114,9 @@ def _get_row_by(module_name, class_name, prop, value, **search_args):
 def _search_rows(module_name, class_name, uids):
     """Return the data tables rows for a given list of object instances"""
     search_args = {'uid': q.any_of(*uids)}
-    if not anvil.server.session['user_permissions'].get('super_admin', False):
+    if (not anvil.server.session['user_permissions'].get('super_admin', False)
+            and not anvil.server.session['user_permissions'].get('locked_tenant', False)
+            and 'tenant_uid' not in search_args.keys()):
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).search(**search_args)
 
@@ -189,7 +196,9 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     # print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
     search_definition = anvil.server.session.get(rows_id, None).copy()
     if search_definition is not None:
-        if not anvil.server.session['user_permissions'].get('super_admin', False):
+        if (not anvil.server.session['user_permissions'].get('super_admin', False)
+                and not anvil.server.session['user_permissions'].get('locked_tenant', False)
+                and 'tenant_uid' not in search_definition.keys()):
             search_definition['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
         else:
             search_definition.pop('tenant_uid', None)
@@ -280,7 +289,9 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
     # print('Filters', filters)
-    if not anvil.server.session['user_permissions'].get('super_admin', False) and not filters.get('tenant_uid', None):
+    if (not anvil.server.session['user_permissions'].get('super_admin', False)
+            and not anvil.server.session['user_permissions'].get('locked_tenant', False)
+            and not filters.get('tenant_uid', None)):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
