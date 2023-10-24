@@ -40,7 +40,7 @@ GRID_DEFAULT_COMMAND_COLUMN = {
     ]
 }
 
-GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey', 'Selection']
+GRID_DEFAULT_MODES = ['Sort', 'Filter', 'InfiniteScroll', 'Toolbar', 'Edit', 'ForeignKey', 'Selection', 'ContextMenu']
 GRID_MODE_TO_SWITCH = {
     'Sort': 'allowSorting',
     'Filter': 'allowFiltering',
@@ -120,6 +120,7 @@ class GridView:
                  filters=None,
                  grid_modes=None,
                  toolbar_items=None,
+                 context_menu_items=None,
                  persist=True,
                  add_edit_form=None,
                  data=None,
@@ -373,6 +374,12 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
+
+
+    def context_menu_click(self, args):
+        print('context_menu_click', args)
+        if args.item.id in self.context_menu_actions:
+            self.context_menu_actions[args.item.id](args)
 
 
     def row_selected(self, args):
