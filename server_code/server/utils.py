@@ -53,11 +53,12 @@ def get_logged_user():
 @anvil.server.callable
 def set_tenant(tenant_uid=None, tenant_name=None):
     user = anvil.users.get_user()
+    user_permissions = user['permissions'] or {}
     if tenant_uid is None and tenant_name is None:
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
         anvil.server.session['tenant_name'] = 'Super Admin'
-        user['permissions'].pop('locked_tenant')
-        user.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user['permissions'])
+        user_permissions.pop('locked_tenant')
+        user.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user_permissions)
     else:
         if tenant_uid is None:
             tenant_row = app_tables.tenants.get(name=tenant_name)
@@ -66,11 +67,11 @@ def set_tenant(tenant_uid=None, tenant_name=None):
         anvil.server.session['tenant_uid'] = tenant_row['uid']
         anvil.server.session['tenant_name'] = 'Super Admin: ' + tenant_row['name']
         user['tenant_uid'] = tenant_row['uid']
-        user['permissions']['locked_tenant'] = True
+        user_permissions['locked_tenant'] = True
         user_row = app_tables.users.get(uid=user['uid'])
-        print('user_row', user_row, user['permissions'])
+        print('user_row', user_row, user_permissions)
         user_row['tenant_uid'] = tenant_row['uid']
-        user_row['permissions'] = user['permissions']
+        user_row['permissions'] = user_permissions
     return get_logged_user()
 
 
