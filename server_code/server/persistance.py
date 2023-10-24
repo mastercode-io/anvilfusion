@@ -289,10 +289,11 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
     # print('Filters', filters)
-    if (not anvil.server.session['user_permissions'].get('super_admin', False)
-            and not anvil.server.session['user_permissions'].get('locked_tenant', False)
-            and not filters.get('tenant_uid', None)):
+    if not anvil.server.session['user_permissions'].get('super_admin', False):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    else:
+        if anvil.server.session['user_permissions'].get('locked_tenant', False):
+            filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     print('\nfetch view filters', filters, '\n')
 
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
