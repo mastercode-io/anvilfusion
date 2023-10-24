@@ -10,12 +10,12 @@ import uuid
 @anvil.server.callable
 def init_user_session():
     
-    user_row = anvil.users.get_user()
+    user = anvil.users.get_user()
     
-    if user_row is None:
+    if user is None:
         return None
 
-    user_dict = dict(user_row)
+    user_dict = dict(user)
     anvil.server.session['user_uid'] = user_dict['uid']
     anvil.server.session['user_timezone'] = user_dict['timezone']
     anvil.server.session['user_name'] = (user_dict.get('first_name', '') + ' ' + user_dict.get('last_name', '')).strip()
@@ -25,9 +25,9 @@ def init_user_session():
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
         anvil.server.session['tenant_name'] = 'Super Admin'
     else:
-        tenant = app_tables.tenants.get(uid=user_dict['tenant_uid'])
-        anvil.server.session['tenant_uid'] = tenant['uid']
-        anvil.server.session['tenant_name'] = tenant['name']
+        tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
+        anvil.server.session['tenant_uid'] = tenant_row['uid']
+        anvil.server.session['tenant_name'] = tenant_row['name']
     return get_logged_user()
 
 
@@ -52,12 +52,12 @@ def get_logged_user():
 
 @anvil.server.callable
 def set_tenant(tenant_uid=None, tenant_name=None):
-    user_row = anvil.users.get_user()
+    user = anvil.users.get_user()
     if tenant_uid is None and tenant_name is None:
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
         anvil.server.session['tenant_name'] = 'Super Admin'
-        user_row['permissions'].pop('locked_tenant')
-        user_row.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user_row['permissions'])
+        user['permissions'].pop('locked_tenant')
+        user.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user['permissions'])
     else:
         if tenant_uid is None:
             tenant = app_tables.tenants.get(name=tenant_name)
@@ -65,9 +65,10 @@ def set_tenant(tenant_uid=None, tenant_name=None):
             tenant = app_tables.tenants.get(uid=tenant_uid)
         anvil.server.session['tenant_uid'] = tenant['uid']
         anvil.server.session['tenant_name'] = 'Super Admin: ' + tenant['name']
-        user_row['tenant_uid'] = tenant['uid']
-        user_row['permissions']['locked_tenant'] = True
-        user_row.update(tenant_uid=tenant['uid'], permissions=user_row['permissions'])
+        user['tenant_uid'] = tenant['uid']
+        user['permissions']['locked_tenant'] = True
+        user_row = app_tables.users.get(uid=user['uid'])
+        user_row.update(tenant_uid=tenant['uid'], permissions=user['permissions'])
     return get_logged_user()
 
 
