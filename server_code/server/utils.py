@@ -21,13 +21,21 @@ def init_user_session():
     anvil.server.session['user_name'] = (user_dict.get('first_name', '') + ' ' + user_dict.get('last_name', '')).strip()
     anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
+    tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
+    tenant_uid = ''
+    tenant_name = ''
     if anvil.server.session['user_permissions'].get('super_admin', False):
+        tenant_uid = '00000000-0000-0000-0000-000000000000'
+        tenant_name = 'Super Admin'
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
-        anvil.server.session['tenant_name'] = 'Super Admin'
-    else:
+        anvil.server.session['tenant_name'] = 'Super Admin '
+    if (not anvil.server.session['user_permissions'].get('super_admin', False)
+            or anvil.server.session['user_permissions'].get('locked_tenant', False)):
+        tenant_uid = tenant_row['uid']
+        tenant_name += tenant_row['name']
         tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
-        anvil.server.session['tenant_uid'] = tenant_row['uid']
-        anvil.server.session['tenant_name'] = tenant_row['name']
+    anvil.server.session['tenant_uid'] = tenant_uid
+    anvil.server.session['tenant_name'] = tenant_name
     return get_logged_user()
 
 
