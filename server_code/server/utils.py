@@ -28,11 +28,11 @@ def init_user_session():
         tenant_uid = '00000000-0000-0000-0000-000000000000'
         tenant_name = 'Super Admin'
         anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
-        anvil.server.session['tenant_name'] = 'Super Admin '
+        anvil.server.session['tenant_name'] = 'Super Admin'
     if (not anvil.server.session['user_permissions'].get('super_admin', False)
             or anvil.server.session['user_permissions'].get('locked_tenant', False)):
         tenant_uid = tenant_row['uid']
-        tenant_name += tenant_row['name']
+        tenant_name += f": {tenant_row['name']}" if tenant_name else tenant_row['name']
         tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
