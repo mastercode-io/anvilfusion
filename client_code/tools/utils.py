@@ -204,6 +204,8 @@ class AppEnv:
     aws_access = None
     aws_s3 = None
     logged_user = DotDict({})
+    login_user = None
+    after_login = None
 
     @staticmethod
     def init_enumerations(model_list=None):
