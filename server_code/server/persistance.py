@@ -293,7 +293,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             and not anvil.server.session['user_permissions'].get('locked_tenant', False)
             and not filters.get('tenant_uid', None)):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-        print('\nfetch view filters', filters, '\n')
+    print('\nfetch view filters', filters, '\n')
 
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
 
