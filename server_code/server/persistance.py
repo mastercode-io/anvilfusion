@@ -295,26 +295,19 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
     cols, links = parse_col_names(class_name, class_module, columns)
 
     fetch_query = build_fetch_list(cols, links)
-    # print('Fetch query', class_name)
     cls = getattr(class_module, class_name)
     for key in filters:
         if key in cls._relationships:
-            # print('Filter', key, cls._relationships[key].class_name)
             if not isinstance(filters[key], list):
                 filters[key] = [filters[key]]
-            # print(filters[key])
             rel_uids = [row['uid'] for row in filters[key]]
-            # print(rel_uids)
             rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
-            # print('debug 2')
             filters[key] = q.any_of(*rel_rows)
-    # print('Filters', filters)
     if not anvil.server.session['user_permissions'].get('super_admin', False):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     else:
         if anvil.server.session['user_permissions'].get('locked_tenant', False):
             filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    print('\nfetch view filters', filters, '\n')
 
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
 
