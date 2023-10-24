@@ -291,6 +291,7 @@ class GridView:
                 self.grid_config['contextMenuItems'].append(
                     {'text': item['label'], 'target': '.e-content', 'id': item['id']}  # type: ignore
                 )
+            self.grid_config['contextMenuClick'] = self.context_menu_click
         # self.grid_config['enableStickyHeader'] = True
         self.grid_config['width'] = '100%'
         self.grid_config['height'] = '100%'
