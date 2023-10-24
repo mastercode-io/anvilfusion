@@ -60,15 +60,16 @@ def set_tenant(tenant_uid=None, tenant_name=None):
         user.update(tenant_uid='00000000-0000-0000-0000-000000000000', permissions=user['permissions'])
     else:
         if tenant_uid is None:
-            tenant = app_tables.tenants.get(name=tenant_name)
+            tenant_row = app_tables.tenants.get(name=tenant_name)
         else:
-            tenant = app_tables.tenants.get(uid=tenant_uid)
-        anvil.server.session['tenant_uid'] = tenant['uid']
-        anvil.server.session['tenant_name'] = 'Super Admin: ' + tenant['name']
-        user['tenant_uid'] = tenant['uid']
+            tenant_row = app_tables.tenants.get(uid=tenant_uid)
+        anvil.server.session['tenant_uid'] = tenant_row['uid']
+        anvil.server.session['tenant_name'] = 'Super Admin: ' + tenant_row['name']
+        user['tenant_uid'] = tenant_row['uid']
         user['permissions']['locked_tenant'] = True
         user_row = app_tables.users.get(uid=user['uid'])
-        user_row.update(tenant_uid=tenant['uid'], permissions=user['permissions'])
+        print('user_row', user_row)
+        user_row.update(tenant_uid=tenant_row['uid'], permissions=user['permissions'])
     return get_logged_user()
 
 
