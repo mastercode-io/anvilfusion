@@ -255,11 +255,9 @@ class FormBase:
         view_mode = fullscreen if fullscreen is not None else self.fullscreen
         self.form.show(view_mode)
         # if view_mode:
-        form_el = anvil.js.window.document.getElementById(self.form_id)
-        print('form el', form_el, form_el.id, form_el.style)
-        form_el.style.top = DIALOG_FULLSCREEN_HEIGHT_OFFSET
-        self.form.height = form_el.offsetHeight - DIALOG_FULLSCREEN_HEIGHT_OFFSET
-        print('form height', self.form.height, form_el.offsetHeight, form_el.style.top)
+        self.container_el.style.top = DIALOG_FULLSCREEN_HEIGHT_OFFSET
+        self.form.height = self.container_el.offsetHeight - DIALOG_FULLSCREEN_HEIGHT_OFFSET
+        print('form height', self.form.height, self.container_el.offsetHeight, self.container_el.style.top)
         # print(anvil.js.window.document.activeElement.tagName)
 
     def form_created(self, args):
