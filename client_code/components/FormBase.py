@@ -121,13 +121,13 @@ class FormBase:
             'visible': False,
             'position': {'X': 'center', 'Y': '100'},
             'animationSettings': {'effect': 'Zoom'},
-            'cssClass': 'e-fixed',
+            'cssClass': 'e-fixed py-dialog',
             'open': self.form_open,
             'close': self.form_cancel,
             'beforeOpen': self.before_open,
             'created': self.form_created,
         })
-        self.form.cssClass = 'e-fixed'
+        self.form.cssClass = 'e-fixed py-dialog'
         self.form.appendTo(self.container_el)
 
         if self.form_tabs is not None:
@@ -294,7 +294,7 @@ class FormBase:
                 # print('on_change', field.name)
                 field.on_change({'name': field.name, 'value': field.value})
         self.container_el.style.visibility = 'visible'
-        self.form.cssClass = 'e-fixed'
+        self.form.cssClass = 'e-fixed py-dialog'
         if self.form_tabs is not None:
             for i in range(len(self.form_tabs) - 1, -1, -1):
                 self.tabs.select(i)
