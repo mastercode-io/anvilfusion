@@ -12,6 +12,8 @@ POPUP_WIDTH_COL1 = '400px'
 POPUP_WIDTH_COL2 = '500px'
 POPUP_WIDTH_COL3 = '600px'
 
+DIALOG_FULLSCREEN_HEIGHT_OFFSET = 12
+
 
 # Helper function to update form submit behavior on Enter key click
 def form_submit(args):
@@ -251,8 +253,11 @@ class FormBase:
     def form_show(self, fullscreen=None):
         print('action: form show')
         view_mode = fullscreen if fullscreen is not None else self.fullscreen
+        if view_mode:
+            form_el = anvil.js.window.document.getElementById(self.form_id)
+            form_el.style.top = DIALOG_FULLSCREEN_HEIGHT_OFFSET
+            self.form.height = form_el.offsetHeight - DIALOG_FULLSCREEN_HEIGHT_OFFSET
         self.form.show(view_mode)
-        self.form.cssClass = 'e-fixed'
         # print(anvil.js.window.document.activeElement.tagName)
 
     def form_created(self, args):
