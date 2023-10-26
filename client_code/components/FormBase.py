@@ -259,7 +259,8 @@ class FormBase:
         # self.container_el.height = self.container_el.offsetHeight - DIALOG_FULLSCREEN_HEIGHT_OFFSET
         print('container el', self.container_el.id, self.container_el.style['max-height'], self.container_el.style.top)
         self.container_el.style.top = f"{DIALOG_FULLSCREEN_HEIGHT_OFFSET}px"
-        self.container_el.style['max-height'] = f"{(self.container_el.style['max-height']- DIALOG_FULLSCREEN_HEIGHT_OFFSET)}px"
+        container_el_height = int(self.container_el.style['max-height'][0:-2]) - DIALOG_FULLSCREEN_HEIGHT_OFFSET
+        self.container_el.style['max-height'] = f"{container_el_height}px"
         print('container el', self.container_el.style.top)
         print('form', self.form.height)
         # print(anvil.js.window.document.activeElement.tagName)
