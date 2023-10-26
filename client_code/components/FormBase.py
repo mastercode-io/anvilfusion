@@ -89,7 +89,7 @@ class FormBase:
                 self.form_fields = self.model_fields(self.class_name)
             self.form_content = self.fields_content(self.form_fields)
 
-        self.form_content = f'<form id="{self.form_id}">' + self.form_content + '</form>'
+        self.form_content = f'<form id="{self.form_id}" style="padding-top:1em;!important">' + self.form_content + '</form>'
         self.default_data = {field.name: field.value for field in self.form_fields}
         if not self.data:
             print('no data')
