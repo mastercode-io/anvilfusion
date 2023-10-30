@@ -453,7 +453,9 @@ class RadioButtonInput(BaseInput):
 
         # create html
         spacer = '<br>' if self.direction == 'vertical' else '&nbsp;&nbsp'
-        html_string = f'<div class="form-group pm-form-group pm-radiobutton-input">'
+        html_string = f'<div id="{self.el_id}" class="form-group pm-form-group pm-radiobutton-input">'
+        if self.label:
+            html_string += f'<label class="e-float-text e-label-top" fir="{self.el_id}">{self.label}</label>'
         for option in options:
             el_id = new_el_id()
             html_string += f'<input type="radio" class="form-control" id="{el_id}">{spacer}'
