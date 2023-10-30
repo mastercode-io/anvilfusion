@@ -456,7 +456,7 @@ class RadioButtonInput(BaseInput):
         html_string = f'<div id="{self.el_id}" class="form-group pm-form-group pm-radiobutton-input">'
         if self.label:
             html_string += (f'<div class="e-float-text e-label-top" '
-                            f'style="color:rgba(var(--color-sf-outline));font-size:11px;margin-bottom:5px;">'
+                            f'style="color:rgba(var(--color-sf-outline));font-size:11px;margin-bottom:10px;">'
                             f'{self.label}</div>')
         for option in options:
             el_id = new_el_id()
