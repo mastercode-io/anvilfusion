@@ -97,7 +97,7 @@ def init_user_session(login_form=None, after_login=None):
         logged_user = anvil.server.call('init_user_session')
     print('USER: ', logged_user)
     anvil.server.call('check_session', 'b')
-    return DotDict(logged_user)
+    return DotDict(logged_user) if logged_user else None
 
 
 # Dictionary extension that allows dot notation access to keys
