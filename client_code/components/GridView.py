@@ -1,7 +1,7 @@
 from anvil.js.window import ej, jQuery
 from ..datamodel import types as dmtypes
 from . import FormBase
-from ..tools.utils import AppEnv
+from ..tools.utils import AppEnv, camel_to_title
 import string
 import uuid
 import json
@@ -239,7 +239,7 @@ class GridView:
         self.grid_view['config']['columns'] = grid_columns
 
         # configure Grid control
-        self.grid_title = title or self.grid_class._plural_name
+        self.grid_title = title or camel_to_title(self.grid_class._plural_name)
         self.grid_config = {
             'columns': self.grid_view['config']['columns'],
             'dataSource': self.grid_data,
