@@ -206,6 +206,7 @@ class AppEnv:
     logged_user = DotDict({})
     login_user = None
     after_login = None
+    navigation = None
 
     @staticmethod
     def init_enumerations(model_list=None):
