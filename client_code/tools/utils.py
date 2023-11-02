@@ -82,6 +82,23 @@ def time_js_to_py(time):
     return datetime.datetime(1970, 1, 1, time.getHours(), time.getMinutes())
 
 
+def set_cookie(name, value):
+    anvil.server.cookies.locla[name] = value
+
+
+def set_cookies(cookies):
+    for name, value in cookies.items():
+        anvil.server.cookies.local[name] = value
+
+
+def get_cookie(name):
+    return anvil.server.cookies.local.get(name, None)
+
+
+def get_cookies():
+    return anvil.server.cookies.local
+
+
 # Application environment cache
 # Initialise user session and store user info app session
 def init_user_session(login_form=None, after_login=None):
