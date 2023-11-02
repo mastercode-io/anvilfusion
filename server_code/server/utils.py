@@ -141,3 +141,25 @@ def check_table(table_name=None):
 @anvil.server.callable
 def get_secrets(*secret_names):
     return {secret: anvil.secrets.get_secret(secret) for secret in secret_names}
+
+
+@anvil.server.callable
+def set_cookie(name, value):
+    anvil.server.cookies.local[name] = value
+
+
+@anvil.server.callable
+def set_cookies(cookies):
+    for name, value in cookies.items():
+        anvil.server.cookies.local[name] = value
+
+
+@anvil.server.callable
+def get_cookie(name):
+    return anvil.server.cookies.local.get(name, None)
+
+
+@anvil.server.callable
+def get_cookies():
+    return anvil.server.cookies.local
+

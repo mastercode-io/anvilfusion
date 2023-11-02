@@ -83,20 +83,19 @@ def time_js_to_py(time):
 
 
 def set_cookie(name, value):
-    anvil.server.cookies.locla[name] = value
+    anvil.server.call('set_cookie', name, value)
 
 
 def set_cookies(cookies):
-    for name, value in cookies.items():
-        anvil.server.cookies.local[name] = value
+    anvil.server.call('set_cookies', cookies)
 
 
 def get_cookie(name):
-    return anvil.server.cookies.local.get(name, None)
+    return anvil.server.call('get_cookie', name)
 
 
 def get_cookies():
-    return anvil.server.cookies.local
+    return anvil.server.call('get_cookies')
 
 
 # Application environment cache
