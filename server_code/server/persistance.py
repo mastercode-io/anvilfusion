@@ -298,12 +298,14 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
     cls = getattr(class_module, class_name)
     for key in filters:
         if key in cls._relationships:
-            print('filter', key, filters[key], cls._relationships[key])
             if not isinstance(filters[key], list):
                 filters[key] = [filters[key]]
             rel_uids = [row['uid'] for row in filters[key]]
             rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
-            filters[key] = q.any_of(*rel_rows)
+            if cls._relationships[key].with_many:
+                filters[key] = q.any_of(*[[row] for row in rel_rows])
+            else:
+                filters[key] = q.any_of(*rel_rows)
     if not anvil.server.session['user_permissions'].get('super_admin', False):
         filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     else:
