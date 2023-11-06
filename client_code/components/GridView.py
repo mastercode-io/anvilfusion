@@ -188,6 +188,7 @@ class GridView:
         grid_columns = [{'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'}]
         self.row_actions = {}
         for column in self.view_config['columns']:
+            print(column)
             if column.get('row_action', False):
                 continue
             # {commands: [{buttonOption:{content: 'Details', click: onClick, cssClass: details-icon}}],
