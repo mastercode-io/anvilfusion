@@ -56,13 +56,13 @@ FIELD_TYPES = {
         'ColumnType': 'datetime',
         'InputType': 'DateTimeInput',
         'GridType': 'datetime',
-        'GridFormat': 'dd/MM/yyyy hh:mm',
+        'GridFormat': 'dd/MM/yyyy HH:mm',
     },
     'time': {
         'ColumnType': 'datetime',
         'InputType': 'TimeInput',
         'GridType': 'datetime',
-        'GridFormat': 'hh:mm',
+        'GridFormat': 'HH:mm',
     },
     'boolean': {
         'ColumnType': 'boolean',
