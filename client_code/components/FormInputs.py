@@ -562,7 +562,8 @@ class DropdownInput(BaseInput):
 
 # Lookup input (dropdown with options from a model)
 class LookupInput(DropdownInput):
-    def __init__(self, model=None, text_field=None, compute_option=None, data=None, get_data=True,
+    def __init__(self, model=None, text_field=None, compute_option=None,
+                 data=None, get_data=True, filters=None, search_queries=None,
                  add_item_label=None, add_item_form=None, add_item_model=None, add_item_data=None,
                  add_item=False,
                  **kwargs):
@@ -582,7 +583,8 @@ class LookupInput(DropdownInput):
             elif not data and get_data:
                 cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
                 data = getattr(AppEnv.data_models, self.model).get_grid_view(
-                    view_config={'columns': [{'name': col} for col in cols]})
+                    view_config={'columns': [{'name': col} for col in cols]},
+                    filters=filters, search_queries=search_queries)
         if data:
             # print('lookup data', data)
             options = [
