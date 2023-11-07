@@ -380,32 +380,34 @@ def _get_row_view(self, columns, include_row=True, get_relationships=False):
 @classmethod
 def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
-    search_queries = search_queries or []
-    filters = filters or {}
-    column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
-    if 'uid' not in column_names:
-        column_names.insert(0, 'uid')
-    rows = anvil.server.call(
-        "fetch_view",
-        cls.__name__,
-        cls.__module__,
-        # AppEnv.data_models.__name__,
-        column_names,
-        search_queries,
-        filters,
-    )
+    return anvil.server.call('get_grid_view', view_config, search_queries, filters, include_rows)
 
-    results = []
-    for row in rows:
-        grid_row = {}
-        for col in column_names:
-            value, field = get_col_value(cls, row, col)
-            grid_row[field] = value
-        if include_rows:
-            grid_row['row'] = row
-        results.append(grid_row)
-
-    return results
+    # search_queries = search_queries or []
+    # filters = filters or {}
+    # column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
+    # if 'uid' not in column_names:
+    #     column_names.insert(0, 'uid')
+    # rows = anvil.server.call(
+    #     "fetch_view",
+    #     cls.__name__,
+    #     cls.__module__,
+    #     # AppEnv.data_models.__name__,
+    #     column_names,
+    #     search_queries,
+    #     filters,
+    # )
+    #
+    # results = []
+    # for row in rows:
+    #     grid_row = {}
+    #     for col in column_names:
+    #         value, field = get_col_value(cls, row, col)
+    #         grid_row[field] = value
+    #     if include_rows:
+    #         grid_row['row'] = row
+    #     results.append(grid_row)
+    #
+    # return results
 
 
 def _save(self, audit=True):
