@@ -313,6 +313,7 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         else:
             # Directly get the value from data if not a computed column
             value = data[parent] if not isinstance(data, list) else [row[parent] for row in data]
+        print('get_col_value2', parent, compute_func, value)
     else:  # There is a dot in column name, indicating a relationship
         rel_mapping = relationships_mapping.get(parent)
         if rel_mapping:
