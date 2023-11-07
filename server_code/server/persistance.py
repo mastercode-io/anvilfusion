@@ -302,7 +302,7 @@ def get_row_view(self, columns, include_row=True, get_relationships=False):
 
 
 def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_relationships=False):
-    print(col)
+    # print(col)
     parent, _, sub_col = col.partition('.')
     value = None
 
@@ -314,7 +314,7 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         else:
             # Directly get the value from data if not a computed column
             value = data[parent] if not isinstance(data, list) else [row[parent] for row in data]
-        print('get_col_value2', parent, compute_func, value)
+        # print('get_col_value2', parent, compute_func, value)
     else:  # There is a dot in column name, indicating a relationship
         rel_mapping = relationships_mapping.get(parent)
         if rel_mapping:
@@ -373,7 +373,7 @@ def build_computes_mapping(cls):
 @anvil.server.callable
 def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
-    print('get_grid_view', cls.__name__, view_config)
+    # print('get_grid_view', cls.__name__, view_config)
     search_queries = search_queries or []
     filters = filters or {}
     column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
