@@ -302,6 +302,46 @@ def get_row_view(self, columns, include_row=True, get_relationships=False):
     return row_view
 
 
+def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_relationships=False):
+    parent, _, sub_col = col.partition('.')
+    value = None
+
+    if not sub_col:  # No dot in column name
+        compute_func = computes_mapping.get(parent)
+        if compute_func:
+            # If it's a computed column, use the compute function
+            value = compute_func(cls, data, grid_view=True)
+        else:
+            # Directly get the value from data if not a computed column
+            value = data.get(parent)
+    else:  # There is a dot in column name, indicating a relationship
+        rel_class, with_many = relationships_mapping.get(parent, (None, None))
+        if rel_class:
+            rel_data = data.get(parent)
+            if rel_data is not None:
+                if with_many:
+                    # Get related objects for 'with_many' relationships
+                    rel_value = [rel_class.get(x['uid']) for x in rel_data]
+                else:
+                    # Get a single related object
+                    rel_value = rel_class.get(rel_data.get('uid'))
+                data[parent] = rel_value
+                # Recursively get the column value from the related object
+                value, _ = get_col_value(cls, rel_value, sub_col, computes_mapping, relationships_mapping,
+                                         get_relationships)
+
+    # Formatting for date and datetime values
+    if isinstance(value, (date, datetime)):
+        value = value.isoformat()
+    elif isinstance(value, dict) and '.' not in parent:
+        # Convert dictionary values to a string
+        value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
+
+    # If value is None or an empty list, convert it to an empty string
+    value = value if value not in [None, []] else ''
+    return value, parent.replace('.', '__')
+
+
 @anvil.server.callable
 def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
@@ -319,11 +359,25 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     )
 
     stime = datetime.now()
+
+    # Precompute computes and relationships mappings
+    computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
+    relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
+                             parent, rel in cls._relationships.items()}
+
+    # # Precompute relationship class names if possible
+    # for rel_key, (rel_class, with_many) in relationships_mapping.items():
+    #     if with_many:
+    #         relationships_mapping[rel_key] = ([rel_class.get(x['uid']) for x in data[rel_key]], rel_class)
+    #     else:
+    #         relationships_mapping[rel_key] = (rel_class.get(data[rel_key]['uid']), rel_class)
+
     results = []
     for row in rows:
         grid_row = {}
         for col in column_names:
-            value, field = get_col_value(cls, row, col)
+            # value, field = get_col_value(cls, row, col)
+            value, field = get_col_value2(cls, row, col, computes_mapping, relationships_mapping)
             grid_row[field] = value
         if include_rows:
             grid_row['row'] = row
