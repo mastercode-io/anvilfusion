@@ -357,8 +357,8 @@ class GridView:
                                                self.grid_class.__name__,
                                                self.grid_class.__module__,
                                                [col['name'] for col in self.view_config['columns']],
-                                               self.search_queries,
-                                               self.filters)
+                                               self.search_queries or [],
+                                               self.filters or {})
             self.grid['dataSource'] = self.grid_data
             # print(self.grid_data)
             # print(self.grid_config['columns'])
