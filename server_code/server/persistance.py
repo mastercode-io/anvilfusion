@@ -407,6 +407,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     #         relationships_mapping[rel_key] = (rel_class.get(data[rel_key]['uid']), rel_class)
 
     results = []
+    print(column_names)
     for row in rows:
         grid_row = {}
         for col in column_names:
