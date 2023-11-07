@@ -318,15 +318,16 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         if rel_class:
             rel_data = data.get(parent)
             if rel_data is not None:
-                if with_many:
-                    # Get related objects for 'with_many' relationships
-                    rel_value = [rel_class.get(x['uid']) for x in rel_data]
-                else:
-                    # Get a single related object
-                    rel_value = rel_class.get(rel_data.get('uid'))
-                data[parent] = rel_value
+                if get_relationships:
+                    if with_many:
+                        # Get related objects for 'with_many' relationships
+                        rel_value = [rel_class.get(x['uid']) for x in rel_data]
+                    else:
+                        # Get a single related object
+                        rel_value = rel_class.get(data[parent]['uid'])
+                    data[parent] = rel_value
                 # Recursively get the column value from the related object
-                value, _ = get_col_value2(cls, rel_value, sub_col, computes_mapping, relationships_mapping,
+                value, _ = get_col_value2(cls, data[parent], sub_col, computes_mapping, relationships_mapping,
                                           get_relationships)
 
     # Formatting for date and datetime values
