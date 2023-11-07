@@ -320,8 +320,8 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         if rel_mapping:
             rel_class = rel_mapping["class"]
             with_many = rel_mapping["with_many"]
-            nested_relationships = rel_mapping["relationships"]
-            nested_computes = rel_mapping["computes"]
+            nested_relationships = rel_mapping["relationships"]["relationships"]
+            nested_computes = rel_mapping["relationships"]["computes"]
             rel_data = data.get(parent)
             if rel_data is not None:
                 if get_relationships:
@@ -383,12 +383,11 @@ def build_relationships_mapping(cls, module_sys):
         for parent, rel in inner_cls._relationships.items():
             rel_class = getattr(module_sys, rel.class_name)
             with_many = rel.with_many
-            nested_relationships, nested_computes = build_mapping_for_class(rel_class)
+            nested_relationships = build_mapping_for_class(rel_class)
             inner_relationships_mapping[parent] = {
                 "class": rel_class,
                 "with_many": with_many,
                 "relationships": nested_relationships["relationships"],
-                "computes": nested_computes
             }
 
         # Build computes mapping
