@@ -373,6 +373,7 @@ def build_computes_mapping(cls):
 @anvil.server.callable
 def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
+    print('get_grid_view', cls.__name__, view_config)
     search_queries = search_queries or []
     filters = filters or {}
     column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
