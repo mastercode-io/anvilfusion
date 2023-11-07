@@ -313,10 +313,10 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         else:
             # Directly get the value from data if not a computed column
             value = data[parent] if not isinstance(data, list) else [row[parent] for row in data]
-            # value = data.get(parent)
     else:  # There is a dot in column name, indicating a relationship
-        rel_class, with_many = relationships_mapping.get(parent, (None, None))
-        if rel_class:
+        rel_mapping = relationships_mapping.get(parent)
+        if rel_mapping:
+            rel_class, with_many, nested_relationships = rel_mapping["class"], rel_mapping["with_many"], rel_mapping["nested"]
             rel_data = data.get(parent)
             if rel_data is not None:
                 if get_relationships:
@@ -325,22 +325,47 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
                         rel_value = [rel_class.get(x['uid']) for x in rel_data]
                     else:
                         # Get a single related object
-                        rel_value = rel_class.get(data[parent]['uid'])
+                        rel_value = rel_class.get(rel_data['uid'])
                     data[parent] = rel_value
-                # Recursively get the column value from the related object
-                value, _ = get_col_value2(cls, data[parent], sub_col, computes_mapping, relationships_mapping,
+                # Recursively get the column value from the related object, passing nested mappings
+                value, _ = get_col_value2(cls, data[parent], sub_col, computes_mapping, nested_relationships,
                                           get_relationships)
 
     # Formatting for date and datetime values
     if isinstance(value, (date, datetime)):
         value = value.isoformat()
-    elif isinstance(value, dict) and '.' not in parent:
+    elif isinstance(value, dict) and not sub_col:
         # Convert dictionary values to a string
         value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
 
     # If value is None or an empty list, convert it to an empty string
     value = value if value not in [None, []] else ''
     return value, parent.replace('.', '__')
+
+
+def build_relationships_mapping(cls, module_sys):
+    relationships_mapping = {}
+
+    for parent, rel in cls._relationships.items():
+        rel_class = getattr(module_sys, rel.class_name)
+        with_many = rel.with_many
+        # Recursively build nested relationships
+        nested_relationships = build_relationships_mapping(rel_class, module_sys)
+        relationships_mapping[parent] = {
+            "class": rel_class,
+            "with_many": with_many,
+            "nested": nested_relationships
+        }
+
+    return relationships_mapping
+
+
+def build_computes_mapping(cls):
+    computes_mapping = {}
+    for col, compute in cls._computes.items():
+        computes_mapping[col] = compute.compute
+        # If computes can also have nested computes, you would handle that here similarly.
+    return computes_mapping
 
 
 @anvil.server.callable
@@ -362,9 +387,12 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     stime = datetime.now()
 
     # Precompute computes and relationships mappings
-    computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
-    relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
-                             parent, rel in cls._relationships.items()}
+    module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
+    relationships_mapping = build_relationships_mapping(cls, module_sys)
+    computes_mapping = build_computes_mapping(cls)
+    # computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
+    # relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
+    #                          parent, rel in cls._relationships.items()}
     print('get_grid_view: precompute')
     print(computes_mapping)
     print(relationships_mapping)
