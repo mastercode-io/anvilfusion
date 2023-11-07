@@ -349,16 +349,16 @@ class GridView:
                     f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
-            # self.grid_data = self.grid_class.get_grid_view(self.view_config,
-            #                                                search_queries=self.search_queries,
-            #                                                filters=self.filters,
-            #                                                include_rows=False)
-            self.grid_data = anvil.server.call('fetch_view',
-                                               self.grid_class.__name__,
-                                               self.grid_class.__module__,
-                                               [col['name'] for col in self.view_config['columns']],
-                                               self.search_queries or [],
-                                               self.filters or {})
+            self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                                                           search_queries=self.search_queries,
+                                                           filters=self.filters,
+                                                           include_rows=False)
+            # self.grid_data = anvil.server.call('fetch_view',
+            #                                    self.grid_class.__name__,
+            #                                    self.grid_class.__module__,
+            #                                    [col['name'] for col in self.view_config['columns']],
+            #                                    self.search_queries or [],
+            #                                    self.filters or {})
             self.grid['dataSource'] = self.grid_data
             # print(self.grid_data)
             # print(self.grid_config['columns'])
