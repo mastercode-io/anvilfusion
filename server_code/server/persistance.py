@@ -334,7 +334,7 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
                         rel_value = rel_class.get(rel_data['uid'])
                     data[parent] = rel_value
                 # Recursively get the column value from the related object, passing nested mappings
-                value, _ = get_col_value2(cls, data[parent], sub_col, nested_computes, nested_relationships,
+                value, _ = get_col_value2(rel_class, data[parent], sub_col, nested_computes, nested_relationships,
                                           get_relationships)
 
     # Formatting for date and datetime values
