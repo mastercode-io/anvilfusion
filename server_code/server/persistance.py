@@ -277,7 +277,7 @@ def get_col_value(cls, data, col, get_relationships=False):
                     else:
                         rel_value = rel.get(data[parent]['uid'])
                     data[parent] = rel_value
-                value, _ = get_col_value(rel, data[parent], col)
+                value, _ = get_col_value(rel, data[parent], col, get_relationships=get_relationships)
                 parent = f'{parent}.{col}'
 
     if isinstance(value, (date, datetime)):
@@ -428,23 +428,20 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         search_queries,
         filters,
     )
-
-    stime = datetime.now()
-
     # Precompute computes and relationships mappings
-    module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
-    cls_mapping = build_relationships_mapping(cls, module_sys)
-    relationships_mapping = cls_mapping["relationships"]
-    computes_mapping = cls_mapping["computes"]
+    # module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
+    # cls_mapping = build_relationships_mapping(cls, module_sys)
+    # relationships_mapping = cls_mapping["relationships"]
+    # computes_mapping = cls_mapping["computes"]
     # relationships_mapping = build_relationships_mapping(cls, module_sys)
     # computes_mapping = build_computes_mapping(cls)
     # computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
     # relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
     #                          parent, rel in cls._relationships.items()}
-    print('get_grid_view: precompute')
-    print(computes_mapping)
-    print(relationships_mapping)
-
+    # print('get_grid_view: precompute')
+    # print(computes_mapping)
+    # print(relationships_mapping)
+    #
     # # Precompute relationship class names if possible
     # for rel_key, (rel_class, with_many) in relationships_mapping.items():
     #     if with_many:
@@ -452,13 +449,14 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     #     else:
     #         relationships_mapping[rel_key] = (rel_class.get(data[rel_key]['uid']), rel_class)
 
+    stime = datetime.now()
     results = []
     print(column_names)
     for row in rows:
         grid_row = {}
         for col in column_names:
             # value, field = get_col_value(cls, row, col)
-            value, field = get_col_value2(cls, row, col, computes_mapping, relationships_mapping)
+            value, field = get_col_value(cls, row, col)
             grid_row[field] = value
         if include_rows:
             grid_row['row'] = row
