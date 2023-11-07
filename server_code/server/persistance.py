@@ -3,12 +3,13 @@ import anvil.tables.query as q
 from anvil.server import Capability
 from anvil.tables import app_tables
 
-import functools
 import re
+import sys
 from copy import copy
+import functools
 from importlib import import_module
 from uuid import uuid4
-from datetime import datetime
+from datetime import datetime, date
 
 from ..datamodel.particles import ModelSearchResults
 from ..datamodel import types
@@ -246,6 +247,87 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         ],
         is_last_page,
     )
+    return results
+
+
+def get_col_value(cls, data, col, get_relationships=False):
+    if '.' not in col:
+        if col not in cls._computes:
+            value = data[col] if not isinstance(data, list) else [row[col] for row in data]
+        else:
+            value = cls._computes[col].compute(cls, data, grid_view=True) if not isinstance(data, list) \
+                else [cls._computes[col].compute(cls, x, grid_view=True) for x in data]
+        if isinstance(value, list):
+            # print(col, value)
+            value = ', '.join([str(v) for v in value] if value and isinstance(value[0], dict) else value)
+
+        parent = col
+    else:
+        parent, col = col.split('.', 1)
+        value = data[parent]
+        if value is not None:
+            if parent in cls._attributes:
+                value = data[parent][col]
+                parent = f'{parent}.{col}'
+            else:
+                rel = getattr(sys.modules[cls.__module__], cls._relationships[parent].class_name)
+                # rel = getattr(sys.modules[AppEnv.data_models.__name__], cls._relationships[parent].class_name)
+                if get_relationships:
+                    if cls._relationships[parent].with_many:
+                        rel_value = [rel.get(x['uid']) for x in data[parent]]
+                    else:
+                        rel_value = rel.get(data[parent]['uid'])
+                    data[parent] = rel_value
+                value, _ = get_col_value(rel, data[parent], col)
+                parent = f'{parent}.{col}'
+
+    if isinstance(value, (date, datetime)):
+        # value = anvil.js.window.Date(int(value.strftime('%s')) * 1000)
+        value = value.isoformat()
+    elif isinstance(value, dict) and '.' not in parent:
+        value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
+    value = value or ''
+    return value, parent.replace('.', '__')
+
+
+@anvil.server.callable
+def get_row_view(self, columns, include_row=True, get_relationships=False):
+    row_view = {'uid': self.uid if self.uid else ''}
+    for col in columns:
+        if not col.get('no_data', False):
+            value, field = get_col_value(self.__class__, self, col['name'], get_relationships=get_relationships)
+            row_view[field] = value
+    if include_row:
+        row_view['row'] = self.get(self.uid) if self.uid else None
+    return row_view
+
+
+@anvil.server.callable
+def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
+    """Provides a method to retrieve a set of model instances from the server"""
+    search_queries = search_queries or []
+    filters = filters or {}
+    column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
+    if 'uid' not in column_names:
+        column_names.insert(0, 'uid')
+    rows = fetch_view(
+        cls.__name__,
+        cls.__module__,
+        column_names,
+        search_queries,
+        filters,
+    )
+
+    results = []
+    for row in rows:
+        grid_row = {}
+        for col in column_names:
+            value, field = get_col_value(cls, row, col)
+            grid_row[field] = value
+        if include_rows:
+            grid_row['row'] = row
+        results.append(grid_row)
+
     return results
 
 
