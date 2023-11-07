@@ -318,6 +318,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         filters,
     )
 
+    stime = datetime.now()
     results = []
     for row in rows:
         grid_row = {}
@@ -327,6 +328,8 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         if include_rows:
             grid_row['row'] = row
         results.append(grid_row)
+    etime = datetime.now()
+    print('get_grid_view: build grid', (etime - stime).total_seconds())
 
     return results
 
@@ -373,6 +376,8 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             fetch_dict[key] = build_fetch_list(key_list, key_dict)
         return q.fetch_only(*fetch_list, **fetch_dict)
 
+    stime = datetime.now()
+
     class_module = import_module(module_name)
     cols, links = parse_col_names(class_name, class_module, columns)
 
@@ -394,7 +399,13 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
         if anvil.server.session['user_permissions'].get('locked_tenant', False):
             filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
+    etime = datetime.now()
+    print('fetch_view: build query', (etime - stime).total_seconds())
+
+    stime = datetime.now()
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
+    etime = datetime.now()
+    print('fetch_view: search', (etime - stime).total_seconds())
 
     return rows
 
