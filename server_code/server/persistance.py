@@ -365,6 +365,9 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
     relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
                              parent, rel in cls._relationships.items()}
+    print('get_grid_view: precompute')
+    print(computes_mapping)
+    print(relationships_mapping)
 
     # # Precompute relationship class names if possible
     # for rel_key, (rel_class, with_many) in relationships_mapping.items():
