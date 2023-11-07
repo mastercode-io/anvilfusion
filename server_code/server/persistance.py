@@ -318,7 +318,10 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
     else:  # There is a dot in column name, indicating a relationship
         rel_mapping = relationships_mapping.get(parent)
         if rel_mapping:
-            rel_class, with_many, nested_relationships = rel_mapping["class"], rel_mapping["with_many"], rel_mapping["nested"]
+            rel_class = rel_mapping["class"]
+            with_many = rel_mapping["with_many"]
+            nested_relationships = rel_mapping["relationships"]
+            nested_computes = rel_mapping["computes"]
             rel_data = data.get(parent)
             if rel_data is not None:
                 if get_relationships:
@@ -330,7 +333,7 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
                         rel_value = rel_class.get(rel_data['uid'])
                     data[parent] = rel_value
                 # Recursively get the column value from the related object, passing nested mappings
-                value, _ = get_col_value2(cls, data[parent], sub_col, computes_mapping, nested_relationships,
+                value, _ = get_col_value2(cls, data[parent], sub_col, nested_computes, nested_relationships,
                                           get_relationships)
 
     # Formatting for date and datetime values
@@ -380,11 +383,12 @@ def build_relationships_mapping(cls, module_sys):
         for parent, rel in inner_cls._relationships.items():
             rel_class = getattr(module_sys, rel.class_name)
             with_many = rel.with_many
-            nested_relationships = build_mapping_for_class(rel_class)
+            nested_relationships, nested_computes = build_mapping_for_class(rel_class)
             inner_relationships_mapping[parent] = {
                 "class": rel_class,
                 "with_many": with_many,
-                "nested": nested_relationships["relationships"]
+                "relationships": nested_relationships["relationships"],
+                "computes": nested_computes
             }
 
         # Build computes mapping
