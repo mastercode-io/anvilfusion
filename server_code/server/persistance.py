@@ -302,6 +302,7 @@ def get_row_view(self, columns, include_row=True, get_relationships=False):
 
 
 def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_relationships=False):
+    print(col)
     parent, _, sub_col = col.partition('.')
     value = None
 
