@@ -382,7 +382,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
     rows = fetch_view(
         cls.__name__,
         cls.__module__,
-        column_names,
+        column_names.copy(),
         search_queries,
         filters,
     )
