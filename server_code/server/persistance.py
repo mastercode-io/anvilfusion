@@ -312,7 +312,8 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
             value = compute_func(cls, data, grid_view=True)
         else:
             # Directly get the value from data if not a computed column
-            value = data.get(parent)
+            value = data[parent] if not isinstance(data, list) else [row[parent] for row in data]
+            # value = data.get(parent)
     else:  # There is a dot in column name, indicating a relationship
         rel_class, with_many = relationships_mapping.get(parent, (None, None))
         if rel_class:
