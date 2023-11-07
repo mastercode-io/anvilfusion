@@ -345,29 +345,65 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
     return value, parent.replace('.', '__')
 
 
+# def build_relationships_mapping(cls, module_sys):
+#     relationships_mapping = {}
+#
+#     for parent, rel in cls._relationships.items():
+#         rel_class = getattr(module_sys, rel.class_name)
+#         with_many = rel.with_many
+#         # Recursively build nested relationships
+#         nested_relationships = build_relationships_mapping(rel_class, module_sys)
+#         relationships_mapping[parent] = {
+#             "class": rel_class,
+#             "with_many": with_many,
+#             "nested": nested_relationships
+#         }
+#
+#     return relationships_mapping
+#
+#
+# def build_computes_mapping(cls):
+#     computes_mapping = {}
+#     for col, compute in cls._computes.items():
+#         computes_mapping[col] = compute.compute
+#         # If computes can also have nested computes, you would handle that here similarly.
+#     return computes_mapping
 def build_relationships_mapping(cls, module_sys):
     relationships_mapping = {}
 
-    for parent, rel in cls._relationships.items():
-        rel_class = getattr(module_sys, rel.class_name)
-        with_many = rel.with_many
-        # Recursively build nested relationships
-        nested_relationships = build_relationships_mapping(rel_class, module_sys)
-        relationships_mapping[parent] = {
-            "class": rel_class,
-            "with_many": with_many,
-            "nested": nested_relationships
+    # Function to recursively build mappings
+    def build_mapping_for_class(inner_cls):
+        inner_relationships_mapping = {}
+        inner_computes_mapping = {}
+
+        # Build relationships mapping
+        for parent, rel in inner_cls._relationships.items():
+            rel_class = getattr(module_sys, rel.class_name)
+            with_many = rel.with_many
+            nested_relationships = build_mapping_for_class(rel_class)
+            inner_relationships_mapping[parent] = {
+                "class": rel_class,
+                "with_many": with_many,
+                "nested": nested_relationships["relationships"]
+            }
+
+        # Build computes mapping
+        for col, compute in inner_cls._computes.items():
+            inner_computes_mapping[col] = compute.compute
+
+        return {
+            "relationships": inner_relationships_mapping,
+            "computes": inner_computes_mapping
         }
 
-    return relationships_mapping
+    # Kick off the recursive building with the initial class
+    cls_mapping = build_mapping_for_class(cls)
+    relationships_mapping = cls_mapping["relationships"]
 
+    # You can also get computes mapping for the top-level class, if necessary
+    computes_mapping = cls_mapping["computes"]
 
-def build_computes_mapping(cls):
-    computes_mapping = {}
-    for col, compute in cls._computes.items():
-        computes_mapping[col] = compute.compute
-        # If computes can also have nested computes, you would handle that here similarly.
-    return computes_mapping
+    return relationships_mapping, computes_mapping
 
 
 @anvil.server.callable
@@ -391,8 +427,9 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
 
     # Precompute computes and relationships mappings
     module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
-    relationships_mapping = build_relationships_mapping(cls, module_sys)
-    computes_mapping = build_computes_mapping(cls)
+    relationships_mapping, computes_mapping = build_relationships_mapping(cls, module_sys)
+    # relationships_mapping = build_relationships_mapping(cls, module_sys)
+    # computes_mapping = build_computes_mapping(cls)
     # computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
     # relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
     #                          parent, rel in cls._relationships.items()}
