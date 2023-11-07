@@ -354,7 +354,7 @@ class GridView:
             #                                                filters=self.filters,
             #                                                include_rows=False)
             self.grid_data = anvil.server.call('fetch_view',
-                                               self.grid_class,
+                                               self.grid_class.__name__,
                                                self.grid_class.__module__,
                                                [col['name'] for col in self.view_config['columns']],
                                                self.search_queries,
