@@ -401,13 +401,14 @@ def build_relationships_mapping(cls, module_sys):
         }
 
     # Kick off the recursive building with the initial class
-    cls_mapping = build_mapping_for_class(cls)
-    relationships_mapping = cls_mapping["relationships"]
+    return build_mapping_for_class(cls)
+    # cls_mapping = build_mapping_for_class(cls)
+    # relationships_mapping = cls_mapping["relationships"]
 
     # You can also get computes mapping for the top-level class, if necessary
-    computes_mapping = cls_mapping["computes"]
-
-    return relationships_mapping, computes_mapping
+    # computes_mapping = cls_mapping["computes"]
+    #
+    # return relationships_mapping, computes_mapping
 
 
 @anvil.server.callable
@@ -431,7 +432,9 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
 
     # Precompute computes and relationships mappings
     module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
-    relationships_mapping, computes_mapping = build_relationships_mapping(cls, module_sys)
+    cls_mapping = build_relationships_mapping(cls, module_sys)
+    relationships_mapping = cls_mapping["relationships"]
+    computes_mapping = cls_mapping["computes"]
     # relationships_mapping = build_relationships_mapping(cls, module_sys)
     # computes_mapping = build_computes_mapping(cls)
     # computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
