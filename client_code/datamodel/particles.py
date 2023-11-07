@@ -380,7 +380,7 @@ def _get_row_view(self, columns, include_row=True, get_relationships=False):
 @classmethod
 def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
-    return anvil.server.call('get_grid_view', view_config, search_queries, filters, include_rows)
+    return anvil.server.call('get_grid_view', cls, view_config, search_queries, filters, include_rows)
 
     # search_queries = search_queries or []
     # filters = filters or {}
