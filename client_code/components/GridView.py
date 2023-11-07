@@ -257,7 +257,7 @@ class GridView:
             self.grid_config['allowPaging'] = True
             self.grid_config['pageSettings'] = {'pageSize': self.grid_view['config']['pageSize']}
         else:
-            self.grid_config['pageSettings'] = {'pageSize': 100}
+            self.grid_config['pageSettings'] = {'pageSize': 1000000}
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
