@@ -317,11 +317,12 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
         # print('get_col_value2', parent, compute_func, value)
     else:  # There is a dot in column name, indicating a relationship
         rel_mapping = relationships_mapping.get(parent)
+        print('rel_mapping', parent, rel_mapping)
         if rel_mapping:
             rel_class = rel_mapping["class"]
             with_many = rel_mapping["with_many"]
-            nested_relationships = rel_mapping["relationships"]["relationships"]
-            nested_computes = rel_mapping["relationships"]["computes"]
+            nested_relationships = rel_mapping["relationships"]
+            nested_computes = rel_mapping["computes"]
             rel_data = data.get(parent)
             if rel_data is not None:
                 if get_relationships:
@@ -387,7 +388,7 @@ def build_relationships_mapping(cls, module_sys):
             inner_relationships_mapping[parent] = {
                 "class": rel_class,
                 "with_many": with_many,
-                "relationships": nested_relationships["relationships"],
+                "relationships": nested_relationships,
             }
 
         # Build computes mapping
