@@ -15,7 +15,6 @@ from ..datamodel.particles import ModelSearchResults
 from ..datamodel import types
 from . import security
 
-
 CAMEL_PATTERN = re.compile(r"(?<!^)(?=[A-Z])")
 
 
@@ -327,8 +326,8 @@ def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_
                     rel_value = rel_class.get(rel_data.get('uid'))
                 data[parent] = rel_value
                 # Recursively get the column value from the related object
-                value, _ = get_col_value(cls, rel_value, sub_col, computes_mapping, relationships_mapping,
-                                         get_relationships)
+                value, _ = get_col_value2(cls, rel_value, sub_col, computes_mapping, relationships_mapping,
+                                          get_relationships)
 
     # Formatting for date and datetime values
     if isinstance(value, (date, datetime)):
@@ -442,7 +441,8 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             if not isinstance(filters[key], list):
                 filters[key] = [filters[key]]
             rel_uids = [row['uid'] for row in filters[key]]
-            rel_rows = [row for row in get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
+            rel_rows = [row for row in
+                        get_table(module_name, cls._relationships[key].class_name).search(uid=q.any_of(*rel_uids))]
             if cls._relationships[key].with_many:
                 filters[key] = q.any_of(*[[row] for row in rel_rows])
             else:
