@@ -380,7 +380,8 @@ def _get_row_view(self, columns, include_row=True, get_relationships=False):
 @classmethod
 def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
     """Provides a method to retrieve a set of model instances from the server"""
-    return anvil.server.call('get_grid_view', cls, view_config, search_queries, filters, include_rows)
+    stime = datetime.datetime.now()
+    results = anvil.server.call('get_grid_view', cls, view_config, search_queries, filters, include_rows)
 
     # search_queries = search_queries or []
     # filters = filters or {}
@@ -406,8 +407,11 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
     #     if include_rows:
     #         grid_row['row'] = row
     #     results.append(grid_row)
-    #
-    # return results
+    etime = datetime.datetime.now()
+    print('get_grid_view', cls.__name__, etime - stime)
+
+    return results
+
 
 
 def _save(self, audit=True):
