@@ -269,14 +269,19 @@ class MultiLineInput(BaseInput):
 
 # Number input
 class NumberInput(BaseInput):
-    def __init__(self, **kwargs):
+    def __init__(self, number_format=None, **kwargs):
         super().__init__(**kwargs)
+        self.number_format = number_format
         self.grid_column['type'] = 'number'
         self.grid_column['textAlign'] = 'Right'
         self.grid_column['format'] = 'C2'
 
     def create_control(self):
-        self.control = ej.inputs.NumericTextBox({'placeholder': self.placeholder, 'showSpinButton': False})
+        self.control = ej.inputs.NumericTextBox({
+            'placeholder': self.placeholder,
+            'showSpinButton': False,
+            'format': self.number_format,
+        })
 
 
 # Date picker input
