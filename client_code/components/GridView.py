@@ -79,6 +79,7 @@ GRID_DEFAULT_FILTER_SETTINGS = {'type': 'Menu'}
 
 GRID_HEIGHT_OFFSET = 25
 GRID_DEFAULT_COLUMN_WIDTH = 150
+GRID_DEFAULT_CUSTOM_ATTRIBUTES = {'class': 'align-top'}
 
 
 def get_grid_view(view_config, search_queries=None, filters=None, include_rows=False):
@@ -226,7 +227,7 @@ class GridView:
                         'format': column.get('format', None) or col_attr.field_type.GridFormat,
                         'displayAsCheckBox': col_attr.field_type == dmtypes.FieldTypes.BOOLEAN,
                         'textAlign': 'Left',
-                        'customAttributes': {'class': 'align-top'},
+                        'customAttributes': column.get('custom_attributes', GRID_DEFAULT_CUSTOM_ATTRIBUTES.copy()),
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
                         'visible': column.get('visible', True),
                         # 'valueAccessor': self.format_value,

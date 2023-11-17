@@ -6,14 +6,14 @@ import uuid
 import json
 
 
-PM_SCHEDULE_HEIGHT_OFFSET = 35
-PM_SCHEDULE_DEFAULT_VIEWS = [
+SCHEDULE_HEIGHT_OFFSET = 35
+SCHEDULE_DEFAULT_VIEWS = [
     'Agenda',
     'Day',
     'Week',
     'Month',
 ]
-PM_SCHEDULE_DETAIL_VIEWS = [
+SCHEDULE_DETAIL_VIEWS = [
     # 'Agenda',
     'MonthAgenda',
     'TimelineDay',
@@ -22,9 +22,9 @@ PM_SCHEDULE_DETAIL_VIEWS = [
     'TimelineMonth',
     'TimelineYear',
 ]
-PM_SCHEDULE_CELL_TEMPLATE = '${if(type === "workCells")}<div>${pmRenderCell(resource)}</div>${/if}${if(type === ' \
+SCHEDULE_CELL_TEMPLATE = '${if(type === "workCells")}<div>${pmRenderCell(resource)}</div>${/if}${if(type === ' \
                             '"monthCells")}${/if}'
-PM_EVENT_VIEW_COLUMNS = [
+EVENT_VIEW_COLUMNS = [
     {'name': 'start_time'},
     {'name': 'end_time'},
     {'name': 'activity.name'},
@@ -37,13 +37,13 @@ PM_EVENT_VIEW_COLUMNS = [
 ]
 
 
-class EventScheduleView:
+class ScheduleView:
     def __init__(self,
                  container_id=None,
                  model=None,
                  title=None,
                  ):
-        print('EventScheduleView')
+        print('ScheduleView')
         
         # dependencies
         self.app_model = AppEnv.data_models
@@ -79,7 +79,7 @@ class EventScheduleView:
         schedule_config = {
             'height': '100%',
             'currentView': 'Agenda',
-            'views': PM_SCHEDULE_DEFAULT_VIEWS,
+            'views': SCHEDULE_DEFAULT_VIEWS,
             'selectedDate': Date.now(),
             'eventSettings': {
                 'dataSource': self.data_manager,
@@ -102,7 +102,7 @@ class EventScheduleView:
     def form_show(self, **event_args):
         self.schedule_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
-        self.schedule_height = self.container_el.offsetHeight - PM_SCHEDULE_HEIGHT_OFFSET
+        self.schedule_height = self.container_el.offsetHeight - SCHEDULE_HEIGHT_OFFSET
         self.container_el.innerHTML = f'\
        <div class="pm-scheduleview-container" style="height:{self.schedule_height}px;">\
          <div class="pm-gridview-title">Agenda</div>\
@@ -167,7 +167,7 @@ class EventScheduleView:
         print('Complete', args.requestType)
 
     def hover_event(self, args):
-        if self.schedule.currentView not in PM_SCHEDULE_DETAIL_VIEWS:
+        if self.schedule.currentView not in SCHEDULE_DETAIL_VIEWS:
             event = self.schedule.getEventDetails(args.element)
             if event:
                 event['location'] = 'OVERRIDE'
