@@ -451,7 +451,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
 
     stime = datetime.now()
     results = []
-    print(column_names)
+    # print(column_names)
     for row in rows:
         grid_row = {}
         for col in column_names:
@@ -462,7 +462,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
             grid_row['row'] = row
         results.append(grid_row)
     etime = datetime.now()
-    print('get_grid_view: build grid', (etime - stime))
+    # print('get_grid_view: build grid', (etime - stime))
 
     return results
 
@@ -534,12 +534,12 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
             filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
 
     etime = datetime.now()
-    print('fetch_view: build query', (etime - stime))
+    # print('fetch_view: build query', (etime - stime))
 
     stime = datetime.now()
     rows = get_table(module_name, class_name).search(fetch_query, *search_queries, **filters)
     etime = datetime.now()
-    print('fetch_view: search', (etime - stime))
+    # print('fetch_view: search', (etime - stime))
 
     return rows
 
