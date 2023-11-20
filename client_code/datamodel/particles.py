@@ -409,7 +409,7 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
     #     results.append(grid_row)
 
     etime = datetime.datetime.now()
-    print('get_grid_view', cls.__name__, (etime - stime))
+    # print('get_grid_view', cls.__name__, (etime - stime))
 
     return results
 
