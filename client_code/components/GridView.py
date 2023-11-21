@@ -494,5 +494,6 @@ class GridView:
         if add_new:
             self.grid.addRecord(grid_row)
         else:
-            self.grid.setRowData(grid_row['uid'], grid_row)
+            # self.grid.setRowData(grid_row['uid'], grid_row)
+            self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
         self.grid.refresh()
