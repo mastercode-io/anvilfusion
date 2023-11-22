@@ -396,7 +396,6 @@ class GridView:
             self.confirm_delete(args)
 
     def context_menu_click(self, args):
-        print('context_menu_click', args)
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
             self.context_menu_actions[args.item.id](args)
 
