@@ -27,7 +27,7 @@ class DashboardPage:
         
         self.dashboard = ej.layouts.DashboardLayout(self.layout)
         self.dashboard.change = self.dashboard_event
-        self.dashboard.created= self.dashboard_event
+        self.dashboard.created = self.dashboard_event
         self.dashboard.destroyed = self.dashboard_event
         self.dashboard.drag = self.dashboard_event
         self.dashboard.dragStart = self.dashboard_event
@@ -51,6 +51,7 @@ class DashboardPage:
         #     dashboard_header = ej.navigations.AppBar({'isSticky': True, 'colorMode': 'Inherit'})
         #     dashboard_header.appendTo(f"#{self._element_id}_header")
         self.dashboard.appendTo(f"#{self._element_id}")
+        self.dashboard.addEventListener('resize', self.dashboard_event)
     
     
     def destroy(self):
