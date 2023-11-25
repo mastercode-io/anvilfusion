@@ -26,6 +26,15 @@ class DashboardPage:
         self.page_title = page_title or ''
         
         self.dashboard = ej.layouts.DashboardLayout(self.layout)
+        self.dashboard.change = self.dashboard_event
+        self.dashboard.created= self.dashboard_event
+        self.dashboard.destroyed = self.dashboard_event
+        self.dashboard.drag = self.dashboard_event
+        self.dashboard.dragStart = self.dashboard_event
+        self.dashboard.dragStop = self.dashboard_event
+        self.dashboard.resize = self.dashboard_event
+        self.dashboard.resizeStart = self.dashboard_event
+        self.dashboard.resizeStop = self.dashboard_event
     
     
     def form_show(self):
@@ -48,3 +57,7 @@ class DashboardPage:
         self.dashboard.destroy()
         if self.container_id:
             self.container_el.innerHTML = ''
+
+
+    def dashboard_event(self, args):
+        print('dashboard event', args)
