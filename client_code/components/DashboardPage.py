@@ -1,6 +1,8 @@
-from anvil.js.window import ej, jQuery
+from anvil.js.window import ej, jQuery, Event
+import anvil.js
 from ..tools.utils import AppEnv
 from ..tools import utils
+import time
 
 
 class DashboardPage:
@@ -62,3 +64,9 @@ class DashboardPage:
 
     def dashboard_event(self, args):
         print('dashboard event', args)
+
+
+    def refresh(self):
+        time.sleep(0.5)
+        resize_event = anvil.js.new(Event, 'resize')
+        anvil.js.window.dispatchEvent(resize_event)
