@@ -65,9 +65,9 @@ class PageBase:
             self.visible = True
         if self.page_el:
             self.page_el.style.display = 'block'
-            page_content_el = anvil.js.window.document.getElementById(f'{self.page_el_id}-content')
-            max_height = int(self.container_el.style['max-height'][0:-2])
-            page_content_el.style.height = f'{max_height - 50}px'
+            # page_content_el = anvil.js.window.document.getElementById(f'{self.page_el_id}-content')
+            # max_height = int(self.container_el.style['max-height'][0:-2])
+            # page_content_el.style.height = f'{max_height - 50}px'
 
 
     def hide(self):
