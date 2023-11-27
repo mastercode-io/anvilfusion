@@ -5,6 +5,7 @@ from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
 import uuid
+from openai import OpenAI
 
 
 @anvil.server.callable
