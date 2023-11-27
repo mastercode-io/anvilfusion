@@ -164,3 +164,8 @@ def get_cookie(name):
 def get_cookies():
     return anvil.server.cookies.local
 
+
+@anvil.server.callable
+def get_openai_client(api_key):
+    return OpenAI(api_key=api_key)
+
