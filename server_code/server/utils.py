@@ -5,7 +5,7 @@ from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
 import uuid
-from openai import OpenAI
+# from openai import OpenAI
 
 
 @anvil.server.callable
@@ -165,7 +165,7 @@ def get_cookies():
     return anvil.server.cookies.local
 
 
-@anvil.server.callable
-def get_openai_client(api_key):
-    return OpenAI(api_key=api_key)
+# @anvil.server.callable
+# def get_openai_client(api_key):
+#     return OpenAI(api_key=api_key)
 
