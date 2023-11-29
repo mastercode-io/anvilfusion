@@ -223,8 +223,6 @@ class AppEnv:
     login_user = None
     after_login = None
     navigation = None
-    copilot = None
-    copilot_thread_id = None
 
     @staticmethod
     def init_enumerations(model_list=None):
