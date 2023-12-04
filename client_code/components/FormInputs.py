@@ -560,7 +560,10 @@ class DropdownInput(BaseInput):
 
     @options.setter
     def options(self, options):
-        self._options = options
+        if isinstance(options, list) and options != [] and isinstance(options[0], str):
+            self._options = [{'text': option, 'value': option} for option in options]
+        else:
+            self._options = options
         if self._control is not None:
             self.control.dataSource = options
 
