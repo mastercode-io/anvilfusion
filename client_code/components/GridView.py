@@ -213,8 +213,8 @@ class GridView:
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
                     }
                 else:
+                    col_attr, _ = get_model_attribute(self.model, column['name'])
                     if '.' in column['name']:
-                        print('column', column, col_attr)
                         if col_attr.field_type == dmtypes.FieldTypes.OBJECT and col_attr.schema:
                             col_attr = col_attr.schema[column['name'].split('.')[1]]
                             # print('object', column['name'], col_attr)
