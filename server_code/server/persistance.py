@@ -11,7 +11,7 @@ from importlib import import_module
 from uuid import uuid4
 from datetime import datetime, date
 
-from ..datamodel.particles import ModelSearchResults, ModelType
+from ..datamodel.particles import ModelSearchResults, ModelTypeBase
 from ..datamodel import types
 from . import security
 
@@ -105,7 +105,7 @@ def _get_row(module_name, class_name, uid, **search_args):
 def _get_row_by(module_name, class_name, prop, value, **search_args):
     """Return the data tables row for a given object instance"""
     # search_args[prop] = value
-    if isinstance(value, ModelType):
+    if isinstance(value, ModelTypeBase):
         search_args[prop] = app_tables[value._table_name].get(uid=value.uid)
     else:
         search_args[prop] = value
