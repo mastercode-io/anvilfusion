@@ -228,6 +228,7 @@ class GridView:
                         'displayAsCheckBox': col_attr.field_type == dmtypes.FieldTypes.BOOLEAN,
                         'textAlign': 'Left',
                         'customAttributes': column.get('custom_attributes', GRID_DEFAULT_CUSTOM_ATTRIBUTES.copy()),
+                        'disableHtmlEncode': column.get('disable_html_encode', True),
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
                         'visible': column.get('visible', True),
                         # 'valueAccessor': self.format_value,
