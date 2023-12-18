@@ -233,6 +233,14 @@ class AppEnv:
         )
 
     @staticmethod
+    def init_enum_constants():
+        AppEnv.enum_constants = Enumeration(anvil.server.call(
+            'init_enum_constants',
+            AppEnv.data_models.__name__,
+            'AppEnum',
+        ))
+
+    @staticmethod
     def set_tenant(tenant_uid=None, tenant_name=None, reload_func=None):
         print(AppEnv, AppEnv.logged_user)
         if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
