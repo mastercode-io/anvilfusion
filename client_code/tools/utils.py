@@ -187,6 +187,16 @@ class Enumeration:
     def __len__(self):
         return len(self._values)
 
+    def __contains__(self, item):
+        attr_name = item.upper() if self._upper_case is True else item
+        return attr_name in self._values
+
+    def __getitem__(self, name):
+        attr_name = name.upper() if self._upper_case is True else name
+        if attr_name in self._values:
+            return self._values[attr_name]
+        raise KeyError(name)
+
     class Member:
         def __init__(self, name, value):
             self.name = name
@@ -194,11 +204,6 @@ class Enumeration:
             if isinstance(value, dict):
                 for key, value in value.items():
                     setattr(self, key, value)
-
-    def __getitem__(self, name):
-        if name in self._values:
-            return self._values[name]
-        raise KeyError(name)
 
 
 class AppEnv:
