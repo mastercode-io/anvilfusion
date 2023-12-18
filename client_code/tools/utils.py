@@ -194,8 +194,9 @@ class Enumeration:
     def __getitem__(self, name):
         attr_name = name.upper() if self._upper_case is True else name
         if attr_name in self._values:
-            return self._values[attr_name]
-        raise KeyError(name)
+            member = self._values[attr_name]
+            return member.value if not isinstance(member.value, dict) else DotDict(member.value)
+        return None
 
     class Member:
         def __init__(self, name, value):
