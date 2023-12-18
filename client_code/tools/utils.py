@@ -210,6 +210,7 @@ class AppEnv:
     views = None
     pages = None
     enum_models = None
+    enum_constants = None
     grid_settings = {}
     start_menu = None
     aws_config = {
