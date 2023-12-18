@@ -132,7 +132,8 @@ def init_model_enumerations(module, model_list):
 
 @anvil.server.callable
 def init_enum_constants(module, enum_model):
-    app_enum = import_module(module).__getattr__(enum_model)
+    models = import_module(module)
+    app_enum = getattr(models, enum_model)
     enum_list = {enum.name: enum.options for enum in app_enum.search()}
     return enum_list
 
