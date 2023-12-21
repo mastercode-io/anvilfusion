@@ -9,9 +9,12 @@ import uuid
 
 
 @anvil.server.callable
-def init_user_session():
-    
-    user = anvil.users.get_user()
+def init_user_session(user_email=None, password=None):
+
+    if user_email and password:
+        user = anvil.users.login_with_email(user_email, password)
+    else:
+        user = anvil.users.get_user()
     
     if user is None:
         return None
