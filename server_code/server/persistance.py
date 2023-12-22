@@ -94,10 +94,10 @@ def _get_row(module_name, class_name, uid, **search_args):
     #         and not user_permissions.get('locked_tenant', False)
     #         and 'tenant_uid' not in search_args.keys()):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not anvil.server.session['user_permissions'].get('super_admin', False):
+    if not anvil.server.session.get('user_permissions', {}).get('super_admin', False):
         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     else:
-        if anvil.server.session['user_permissions'].get('locked_tenant', False):
+        if anvil.server.session('user_permissions', {}).get('locked_tenant', False):
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
