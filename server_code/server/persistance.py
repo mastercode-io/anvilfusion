@@ -73,7 +73,7 @@ def get_table(module_name, class_name):
 
 def get_user_permissions():
     """Return the user permissions"""
-    user_permissions = anvil.server.session['user_permissions']
+    user_permissions = anvil.server.session.get('user_permissions', {})
     if 'administrator' not in user_permissions:
         user_permissions['administrator'] = False
     if 'super_admin' not in user_permissions:
