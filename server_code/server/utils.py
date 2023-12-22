@@ -90,6 +90,15 @@ def set_tenant(tenant_uid=None, tenant_name=None):
 
 
 @anvil.server.callable
+def set_system_user(tenant_uid):
+    anvil.server.session['tenant_uid'] = tenant_uid
+    anvil.server.session['user_uid'] = 'api request'
+    anvil.server.session['user_permissions'] = {}
+    print('set_system_user', anvil.server.session)
+
+
+
+@anvil.server.callable
 def signup_user(email, password, tenant_uid):
     try:
         user_row = anvil.users.signup_with_email(email, password)
