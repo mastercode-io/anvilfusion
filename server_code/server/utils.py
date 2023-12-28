@@ -5,17 +5,18 @@ from importlib import import_module
 from anvil.tables import app_tables
 import anvil.secrets
 import uuid
+
+
 # from openai import OpenAI
 
 
 @anvil.server.callable
 def init_user_session(user_email=None, password=None):
-
     if user_email and password:
         user = anvil.users.login_with_email(user_email, password)
     else:
         user = anvil.users.get_user()
-    
+
     if user is None:
         return None
 
@@ -46,7 +47,7 @@ def init_user_session(user_email=None, password=None):
 @anvil.server.callable
 def check_session(tag=None):
     print(f'session check {tag}', anvil.server.session)
-    
+
 
 @anvil.server.callable
 def get_logged_user():
@@ -90,12 +91,11 @@ def set_tenant(tenant_uid=None, tenant_name=None):
 
 
 @anvil.server.callable
-def set_system_user(tenant_uid):
+def set_tenant_system_user(tenant_uid):
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['user_uid'] = 'api request'
     anvil.server.session['user_permissions'] = {}
-    print('set_system_user', anvil.server.session)
-
+    print('set_tenant_system_user', anvil.server.session)
 
 
 @anvil.server.callable
@@ -184,8 +184,6 @@ def get_cookie(name):
 def get_cookies():
     return anvil.server.cookies.local
 
-
 # @anvil.server.callable
 # def get_openai_client(api_key):
 #     return OpenAI(api_key=api_key)
-
