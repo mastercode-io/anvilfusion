@@ -93,7 +93,7 @@ def set_tenant(tenant_uid=None, tenant_name=None):
 @anvil.server.callable
 def set_tenant_system_user(tenant_uid):
     anvil.server.session['tenant_uid'] = tenant_uid
-    anvil.server.session['user_uid'] = 'api request'
+    anvil.server.session['user_uid'] = 'system'
     anvil.server.session['user_permissions'] = {}
     print('set_tenant_system_user', anvil.server.session)
 
