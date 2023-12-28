@@ -64,7 +64,7 @@ def get_logged_user():
 
 
 @anvil.server.callable
-def set_tenant(tenant_uid=None, tenant_name=None):
+def set_tenant_admin(tenant_uid=None, tenant_name=None):
     user = anvil.users.get_user()
     user_row = app_tables.users.get(uid=user['uid'])
     user_permissions = user['permissions'] or {}

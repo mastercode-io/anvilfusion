@@ -248,10 +248,10 @@ class AppEnv:
         ))
 
     @staticmethod
-    def set_tenant(tenant_uid=None, tenant_name=None, reload_func=None):
+    def set_tenant_admin(tenant_uid=None, tenant_name=None, reload_func=None):
         print(AppEnv, AppEnv.logged_user)
         if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
-            logged_user = anvil.server.call('set_tenant',
+            logged_user = anvil.server.call('set_tenant_admin',
                                             tenant_uid=tenant_uid,
                                             tenant_name=tenant_name)
             AppEnv.logged_user = DotDict(logged_user)
@@ -259,9 +259,9 @@ class AppEnv:
             reload_func()
 
     @staticmethod
-    def reset_tenant(reload_func=None):
+    def reset_tenant_admin(reload_func=None):
         if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
-            logged_user = anvil.server.call('set_tenant')
+            logged_user = anvil.server.call('set_tenant_admin')
             AppEnv.logged_user = DotDict(logged_user)
         if callable(reload_func):
             reload_func()
