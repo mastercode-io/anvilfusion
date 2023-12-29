@@ -414,7 +414,6 @@ def _get_grid_view(cls, view_config, search_queries=None, filters=None, include_
     return results
 
 
-
 def _save(self, audit=True):
     """Provides a method to persist an instance to the database"""
     instance = anvil.server.call("save_object", self, audit)
