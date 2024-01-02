@@ -13,6 +13,7 @@ from datetime import datetime, date
 
 from ..datamodel.particles import ModelSearchResults, ModelTypeBase
 from ..datamodel import types
+from ..tools.utils import AppEnv
 from . import security
 from .utils import check_session
 
@@ -35,6 +36,7 @@ def caching_query(search_function):
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
         check_session()
+        print('env', AppEnv.logged_user)
         if (anvil.server.session['user_permissions'].get('super_admin', False)
                 and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
             search_args.pop('tenant_uid', None)
