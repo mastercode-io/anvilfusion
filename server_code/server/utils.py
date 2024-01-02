@@ -7,9 +7,6 @@ import anvil.secrets
 import uuid
 
 
-# from openai import OpenAI
-
-
 @anvil.server.callable
 def init_user_session(user_email=None, password=None):
     if user_email and password:
