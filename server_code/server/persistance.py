@@ -37,7 +37,7 @@ def caching_query(search_function):
             search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
         check_session()
         print('env', AppEnv.logged_user)
-        print(anvil.server.cookies.local['logged_user'])
+        print('cookies', anvil.server.cookies.local['logged_user'])
         if (anvil.server.session['user_permissions'].get('super_admin', False)
                 and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
             search_args.pop('tenant_uid', None)
