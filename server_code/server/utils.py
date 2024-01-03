@@ -38,7 +38,10 @@ def init_user_session(user_email=None, password=None):
         tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
-    return get_logged_user()
+    logged_user = get_logged_user()
+    anvil.server.session['logged_user'] = logged_user
+    anvil.server.cookies.local['logged_user'] = logged_user
+    return logged_user
 
 
 @anvil.server.callable
