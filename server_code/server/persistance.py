@@ -15,8 +15,7 @@ from ..datamodel.particles import ModelSearchResults, ModelTypeBase
 from ..datamodel import types
 from ..tools.utils import AppEnv
 from . import security
-from .utils import check_session
-
+from .utils import check_session, get_logged_user
 
 CAMEL_PATTERN = re.compile(r"(?<!^)(?=[A-Z])")
 
@@ -28,18 +27,22 @@ def caching_query(search_function):
     def wrapper(
             class_name, module_name, page_length, max_depth, with_class_name, **search_args
     ):
+        logged_user = get_logged_user()
+        user_permissions = get_user_permissions()
+        print('search', logged_user)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
                 ref_row = _get_row(ref_obj.__module__, ref_obj.__class__.__name__, ref_obj.__dict__['uid'])
                 search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
-            search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+            search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
         check_session()
         print('env', AppEnv.logged_user)
         print('cookies', anvil.server.cookies.local['logged_user'])
-        if (anvil.server.session['user_permissions'].get('super_admin', False)
-                and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
+        # if (anvil.server.session['user_permissions'].get('super_admin', False)
+        #         and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
+        if user_permissions['super_admin'] and not user_permissions['locked_tenant']:
             search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
@@ -79,9 +82,7 @@ def get_table(module_name, class_name):
 
 def get_user_permissions():
     """Return the user permissions"""
-    logged_user = anvil.server.session.get('logged_user', None)
-    if not logged_user:
-        logged_user = anvil.server.cookies.local.get('logged_user', {})
+    logged_user = get_logged_user()
     user_permissions = logged_user.get('permissions', {})
     if 'administrator' not in user_permissions:
         user_permissions['administrator'] = False
@@ -97,6 +98,7 @@ def get_user_permissions():
 def _get_row(module_name, class_name, uid, **search_args):
     """Return the data tables row for a given object instance"""
     search_args['uid'] = uid
+    logged_user = get_logged_user()
     user_permissions = get_user_permissions()
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
@@ -105,12 +107,17 @@ def _get_row(module_name, class_name, uid, **search_args):
     #         and not user_permissions.get('locked_tenant', False)
     #         and 'tenant_uid' not in search_args.keys()):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    print('persistence', anvil.server.session)
-    if not anvil.server.session.get('user_permissions', {}).get('super_admin', False):
-        search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    # print('persistence', anvil.server.session)
+    # if not anvil.server.session.get('user_permissions', {}).get('super_admin', False):
+    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    # else:
+    #     if anvil.server.session.get('user_permissions', {}).get('locked_tenant', False):
+    #         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    if not user_permissions['super_admin']:
+        search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     else:
-        if anvil.server.session.get('user_permissions', {}).get('locked_tenant', False):
-            search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+        if user_permissions['locked_tenant']:
+            search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
 

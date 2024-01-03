@@ -38,9 +38,19 @@ def init_user_session(user_email=None, password=None):
         tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
-    logged_user = get_logged_user()
+
+    logged_user = {
+        'tenant_uid': anvil.server.session['tenant_uid'],
+        'tenant_name': anvil.server.session['tenant_name'],
+        'user_uid': anvil.server.session['user_uid'],
+        'user_name': anvil.server.session['user_name'],
+        'email': anvil.server.session['user_email'],
+        'timezone': anvil.server.session['user_timezone'],
+        'permissions': anvil.server.session['user_permissions'],
+    }
     anvil.server.session['logged_user'] = logged_user
     anvil.server.cookies.local['logged_user'] = logged_user
+
     return logged_user
 
 
@@ -51,16 +61,10 @@ def check_session(tag=None):
 
 @anvil.server.callable
 def get_logged_user():
-    logged_user = {
-        'tenant_uid': anvil.server.session['tenant_uid'],
-        'tenant_name': anvil.server.session['tenant_name'],
-        'user_uid': anvil.server.session['user_uid'],
-        'user_name': anvil.server.session['user_name'],
-        'email': anvil.server.session['user_email'],
-        'timezone': anvil.server.session['user_timezone'],
-        'permissions': anvil.server.session['user_permissions'],
-    }
-    return logged_user
+    return anvil.server.session.get(
+        'logged_user',
+        anvil.server.cookies.local.get('logged_user', {})
+    )
 
 
 @anvil.server.callable
