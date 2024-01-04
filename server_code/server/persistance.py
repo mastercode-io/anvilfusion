@@ -271,7 +271,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     return results
 
 
-def get_col_value(cls, data, col, get_relationships=False):
+def get_col_value(cls, data, col, get_relationships=False, json=False):
     if '.' not in col:
         if col not in cls._computes:
             value = data[col] if not isinstance(data, list) else [row[col] for row in data]
@@ -308,7 +308,9 @@ def get_col_value(cls, data, col, get_relationships=False):
     elif isinstance(value, dict) and '.' not in parent:
         value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
     value = value or ''
-    return value, parent.replace('.', '__')
+    if not json:
+        parent = parent.replace('.', '__')
+    return value, parent
 
 
 @anvil.server.callable
@@ -435,7 +437,7 @@ def build_relationships_mapping(cls, module_sys):
 
 
 @anvil.server.callable
-def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False):
+def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False, json=False):
     """Provides a method to retrieve a set of model instances from the server"""
     # print('get_grid_view', cls.__name__, view_config)
     search_queries = search_queries or []
@@ -478,7 +480,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         grid_row = {}
         for col in column_names:
             # value, field = get_col_value(cls, row, col)
-            value, field = get_col_value(cls, row, col)
+            value, field = get_col_value(cls, row, col, json=json)
             grid_row[field] = value
         if include_rows:
             grid_row['row'] = row
