@@ -533,6 +533,8 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
 
     stime = datetime.now()
 
+    logged_user = get_logged_user()
+    user_permissions = get_user_permissions()
     class_module = import_module(module_name)
     cols, links = parse_col_names(class_name, class_module, columns)
 
@@ -549,11 +551,11 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
                 filters[key] = q.any_of(*[[row] for row in rel_rows])
             else:
                 filters[key] = q.any_of(*rel_rows)
-    if not anvil.server.session['user_permissions'].get('super_admin', False):
-        filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+    if not user_permissions['super_admin']:
+        filters['tenant_uid'] = logged_user.get('tenant_uid', None)
     else:
-        if anvil.server.session['user_permissions'].get('locked_tenant', False):
-            filters['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+        if user_permissions['locked_tenant']:
+            filters['tenant_uid'] = logged_user.get('tenant_uid', None)
 
     etime = datetime.now()
     # print('fetch_view: build query', (etime - stime))
