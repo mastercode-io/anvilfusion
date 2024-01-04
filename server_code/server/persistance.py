@@ -582,9 +582,8 @@ def basic_search(class_name, **search_args):
 def save_object(instance, audit):
     """Persist an instance to the database by adding or updating a row"""
     class_name = type(instance).__name__
-    # table = get_table(class_name)
     table = getattr(app_tables, instance._table_name)
-    # print('Save object', class_name, instance, instance._table_name)
+    logged_user = get_logged_user()
 
     attributes = {
         name: getattr(instance, name)
@@ -624,8 +623,8 @@ def save_object(instance, audit):
 
     has_permission = False
     current_time = datetime.now()
-    current_tenant_uid = anvil.server.session.get('tenant_uid', None)
-    current_user_uid = anvil.server.session.get('user_uid', None)
+    current_tenant_uid = logged_user.get('tenant_uid', None)
+    current_user_uid = logged_user.get('user_uid', None)
     prev_row = None
     new_row = None
     if instance.uid is not None:
