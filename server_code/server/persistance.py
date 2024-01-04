@@ -229,13 +229,15 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None):
 def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None):
     """Return a list of object instances from a cached data tables search"""
     # print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
+    logged_user = get_logged_user()
+    user_permissions = get_user_permissions()
     search_definition = anvil.server.session.get(rows_id, None).copy()
     if search_definition is not None:
-        if not anvil.server.session['user_permissions'].get('super_admin', False):
-            search_definition['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+        if not user_permissions['super_admin']:
+            search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         else:
-            if anvil.server.session['user_permissions'].get('locked_tenant', False):
-                search_definition['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
+            if user_permissions['locked_tenant']:
+                search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         # if (not anvil.server.session['user_permissions'].get('super_admin', False)
         #         and not anvil.server.session['user_permissions'].get('locked_tenant', False)
         #         and 'tenant_uid' not in search_definition.keys()):
