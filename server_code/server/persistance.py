@@ -289,10 +289,10 @@ def get_col_value(cls, data, col, get_relationships=False, json=False):
                 # rel = getattr(sys.modules[AppEnv.data_models.__name__], cls._relationships[parent].class_name)
                 if get_relationships:
                     if cls._relationships[parent].with_many:
-                        rel_value = [rel.get(x['uid']) for x in data[parent]]
+                        rel_value = [dict(rel.get(x['uid'])) for x in data[parent]]
                     else:
-                        rel_value = rel.get(data[parent]['uid'])
-                    data[parent] = dict(rel_value)
+                        rel_value = dict(rel.get(data[parent]['uid']))
+                    data[parent] = rel_value
                 value, _ = get_col_value(rel, data[parent], col, get_relationships=get_relationships)
                 parent = f'{parent}.{col}'
 
