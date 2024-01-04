@@ -238,12 +238,6 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         else:
             if user_permissions['locked_tenant']:
                 search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
-        # if (not anvil.server.session['user_permissions'].get('super_admin', False)
-        #         and not anvil.server.session['user_permissions'].get('locked_tenant', False)
-        #         and 'tenant_uid' not in search_definition.keys()):
-        #     search_definition['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-        # else:
-        #     search_definition.pop('tenant_uid', None)
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
         if search_query is not None:
@@ -298,7 +292,7 @@ def get_col_value(cls, data, col, get_relationships=False, json=False):
                         rel_value = [rel.get(x['uid']) for x in data[parent]]
                     else:
                         rel_value = rel.get(data[parent]['uid'])
-                    data[parent] = rel_value
+                    data[parent] = dict(rel_value)
                 value, _ = get_col_value(rel, data[parent], col, get_relationships=get_relationships)
                 parent = f'{parent}.{col}'
 
@@ -325,121 +319,9 @@ def get_row_view(self, columns, include_row=True, get_relationships=False):
     return row_view
 
 
-def get_col_value2(cls, data, col, computes_mapping, relationships_mapping, get_relationships=False):
-    # print(col)
-    parent, _, sub_col = col.partition('.')
-    value = None
-
-    if not sub_col:  # No dot in column name
-        compute_func = computes_mapping.get(parent)
-        if compute_func:
-            # If it's a computed column, use the compute function
-            value = compute_func(cls, data, grid_view=True)
-        else:
-            # Directly get the value from data if not a computed column
-            value = data[parent] if not isinstance(data, list) else [row[parent] for row in data]
-        # print('get_col_value2', parent, compute_func, value)
-    else:  # There is a dot in column name, indicating a relationship
-        rel_mapping = relationships_mapping.get(parent)
-        # print('rel_mapping', parent, rel_mapping.keys())
-        if rel_mapping:
-            rel_class = rel_mapping["class"]
-            with_many = rel_mapping["with_many"]
-            nested_relationships = rel_mapping["relationships"]
-            nested_computes = rel_mapping["computes"]
-            rel_data = data.get(parent)
-            if rel_data is not None:
-                if get_relationships:
-                    if with_many:
-                        # Get related objects for 'with_many' relationships
-                        rel_value = [rel_class.get(x['uid']) for x in rel_data]
-                    else:
-                        # Get a single related object
-                        rel_value = rel_class.get(rel_data['uid'])
-                    data[parent] = rel_value
-                # Recursively get the column value from the related object, passing nested mappings
-                value, _ = get_col_value2(rel_class, data[parent], sub_col, nested_computes, nested_relationships,
-                                          get_relationships)
-
-    # Formatting for date and datetime values
-    if isinstance(value, (date, datetime)):
-        value = value.isoformat()
-    elif isinstance(value, dict) and not sub_col:
-        # Convert dictionary values to a string
-        value = ', '.join([str(value[k]) for k in value.keys() if value[k]])
-
-    # If value is None or an empty list, convert it to an empty string
-    value = value if value not in [None, []] else ''
-    return value, parent.replace('.', '__')
-
-
-# def build_relationships_mapping(cls, module_sys):
-#     relationships_mapping = {}
-#
-#     for parent, rel in cls._relationships.items():
-#         rel_class = getattr(module_sys, rel.class_name)
-#         with_many = rel.with_many
-#         # Recursively build nested relationships
-#         nested_relationships = build_relationships_mapping(rel_class, module_sys)
-#         relationships_mapping[parent] = {
-#             "class": rel_class,
-#             "with_many": with_many,
-#             "nested": nested_relationships
-#         }
-#
-#     return relationships_mapping
-#
-#
-# def build_computes_mapping(cls):
-#     computes_mapping = {}
-#     for col, compute in cls._computes.items():
-#         computes_mapping[col] = compute.compute
-#         # If computes can also have nested computes, you would handle that here similarly.
-#     return computes_mapping
-def build_relationships_mapping(cls, module_sys):
-    relationships_mapping = {}
-
-    # Function to recursively build mappings
-    def build_mapping_for_class(inner_cls):
-        inner_relationships_mapping = {}
-        inner_computes_mapping = {}
-
-        # Build relationships mapping
-        for parent, rel in inner_cls._relationships.items():
-            rel_class = getattr(module_sys, rel.class_name)
-            with_many = rel.with_many
-            nested_relationships = build_mapping_for_class(rel_class)
-            inner_relationships_mapping[parent] = {
-                "class": rel_class,
-                "with_many": with_many,
-                "relationships": nested_relationships["relationships"],
-                "computes": nested_relationships["computes"]
-            }
-
-        # Build computes mapping
-        for col, compute in inner_cls._computes.items():
-            inner_computes_mapping[col] = compute.compute
-
-        return {
-            "relationships": inner_relationships_mapping,
-            "computes": inner_computes_mapping
-        }
-
-    # Kick off the recursive building with the initial class
-    return build_mapping_for_class(cls)
-    # cls_mapping = build_mapping_for_class(cls)
-    # relationships_mapping = cls_mapping["relationships"]
-
-    # You can also get computes mapping for the top-level class, if necessary
-    # computes_mapping = cls_mapping["computes"]
-    #
-    # return relationships_mapping, computes_mapping
-
-
 @anvil.server.callable
 def get_grid_view(cls, view_config, search_queries=None, filters=None, include_rows=False, json=False):
     """Provides a method to retrieve a set of model instances from the server"""
-    # print('get_grid_view', cls.__name__, view_config)
     search_queries = search_queries or []
     filters = filters or {}
     column_names = [col['name'] for col in view_config['columns'] if not col.get('no_data', False)]
@@ -452,26 +334,6 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         search_queries,
         filters,
     )
-    # Precompute computes and relationships mappings
-    # module_sys = sys.modules[cls.__module__]  # You would get this from the actual class context.
-    # cls_mapping = build_relationships_mapping(cls, module_sys)
-    # relationships_mapping = cls_mapping["relationships"]
-    # computes_mapping = cls_mapping["computes"]
-    # relationships_mapping = build_relationships_mapping(cls, module_sys)
-    # computes_mapping = build_computes_mapping(cls)
-    # computes_mapping = {col: compute.compute for col, compute in cls._computes.items()}
-    # relationships_mapping = {parent: (getattr(sys.modules[cls.__module__], rel.class_name), rel.with_many) for
-    #                          parent, rel in cls._relationships.items()}
-    # print('get_grid_view: precompute')
-    # print(computes_mapping)
-    # print(relationships_mapping)
-    #
-    # # Precompute relationship class names if possible
-    # for rel_key, (rel_class, with_many) in relationships_mapping.items():
-    #     if with_many:
-    #         relationships_mapping[rel_key] = ([rel_class.get(x['uid']) for x in data[rel_key]], rel_class)
-    #     else:
-    #         relationships_mapping[rel_key] = (rel_class.get(data[rel_key]['uid']), rel_class)
 
     stime = datetime.now()
     results = []
