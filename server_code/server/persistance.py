@@ -480,7 +480,7 @@ def get_grid_view(cls, view_config, search_queries=None, filters=None, include_r
         grid_row = {}
         for col in column_names:
             # value, field = get_col_value(cls, row, col)
-            value, field = get_col_value(cls, row, col, json=json)
+            value, field = get_col_value(cls, row, col, get_relationships=json, json=json)
             grid_row[field] = value
         if include_rows:
             grid_row['row'] = row
