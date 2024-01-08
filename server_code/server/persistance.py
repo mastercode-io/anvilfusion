@@ -51,6 +51,7 @@ def caching_query(search_function):
             search_args["class_name"] = class_name
         rows_id = str(uuid4())
         anvil.server.session[rows_id] = search_args
+        print('caching_query', class_name, module_name, rows_id, page_length, max_depth, length)
         return ModelSearchResults(
             class_name,
             module_name,
