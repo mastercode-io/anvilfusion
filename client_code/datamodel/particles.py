@@ -415,7 +415,6 @@ def _to_json_dict(self, json_schema=None):
         json_schema = self.get_json_schema()
     for field in json_schema.get('fields', []):
         value = getattr(self, field, None)
-        print(field, value)
         if value is not None:
             if isinstance(value, datetime.datetime) or isinstance(value, datetime.date):
                 value = value.isoformat()
