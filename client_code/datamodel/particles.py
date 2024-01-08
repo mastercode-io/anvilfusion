@@ -415,7 +415,14 @@ def _to_json_dict(self, json_schema=None):
     if not json_schema:
         json_schema = self.get_json_schema()
     for field in json_schema.get('fields', []):
-        json_dict[field] = getattr(self, field, None)
+        value = getattr(self, field, None)
+        if isinstance(value, datetime.datetime) or isinstance(value, datetime.date):
+            value = value.isoformat()
+        elif (isinstance(value, list) and value
+              and isinstance(value[0], datetime.datetime)
+              or isinstance(value[0], datetime.date)):
+            value = [v.isoformat() for v in value]
+        json_dict[field] = value
     for relationship in json_schema.get('relationships', {}).keys():
         rel_instance = getattr(self, relationship, None)
         if isinstance(rel_instance, list):
