@@ -395,7 +395,6 @@ def _get_json_view(cls, view_config, search_queries=None, filters=None, include_
     return results
 
 
-
 @classmethod
 def _get_json_schema(cls):
     json_schema = {}
