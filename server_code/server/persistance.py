@@ -434,10 +434,10 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
 
 @anvil.server.callable
 @caching_query
-def basic_search(class_name, **search_args):
+def basic_search(class_name, module_name, **search_args):
     """Perform a data tables search against the relevant table for the given class"""
     # print('Basic search', class_name, search_args)
-    return get_table(class_name).search(**search_args)
+    return get_table(module_name, class_name).search(**search_args)
 
 
 @anvil.server.callable
