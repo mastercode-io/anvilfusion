@@ -400,7 +400,7 @@ def _get_json_view(cls, view_config, search_queries=None, filters=None, include_
 def _get_json_schema(cls):
     json_schema = {}
     fields = []
-    for name in cls._attributes.items():
+    for name in cls._attributes.keys():
         fields.append(name)
     json_schema['fields'] = fields
     relationships = {}
