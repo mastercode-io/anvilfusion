@@ -25,7 +25,7 @@ def caching_query(search_function):
 
     @functools.wraps(search_function)
     def wrapper(
-            class_name, module_name, page_length, max_depth, with_class_name, **search_args
+            class_name, module_name, page_length, page, max_depth, with_class_name, **search_args
     ):
         logged_user = get_logged_user()
         user_permissions = get_user_permissions()
@@ -51,12 +51,13 @@ def caching_query(search_function):
             search_args["class_name"] = class_name
         rows_id = str(uuid4())
         anvil.server.session[rows_id] = search_args
-        print('caching_query', class_name, module_name, rows_id, page_length, max_depth, length)
+        print('caching_query', class_name, module_name, rows_id, page_length, page, max_depth, length)
         return ModelSearchResults(
             class_name,
             module_name,
             rows_id,
             page_length=page_length,
+            page=page,
             max_depth=max_depth,
             length=length,
         )

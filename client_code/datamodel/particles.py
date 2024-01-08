@@ -93,12 +93,13 @@ class Computed:
 class ModelSearchResultsIterator:
     """A paging iterator over the results of a search cached on the server"""
 
-    def __init__(self, class_name, module_name, rows_id, page_length, max_depth=None):
+    def __init__(self, class_name, module_name, rows_id, page_length, page, max_depth=None):
         self.class_name = class_name
         self.module_name = module_name
         self.rows_id = rows_id
         self.page_length = page_length
-        self.next_page = 0
+        self.next_page = page
+        self.page = page
         self.is_last_page = False
         self.max_depth = max_depth
         self.iterator = iter([])
@@ -107,7 +108,7 @@ class ModelSearchResultsIterator:
         try:
             return next(self.iterator)
         except StopIteration:
-            if self.is_last_page:
+            if self.is_last_page or self.next_page > self.page:
                 raise
             results, self.is_last_page = anvil.server.call(
                 "fetch_objects",
@@ -128,12 +129,13 @@ class ModelSearchResults:
     """A class to provide lazy loading of search results"""
 
     def __init__(
-            self, class_name, module_name, rows_id, page_length, max_depth, length
+            self, class_name, module_name, rows_id, page_length, page, max_depth, length
     ):
         self.class_name = class_name
         self.module_name = module_name
         self.rows_id = rows_id
         self.page_length = page_length
+        self.page = page
         self.max_depth = max_depth
         self._length = length
 
@@ -146,6 +148,7 @@ class ModelSearchResults:
             self.module_name,
             self.rows_id,
             self.page_length,
+            self.page,
             self.max_depth,
         )
 
@@ -307,6 +310,7 @@ def _get_by(cls, prop, value, max_depth=None):
 def _search(
         cls,
         page_length=100,
+        page=1,
         max_depth=None,
         server_function=None,
         with_class_name=True,
@@ -320,6 +324,7 @@ def _search(
         cls.__module__,
         # AppEnv.data_models.__name__,
         page_length,
+        page,
         max_depth,
         with_class_name,
         **search_args,
