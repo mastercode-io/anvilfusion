@@ -410,20 +410,16 @@ def _get_json_schema(cls):
     return json_schema
 
 
-@classmethod
-def _to_json_dict(cls, instance, json_schema=None):
-    json_dict = {'uid': instance.uid}
+def _to_json_dict(self, json_schema=None):
+    json_dict = {'uid': self.uid}
     if not json_schema:
-        json_schema = cls._get_json_schema()
+        json_schema = self.get_json_schema()
     for field in json_schema.get('fields', []):
-        json_dict[field] = getattr(instance, field, None)
+        json_dict[field] = getattr(self, field, None)
     for relationship in json_schema.get('relationships', {}).keys():
-        rel_instance = getattr(instance, relationship, None)
+        rel_instance = getattr(self, relationship, None)
         if rel_instance:
-            json_dict[relationship] = _to_json_dict(
-                rel_instance.cls,
-                rel_instance,
-                json_schema['relationships'].get(relationship, None))
+            json_dict[relationship] = rel_instance.to_json_dict(json_schema['relationships'].get(relationship, None))
     return json_dict
 
 
