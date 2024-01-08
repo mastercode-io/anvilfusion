@@ -395,6 +395,38 @@ def _get_json_view(cls, view_config, search_queries=None, filters=None, include_
     return results
 
 
+
+@classmethod
+def _get_json_schema(cls):
+    json_schema = {}
+    fields = []
+    for name in cls._attributes.items():
+        fields.append(name)
+    json_schema['fields'] = fields
+    relationships = {}
+    for name, relationship in cls._relationships.items():
+        relationships[name] = relationship.cls.get_json_schema()
+    json_schema['relationships'] = relationships
+    return json_schema
+
+
+@classmethod
+def _to_json_dict(cls, instance, json_schema=None):
+    json_dict = {'uid': instance.uid}
+    if not json_schema:
+        json_schema = cls._get_json_schema()
+    for field in json_schema.get('fields', []):
+        json_dict[field] = getattr(instance, field, None)
+    for relationship in json_schema.get('relationships', {}).keys():
+        rel_instance = getattr(instance, relationship, None)
+        if rel_instance:
+            json_dict[relationship] = _to_json_dict(
+                rel_instance.cls,
+                rel_instance,
+                json_schema['relationships'].get(relationship, None))
+    return json_dict
+
+
 def _save(self, audit=True):
     """Provides a method to persist an instance to the database"""
     instance = anvil.server.call("save_object", self, audit)
@@ -496,6 +528,8 @@ def model_type(cls):
         "get_grid_view": _get_grid_view,
         "get_row_view": _get_row_view,
         "get_json_view": _get_json_view,
+        "get_json_schema": _get_json_schema,
+        "to_json_dict": _to_json_dict,
         "update": _update,
         "save": _save,
         "expunge": _delete,
