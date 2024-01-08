@@ -418,7 +418,11 @@ def _to_json_dict(self, json_schema=None):
         json_dict[field] = getattr(self, field, None)
     for relationship in json_schema.get('relationships', {}).keys():
         rel_instance = getattr(self, relationship, None)
-        if rel_instance:
+        if isinstance(rel_instance, list):
+            json_dict[relationship] = [
+                rel.to_json_dict(json_schema['relationships'].get(relationship, None)) for rel in rel_instance
+            ]
+        elif rel_instance:
             json_dict[relationship] = rel_instance.to_json_dict(json_schema['relationships'].get(relationship, None))
     return json_dict
 
