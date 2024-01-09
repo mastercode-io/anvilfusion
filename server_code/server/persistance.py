@@ -27,6 +27,7 @@ def caching_query(search_function):
     def wrapper(
             class_name, module_name, page_length, page, max_depth, with_class_name, **search_args
     ):
+        print('caching_query', search_args)
         logged_user = get_logged_user()
         user_permissions = get_user_permissions()
         for arg in search_args:
