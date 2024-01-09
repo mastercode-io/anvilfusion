@@ -138,6 +138,8 @@ class ModelSearchResults:
         self.page = page
         self.max_depth = max_depth
         self._length = length
+        self.count = length
+        self.total_pages = length // page_length + 1
 
     def __len__(self):
         return self._length
