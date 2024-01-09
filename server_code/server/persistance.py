@@ -233,7 +233,7 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None):
 @anvil.server.callable
 def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None):
     """Return a list of object instances from a cached data tables search"""
-    # print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
+    print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
     logged_user = get_logged_user()
     user_permissions = get_user_permissions()
     search_definition = anvil.server.session.get(rows_id, None).copy()
