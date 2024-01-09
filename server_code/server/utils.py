@@ -188,6 +188,12 @@ def get_cookie(name):
 def get_cookies():
     return anvil.server.cookies.local
 
-# @anvil.server.callable
-# def get_openai_client(api_key):
-#     return OpenAI(api_key=api_key)
+
+@anvil.server.callable
+def set_session_prop(name, value):
+    anvil.server.session[name] = value
+
+
+@anvil.server.callable
+def get_session_prop(name):
+    return anvil.server.session.get(name, None)
