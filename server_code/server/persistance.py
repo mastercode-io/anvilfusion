@@ -254,8 +254,8 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         rows = []
     print('rows', len(rows))
 
-    start = page * page_length
-    end = (page + 1) * page_length
+    start = (page - 1) * page_length
+    end = page * page_length
     is_last_page = end >= len(rows)
     if is_last_page:
         del anvil.server.session[rows_id]
