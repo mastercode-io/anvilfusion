@@ -248,7 +248,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         search_query = search_definition.pop("search_query", None)
         if isinstance(search_query, list):
             rows = get_table(module_name, class_name).search(*search_query, **search_definition)
-        if search_query is not None:
+        elif search_query is not None:
             rows = get_table(module_name, class_name).search(search_query, **search_definition)
         else:
             rows = get_table(module_name, class_name).search(**search_definition)
