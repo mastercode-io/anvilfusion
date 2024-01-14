@@ -134,7 +134,7 @@ class ModelSearchResults:
         self.class_name = class_name
         self.module_name = module_name
         self.rows_id = rows_id
-        self.page_length = page_length
+        self.page_length = page_length or length
         self.page = page
         self.max_depth = max_depth
         self._length = length
