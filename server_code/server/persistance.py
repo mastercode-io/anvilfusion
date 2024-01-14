@@ -59,7 +59,7 @@ def caching_query(search_function):
             class_name,
             module_name,
             rows_id,
-            page_length=page_length,
+            page_length=page_length or length,
             page=page,
             max_depth=max_depth,
             length=length,
