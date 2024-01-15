@@ -437,6 +437,7 @@ def _to_json_dict(self, json_schema=None):
                 rel.to_json_dict(json_schema['relationships'].get(relationship, None)) for rel in rel_instance
             ]
         elif rel_instance:
+            print('rel_instance', rel_instance, relationship, json_schema['relationships'].get(relationship, None))
             json_dict[relationship] = rel_instance.to_json_dict(json_schema['relationships'].get(relationship, None))
         else:
             json_dict[relationship] = None
