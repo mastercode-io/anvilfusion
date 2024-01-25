@@ -417,7 +417,7 @@ def _get_json_schema(cls):
     return json_schema
 
 
-def _to_json_dict(self, json_schema=None):
+def _to_json_dict(self, json_schema=None, integration_uid=None):
     json_dict = {'uid': self.uid}
     if not json_schema:
         json_schema = self.get_json_schema()
@@ -434,13 +434,22 @@ def _to_json_dict(self, json_schema=None):
         rel_instance = getattr(self, relationship, None)
         if isinstance(rel_instance, list):
             json_dict[relationship] = [
-                rel.to_json_dict(json_schema['relationships'].get(relationship, None)) for rel in rel_instance
+                rel.to_json_dict(json_schema['relationships'].get(relationship, None), integration_uid)
+                for rel in rel_instance
             ]
         elif rel_instance:
-            print('rel_instance', rel_instance, relationship, json_schema['relationships'].get(relationship, None))
-            json_dict[relationship] = rel_instance.to_json_dict(json_schema['relationships'].get(relationship, None))
+            # print('rel_instance', rel_instance, relationship, json_schema['relationships'].get(relationship, None))
+            json_dict[relationship] = rel_instance.to_json_dict(
+                json_schema['relationships'].get(relationship, None),
+                integration_uid
+            )
         else:
             json_dict[relationship] = None
+        if integration_uid and 'remote_links' in json_dict:
+            link_id = json_dict['remote_links'].get(integration_uid, None)
+            if link_id:
+                json_dict['link_id'] = link_id
+        json_dict.pop('remote_links')
     return json_dict
 
 
