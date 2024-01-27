@@ -30,7 +30,7 @@ def caching_query(search_function):
         print('caching_query', search_args)
         logged_user = get_logged_user()
         user_permissions = get_user_permissions()
-        print('logged_user', logged_user)
+        print('session 0', anvil.server.session)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
