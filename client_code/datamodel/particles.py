@@ -320,9 +320,12 @@ def _search(
 ):
     print('_search context', anvil.server.context)
     print('session', anvil.server.session)
-    if anvil.server.context.type == 'server_module' and anvil.server.context.client == 'background_task':
-        context = {'logged_user': anvil.server.call('get_logged_user')}
+    if anvil.server.context.type == 'server_module' and anvil.server.context.client.type == 'background_task':
+        logged_user = anvil.server.call('get_logged_user')
+        print('logged_user', logged_user)
+        context = {'logged_user': logged_user}
     else:
+        print(anvil.server.context.type, anvil.server.context.client.type)
         context = None
     print('context', context)
     """Provides a method to retrieve a set of model instances from the server"""
