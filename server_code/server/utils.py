@@ -67,7 +67,7 @@ def get_logged_user():
     return anvil.server.session.get(
         'logged_user',
         anvil.server.cookies.local.get('logged_user', {})
-    )
+    ).copy()
 
 
 @anvil.server.callable
