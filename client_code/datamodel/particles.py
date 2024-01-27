@@ -334,7 +334,7 @@ def _search(
         page,
         max_depth,
         with_class_name,
-        context,
+        # context,
         **search_args,
     )
     return results
