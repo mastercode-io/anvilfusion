@@ -39,6 +39,11 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
 
+    save_logged_user()
+    return get_logged_user()
+
+
+def save_logged_user():
     logged_user = {
         'tenant_uid': anvil.server.session['tenant_uid'],
         'tenant_name': anvil.server.session['tenant_name'],
@@ -50,8 +55,6 @@ def init_user_session(user_email=None, password=None):
     }
     anvil.server.session['logged_user'] = logged_user
     anvil.server.cookies.local['logged_user'] = logged_user
-
-    return logged_user
 
 
 @anvil.server.callable
@@ -91,6 +94,7 @@ def set_tenant_admin(tenant_uid=None, tenant_name=None):
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
     anvil.server.session['user_permissions'] = user_permissions
+    save_logged_user()
     return get_logged_user()
 
 
@@ -99,6 +103,7 @@ def set_tenant_system_user(tenant_uid):
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['user_uid'] = 'system'
     anvil.server.session['user_permissions'] = {}
+    save_logged_user()
     print('set_tenant_system_user', anvil.server.session)
 
 
