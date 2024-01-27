@@ -79,11 +79,13 @@ def check_session(tag=None):
 @anvil.server.callable
 def get_logged_user():
     print('get_logged_user', anvil.server.session['logged_user'])
-    try:
-        logged_user = anvil.server.session.get('logged_user', anvil.server.cookies.local.get('logged_user', {})).copy()
-    except anvil.server.CookieError:
-        logged_user = {}
-    return logged_user
+    logged_user = anvil.server.session.get('logged_user', None)
+    if logged_user is None:
+        try:
+            logged_user = anvil.server.cookies.local.get('logged_user', {})
+        except anvil.server.CookieError:
+            logged_user = {}
+    return logged_user.copy()
 
 
 @anvil.server.callable
