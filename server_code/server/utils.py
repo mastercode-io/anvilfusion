@@ -43,18 +43,31 @@ def init_user_session(user_email=None, password=None):
     return get_logged_user()
 
 
-def save_logged_user():
-    logged_user = {
-        'tenant_uid': anvil.server.session['tenant_uid'],
-        'tenant_name': anvil.server.session['tenant_name'],
-        'user_uid': anvil.server.session['user_uid'],
-        'user_name': anvil.server.session['user_name'],
-        'email': anvil.server.session['user_email'],
-        'timezone': anvil.server.session['user_timezone'],
-        'permissions': anvil.server.session['user_permissions'],
-    }
+def save_logged_user(current_user=None):
+    if current_user is None:
+        logged_user = {
+            'tenant_uid': anvil.server.session['tenant_uid'],
+            'tenant_name': anvil.server.session['tenant_name'],
+            'user_uid': anvil.server.session['user_uid'],
+            'user_name': anvil.server.session['user_name'],
+            'email': anvil.server.session['user_email'],
+            'timezone': anvil.server.session['user_timezone'],
+            'permissions': anvil.server.session['user_permissions'],
+        }
+    else:
+        logged_user = current_user.copy()
+        anvil.server.session['tenant_uid'] = logged_user['tenant_uid']
+        anvil.server.session['tenant_name'] = logged_user['tenant_name']
+        anvil.server.session['user_uid'] = logged_user['user_uid']
+        anvil.server.session['user_name'] = logged_user['user_name']
+        anvil.server.session['user_email'] = logged_user['email']
+        anvil.server.session['user_timezone'] = logged_user['timezone']
+        anvil.server.session['user_permissions'] = logged_user['permissions']
     anvil.server.session['logged_user'] = logged_user
-    anvil.server.cookies.local['logged_user'] = logged_user
+    try:
+        anvil.server.cookies.local['logged_user'] = logged_user
+    except anvil.server.CookieError:
+        pass
 
 
 @anvil.server.callable
