@@ -324,6 +324,7 @@ def _search(
         context = {'logged_user': anvil.server.call('get_logged_user')}
     else:
         context = None
+    print('context', context)
     """Provides a method to retrieve a set of model instances from the server"""
     _server_function = server_function or "basic_search"
     results = anvil.server.call(
