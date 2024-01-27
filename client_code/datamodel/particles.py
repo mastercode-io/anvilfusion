@@ -319,6 +319,7 @@ def _search(
         **search_args,
 ):
     print('_search context', anvil.server.context)
+    print('session', anvil.server.session)
     """Provides a method to retrieve a set of model instances from the server"""
     _server_function = server_function or "basic_search"
     results = anvil.server.call(
