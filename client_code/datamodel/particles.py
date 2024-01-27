@@ -320,17 +320,21 @@ def _search(
 ):
     print('_search context', anvil.server.context)
     print('session', anvil.server.session)
+    if anvil.server.context.type == 'server_module' and anvil.server.context.client == 'background_task':
+        context = {'logged_user': anvil.server.call('get_logged_user')}
+    else:
+        context = None
     """Provides a method to retrieve a set of model instances from the server"""
     _server_function = server_function or "basic_search"
     results = anvil.server.call(
         _server_function,
         cls.__name__,
         cls.__module__,
-        # AppEnv.data_models.__name__,
         page_length,
         page,
         max_depth,
         with_class_name,
+        context,
         **search_args,
     )
     return results
