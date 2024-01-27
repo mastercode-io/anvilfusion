@@ -28,6 +28,7 @@ def caching_query(search_function):
             class_name, module_name, page_length, page, max_depth, with_class_name, **search_args
     ):
         print('caching_query', search_args)
+        print('af server context', anvil.server.context)
         logged_user = get_logged_user()
         user_permissions = get_user_permissions()
         print('session 0', anvil.server.session)
