@@ -62,6 +62,7 @@ def caching_query(search_function):
             page_length=page_length or length,
             page=page,
             max_depth=max_depth,
+            background_task_id=background_task_id,
             length=length,
         )
 
