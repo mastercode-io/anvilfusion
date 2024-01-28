@@ -77,14 +77,20 @@ def check_session(tag=None):
 
 
 @anvil.server.callable
-def get_logged_user():
-    # print('get_logged_user', anvil.server.session['logged_user'])
-    logged_user = anvil.server.session.get('logged_user', None)
-    if logged_user is None:
-        try:
-            logged_user = anvil.server.cookies.local.get('logged_user', {})
-        except anvil.server.CookieError:
+def get_logged_user(background_task_id=None):
+    if background_task_id:
+        background_task_row = app_tables.app_background_tasks.get(task_id=background_task_id)
+        if background_task_row:
+            logged_user = background_task_row['logged_user']
+        else:
             logged_user = {}
+    else:
+        logged_user = anvil.server.session.get('logged_user', None)
+        if logged_user is None:
+            try:
+                logged_user = anvil.server.cookies.local.get('logged_user', {})
+            except anvil.server.CookieError:
+                logged_user = {}
     return logged_user.copy()
 
 

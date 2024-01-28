@@ -93,7 +93,7 @@ class Computed:
 class ModelSearchResultsIterator:
     """A paging iterator over the results of a search cached on the server"""
 
-    def __init__(self, class_name, module_name, rows_id, page_length, page, max_depth=None):
+    def __init__(self, class_name, module_name, rows_id, page_length, page, max_depth=None, background_task_id=None):
         self.class_name = class_name
         self.module_name = module_name
         self.rows_id = rows_id
@@ -102,6 +102,7 @@ class ModelSearchResultsIterator:
         self.page = page
         self.is_last_page = False
         self.max_depth = max_depth
+        self.background_task_id = background_task_id
         self.iterator = iter([])
 
     def __next__(self):
@@ -118,6 +119,7 @@ class ModelSearchResultsIterator:
                 self.next_page,
                 self.page_length,
                 self.max_depth,
+                self.background_task_id,
             )
             self.iterator = iter(results)
             self.next_page += 1

@@ -28,14 +28,7 @@ def caching_query(search_function):
             class_name, module_name, page_length, page, max_depth, with_class_name, background_task_id, **search_args
     ):
         # print('caching_query', search_args)
-        if background_task_id:
-            background_task_row = app_tables.app_background_tasks.get(task_id=background_task_id)
-            if background_task_row:
-                logged_user = background_task_row['logged_user']
-            else:
-                logged_user = {}
-        else:
-            logged_user = get_logged_user()
+        logged_user = get_logged_user(background_task_id=background_task_id)
         user_permissions = get_user_permissions()
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
@@ -238,10 +231,10 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None):
 
 
 @anvil.server.callable
-def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None):
+def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None, background_task_id=None):
     """Return a list of object instances from a cached data tables search"""
     print('Fetch objects', class_name, module_name, rows_id, page, page_length, max_depth)
-    logged_user = get_logged_user()
+    logged_user = get_logged_user(background_task_id=background_task_id)
     user_permissions = get_user_permissions()
     search_definition = anvil.server.session.get(rows_id, None).copy()
     print('search_definition', search_definition)
