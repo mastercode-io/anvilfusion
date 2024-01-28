@@ -131,7 +131,7 @@ class ModelSearchResults:
     """A class to provide lazy loading of search results"""
 
     def __init__(
-            self, class_name, module_name, rows_id, page_length, page, max_depth, length
+            self, class_name, module_name, rows_id, page_length, page, max_depth, length, background_task_id=None
     ):
         self.class_name = class_name
         self.module_name = module_name
@@ -142,6 +142,7 @@ class ModelSearchResults:
         self._length = length
         self.count = length
         self.total_pages = length // page_length + 1 if length % page_length else length // page_length
+        self.background_task_id = background_task_id
 
     def __len__(self):
         return self._length
@@ -154,6 +155,7 @@ class ModelSearchResults:
             self.page_length,
             self.page,
             self.max_depth,
+            self.background_task_id,
         )
 
 
