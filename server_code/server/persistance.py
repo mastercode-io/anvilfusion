@@ -29,7 +29,7 @@ def caching_query(search_function):
     ):
         # print('caching_query', search_args)
         logged_user = get_logged_user(background_task_id=background_task_id)
-        user_permissions = get_user_permissions(background_task_id=background_task_id)
+        user_permissions = get_user_permissions(logged_user=logged_user)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
@@ -101,7 +101,7 @@ def _get_row(module_name, class_name, uid, background_task_id=None, **search_arg
     """Return the data tables row for a given object instance"""
     search_args['uid'] = uid
     logged_user = get_logged_user(background_task_id=background_task_id)
-    user_permissions = get_user_permissions(background_task_id=background_task_id)
+    user_permissions = get_user_permissions(logged_user=logged_user)
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
@@ -131,7 +131,7 @@ def _get_row_by(module_name, class_name, prop, value, background_task_id=None, *
     else:
         search_args[prop] = value
     logged_user = get_logged_user(background_task_id=background_task_id)
-    user_permissions = get_user_permissions(background_task_id=background_task_id)
+    user_permissions = get_user_permissions(logged_user=logged_user)
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
@@ -199,13 +199,13 @@ def _audit_log(class_name, action, prev_row, new_row):
 
 
 @anvil.server.callable
-def get_object(class_name, module_name, uid, max_depth=None):
+def get_object(class_name, module_name, uid, max_depth=None, background_task_id=None):
     """Create a model object instance from the relevant data table row"""
     if security.has_read_permission(class_name, uid):
         module = import_module(module_name)
         cls = getattr(module, class_name)
         instance = cls._from_row(
-            _get_row(module_name, class_name, uid), max_depth=max_depth
+            _get_row(module_name, class_name, uid, background_task_id=background_task_id), max_depth=max_depth,
         )
         if instance is not None:
             if security.has_update_permission(class_name, uid):
@@ -216,12 +216,12 @@ def get_object(class_name, module_name, uid, max_depth=None):
 
 
 @anvil.server.callable
-def get_object_by(class_name, module_name, prop, value, max_depth=None):
+def get_object_by(class_name, module_name, prop, value, max_depth=None, background_task_id=None):
     """Create a model object instance from the relevant data table row"""
     module = import_module(module_name)
     cls = getattr(module, class_name)
     instance = cls._from_row(
-        _get_row_by(module_name, class_name, prop, value), max_depth=max_depth
+        _get_row_by(module_name, class_name, prop, value, background_task_id=background_task_id), max_depth=max_depth
     )
     if instance is not None and security.has_read_permission(class_name, instance.uid):
         if security.has_update_permission(class_name, instance.uid):
@@ -236,7 +236,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     """Return a list of object instances from a cached data tables search"""
     print('Fetch objects', background_task_id)
     logged_user = get_logged_user(background_task_id=background_task_id)
-    user_permissions = get_user_permissions(background_task_id=background_task_id)
+    user_permissions = get_user_permissions(logged_user=logged_user)
     search_definition = anvil.server.session.get(rows_id, None).copy()
     print('search_definition', search_definition)
     print('logged_user', logged_user)
