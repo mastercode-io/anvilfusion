@@ -104,6 +104,7 @@ class ModelSearchResultsIterator:
         self.max_depth = max_depth
         self.background_task_id = background_task_id
         self.iterator = iter([])
+        print('ModelSearchResultsIterator', self.background_task_id)
 
     def __next__(self):
         try:
@@ -143,6 +144,7 @@ class ModelSearchResults:
         self.count = length
         self.total_pages = length // page_length + 1 if length % page_length else length // page_length
         self.background_task_id = background_task_id
+        print('ModelSearchResults', self.background_task_id)
 
     def __len__(self):
         return self._length
