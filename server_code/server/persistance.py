@@ -25,17 +25,18 @@ def caching_query(search_function):
 
     @functools.wraps(search_function)
     def wrapper(
-            class_name, module_name, page_length, page, max_depth, with_class_name, context, **search_args
+            class_name, module_name, page_length, page, max_depth, with_class_name, background_task_id, **search_args
     ):
-        print('caching_query', search_args)
-        print('af server context', anvil.server.context)
-        print('context', context)
-        if context is not None:
-            logged_user = context['logged_user']
+        # print('caching_query', search_args)
+        if background_task_id:
+            background_task_row = app_tables.app_background_tasks.get(task_id=background_task_id)
+            if background_task_row:
+                logged_user = background_task_row['logged_user']
+            else:
+                logged_user = {}
         else:
             logged_user = get_logged_user()
         user_permissions = get_user_permissions()
-        print('session 0', anvil.server.session)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
