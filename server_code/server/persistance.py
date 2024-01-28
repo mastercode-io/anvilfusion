@@ -29,7 +29,7 @@ def caching_query(search_function):
     ):
         # print('caching_query', search_args)
         logged_user = get_logged_user(background_task_id=background_task_id)
-        user_permissions = get_user_permissions()
+        user_permissions = get_user_permissions(background_task_id=background_task_id)
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
                 ref_obj = search_args[arg]
@@ -82,9 +82,9 @@ def get_table(module_name, class_name):
     return getattr(app_tables, table_name)
 
 
-def get_user_permissions():
+def get_user_permissions(logged_user=None, background_task_id=None):
     """Return the user permissions"""
-    logged_user = get_logged_user()
+    logged_user = logged_user or get_logged_user(background_task_id=background_task_id)
     user_permissions = logged_user.get('permissions', {})
     if 'administrator' not in user_permissions:
         user_permissions['administrator'] = False
@@ -97,11 +97,11 @@ def get_user_permissions():
     return user_permissions
 
 
-def _get_row(module_name, class_name, uid, **search_args):
+def _get_row(module_name, class_name, uid, background_task_id=None, **search_args):
     """Return the data tables row for a given object instance"""
     search_args['uid'] = uid
-    logged_user = get_logged_user()
-    user_permissions = get_user_permissions()
+    logged_user = get_logged_user(background_task_id=background_task_id)
+    user_permissions = get_user_permissions(background_task_id=background_task_id)
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
@@ -123,15 +123,15 @@ def _get_row(module_name, class_name, uid, **search_args):
     return get_table(module_name, class_name).get(**search_args)
 
 
-def _get_row_by(module_name, class_name, prop, value, **search_args):
+def _get_row_by(module_name, class_name, prop, value, background_task_id=None, **search_args):
     """Return the data tables row for a given object instance"""
     # search_args[prop] = value
     if isinstance(value, ModelTypeBase):
         search_args[prop] = app_tables[value._table_name].get(uid=value.uid)
     else:
         search_args[prop] = value
-    logged_user = get_logged_user()
-    user_permissions = get_user_permissions()
+    logged_user = get_logged_user(background_task_id=background_task_id)
+    user_permissions = get_user_permissions(background_task_id=background_task_id)
     # if (not user_permissions['super_admin'] or
     #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
@@ -236,7 +236,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     """Return a list of object instances from a cached data tables search"""
     print('Fetch objects', background_task_id)
     logged_user = get_logged_user(background_task_id=background_task_id)
-    user_permissions = get_user_permissions()
+    user_permissions = get_user_permissions(background_task_id=background_task_id)
     search_definition = anvil.server.session.get(rows_id, None).copy()
     print('search_definition', search_definition)
     print('logged_user', logged_user)
