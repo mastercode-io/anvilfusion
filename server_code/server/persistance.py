@@ -270,7 +270,8 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     cls = getattr(module, class_name)
     results = (
         [
-            get_object(class_name, module_name, row[cls._unique_identifier], max_depth)
+            get_object(class_name, module_name, row[cls._unique_identifier], max_depth=max_depth,
+                       background_task_id=background_task_id)
             for row in rows[start:end]
         ],
         is_last_page,
