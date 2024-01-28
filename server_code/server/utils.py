@@ -78,6 +78,7 @@ def check_session(tag=None):
 
 @anvil.server.callable
 def get_logged_user(background_task_id=None):
+    print('get_logged_user bg_task', background_task_id)
     if background_task_id:
         background_task_row = app_tables.app_background_tasks.get(task_id=background_task_id)
         if background_task_row:
