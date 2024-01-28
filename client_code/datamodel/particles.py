@@ -112,6 +112,7 @@ class ModelSearchResultsIterator:
         except StopIteration:
             if self.is_last_page or self.next_page > self.page:
                 raise
+            print('ModelSearchResultsIterator fetch call', self.background_task_id)
             results, self.is_last_page = anvil.server.call(
                 "fetch_objects",
                 self.class_name,
