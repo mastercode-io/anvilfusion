@@ -304,14 +304,29 @@ def _from_row(unique_identifier, attributes, relationships, computes, system_att
 @classmethod
 def _get(cls, uid, max_depth=None):
     """Provide a method to fetch an object from the server"""
-    return anvil.server.call("get_object", cls.__name__, cls.__module__, uid, max_depth)
+    return anvil.server.call(
+        "get_object",
+        cls.__name__,
+        cls.__module__,
+        uid,
+        max_depth,
+        background_task_id=getattr(anvil.server.context, 'background_task_id', None),
+    )
     # return anvil.server.call("get_object", cls.__name__, AppEnv.data_models.__name__, uid, max_depth)
 
 
 @classmethod
 def _get_by(cls, prop, value, max_depth=None):
     """Provide a method to fetch an object from the server"""
-    return anvil.server.call("get_object_by", cls.__name__, cls.__module__, prop, value, max_depth)
+    return anvil.server.call(
+        "get_object_by",
+        cls.__name__,
+        cls.__module__,
+        prop,
+        value,
+        max_depth,
+        background_task_id=getattr(anvil.server.context, 'background_task_id', None),
+    )
     # return anvil.server.call("get_object_by", cls.__name__, AppEnv.data_models.__name__, prop, value, max_depth)
 
 
@@ -460,7 +475,12 @@ def _to_json_dict(self, json_schema=None, integration_uid=None):
 
 def _save(self, audit=True):
     """Provides a method to persist an instance to the database"""
-    instance = anvil.server.call("save_object", self, audit)
+    instance = anvil.server.call(
+        "save_object",
+        self,
+        audit,
+        background_task_id=getattr(anvil.server.context, 'background_task_id', None),
+    )
     if self.uid is None:
         self.uid = instance.uid
     return instance

@@ -456,11 +456,11 @@ def basic_search(class_name, module_name, **search_args):
 
 
 @anvil.server.callable
-def save_object(instance, audit):
+def save_object(instance, audit, background_task_id=None):
     """Persist an instance to the database by adding or updating a row"""
     class_name = type(instance).__name__
     table = getattr(app_tables, instance._table_name)
-    logged_user = get_logged_user()
+    logged_user = get_logged_user(background_task_id=background_task_id)
 
     attributes = {
         name: getattr(instance, name)
