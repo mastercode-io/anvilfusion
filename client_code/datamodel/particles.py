@@ -104,7 +104,6 @@ class ModelSearchResultsIterator:
         self.max_depth = max_depth
         self.background_task_id = background_task_id
         self.iterator = iter([])
-        print('ModelSearchResultsIterator', self.background_task_id)
 
     def __next__(self):
         try:
@@ -112,7 +111,6 @@ class ModelSearchResultsIterator:
         except StopIteration:
             if self.is_last_page or self.next_page > self.page:
                 raise
-            print('ModelSearchResultsIterator fetch call', self.background_task_id)
             results, self.is_last_page = anvil.server.call(
                 "fetch_objects",
                 self.class_name,
