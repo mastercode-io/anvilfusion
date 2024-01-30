@@ -143,7 +143,7 @@ class ModelSearchResults:
         self.count = length
         self.total_pages = length // page_length + 1 if length % page_length else length // page_length
         self.background_task_id = background_task_id
-        print('ModelSearchResults', self.background_task_id)
+        # print('ModelSearchResults', self.background_task_id)
 
     def __len__(self):
         return self._length
