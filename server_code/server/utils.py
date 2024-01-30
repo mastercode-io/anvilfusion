@@ -211,6 +211,7 @@ def set_cookies(cookies):
 
 @anvil.server.callable
 def get_cookie(name):
+    print(anvil.server.cookies.local)
     return anvil.server.cookies.local.get(name, None)
 
 
