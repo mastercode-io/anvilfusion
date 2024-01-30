@@ -302,7 +302,7 @@ def _from_row(unique_identifier, attributes, relationships, computes, system_att
 @classmethod
 def _get(cls, uid, max_depth=None):
     """Provide a method to fetch an object from the server"""
-    print('get context', anvil.server.context)
+    # print('get context', anvil.server.context)
     return anvil.server.call(
         "get_object",
         cls.__name__,
@@ -317,7 +317,7 @@ def _get(cls, uid, max_depth=None):
 @classmethod
 def _get_by(cls, prop, value, max_depth=None):
     """Provide a method to fetch an object from the server"""
-    print('get_by context', anvil.server.context)
+    # print('get_by context', anvil.server.context)
     return anvil.server.call(
         "get_object_by",
         cls.__name__,
@@ -475,6 +475,7 @@ def _to_json_dict(self, json_schema=None, integration_uid=None):
 
 def _save(self, audit=True):
     """Provides a method to persist an instance to the database"""
+    print('SAVE context', anvil.server.context)
     instance = anvil.server.call(
         "save_object",
         self,
