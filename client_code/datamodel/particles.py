@@ -475,7 +475,6 @@ def _to_json_dict(self, json_schema=None, integration_uid=None):
 
 def _save(self, audit=True):
     """Provides a method to persist an instance to the database"""
-    print('SAVE context', anvil.server.context)
     instance = anvil.server.call(
         "save_object",
         self,
