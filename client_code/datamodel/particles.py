@@ -466,7 +466,7 @@ def _to_json_dict(self, json_schema=None, integration_uid=None):
             )
         else:
             json_dict[relationship] = None
-    link_id = json_dict.get('remote_links', {}).get(integration_uid)
+    link_id = json_dict.get('remote_links', {}).get(integration_uid, None)
     if link_id:
         json_dict['link_id'] = link_id
     json_dict.pop('remote_links', None)
