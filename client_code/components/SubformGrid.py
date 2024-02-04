@@ -5,32 +5,32 @@ from ..tools.utils import AppEnv
 
 
 class SubformGrid(BaseInput, GridView):
-    def __init__(self, 
+    def __init__(self,
                  name=None,
                  label=None,
                  container_id=None,
-                 form_container_id=None, 
+                 form_container_id=None,
                  form_data=None,
-                 model=None, 
-                 link_model=None, 
+                 model=None,
+                 link_model=None,
                  link_field=None,
                  is_dependent=False,
                  schema=None,
                  data=None,
                  view_config=None,
                  **kwargs):
-        
+
         BaseInput.__init__(
-            self, name=name, 
-            label=label, 
-            container_id=container_id, 
+            self, name=name,
+            label=label,
+            container_id=container_id,
             **kwargs)
         GridView.__init__(
-            self, model=model, title=label, 
-            container_id=self.el_id, 
+            self, model=model, title=label,
+            container_id=self.el_id,
             form_container_id=form_container_id,
             view_config=view_config,
-            persist=False, 
+            persist=False,
             **kwargs)
         self.link_model = link_model
         self.link_field = link_field
@@ -42,7 +42,6 @@ class SubformGrid(BaseInput, GridView):
         self.to_delete = []
         # print('subform grid', self.container_id)
 
-        
     @property
     def control(self):
         return self._control
@@ -51,7 +50,6 @@ class SubformGrid(BaseInput, GridView):
     def control(self, value):
         self._control = value
 
-
     @property
     def enabled(self):
         return None
@@ -59,7 +57,6 @@ class SubformGrid(BaseInput, GridView):
     @enabled.setter
     def enabled(self, value):
         pass
-
 
     @property
     def value(self):
@@ -92,7 +89,6 @@ class SubformGrid(BaseInput, GridView):
         print('subformgrid data', self.filters, self.grid_data)
         print('subformgrid dataSource', self.grid.dataSource)
 
-
     def show(self):
         print('show subformgrid')
         if not self.visible:
@@ -102,30 +98,25 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
-            
-            
+
     def hide(self):
         print('hide subformgrid')
         if self.visible:
             self.visible = False
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
-                
-                
+
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
-    
-    
+
     def delete_selected(self, args, persist=False):
         self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
         GridView.delete_selected(self, args, persist=False)
 
-
     def update_grid(self, data_row, add_new, get_relationships=True):
         self.to_save.append(data_row)
         GridView.update_grid(self, data_row, add_new, get_relationships=True)
-    
-    
+
     def save_dependent(self, link_row=None):
         # print('save subformgrid', self.to_save, self.to_delete)
         if self.link_field and self.link_model and link_row:
