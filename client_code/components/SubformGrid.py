@@ -18,6 +18,7 @@ class SubformGrid(BaseInput, GridView):
                  schema=None,
                  data=None,
                  view_config=None,
+                 edit_mode='dialog',
                  **kwargs):
 
         BaseInput.__init__(
@@ -40,6 +41,8 @@ class SubformGrid(BaseInput, GridView):
         self.is_dependent = True if link_model and link_field else is_dependent
         self.to_save = []
         self.to_delete = []
+        if edit_mode == 'inline':
+            self.grid.editSettings = 'Normal'
         # print('subform grid', self.container_id)
 
     @property
