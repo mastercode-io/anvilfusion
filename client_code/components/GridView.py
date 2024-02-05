@@ -339,7 +339,7 @@ class GridView:
                 <div id="{self.grid_el_id}"></div>\
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
-
+        print('grid appended')
         for item in self.toolbar_items:
             item_title = item.get('tooltipText', item.get('text', ''))
             item_css_class = item.get('cssClass')
