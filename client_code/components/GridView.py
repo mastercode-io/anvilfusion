@@ -138,6 +138,7 @@ class GridView:
         self.filters = filters
         self.persist = persist
         self.form_class = None
+        self.edit_mode = edit_mode
         self.confirm_dialog = None
         self.show_confirm_dialog = True
         self.toolbar_items = []
@@ -164,7 +165,8 @@ class GridView:
         self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
 
-        if edit_mode == 'inline':
+        if self.edit_mode == 'inline':
+            print('inline edit')
             self.gird_config = view_config['config']
             self.grid_config['dataSource'] = self.grid_data
             self.grid = ej.grids.Grid(self.grid_config)
@@ -341,25 +343,26 @@ class GridView:
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
-        for item in self.toolbar_items:
-            item_title = item.get('tooltipText', item.get('text', ''))
-            item_css_class = item.get('cssClass')
-            item_style = item.get('style')
-            button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
-            if item_css_class:
-                button.classList.add(item_css_class)
-                for text in button.children:
-                    text.classList.add(item_css_class)
-            if item_style:
-                button.style = item_style
-                for text in button.children:
-                    text.style = item_style
-            if item.get('id') == 'search-toggle':
-                self.grid.element.querySelector(
-                    f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
-            elif item.get('id') == 'delete':
-                self.grid.element.querySelector(
-                    f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+        if not self.edit_mode == 'inline':
+            for item in self.toolbar_items:
+                item_title = item.get('tooltipText', item.get('text', ''))
+                item_css_class = item.get('cssClass')
+                item_style = item.get('style')
+                button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
+                if item_css_class:
+                    button.classList.add(item_css_class)
+                    for text in button.children:
+                        text.classList.add(item_css_class)
+                if item_style:
+                    button.style = item_style
+                    for text in button.children:
+                        text.style = item_style
+                if item.get('id') == 'search-toggle':
+                    self.grid.element.querySelector(
+                        f'#{self.container_id} .e-toolbar .e-toolbar-item.e-search-wrapper[title="Search"]').style.display = 'none'
+                elif item.get('id') == 'delete':
+                    self.grid.element.querySelector(
+                        f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)

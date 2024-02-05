@@ -362,6 +362,7 @@ class FormBase:
 class SubformBase:
     def __init__(self, name=None, fields=None, model=None, link_model=None, link_field=None, data=None, rows=None,
                  container_id=None, on_change=None, save=True, **kwargs):
+        self._value = None
         self.grid_data = None
         self.name = name
         self.model = model

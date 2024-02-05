@@ -41,7 +41,7 @@ class SubformGrid(BaseInput, GridView):
                 },
                 'columns': view_config['columns'],
                 'dataSource': [],
-                'actionComplete': self.change,
+                # 'actionComplete': self.change,
                 # 'cellSave': '',
                 'gridLines': 'Default',
                 'allowScrolling': True,
@@ -70,6 +70,7 @@ class SubformGrid(BaseInput, GridView):
         self.is_dependent = True if link_model and link_field else is_dependent
         self.to_save = []
         self.to_delete = []
+        self._value = None
         if edit_mode == 'inline':
             self.grid.editSettings = 'Normal'
             # self.actionBegin = None
@@ -140,8 +141,8 @@ class SubformGrid(BaseInput, GridView):
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
 
-    def grid_action_handler(self, args):
-        pass
+    # def grid_action_handler(self, args):
+    #     pass
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
