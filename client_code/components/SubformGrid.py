@@ -47,6 +47,8 @@ class SubformGrid(BaseInput, GridView):
                 'allowScrolling': True,
                 'allowTextWrap': True,
                 'textWrapSettings': {'wrapMode': 'Content'},
+                'width': '100%',
+                'height': '100%',
             }
             if view_config is None:
                 view_config = {}
