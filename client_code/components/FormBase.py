@@ -51,7 +51,7 @@ class FormBase:
         self.form_model = model
         self.class_name = getattr(AppEnv.data_models, self.form_model, None)
         self.form_fields = fields
-        self.subforms = subforms if subforms is not None else []
+        self.subforms = subforms or []
         self.persist = persist
         self.update_source = update_source
         self.source = source
