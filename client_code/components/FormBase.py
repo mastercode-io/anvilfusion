@@ -287,15 +287,15 @@ class FormBase:
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x in self.subforms or x.is_dependent]:
-            print(field.name, self.data)
+            # print(field.name, self.data)
             field.value = self.data
             field.show()
         # for subform in self.subforms:
         #     subform.value = self.data
         for field in self.form_fields:
-            print('on_change', field.name, field.value, field.on_change)
+            # print('on_change', field.name, field.value, field.on_change)
             if field.on_change is not None:
-                print('on_change', field.name)
+                # print('on_change', field.name)
                 field.on_change({'name': field.name, 'value': field.value})
         self.container_el.style.visibility = 'visible'
         self.form.cssClass = 'e-fixed py-dialog'

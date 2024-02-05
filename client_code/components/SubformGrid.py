@@ -65,7 +65,7 @@ class SubformGrid(BaseInput, GridView):
         self.link_model = link_model
         self.link_field = link_field
         self.data = data
-        self.html = f'<div id="{self.el_id}"></div>'
+        self.html = f'<div><p>Subform Grid</p></div><div id="{self.el_id}"></div>'
         self.form_data = form_data
         self.is_dependent = True if link_model and link_field else is_dependent
         self.to_save = []
