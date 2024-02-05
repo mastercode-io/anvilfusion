@@ -340,6 +340,7 @@ class GridView:
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
 
+        print('show grid toolbar', self.toolbar_items)
         for item in self.toolbar_items:
             item_title = item.get('tooltipText', item.get('text', ''))
             item_css_class = item.get('cssClass')
@@ -359,7 +360,7 @@ class GridView:
             elif item.get('id') == 'delete':
                 self.grid.element.querySelector(
                     f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
-        print('show grid toolbar', self.toolbar_items)
+
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
             self.grid_data = self.grid_class.get_grid_view(self.view_config,
