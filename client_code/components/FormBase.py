@@ -286,12 +286,12 @@ class FormBase:
             field.show()
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
-        for field in [x for x in self.form_fields if x not in self.subforms and x.is_dependent]:
-            # print(field.name, self.data)
+        for field in [x for x in self.form_fields if x in self.subforms and x.is_dependent]:
+            print(field.name, self.data)
             field.value = self.data
             field.show()
-        for subform in self.subforms:
-            subform.value = self.data
+        # for subform in self.subforms:
+        #     subform.value = self.data
         for field in self.form_fields:
             print('on_change', field.name, field.value, field.on_change)
             if field.on_change is not None:
