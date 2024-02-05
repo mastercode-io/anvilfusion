@@ -283,12 +283,12 @@ class FormBase:
         #     self.data = self.default_data
         print(self.data)
         for field in [x for x in self.form_fields if not x.is_dependent and x not in self.subforms]:
-            # print(field.name)
+            print(field.name)
             field.show()
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x.is_dependent]:
-            # print(field.name, self.data)
+            print(field.name, self.data)
             field.value = self.data
             field.show()
         for subform in self.subforms:
