@@ -415,21 +415,22 @@ class SubformBase:
 
     @value.setter
     def value(self, value):
-        if self.model is None:
-            self.data = value
-        else:
-            self.grid_data = self.grid_class.get_grid_view(self.view_config,
-                                                           search_queries=self.search_queries,
-                                                           filters=self.filters,
-                                                           include_rows=False)
-            rows = self.model_class.search(**{self.link_field: value})
-            self.data = []
-            for obj in rows:
-                subgrid_row = obj.to_grid()
-                subgrid_row['obj'] = obj
-                subgrid_row['state'] = ''
-                self.data.append(subgrid_row)
-        self.control.dataSource = self.data
+        pass
+        # if self.model is None:
+        #     self.data = value
+        # else:
+        #     self.grid_data = self.grid_class.get_grid_view(self.view_config,
+        #                                                    search_queries=self.search_queries,
+        #                                                    filters=self.filters,
+        #                                                    include_rows=False)
+        #     rows = self.model_class.search(**{self.link_field: value})
+        #     self.data = []
+        #     for obj in rows:
+        #         subgrid_row = obj.to_grid()
+        #         subgrid_row['obj'] = obj
+        #         subgrid_row['state'] = ''
+        #         self.data.append(subgrid_row)
+        # self.control.dataSource = self.data
 
     @property
     def rows(self):
@@ -447,7 +448,8 @@ class SubformBase:
         self._control = value
 
     def show(self):
-        print('show', self.visible, self.container_id, self.html, self._control)
+        print('show')
+        print(self.visible, self.container_id, self.html, self._control)
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             if self._control is not None:
