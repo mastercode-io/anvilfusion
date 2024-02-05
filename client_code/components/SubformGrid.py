@@ -39,7 +39,7 @@ class SubformGrid(BaseInput, GridView):
                     'mode': 'Normal',
                     'newRowPosition': 'Bottom'
                 },
-                'columns': [col.grid_column for col in view_config['columns']],
+                'columns': view_config['columns'],
                 'dataSource': [],
                 'actionComplete': self.change,
                 # 'cellSave': '',
