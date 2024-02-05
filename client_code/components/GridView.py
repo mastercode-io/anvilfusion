@@ -128,6 +128,7 @@ class GridView:
                  data=None,
                  ):
 
+        self.grid_config = {}
         self.grid_height = None
         self.grid_el_id = None
         self.container_id = container_id or AppEnv.content_container_id
@@ -161,6 +162,13 @@ class GridView:
 
         self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
+
+        if edit_mode == 'inline':
+            self.gird_config = view_config['config']
+            self.grid_config['dataSource'] = self.grid_data
+            self.grid = ej.grids.Grid(self.grid_config)
+            return
+
         if add_edit_form:
             if isinstance(add_edit_form, str):
                 self.form_class = getattr(AppEnv.forms, add_edit_form, None)
@@ -309,8 +317,6 @@ class GridView:
         # self.grid_config['recordClick'] = self.record_click
         # self.grid_config['rowSelecting'] = lambda args: print('rowSelecting', args)
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
-        if edit_mode == 'inline':
-            self.gird_config = view_config['config']
 
         # create Grid control
         self.grid = ej.grids.Grid(self.grid_config)
