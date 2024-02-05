@@ -19,6 +19,7 @@ class SubformGrid(BaseInput, GridView):
                  data=None,
                  view_config=None,
                  edit_mode='dialog',
+                 grid_columns=None,
                  **kwargs):
 
         BaseInput.__init__(
@@ -26,6 +27,32 @@ class SubformGrid(BaseInput, GridView):
             label=label,
             container_id=container_id,
             **kwargs)
+
+        if edit_mode == 'inline':
+            grid_config = {
+                'toolbar': ['Add', 'Edit', 'Delete', 'Update', 'Cancel'],
+                'editSettings': {
+                    'allowEditing': True,
+                    'allowAdding': True,
+                    'allowDeleting': True,
+                    'showConfirmDialog': True,
+                    'showDeleteConfirmDialog': True,
+                    'mode': 'Normal',
+                    'newRowPosition': 'Bottom'
+                },
+                'columns': grid_columns,
+                'dataSource': [],
+                'actionComplete': self.change,
+                # 'cellSave': '',
+                'gridLines': 'Default',
+                'allowScrolling': True,
+                'allowTextWrap': True,
+                'textWrapSettings': {'wrapMode': 'Content'},
+            }
+            if view_config is None:
+                view_config = {}
+            view_config['config'] = grid_config
+
         GridView.__init__(
             self, model=model, title=label,
             container_id=self.el_id,
