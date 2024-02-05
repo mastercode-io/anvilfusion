@@ -53,7 +53,7 @@ class SubformGrid(BaseInput, GridView):
             if view_config is None:
                 view_config = {}
             view_config['config'] = grid_config
-            print('subform grid view_config', view_config['columns'])
+            print('subform grid view_config', view_config)
 
         GridView.__init__(
             self, model=model, title=label,
