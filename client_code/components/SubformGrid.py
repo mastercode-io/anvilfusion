@@ -43,6 +43,8 @@ class SubformGrid(BaseInput, GridView):
         self.to_delete = []
         if edit_mode == 'inline':
             self.grid.editSettings = 'Normal'
+            self.actionBegin = None
+            self.actionComplete = None
         # print('subform grid', self.container_id)
 
     @property
