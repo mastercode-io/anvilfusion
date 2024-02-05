@@ -335,14 +335,8 @@ class GridView:
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        print('grid height', self.grid_height, self.container_el.offsetHeight, self.container_el.style.height)
-        self.grid_height = '100%'
-        # self.container_el.innerHTML = f'\
-        #     <div id="pm-grid-container" style="height:{self.grid_height}px;">\
-        #         <div id="{self.grid_el_id}"></div>\
-        #     </div>'
         self.container_el.innerHTML = f'\
-            <div id="pm-grid-container" style="height:{self.grid_height}">\
+            <div id="pm-grid-container" style="height:{self.grid_height}px;">\
                 <div id="{self.grid_el_id}"></div>\
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
