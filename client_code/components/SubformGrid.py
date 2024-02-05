@@ -53,6 +53,7 @@ class SubformGrid(BaseInput, GridView):
             if view_config is None:
                 view_config = {}
             view_config['config'] = grid_config
+            print('subform grid view_config', view_config['columns'])
 
         GridView.__init__(
             self, model=model, title=label,
@@ -71,10 +72,6 @@ class SubformGrid(BaseInput, GridView):
         self.to_save = []
         self.to_delete = []
         self._value = None
-        if edit_mode == 'inline':
-            self.grid.editSettings = 'Normal'
-            # self.actionBegin = None
-            # self.actionComplete = None
         # print('subform grid', self.container_id)
 
     @property
