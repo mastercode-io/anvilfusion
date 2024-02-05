@@ -43,8 +43,8 @@ class SubformGrid(BaseInput, GridView):
         self.to_delete = []
         if edit_mode == 'inline':
             self.grid.editSettings = 'Normal'
-            self.actionBegin = None
-            self.actionComplete = None
+            # self.actionBegin = None
+            # self.actionComplete = None
         # print('subform grid', self.container_id)
 
     @property
@@ -110,6 +110,9 @@ class SubformGrid(BaseInput, GridView):
             self.visible = False
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
+
+    def grid_action_handler(self, args):
+        pass
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
