@@ -378,6 +378,7 @@ class SubformBase:
         self.data = data if data is not None else []
         self.deleted = []
 
+        print('SubformBase', self.model, self.link_model, self.link_field, self.data, self.fields)
         grid_columns = [field.grid_column for field in self.fields]
         self.control = ej.grids.Grid({
             'toolbar': ['Add', 'Edit', 'Delete', 'Update', 'Cancel'],
