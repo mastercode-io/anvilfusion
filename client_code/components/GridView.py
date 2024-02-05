@@ -140,6 +140,7 @@ class GridView:
         self.form_class = None
         self.confirm_dialog = None
         self.show_confirm_dialog = True
+        self.toolbar_items = []
         self.context_menu_actions = {}
         self.grid_data = data or []
 
