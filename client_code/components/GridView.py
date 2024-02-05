@@ -123,6 +123,7 @@ class GridView:
                  toolbar_items=None,
                  context_menu_items=None,
                  persist=True,
+                 edit_mode='dialog',
                  add_edit_form=None,
                  data=None,
                  ):
@@ -308,6 +309,8 @@ class GridView:
         # self.grid_config['recordClick'] = self.record_click
         # self.grid_config['rowSelecting'] = lambda args: print('rowSelecting', args)
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
+        if edit_mode == 'inline':
+            self.gird_config = view_config['config']
 
         # create Grid control
         self.grid = ej.grids.Grid(self.grid_config)

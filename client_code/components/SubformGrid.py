@@ -19,7 +19,6 @@ class SubformGrid(BaseInput, GridView):
                  data=None,
                  view_config=None,
                  edit_mode='dialog',
-                 grid_columns=None,
                  **kwargs):
 
         BaseInput.__init__(
@@ -40,7 +39,7 @@ class SubformGrid(BaseInput, GridView):
                     'mode': 'Normal',
                     'newRowPosition': 'Bottom'
                 },
-                'columns': grid_columns,
+                'columns': [col.grid_column for col in view_config['columns']],
                 'dataSource': [],
                 'actionComplete': self.change,
                 # 'cellSave': '',
@@ -59,6 +58,7 @@ class SubformGrid(BaseInput, GridView):
             form_container_id=form_container_id,
             view_config=view_config,
             persist=False,
+            edit_mode=edit_mode,
             **kwargs)
         self.link_model = link_model
         self.link_field = link_field
