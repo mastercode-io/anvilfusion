@@ -281,16 +281,13 @@ class FormBase:
         #                      if x in self.class_name._attributes or x in self.class_name._relationships}
         #     self.data = self.class_name(**instance_data)
         #     self.data = self.default_data
-        print(self.data)
-        print(self.form_fields, self.subforms)
-        print([x for x in self.form_fields if x not in self.subforms and not x.is_dependent])
         for field in [x for x in self.form_fields if x not in self.subforms and not x.is_dependent]:
-            print(field.name)
+            # print(field.name)
             field.show()
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x not in self.subforms and x.is_dependent]:
-            print(field.name, self.data)
+            # print(field.name, self.data)
             field.value = self.data
             field.show()
         for subform in self.subforms:
@@ -449,6 +446,7 @@ class SubformBase:
         self._control = value
 
     def show(self):
+        print('show', self.visible, self.container_id, self.html, self._control)
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             if self._control is not None:
