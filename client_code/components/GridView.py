@@ -165,6 +165,7 @@ class GridView:
         self.model = self.view_config.get('model', model)
         self.grid_class = getattr(AppEnv.data_models, self.model or 'None', None)
 
+        print('edit mode', self.edit_mode)
         if self.edit_mode == 'inline':
             print('inline edit')
             self.gird_config = view_config
