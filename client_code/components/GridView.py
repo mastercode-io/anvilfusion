@@ -169,7 +169,7 @@ class GridView:
         if self.edit_mode == 'inline':
             print('inline edit')
             print(self.view_config['config'])
-            self.gird_config = self.view_config['config']
+            self.gird_config = self.view_config['config'].copy()
             self.grid_config['dataSource'] = self.grid_data
             print('inline grid')
             print(self.grid_config)
