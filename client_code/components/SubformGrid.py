@@ -101,6 +101,7 @@ class SubformGrid(BaseInput, GridView):
         print('set subformgrid value', value)
         if value and value.uid:
             print('value not empty', value.uid)
+            print(self.grid_view)
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:
