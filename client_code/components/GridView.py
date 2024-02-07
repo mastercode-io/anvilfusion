@@ -173,7 +173,8 @@ class GridView:
             self.grid_config['dataSource'] = self.grid_data
             print('inline grid')
             print(self.grid_config)
-            self.grid = ej.grids.Grid(self.grid_config)
+            self.view_config['config']['datasource'] = self.grid_data
+            self.grid = ej.grids.Grid(self.view_config)
             return
 
         if add_edit_form:
