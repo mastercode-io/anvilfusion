@@ -39,7 +39,7 @@ class SubformGrid(BaseInput, GridView):
                     'mode': 'Normal',
                     'newRowPosition': 'Bottom'
                 },
-                'columns': view_config['columns'],
+                'columns': [field.grid_column for field in view_config['inline_edit_fields']],
                 'dataSource': [],
                 # 'actionComplete': self.change,
                 # 'cellSave': '',
@@ -51,6 +51,7 @@ class SubformGrid(BaseInput, GridView):
                 'height': '100%',
             }
             view_config['config'] = grid_config
+        self.grid_view = {'model': view_config['model'], 'columns': view_config['columns']}
         # else:
         #     grid_config = view_config
         # print('subform grid view_config', edit_mode, view_config)
@@ -99,13 +100,14 @@ class SubformGrid(BaseInput, GridView):
     def value(self, value):
         print('set subformgrid value', value)
         if value and value.uid:
+            print('value not empty', value.uid)
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:
                     self.filters = {}
                 if self.link_field:
                     self.filters[self.link_field] = value
-                self.grid_data = self.grid_class.get_grid_view(self.view_config,
+                self.grid_data = self.grid_class.get_grid_view(self.grid_view,
                                                                search_queries=self.search_queries,
                                                                filters=self.filters,
                                                                include_rows=False)
@@ -113,6 +115,7 @@ class SubformGrid(BaseInput, GridView):
             else:
                 pass
         else:
+            print('no value')
             self._value = None
             self.grid_data = []
             self.grid.dataSource = self.grid_data

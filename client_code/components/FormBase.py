@@ -291,7 +291,7 @@ class FormBase:
             field.value = self.data
             print('now show')
             field.show()
-            print('showed')
+        print('showed')
         print('DEBUG')
         # for subform in self.subforms:
         #     subform.value = self.data
