@@ -50,16 +50,15 @@ class SubformGrid(BaseInput, GridView):
                 'width': '100%',
                 'height': '100%',
             }
-            if view_config is None:
-                view_config = {}
-            view_config['config'] = grid_config
+        else:
+            grid_config = view_config
             print('subform grid view_config', view_config)
 
         GridView.__init__(
             self, model=model, title=label,
             container_id=self.el_id,
             form_container_id=form_container_id,
-            view_config=view_config,
+            view_config=grid_config,
             persist=False,
             edit_mode=edit_mode,
             **kwargs)
