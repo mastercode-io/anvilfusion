@@ -295,7 +295,7 @@ class FormBase:
         for field in self.form_fields:
             # print('on_change', field.name, field.value, field.on_change)
             if field.on_change is not None:
-                # print('on_change', field.name)
+                print('on_change', field.name)
                 field.on_change({'name': field.name, 'value': field.value})
         self.container_el.style.visibility = 'visible'
         self.form.cssClass = 'e-fixed py-dialog'
