@@ -292,6 +292,7 @@ class FormBase:
             field.show()
         # for subform in self.subforms:
         #     subform.value = self.data
+        print('DEBUG')
         for field in self.form_fields:
             print('on_change', field.name, field.value, field.on_change)
             if field.on_change is not None:
