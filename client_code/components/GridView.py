@@ -168,6 +168,7 @@ class GridView:
         print('edit mode', self.edit_mode, self.view_config)
         if self.edit_mode == 'inline':
             print('inline edit')
+            print(self.view_config['config'])
             self.gird_config = self.view_config['config']
             self.grid_config['dataSource'] = self.grid_data
             self.grid = ej.grids.Grid(self.grid_config)
