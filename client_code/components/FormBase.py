@@ -281,6 +281,7 @@ class FormBase:
         #                      if x in self.class_name._attributes or x in self.class_name._relationships}
         #     self.data = self.class_name(**instance_data)
         #     self.data = self.default_data
+        print('DEBUG')
         for field in [x for x in self.form_fields if x not in self.subforms and not x.is_dependent]:
             # print(field.name)
             field.show()
@@ -292,7 +293,6 @@ class FormBase:
             field.show()
         # for subform in self.subforms:
         #     subform.value = self.data
-        print('DEBUG')
         for field in self.form_fields:
             print('on_change', field.name, field.value, field.on_change)
             if field.on_change is not None:
