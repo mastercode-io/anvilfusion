@@ -93,6 +93,7 @@ class BaseInput:
 
     @control.setter
     def control(self, value):
+        print('set control', value, self.name, self._control)
         self._control = value
         if self._control is not None:
             self.control.change = self.change
