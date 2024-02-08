@@ -151,7 +151,7 @@ class SubformGrid(BaseInput, GridView):
 
             if args.requestType == 'save':
                 print('save')
-                for key in args.form:
+                for key in args.form.keys():
                     print(key, args.form[key])
                 # if args.rowData.uid and 'grid' not in args.rowData.uid:
                 #     instance = self.grid_class.get(args.rowData.uid)
