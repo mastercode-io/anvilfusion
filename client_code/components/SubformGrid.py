@@ -41,7 +41,7 @@ class SubformGrid(BaseInput, GridView):
                 },
                 'columns': [field.grid_column for field in view_config['inline_edit_fields']],
                 'dataSource': [],
-                # 'actionComplete': self.change,
+                'actionComplete': self.inline_grid_action,
                 # 'cellSave': '',
                 'gridLines': 'Default',
                 'allowScrolling': True,
@@ -143,8 +143,8 @@ class SubformGrid(BaseInput, GridView):
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
 
-    # def grid_action_handler(self, args):
-    #     pass
+    def inline_grid_action(self, args):
+        print('inline grid action', args)
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
