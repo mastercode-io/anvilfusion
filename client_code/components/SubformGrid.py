@@ -28,6 +28,7 @@ class SubformGrid(BaseInput, GridView):
             **kwargs)
 
         if edit_mode == 'inline':
+            self.inline_input_fields = view_config.get('inline_edit_fields', [])
             grid_config = {
                 'toolbar': ['Add', 'Edit', 'Delete', 'Update', 'Cancel'],
                 'editSettings': {
@@ -39,7 +40,7 @@ class SubformGrid(BaseInput, GridView):
                     'mode': 'Normal',
                     'newRowPosition': 'Bottom'
                 },
-                'columns': [field.grid_column for field in view_config['inline_edit_fields']],
+                'columns': [field.grid_column for field in self.inline_input_fields],
                 'dataSource': [],
                 'actionComplete': self.inline_grid_action,
                 # 'cellSave': '',
@@ -51,6 +52,8 @@ class SubformGrid(BaseInput, GridView):
                 'height': '100%',
             }
             view_config['config'] = grid_config
+        else:
+            self.inline_input_fields = []
         self.subform_grid_view = {'model': view_config['model'], 'columns': view_config['columns'].copy()}
         # else:
         #     grid_config = view_config
@@ -144,7 +147,19 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.element.style.display = 'none'
 
     def inline_grid_action(self, args):
-        print('inline grid action', args)
+        if args.type == 'actionComplete':
+
+            if args.requestType == 'save':
+                print('save')
+                for key in args.form:
+                    print(key, args.form[key])
+                # if args.rowData.uid and 'grid' not in args.rowData.uid:
+                #     instance = self.grid_class.get(args.rowData.uid)
+                #     print(args.rowData.uid, instance)
+
+            elif args.requestType == 'delete':
+                print('delete')
+                self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
