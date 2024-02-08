@@ -151,8 +151,10 @@ class SubformGrid(BaseInput, GridView):
 
             if args.requestType == 'save':
                 print('save')
+                inline_controls = [el.ej2_instances for el in args.form.keys() if el.ej2_instance]
                 for key in args.form.keys():
                     print(key, args.form[key])
+                    print(inline_controls)
                     el = args.form[key]
                     for k in el.keys():
                         print(k, el[k])
