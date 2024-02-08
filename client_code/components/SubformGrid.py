@@ -51,7 +51,7 @@ class SubformGrid(BaseInput, GridView):
                 'height': '100%',
             }
             view_config['config'] = grid_config
-        self.grid_view = {'model': view_config['model'], 'columns': view_config['columns']}
+        self.subform_grid_view = {'model': view_config['model'], 'columns': view_config['columns'].copy()}
         # else:
         #     grid_config = view_config
         # print('subform grid view_config', edit_mode, view_config)
@@ -101,14 +101,14 @@ class SubformGrid(BaseInput, GridView):
         print('set subformgrid value', value)
         if value and value.uid:
             print('value not empty', value.uid)
-            print(self.grid_view)
+            print(self.subform_grid_view)
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:
                     self.filters = {}
                 if self.link_field:
                     self.filters[self.link_field] = value
-                self.grid_data = self.grid_class.get_grid_view(self.grid_view,
+                self.grid_data = self.grid_class.get_grid_view(self.subform_grid_view,
                                                                search_queries=self.search_queries,
                                                                filters=self.filters,
                                                                include_rows=False)
