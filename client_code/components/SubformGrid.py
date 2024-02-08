@@ -155,8 +155,11 @@ class SubformGrid(BaseInput, GridView):
                                    if 'ej2_instances' in args.form[el].keys()]
                 print(inline_controls)
                 dd_el = inline_controls[1][0]
-                for k in dd_el.keys():
-                    print(k, dd_el[k])
+                dd_field = self.inline_input_fields[1]
+                dd_field.control = dd_el
+                print(dd_el, dd_field, dd_field.value)
+                # for k in dd_el.keys():
+                #     print(k, dd_el[k])
                 # if args.rowData.uid and 'grid' not in args.rowData.uid:
                 #     instance = self.grid_class.get(args.rowData.uid)
                 #     print(args.rowData.uid, instance)
