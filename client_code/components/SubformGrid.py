@@ -157,7 +157,7 @@ class SubformGrid(BaseInput, GridView):
                 dd_el = inline_controls[1][0]
                 dd_field = self.inline_input_fields[1]
                 dd_field.control = dd_el
-                print(dd_el, dd_field, dd_field.value)
+                print(dd_el, dd_el.value, dd_field, dd_field.value)
                 # for k in dd_el.keys():
                 #     print(k, dd_el[k])
                 # if args.rowData.uid and 'grid' not in args.rowData.uid:
