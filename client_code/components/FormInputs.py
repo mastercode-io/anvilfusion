@@ -218,10 +218,10 @@ class TextInput(BaseInput):
         self.input_type = input_type
         self.element = None
 
-        # self.html = f'\
-        #     <div class="form-group pm-form-group">\
-        #         <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
-        #     </div>'
+        self.html = f'\
+            <div class="form-group pm-form-group">\
+                <div class="form-control" id="{self.el_id}" name="{self.el_id}">\
+            </div>'
 
     def create_control(self):
         self.control = ej.inputs.TextBox({
