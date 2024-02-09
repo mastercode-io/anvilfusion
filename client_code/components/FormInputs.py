@@ -70,7 +70,7 @@ class BaseInput:
 
         self.html = f'\
             <div class="form-group pm-form-group">\
-                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
         self.grid_column = {
@@ -220,7 +220,7 @@ class TextInput(BaseInput):
 
         self.html = f'\
             <div class="form-group pm-form-group">\
-                <div class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
     def create_control(self):
