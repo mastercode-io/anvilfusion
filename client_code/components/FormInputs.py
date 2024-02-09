@@ -80,6 +80,7 @@ class BaseInput:
             'field': self.name, 'headerText': self.label,
             'type': self.field_type.GridType,
             'format': self.field_type.GridFormat,
+            'textAlign': self.field_type.get('GridAlign', 'Left'),
             'displayAsCheckBox': self.field_type == FieldTypes.BOOLEAN,
             'edit': {'create': self.grid_edit_create, 'read': self.grid_edit_read, 'write': self.grid_edit_write,
                      'destroy': self.grid_edit_destroy}
