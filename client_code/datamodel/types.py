@@ -33,18 +33,21 @@ FIELD_TYPES = {
         'InputType': 'NumberInput',
         'GridType': 'number',
         'GridFormat': '',
+        'GridAlign': 'right',
     },
     'decimal': {
         'ColumnType': 'number',
         'InputType': 'NumberInput',
         'GridType': 'number',
         'GridFormat': 'N2',
+        'GridAlign': 'right',
     },
     'currency': {
         'ColumnType': 'number',
         'InputType': 'NumberInput',
         'GridType': 'number',
         'GridFormat': 'C2',
+        'GridAlign': 'right',
     },
     'date': {
         'ColumnType': 'date',

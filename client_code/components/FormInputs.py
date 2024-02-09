@@ -4,6 +4,7 @@ import uuid
 import anvil.js
 from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
+from ..datamodel.types import FieldTypes
 from ..tools.utils import AppEnv, DotDict, new_el_id
 import datetime
 
@@ -32,6 +33,7 @@ class BaseInput:
     def __init__(self,
                  name=None,
                  label=None,
+                 field_type=None,
                  float_label=True,
                  shadow_label=False,
                  placeholder=None,
@@ -48,6 +50,7 @@ class BaseInput:
                  **kwargs):
         self.name = name
         self.label = label if shadow_label is False else ''
+        self.field_type = field_type or FieldTypes.SINGLE_LINE
         self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
         self.float_label = float_label
         self.placeholder = placeholder or self.label
@@ -74,7 +77,10 @@ class BaseInput:
             </div>'
 
         self.grid_column = {
-            'field': self.name, 'headerText': self.label, 'type': 'string',
+            'field': self.name, 'headerText': self.label,
+            'type': self.field_type.GrifType,
+            'format': self.field_type.GridFormat,
+            'displayAsCheckBox': self.field_type == FieldTypes.BOOLEAN,
             'edit': {'create': self.grid_edit_create, 'read': self.grid_edit_read, 'write': self.grid_edit_write,
                      'destroy': self.grid_edit_destroy}
         }
