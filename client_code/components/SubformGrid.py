@@ -151,6 +151,10 @@ class SubformGrid(BaseInput, GridView):
 
             if args.requestType == 'save':
                 print('save')
+                print(args.form[0])
+                el = args.form[0]
+                for k in el.keys():
+                    print(k, el[k])
                 for k in args.form.keys():
                     print(k, args.form[k])
                     x = args.form[k]
