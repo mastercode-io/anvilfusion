@@ -78,7 +78,7 @@ class BaseInput:
 
         self.grid_column = {
             'field': self.name, 'headerText': self.label,
-            'type': self.field_type.GrifType,
+            'type': self.field_type.GridType,
             'format': self.field_type.GridFormat,
             'displayAsCheckBox': self.field_type == FieldTypes.BOOLEAN,
             'edit': {'create': self.grid_edit_create, 'read': self.grid_edit_read, 'write': self.grid_edit_write,
