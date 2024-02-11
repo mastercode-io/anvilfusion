@@ -148,6 +148,7 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.element.style.display = 'none'
 
     def inline_grid_action(self, args):
+        print('inline_grid_action', args)
         if args.type == 'actionComplete':
 
             if args.requestType == 'save':
@@ -172,7 +173,8 @@ class SubformGrid(BaseInput, GridView):
                     row_input[field_name] = args.data[field_name]
                 print(row_input)
                 data_row = self.grid_class(**row_input)
-                self.update_grid(data_row, True, get_relationships=True)
+                print(data_row)
+                # self.update_grid(data_row, True, get_relationships=True)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
                 # dd_field.control = dd_el
