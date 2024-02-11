@@ -153,7 +153,7 @@ class SubformGrid(BaseInput, GridView):
 
     def inline_grid_action(self, args):
         print('inline_grid_action', args)
-        if args.type == 'actionComplete':
+        if args.name == 'actionComplete':
 
             if args.requestType == 'save':
                 if args.action == 'edit':
