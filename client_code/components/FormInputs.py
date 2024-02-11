@@ -46,6 +46,7 @@ class BaseInput:
                  container_id=None,
                  on_change=None,
                  is_dependent=False,
+                 grid_field=None,
                  required=False,
                  **kwargs):
         self.name = name
@@ -65,6 +66,7 @@ class BaseInput:
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
         self._grid_column = None
+        self.grid_field = grid_field or self.name
         self._control = None
         self.visible = False
         self.on_change = on_change
@@ -86,8 +88,12 @@ class BaseInput:
             'format': self.field_type.GridFormat,
             'textAlign': getattr(self.field_type, 'GridTextAlign', 'Left'),
             'displayAsCheckBox': self.field_type == FieldTypes.BOOLEAN,
-            'edit': {'create': self.grid_edit_create, 'read': self.grid_edit_read, 'write': self.grid_edit_write,
-                     'destroy': self.grid_edit_destroy}
+            'edit': {
+                'create': self.grid_edit_create,
+                'read': self.grid_edit_read,
+                'write': self.grid_edit_write,
+                'destroy': self.grid_edit_destroy
+            }
         }
         return self._grid_column
 
