@@ -151,6 +151,7 @@ class SubformGrid(BaseInput, GridView):
         if args.type == 'actionComplete':
 
             if args.requestType == 'save':
+                args.cancel = True
                 print('save')
                 print(args.data)
                 print(args.rowData)
