@@ -66,7 +66,7 @@ class BaseInput:
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
         self._grid_column = None
-        self.grid_field = grid_field or self.name
+        self.grid_field = grid_field.replace('.', '__') or self.name
         self._control = None
         self.visible = False
         self.on_change = on_change
@@ -82,7 +82,7 @@ class BaseInput:
     @property
     def grid_column(self):
         self._grid_column = {
-            'field': self.name.replace('.', '__'),
+            'field': self.grid_field,
             'headerText': self.label,
             'type': self.field_type.GridType,
             'format': self.field_type.GridFormat,
