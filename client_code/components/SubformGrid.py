@@ -54,6 +54,7 @@ class SubformGrid(BaseInput, GridView):
             view_config['config'] = grid_config
         else:
             self.inline_input_fields = []
+        self.input_fields_map = {field.name: field for field in self.inline_input_fields}
         self.subform_grid_view = {'model': view_config['model'], 'columns': view_config['columns'].copy()}
         # else:
         #     grid_config = view_config
@@ -151,6 +152,7 @@ class SubformGrid(BaseInput, GridView):
 
             if args.requestType == 'save':
                 print('save')
+                print(args)
                 print(args.form[0])
                 el = args.form[0]
                 for k in el.keys():
@@ -160,13 +162,17 @@ class SubformGrid(BaseInput, GridView):
                     x = args.form[k]
                     for p in x.keys():
                         print(p, x[p])
-                inline_controls = [args.form[el].ej2_instances for el in args.form.keys()
-                                   if 'ej2_instances' in args.form[el].keys()]
+                inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
+                                   if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
                 print(inline_controls)
-                dd_el = inline_controls[1][0]
-                dd_field = self.inline_input_fields[1]
-                dd_field.control = dd_el
-                print(dd_el, dd_el.value, dd_field, dd_field.value)
+                for control in inline_controls:
+                    print(control, control.placeholder, control.value)
+                    self.input_fields_map[control.placeholder].control = control
+                    print(self.input_fields_map[control.placeholder].value)
+                # dd_el = inline_controls[1][0]
+                # dd_field = self.inline_input_fields[1]
+                # dd_field.control = dd_el
+                # print(dd_el, dd_el.value, dd_field, dd_field.value)
                 # if args.rowData.uid and 'grid' not in args.rowData.uid:
                 #     instance = self.grid_class.get(args.rowData.uid)
                 #     print(args.rowData.uid, instance)
