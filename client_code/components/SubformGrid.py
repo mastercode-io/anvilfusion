@@ -53,7 +53,7 @@ class SubformGrid(BaseInput, GridView):
             }
             grid_config['columns'].insert(
                 0,
-                {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'} # noqa
+                {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'}  # noqa
             )
             view_config['config'] = grid_config
         else:
@@ -156,7 +156,7 @@ class SubformGrid(BaseInput, GridView):
         if args.type == 'actionComplete':
 
             if args.requestType == 'save':
-                if args.action =='edit':
+                if args.action == 'edit':
                     return
                 # args.cancel = True
                 print('save')
@@ -180,7 +180,7 @@ class SubformGrid(BaseInput, GridView):
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
-                self.update_grid(data_row, False, get_relationships=True)
+                # self.update_grid(data_row, False, get_relationships=True)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
                 # dd_field.control = dd_el
