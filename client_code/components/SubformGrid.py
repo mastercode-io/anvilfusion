@@ -42,6 +42,7 @@ class SubformGrid(BaseInput, GridView):
                 },
                 'columns': [field.grid_column for field in self.inline_input_fields],
                 'dataSource': [],
+                'actionBegin': self.inline_grid_action,
                 'actionComplete': self.inline_grid_action,
                 # 'cellSave': '',
                 'gridLines': 'Default',
