@@ -64,6 +64,7 @@ class BaseInput:
         self.el_id = el_id if el_id is not None else new_el_id()
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
+        self._grid_column = None
         self._control = None
         self.visible = False
         self.on_change = on_change
@@ -76,8 +77,11 @@ class BaseInput:
                 <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
-        self.grid_column = {
-            'field': self.name, 'headerText': self.label,
+    @property
+    def grid_column(self):
+        self._grid_column = {
+            'field': self.name.replace('.', '__'),
+            'headerText': self.label,
             'type': self.field_type.GridType,
             'format': self.field_type.GridFormat,
             'textAlign': getattr(self.field_type, 'GridTextAlign', 'Left'),
@@ -85,6 +89,7 @@ class BaseInput:
             'edit': {'create': self.grid_edit_create, 'read': self.grid_edit_read, 'write': self.grid_edit_write,
                      'destroy': self.grid_edit_destroy}
         }
+        return self._grid_column
 
     @property
     def html(self):
