@@ -169,16 +169,16 @@ class SubformGrid(BaseInput, GridView):
                 # print(inline_controls)
                 row_input = {}
                 for control in inline_controls:
-                    field_name = control.placeholder
-                    self.input_fields_map[field_name].control = control
-                    field_value = self.input_fields_map[field_name].value
-                    if field_name and field_value:
-                        row_input[field_name] = field_value
+                    grid_field = control.placeholder
+                    self.input_fields_map[grid_field].control = control
+                    field_value = self.input_fields_map[grid_field].value
+                    if grid_field and field_value:
+                        row_input[self.input_fields_map[grid_field].name] = field_value
                     # print(control, control.placeholder, control.value)
                     # print(field_name, field_value)
                 # print(row_input)
-                for field_name in [k for k in self.input_fields_map.keys() if k not in row_input.keys()]:
-                    row_input[self.input_fields_map[field_name].name] = args.data[field_name]
+                for grid_field in [k for k in self.input_fields_map.keys() if k not in row_input.keys()]:
+                    row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
