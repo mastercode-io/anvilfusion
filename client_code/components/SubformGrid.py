@@ -155,7 +155,7 @@ class SubformGrid(BaseInput, GridView):
                 args.cancel = True
                 print('save')
                 print(args.data)
-                print(args.rowData)
+                # print(args.rowData)
                 inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
                                    if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
                 print(inline_controls)
@@ -174,7 +174,7 @@ class SubformGrid(BaseInput, GridView):
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
-                # self.update_grid(data_row, True, get_relationships=True)
+                self.update_grid(data_row, False, get_relationships=True)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
                 # dd_field.control = dd_el
