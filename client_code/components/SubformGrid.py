@@ -173,6 +173,8 @@ class SubformGrid(BaseInput, GridView):
                     self.input_fields_map[grid_field].control = control
                     field_value = self.input_fields_map[grid_field].value
                     if grid_field and field_value:
+                        print('get input value')
+                        print(grid_field, field_value)
                         row_input[self.input_fields_map[grid_field].name] = field_value
                     # print(control, control.placeholder, control.value)
                     # print(field_name, field_value)
