@@ -152,23 +152,24 @@ class SubformGrid(BaseInput, GridView):
 
             if args.requestType == 'save':
                 print('save')
-                print(args)
-                print(args.form[0])
-                el = args.form[0]
-                for k in el.keys():
-                    print(k, el[k])
-                for k in args.form.keys():
-                    print(k, args.form[k])
-                    x = args.form[k]
-                    for p in x.keys():
-                        print(p, x[p])
+                print(args.data)
+                print(args.rowData)
                 inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
                                    if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
                 print(inline_controls)
+                row_input = {}
                 for control in inline_controls:
+                    field_name = control.placeholder
+                    self.input_fields_map[field_name].control = control
+                    field_value = self.input_fields_map[field_name].value
+                    if field_name and field_value:
+                        row_input[field_name] = field_value
                     print(control, control.placeholder, control.value)
-                    self.input_fields_map[control.placeholder].control = control
-                    print(self.input_fields_map[control.placeholder].value)
+                    print(field_name, field_value)
+                print(row_input)
+                for field_name in [k for k in self.input_fields_map.keys() if k not in row_input.keys()]:
+                    row_input[field_name] = args.data[field_name]
+                print(row_input)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
                 # dd_field.control = dd_el
