@@ -515,6 +515,7 @@ class GridView:
             self.grid.addRecord(grid_row)
         else:
             if row_index is not None:
+                print('updateRow', row_index, grid_row)
                 self.grid.updateRow(row_index, grid_row)
             else:
                 self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
