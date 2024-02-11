@@ -180,7 +180,7 @@ class SubformGrid(BaseInput, GridView):
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
-                row_index = args.index or args.rowIndex
+                row_index = args.index if hasattr(args, 'index') else args.rowIndex
                 self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
