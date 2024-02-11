@@ -178,7 +178,7 @@ class SubformGrid(BaseInput, GridView):
                     # print(field_name, field_value)
                 # print(row_input)
                 for field_name in [k for k in self.input_fields_map.keys() if k not in row_input.keys()]:
-                    row_input[field_name] = args.data[field_name]
+                    row_input[self.input_fields_map[field_name].name] = args.data[field_name]
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
