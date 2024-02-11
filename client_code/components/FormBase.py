@@ -331,7 +331,7 @@ class FormBase:
             else:
                 add_new = True
                 self.data = self.class_name(**input_data)
-            if self.persist:
+            if self.persist or [x for x in self.form_fields if x.save and x.is_dependent] != []:
                 self.data.save()
                 self.data = self.class_name.get(self.data.uid)
                 # save subform rows
