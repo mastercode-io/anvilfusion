@@ -180,7 +180,8 @@ class SubformGrid(BaseInput, GridView):
                 print(row_input)
                 data_row = self.grid_class(**row_input)
                 print(data_row)
-                # self.update_grid(data_row, False, get_relationships=True)
+                row_index = args.index or args.rowIndex
+                self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
                 # dd_el = inline_controls[1][0]
                 # dd_field = self.inline_input_fields[1]
                 # dd_field.control = dd_el
@@ -200,7 +201,7 @@ class SubformGrid(BaseInput, GridView):
         self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
         GridView.delete_selected(self, args, persist=False)
 
-    def update_grid(self, data_row, add_new, get_relationships=True):
+    def update_grid(self, data_row, add_new, row_index=None, get_relationships=True):
         self.to_save.append(data_row)
         GridView.update_grid(self, data_row, add_new, get_relationships=True)
 

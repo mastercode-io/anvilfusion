@@ -503,7 +503,7 @@ class GridView:
                     if db_row is not None:
                         db_row.delete()
 
-    def update_grid(self, data_row, add_new, get_relationships=False):
+    def update_grid(self, data_row, add_new, row_index=None, get_relationships=False):
         if data_row.uid is None:
             data_row.uid = f"grid_{uuid.uuid4()}"
         grid_row = data_row.get_row_view(
@@ -514,6 +514,8 @@ class GridView:
         if add_new:
             self.grid.addRecord(grid_row)
         else:
-            # self.grid.setRowData(grid_row['uid'], grid_row)
-            self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
+            if row_index is not None:
+                self.grid.updateRow(row_index, grid_row)
+            else:
+                self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
         self.grid.refresh()
