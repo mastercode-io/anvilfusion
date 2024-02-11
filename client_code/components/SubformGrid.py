@@ -51,6 +51,10 @@ class SubformGrid(BaseInput, GridView):
                 'width': '100%',
                 'height': '100%',
             }
+            grid_config['columns'].insert(
+                0,
+                {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'} # noqa
+            )
             view_config['config'] = grid_config
         else:
             self.inline_input_fields = []
