@@ -164,7 +164,7 @@ class SubformGrid(BaseInput, GridView):
                 # print(args.rowData)
                 inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
                                    if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
-                print(inline_controls)
+                # print(inline_controls)
                 row_input = {}
                 for control in inline_controls:
                     field_name = control.placeholder
@@ -172,9 +172,9 @@ class SubformGrid(BaseInput, GridView):
                     field_value = self.input_fields_map[field_name].value
                     if field_name and field_value:
                         row_input[field_name] = field_value
-                    print(control, control.placeholder, control.value)
-                    print(field_name, field_value)
-                print(row_input)
+                    # print(control, control.placeholder, control.value)
+                    # print(field_name, field_value)
+                # print(row_input)
                 for field_name in [k for k in self.input_fields_map.keys() if k not in row_input.keys()]:
                     row_input[field_name] = args.data[field_name]
                 print(row_input)
@@ -203,7 +203,7 @@ class SubformGrid(BaseInput, GridView):
 
     def update_grid(self, data_row, add_new, row_index=None, get_relationships=True):
         self.to_save.append(data_row)
-        GridView.update_grid(self, data_row, add_new, get_relationships=True)
+        GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
 
     def save_dependent(self, link_row=None):
         # print('save subformgrid', self.to_save, self.to_delete)
