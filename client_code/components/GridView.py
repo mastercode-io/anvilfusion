@@ -514,10 +514,12 @@ class GridView:
         if add_new:
             self.grid.addRecord(grid_row)
         else:
-            if row_index is not None:
-                print('updateRow', row_index, grid_row)
-                self.grid.updateRow(row_index, grid_row)
-            else:
-                self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
+            if row_index is None:
+                row_index = self.grid.getRowIndexByPrimaryKey(grid_row['uid'])
+            print('updateRow', row_index, grid_row)
+            self.grid.updateRow(row_index, grid_row)
+            self.grid.dataSource[row_index] = grid_row
+            # else:
+            #     self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
         self.grid.refresh()
         print('updated grid', self.grid.dataSource)
