@@ -120,10 +120,17 @@ class SubformGrid(BaseInput, GridView):
                     self.filters = {}
                 if self.link_field:
                     self.filters[self.link_field] = value
-                self.grid_data = self.grid_class.get_grid_view(self.subform_grid_view,
-                                                               search_queries=self.search_queries,
-                                                               filters=self.filters,
-                                                               include_rows=(self.edit_mode == 'inline'))
+                if self.edit_mode == 'inline':
+                    self.grid_data = self.grid_class.get_json_view(self.subform_grid_view,
+                                                                   search_queries=self.search_queries,
+                                                                   filters=self.filters,
+                                                                   include_rows=False,
+                                                                   json=True)
+                else:
+                    self.grid_data = self.grid_class.get_grid_view(self.subform_grid_view,
+                                                                   search_queries=self.search_queries,
+                                                                   filters=self.filters,
+                                                                   include_rows=False)
                 self.grid.dataSource = self.grid_data
                 print('subformgrid data', self.filters, self.grid_data)
             else:
