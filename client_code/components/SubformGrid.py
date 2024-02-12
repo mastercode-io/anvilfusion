@@ -186,12 +186,13 @@ class SubformGrid(BaseInput, GridView):
                         args.rowData['row'][grid_field] = field_value
                         if isinstance(input_field, LookupInput):
                             args.rowData[grid_field] = field_value[input_field.text_field]
+                            print('lookup field', grid_field, field_value)
                 for grid_field in [k for k in self.input_fields_map.keys()
                                    if self.input_fields_map[k].name not in row_input.keys()]:
                     row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
-                print(row_input)
+                # print(row_input)
                 data_row = self.grid_class(**row_input)
-                print(data_row)
+                # print(data_row)
                 row_index = args.index if hasattr(args, 'index') else args.rowIndex
                 self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
