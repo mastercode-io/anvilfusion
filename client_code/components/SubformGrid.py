@@ -1,5 +1,5 @@
 import anvil.js
-from .FormInputs import BaseInput
+from .FormInputs import BaseInput, LookupInput
 from .GridView import GridView
 from ..tools.utils import AppEnv
 
@@ -157,6 +157,11 @@ class SubformGrid(BaseInput, GridView):
 
     def inline_grid_action(self, args):
         print('inline_grid_action', args)
+
+        if args.name == 'actionBegin' and args.requestType == 'beginEdit':
+            for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
+                print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
+
         if args.name == 'actionComplete':
             # args.cancel = True
 
