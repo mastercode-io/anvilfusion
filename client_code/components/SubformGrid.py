@@ -171,6 +171,8 @@ class SubformGrid(BaseInput, GridView):
                     args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
 
         if args.name == 'actionComplete' and args.requestType == 'save':
+            if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
+                return
             row_index = args.index if hasattr(args, 'index') else args.rowIndex
             inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
                                if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
