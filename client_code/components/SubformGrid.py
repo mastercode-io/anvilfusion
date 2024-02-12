@@ -124,7 +124,7 @@ class SubformGrid(BaseInput, GridView):
                     self.grid_data = self.grid_class.get_json_view(self.subform_grid_view,
                                                                    search_queries=self.search_queries,
                                                                    filters=self.filters,
-                                                                   include_rows=False)
+                                                                   include_rows=True)
                 else:
                     self.grid_data = self.grid_class.get_grid_view(self.subform_grid_view,
                                                                    search_queries=self.search_queries,
