@@ -170,32 +170,32 @@ class SubformGrid(BaseInput, GridView):
                     print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
                     args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
 
-            if args.requestType == 'save':
-                row_index = args.index if hasattr(args, 'index') else args.rowIndex
-                inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
-                                   if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
-                row_input = {}
-                for control in inline_controls:
-                    grid_field = control.placeholder
-                    input_field = self.input_fields_map[grid_field]
-                    input_field.control = control
-                    field_value = input_field.value
-                    if grid_field and field_value:
-                        print('get input value')
-                        print(grid_field, field_value)
-                        row_input[input_field.name] = field_value
-                        args.rowData['row'][grid_field] = field_value
-                        if isinstance(input_field, LookupInput):
-                            args.rowData[grid_field] = field_value[input_field.text_field]
-                            self.grid.dataSource[row_index][grid_field] = field_value[input_field.text_field]
-                            print('lookup field', grid_field, field_value[input_field.text_field])
-                for grid_field in [k for k in self.input_fields_map.keys()
-                                   if self.input_fields_map[k].name not in row_input.keys()]:
-                    row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
-                # print(row_input)
-                data_row = self.grid_class(**row_input)
-                # print(data_row)
-                self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
+        if args.name == 'actionComplete' and args.requestType == 'save':
+            row_index = args.index if hasattr(args, 'index') else args.rowIndex
+            inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
+                               if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
+            row_input = {}
+            for control in inline_controls:
+                grid_field = control.placeholder
+                input_field = self.input_fields_map[grid_field]
+                input_field.control = control
+                field_value = input_field.value
+                if grid_field and field_value:
+                    print('get input value')
+                    print(grid_field, field_value)
+                    row_input[input_field.name] = field_value
+                    args.rowData['row'][grid_field] = field_value
+                    if isinstance(input_field, LookupInput):
+                        args.rowData[grid_field] = field_value[input_field.text_field]
+                        self.grid.dataSource[row_index][grid_field] = field_value[input_field.text_field]
+                        print('lookup field', grid_field, field_value[input_field.text_field])
+            for grid_field in [k for k in self.input_fields_map.keys()
+                               if self.input_fields_map[k].name not in row_input.keys()]:
+                row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
+            # print(row_input)
+            data_row = self.grid_class(**row_input)
+            # print(data_row)
+            self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
             print('delete')
