@@ -124,6 +124,10 @@ class SubformGrid(BaseInput, GridView):
                                                                search_queries=self.search_queries,
                                                                filters=self.filters,
                                                                include_rows=True)
+                for grid_row in self.grid_data:
+                    grid_row['row'] = dict(grid_row['row'])
+                    # for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
+                    #     grid_row[field.placeholder] = grid_row[field.name][field.text_field]
                 self.grid.dataSource = self.grid_data
                 print('subformgrid data', self.filters, self.grid_data)
             else:
