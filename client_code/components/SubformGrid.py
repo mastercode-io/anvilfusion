@@ -214,10 +214,11 @@ class SubformGrid(BaseInput, GridView):
         if data_row.uid is None:
             data_row.uid = f"grid_{uuid.uuid4()}"
         self.to_save[data_row.uid] = data_row
-        if self.edit_mode == 'dialog':
-            GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
-        else:
-            self.grid.refresh()
+        GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
+        # if self.edit_mode == 'dialog':
+        #     GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
+        # else:
+        #     self.grid.refresh()
 
     def save_dependent(self, link_row=None):
         print('save subformgrid', self.to_save, self.to_delete)
