@@ -171,8 +171,6 @@ class SubformGrid(BaseInput, GridView):
                     args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
 
         if args.name == 'actionComplete' and args.requestType == 'save':
-            self.grid.refresh()
-        if args.name == 'actionBegin' and args.requestType == 'save':
             if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
                 return
             row_index = args.index if hasattr(args, 'index') else args.rowIndex
@@ -196,43 +194,12 @@ class SubformGrid(BaseInput, GridView):
             for grid_field in [k for k in self.input_fields_map.keys()
                                if self.input_fields_map[k].name not in row_input.keys()]:
                 row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
-            # print(row_input)
             data_row = self.grid_class(**row_input)
-            # print(data_row)
             self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
             print('delete')
             self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
-
-            # if args.requestType == 'save':
-            #     if args.action == 'edit':
-            #         return
-            #     print('save')
-            #     print(args.data)
-            #     inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
-            #                        if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
-            #     row_input = {}
-            #     for control in inline_controls:
-            #         grid_field = control.placeholder
-            #         self.input_fields_map[grid_field].control = control
-            #         field_value = self.input_fields_map[grid_field].value
-            #         if grid_field and field_value:
-            #             print('get input value')
-            #             print(grid_field, field_value)
-            #             row_input[self.input_fields_map[grid_field].name] = field_value
-            #     for grid_field in [k for k in self.input_fields_map.keys()
-            #                        if self.input_fields_map[k].name not in row_input.keys()]:
-            #         row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
-            #     print(row_input)
-            #     data_row = self.grid_class(**row_input)
-            #     print(data_row)
-            #     row_index = args.index if hasattr(args, 'index') else args.rowIndex
-            #     self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
-
-            # elif args.requestType == 'delete':
-            #     print('delete')
-            #     self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
@@ -247,8 +214,8 @@ class SubformGrid(BaseInput, GridView):
         self.to_save[data_row.uid] = data_row
         if self.edit_mode == 'dialog':
             GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
-        # else:
-        #     self.grid.refresh()
+        else:
+            self.grid.refresh()
 
     def save_dependent(self, link_row=None):
         print('save subformgrid', self.to_save, self.to_delete)
