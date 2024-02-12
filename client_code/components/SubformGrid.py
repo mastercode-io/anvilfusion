@@ -186,6 +186,8 @@ class SubformGrid(BaseInput, GridView):
                     print('get input value')
                     print(grid_field, field_value)
                     row_input[input_field.name] = field_value
+                    if not hasattr(args, 'rowData'):
+                        print('no row data', args)
                     if args.rowdata['row'] is None:
                         args.rowdata['row'] = {}
                     args.rowData['row'][grid_field] = field_value
