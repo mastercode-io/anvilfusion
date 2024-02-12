@@ -161,6 +161,7 @@ class SubformGrid(BaseInput, GridView):
         if args.name == 'actionBegin' and args.requestType == 'beginEdit':
             for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
                 print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
+                args.rowData[field.placeholder] = args.rowData['row'][field.name]['uid']
 
         if args.name == 'actionComplete':
             # args.cancel = True
