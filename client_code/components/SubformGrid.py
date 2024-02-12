@@ -186,6 +186,8 @@ class SubformGrid(BaseInput, GridView):
                     print('get input value')
                     print(grid_field, field_value)
                     row_input[input_field.name] = field_value
+                    if args.rowdata['row'] is None:
+                        args.rowdata['row'] = {}
                     args.rowData['row'][grid_field] = field_value
                     if isinstance(input_field, LookupInput):
                         args.rowData[grid_field] = field_value[input_field.text_field]
