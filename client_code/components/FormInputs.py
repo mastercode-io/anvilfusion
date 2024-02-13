@@ -592,7 +592,7 @@ class LookupInput(DropdownInput):
     def __init__(self, model=None, text_field=None, compute_option=None,
                  data=None, get_data=True, filters=None, search_queries=None,
                  add_item_label=None, add_item_form=None, add_item_model=None, add_item_data=None,
-                 add_item=False,
+                 add_item=False, inline_grid=False,
                  **kwargs):
         self.model = model
         self.text_field = text_field or 'name'
@@ -620,10 +620,11 @@ class LookupInput(DropdownInput):
                     # else option[self.text_field.split('.', 1)[0]],
                     else option.get(self.text_field.replace('.', '__'), ''),
                     'uid': option['uid'],
-                    'row': option,
+                    # 'row': option,
                 } for option in data
             ]
-        super().__init__(options=options, **kwargs)
+        value_field = 'uid' if not inline_grid else self.text_field.replace('.', '__')
+        super().__init__(options=options, value_field=value_field, **kwargs)
 
     def create_control(self):
         super().create_control()

@@ -163,12 +163,12 @@ class SubformGrid(BaseInput, GridView):
     def inline_grid_action(self, args):
         print('inline_grid_action', args)
 
-        if args.name == 'actionBegin':
-
-            if args.requestType == 'beginEdit':
-                for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
-                    print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
-                    args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
+        # if args.name == 'actionBegin':
+        #
+        #     if args.requestType == 'beginEdit':
+        #         for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
+        #             print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
+        #             args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
 
         if args.name == 'actionComplete' and args.requestType == 'save':
             if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
@@ -186,13 +186,13 @@ class SubformGrid(BaseInput, GridView):
                     print('get input value')
                     print(grid_field, field_value)
                     row_input[input_field.name] = field_value
-                    if args.rowData['row'] is None:
-                        args.rowData['row'] = {}
-                    args.rowData['row'][grid_field] = field_value
-                    if isinstance(input_field, LookupInput):
-                        args.rowData[grid_field] = field_value[input_field.text_field]
-                        self.grid.dataSource[row_index][grid_field] = field_value[input_field.text_field]
-                        print('lookup field', grid_field, field_value[input_field.text_field])
+                    # if args.rowData['row'] is None:
+                    #     args.rowData['row'] = {}
+                    # args.rowData['row'][grid_field] = field_value
+                    # if isinstance(input_field, LookupInput):
+                    #     args.rowData[grid_field] = field_value[input_field.text_field]
+                    #     self.grid.dataSource[row_index][grid_field] = field_value[input_field.text_field]
+                    #     print('lookup field', grid_field, field_value[input_field.text_field])
             for grid_field in [k for k in self.input_fields_map.keys()
                                if self.input_fields_map[k].name not in row_input.keys()]:
                 row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
