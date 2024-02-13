@@ -617,10 +617,8 @@ class LookupInput(DropdownInput):
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                    # else option[self.text_field.split('.', 1)[0]],
                     else option.get(self.text_field.replace('.', '__'), ''),
                     'uid': option['uid'],
-                    # 'row': option,
                 } for option in data
             ]
         value_field = 'uid' if not inline_grid else 'name'
