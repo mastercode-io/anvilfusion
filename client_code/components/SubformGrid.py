@@ -205,13 +205,12 @@ class SubformGrid(BaseInput, GridView):
             self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
-            print('delete\n', args)
-            if not hasattr(args, 'row'):
-                return
-            if args.row['uid'] and 'grid' not in args.row['uid']:
-                self.to_delete.append(args.row['uid'])
-            else:
-                self.to_save.pop(args.row['uid'], None)
+            # print('delete\n', args)
+            # if not hasattr(args, 'row'):
+            #     return
+            if args.data[0]['uid'] and 'grid' not in args.data[0]['uid']:
+                self.to_delete.append(args.data[0]['uid'])
+            self.to_save.pop(args.row['uid'], None)
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
