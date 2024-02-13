@@ -161,7 +161,7 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.element.style.display = 'none'
 
     def inline_grid_action(self, args):
-        print('inline_grid_action', args)
+        #   print('inline_grid_action', args)
 
         # if args.name == 'actionBegin':
         #
@@ -173,10 +173,11 @@ class SubformGrid(BaseInput, GridView):
         if args.name == 'actionComplete' and args.requestType == 'save':
             if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
                 return
+            print('inline_grid_action\n', args)
             row_index = args.index if hasattr(args, 'index') else args.rowIndex
             inline_controls = [args.form[el].ej2_instances[0] for el in args.form.keys()
                                if 'ej2_instances' in args.form[el].keys() and args.form[el].ej2_instances]
-            row_input = {}
+            row_input = {'uid': args.data['uid']}
             for control in inline_controls:
                 grid_field = control.placeholder
                 input_field = self.input_fields_map[grid_field]
@@ -221,7 +222,9 @@ class SubformGrid(BaseInput, GridView):
         #     self.grid.refresh()
 
     def save_dependent(self, link_row=None):
-        print('save subformgrid', self.to_save, self.to_delete)
+        print('save subformgrid')
+        print('SAVE\n', self.to_save)
+        print('DELETE\n', self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save.values():
                 if data_row.uid and 'grid' in data_row.uid:
