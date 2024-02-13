@@ -619,7 +619,8 @@ class LookupInput(DropdownInput):
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
                     # else option[self.text_field.split('.', 1)[0]],
                     else option.get(self.text_field.replace('.', '__'), ''),
-                    'uid': option['uid']
+                    'uid': option['uid'],
+                    'row': option,
                 } for option in data
             ]
         super().__init__(options=options, **kwargs)
