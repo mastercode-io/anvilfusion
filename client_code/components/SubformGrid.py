@@ -197,7 +197,11 @@ class SubformGrid(BaseInput, GridView):
             for grid_field in [k for k in self.input_fields_map.keys()
                                if self.input_fields_map[k].name not in row_input.keys()]:
                 row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
-            data_row = self.grid_class(**row_input)
+            if row_input['uid'] is None or 'grid' in row_input['uid']:
+                data_row = self.grid_class(**row_input)
+            else:
+                data_row = self.grid_class.get(row_input['uid'])
+                data_row.update(row_input)
             self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
