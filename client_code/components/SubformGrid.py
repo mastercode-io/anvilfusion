@@ -206,7 +206,7 @@ class SubformGrid(BaseInput, GridView):
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
             print('delete')
-            if args.data['uid'] and 'grid' not in args.data['uid']:
+            if args.row['uid'] and 'grid' not in args.row['uid']:
                 self.to_delete.append(args.data['uid'])
 
     def add_edit_row(self, args=None, form_data=None):
