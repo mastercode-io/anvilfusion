@@ -230,6 +230,7 @@ class SubformGrid(BaseInput, GridView):
                 if data_row.uid and 'grid' in data_row.uid:
                     data_row.uid = None
                 data_row[self.link_field] = link_row
+                print('data_row', dict(data_row))
                 data_row.save()
             for uid in self.to_delete:
                 self.grid_class.get(uid).delete()
