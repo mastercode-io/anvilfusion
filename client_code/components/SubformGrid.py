@@ -205,9 +205,9 @@ class SubformGrid(BaseInput, GridView):
             self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
+            print('delete\n', args)
             if not hasattr(args, 'row'):
                 return
-            print('delete')
             if args.row['uid'] and 'grid' not in args.row['uid']:
                 self.to_delete.append(args.row['uid'])
             else:
