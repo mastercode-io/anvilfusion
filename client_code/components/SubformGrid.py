@@ -206,6 +206,7 @@ class SubformGrid(BaseInput, GridView):
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
             print('delete')
+            print(args)
             self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])
 
     def add_edit_row(self, args=None, form_data=None):
