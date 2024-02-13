@@ -64,9 +64,6 @@ class SubformGrid(BaseInput, GridView):
             field.placeholder = field.grid_field
         self.input_fields_map = {field.placeholder: field for field in self.inline_input_fields}
         self.subform_grid_view = {'model': view_config['model'], 'columns': view_config['columns'].copy()}
-        # else:
-        #     grid_config = view_config
-        # print('subform grid view_config', edit_mode, view_config)
 
         GridView.__init__(
             self, model=model, title=label,
@@ -126,8 +123,6 @@ class SubformGrid(BaseInput, GridView):
                                                                include_rows=True)
                 for grid_row in self.grid_data:
                     grid_row['row'] = dict(grid_row['row'])
-                    # for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
-                    #     grid_row[field.placeholder] = grid_row[field.name][field.text_field]
                 self.grid.dataSource = self.grid_data
                 print('subformgrid data', self.filters, self.grid_data)
             else:
@@ -163,13 +158,6 @@ class SubformGrid(BaseInput, GridView):
     def inline_grid_action(self, args):
         #   print('inline_grid_action', args)
 
-        # if args.name == 'actionBegin':
-        #
-        #     if args.requestType == 'beginEdit':
-        #         for field in [x for x in self.inline_input_fields if isinstance(x, LookupInput)]:
-        #             print('lookup field', field, field.placeholder, args.rowData['row'][field.name])
-        #             args.rowData[field.placeholder] = args.rowData.row[field.name]['uid']
-
         if args.name == 'actionComplete' and args.requestType == 'save':
             if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
                 return
@@ -187,13 +175,6 @@ class SubformGrid(BaseInput, GridView):
                     print('get input value')
                     print(grid_field, field_value)
                     row_input[input_field.name] = field_value
-                    # if args.rowData['row'] is None:
-                    #     args.rowData['row'] = {}
-                    # args.rowData['row'][grid_field] = field_value
-                    # if isinstance(input_field, LookupInput):
-                    #     args.rowData[grid_field] = field_value[input_field.text_field]
-                    #     self.grid.dataSource[row_index][grid_field] = field_value[input_field.text_field]
-                    #     print('lookup field', grid_field, field_value[input_field.text_field])
             for grid_field in [k for k in self.input_fields_map.keys()
                                if self.input_fields_map[k].name not in row_input.keys()]:
                 row_input[self.input_fields_map[grid_field].name] = args.data[grid_field]
@@ -205,9 +186,6 @@ class SubformGrid(BaseInput, GridView):
             self.update_grid(data_row, False, row_index=row_index, get_relationships=True)
 
         if args.name == 'actionComplete' and args.requestType == 'delete':
-            # print('delete\n', args)
-            # if not hasattr(args, 'row'):
-            #     return
             if args.data[0]['uid'] and 'grid' not in args.data[0]['uid']:
                 self.to_delete.append(args.data[0]['uid'])
             self.to_save.pop(args.data[0]['uid'], None)
@@ -224,21 +202,17 @@ class SubformGrid(BaseInput, GridView):
             data_row.uid = f"grid_{uuid.uuid4()}"
         self.to_save[data_row.uid] = data_row
         GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
-        # if self.edit_mode == 'dialog':
-        #     GridView.update_grid(self, data_row, add_new, row_index=row_index, get_relationships=True)
-        # else:
-        #     self.grid.refresh()
 
     def save_dependent(self, link_row=None):
         print('save subformgrid')
-        print('SAVE\n', self.to_save)
-        print('DELETE\n', self.to_delete)
+        # print('SAVE\n', self.to_save)
+        # print('DELETE\n', self.to_delete)
         if self.link_field and self.link_model and link_row:
             for data_row in self.to_save.values():
                 if data_row.uid and 'grid' in data_row.uid:
                     data_row.uid = None
                 data_row[self.link_field] = link_row
-                print('data_row', data_row['uid'], data_row['name'], data_row)
+                # print('data_row', data_row['uid'], data_row['name'], data_row)
                 data_row.save()
             for uid in self.to_delete:
                 self.grid_class.get(uid).delete()
