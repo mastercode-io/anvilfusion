@@ -210,7 +210,7 @@ class SubformGrid(BaseInput, GridView):
             #     return
             if args.data[0]['uid'] and 'grid' not in args.data[0]['uid']:
                 self.to_delete.append(args.data[0]['uid'])
-            self.to_save.pop(args.row['uid'], None)
+            self.to_save.pop(args.data[0]['uid'], None)
 
     def add_edit_row(self, args=None, form_data=None):
         GridView.add_edit_row(self, args=args, form_data=self.form_data)
