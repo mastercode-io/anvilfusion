@@ -63,7 +63,8 @@ class SubformGrid(BaseInput, GridView):
         for field in self.inline_input_fields:
             field.placeholder = field.grid_field
         self.input_fields_map = {field.placeholder: field for field in self.inline_input_fields}
-        self.subform_grid_view = {'model': view_config['model'], 'columns': view_config['columns'].copy()}
+        self.subform_grid_view = {'model': view_config.get('model', None),
+                                  'columns': view_config.get('columns', []).copy()}
 
         GridView.__init__(
             self, model=model, title=label,
