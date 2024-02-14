@@ -103,7 +103,9 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def value(self):
-        return self._value
+        if not self.is_dependent:
+            print('get subformgrid value', self.grid.dataSource)
+        return self.grid.dataSource
 
     @value.setter
     def value(self, value):
@@ -125,8 +127,9 @@ class SubformGrid(BaseInput, GridView):
                     grid_row['row'] = dict(grid_row['row'])
                 self.grid.dataSource = self.grid_data
                 print('subformgrid data', self.filters, self.grid_data)
-            else:
-                pass
+        elif value:
+            self.grid_data = value
+            self.grid.dataSource = self.grid_data
         else:
             print('no value')
             self._value = None
