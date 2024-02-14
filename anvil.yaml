@@ -6,8 +6,9 @@ startup_form: null
 runtime_options:
   version: 2
   client_version: '3'
-  server_version: python3-full
+  server_version: python3-sandbox
   server_spec: {base: python310-minimal}
+  server_spec_disabled: {base: python310-minimal, requirements: ''}
 metadata: {title: Anvil ORM and Syncfusion UI}
 services:
 - source: /runtime/services/tables.yml
