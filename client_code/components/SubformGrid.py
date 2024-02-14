@@ -53,10 +53,11 @@ class SubformGrid(BaseInput, GridView):
                 'width': '100%',
                 'height': '100%',
             }
-            grid_config['columns'][0:0] = [
-                {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'},  # noqa
-                {'field': 'row', 'headerText': 'Row', 'visible': False, 'width': '0px'}
-            ]
+            if model is not None:
+                grid_config['columns'][0:0] = [
+                    {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'},  # noqa
+                    {'field': 'row', 'headerText': 'Row', 'visible': False, 'width': '0px'}
+                ]
             view_config['config'] = grid_config
         else:
             self.inline_input_fields = []
@@ -104,9 +105,14 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def value(self):
-        if not self.is_dependent:
-            print('get subformgrid value', self.grid.dataSource)
-        return self.grid.dataSource
+        if self.is_dependent:
+            return self._value
+        else:
+            self._value = []
+            for row in self.grid.dataSource:
+                self._value.append(dict(row))
+            print('get subformgrid value', self._value)
+            return self._value
 
     @value.setter
     def value(self, value):
