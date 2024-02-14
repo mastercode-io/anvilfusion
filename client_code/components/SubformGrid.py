@@ -161,6 +161,8 @@ class SubformGrid(BaseInput, GridView):
 
     def inline_grid_action(self, args):
         #   print('inline_grid_action', args)
+        if not self.model:
+            return
 
         if args.name == 'actionComplete' and args.requestType == 'save':
             if not hasattr(args, 'index') and not hasattr(args, 'rowIndex'):
