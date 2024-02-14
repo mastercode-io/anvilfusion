@@ -21,7 +21,8 @@ def init_user_session(user_email=None, password=None):
     user_dict = dict(user)
     anvil.server.session['user_uid'] = user_dict['uid']
     anvil.server.session['user_timezone'] = user_dict['timezone']
-    anvil.server.session['user_name'] = (user_dict.get('first_name', 'User') + ' ' + user_dict.get('last_name', 'Name')).strip()
+    user_name = (user_dict.get('first_name') or 'User') + ' ' + (user_dict.get('last_name') or 'Name')
+    anvil.server.session['user_name'] = user_name.strip()
     anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
     tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
