@@ -292,9 +292,9 @@ class FormBase:
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x in self.subforms or x.is_dependent]:
             print('is dependent', field.name, self.data)
-            field.value = self.data
-            print('now show')
+            print('first show then..')
             field.show()
+            field.value = self.data
         print('showed')
         print('DEBUG')
         # for subform in self.subforms:
