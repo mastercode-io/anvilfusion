@@ -272,7 +272,7 @@ class FormBase:
         if not self.fullscreen:
             args.maxHeight = '80vh'
 
-    def form_open(self, args, force=False):
+    def form_open(self, args, **kwargs):
         print('form open')
         # try:
         # if not self.data:
@@ -318,7 +318,7 @@ class FormBase:
         print('Validation')
         return self.validator.validate() if self.validator is not None else True
 
-    def form_save(self, args, hide=True):
+    def form_save(self, args, **kwargs):
         print('SAVE', self.class_name, self.persist)
         # args.cancel = True
         if self.form_validate():
@@ -340,7 +340,7 @@ class FormBase:
                 if self.subforms:
                     for subform in self.subforms:
                         subform.save_rows(self.data)
-            if hide:
+            if kwargs.get('hide'):
                 for field in self.form_fields:
                     field.hide()
                     field.value = None
