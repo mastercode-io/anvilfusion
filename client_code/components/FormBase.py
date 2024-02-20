@@ -318,7 +318,7 @@ class FormBase:
         print('Validation')
         return self.validator.validate() if self.validator is not None else True
 
-    def form_save(self, args):
+    def form_save(self, args, hide=True):
         print('SAVE', self.class_name, self.persist)
         # args.cancel = True
         if self.form_validate():
@@ -340,10 +340,11 @@ class FormBase:
                 if self.subforms:
                     for subform in self.subforms:
                         subform.save_rows(self.data)
+            if hide:
                 for field in self.form_fields:
                     field.hide()
                     field.value = None
-            self.form.hide()
+                self.form.hide()
             if self.update_source is not None:
                 self.update_source(self.data, add_new)
                 print('update_source', self.data)
