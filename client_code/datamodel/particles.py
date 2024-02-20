@@ -229,7 +229,10 @@ def _getitem(self, key):
 
 
 def _setitem(self, key, value):
-    setattr(self, key, value)
+    try:
+        setattr(self, key, value)
+    except TypeError:
+        print(f"Cannot set {self}, {key} to {value}")
 
 
 def _update(self, attrs):
