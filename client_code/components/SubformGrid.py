@@ -151,16 +151,13 @@ class SubformGrid(BaseInput, GridView):
     def show(self):
         print('show subformgrid')
         print(self.visible, 'element' in self.grid.keys(), self.grid.isRendered)
-        # print(self.grid.keys())
-        if not self.grid.isRendered:
+        self.visible = True
+        if not self.grid.isRendered or 'element' not in self.grid.keys():
             GridView.form_show(self, get_data=False)
         elif not self.visible:
-            self.visible = True
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'block'
                 self.grid.refresh()
-            else:
-                GridView.form_show(self, get_data=False)
 
     def hide(self):
         print('hide subformgrid')
