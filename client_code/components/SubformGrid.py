@@ -168,6 +168,7 @@ class SubformGrid(BaseInput, GridView):
             self.visible = False
             if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'none'
+                print('hided', self.grid.element.style.display)
 
     def inline_grid_action(self, args):
         #   print('inline_grid_action', args)
