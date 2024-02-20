@@ -150,6 +150,7 @@ class SubformGrid(BaseInput, GridView):
 
     def show(self):
         print('show subformgrid', self.visible, 'element' in self.grid.keys())
+        print(self.grid.keys())
         if not self.visible:
             self.visible = True
             if 'element' in self.grid.keys():
