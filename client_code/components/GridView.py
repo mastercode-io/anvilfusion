@@ -343,7 +343,7 @@ class GridView:
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         self.container_el.innerHTML = f'\
-            <div id="pm-grid-container" style="height:{self.grid_height}px;">\
+            <div id="da-grid-container" style="height:{self.grid_height}px;">\
                 <div id="{self.grid_el_id}"></div>\
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
