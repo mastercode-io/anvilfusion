@@ -158,7 +158,7 @@ class BaseInput:
 
     def show(self, force=False):
         print(self, self.visible, force)
-        if not self.visible or force is True:
+        if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             print('inside')
             if self._control is None:
