@@ -272,7 +272,7 @@ class FormBase:
         if not self.fullscreen:
             args.maxHeight = '80vh'
 
-    def form_open(self, args):
+    def form_open(self, args, force=False):
         print('form open')
         # try:
         # if not self.data:
