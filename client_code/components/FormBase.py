@@ -272,7 +272,7 @@ class FormBase:
         if not self.fullscreen:
             args.maxHeight = '80vh'
 
-    def form_open(self, args):
+    def form_open(self, args, force=False):
         print('form open')
         # try:
         # if not self.data:
@@ -283,14 +283,14 @@ class FormBase:
         #     self.data = self.default_data
         for field in [x for x in self.form_fields if x not in self.subforms and not x.is_dependent]:
             # print(field.name)
-            field.show()
+            field.show(force=force)
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x in self.subforms or x.is_dependent]:
             print('is dependent', field.name, self.data)
             field.value = self.data
             print('now show')
-            field.show()
+            field.show(force=force)
         print('showed')
         print('DEBUG')
         # for subform in self.subforms:
