@@ -136,6 +136,24 @@ class FormBase:
             self.tabs = ej.navigations.Tab({'items': self.form_tabs, })
             self.tabs.appendTo(jQuery(f"#{self.form_id}_tabs")[0])
 
+
+    @property
+    def button_save_label(self):
+        return self.container_el.querySelector('.da-save-button').innerHTML
+
+    @button_save_label.setter
+    def button_save_label(self, value):
+        self.container_el.querySelector('.da-save-button').innerHTML = value
+
+    @property
+    def button_cancel_label(self):
+        return self.container_el.querySelector('.da-cancel-button').innerHTML
+
+    @button_cancel_label.setter
+    def button_cancel_label(self, value):
+        self.container_el.querySelector('.da-cancel-button').innerHTML = value
+
+
     def tabs_content(self, tabs):
         html_content = f'<div id="{self.form_id}_tabs"></div>'
         tab_items = []
