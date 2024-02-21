@@ -52,7 +52,7 @@ class BaseInput:
         self.name = name
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
-        self.shadow_label = f'<div class="pm-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
+        self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
         self.float_label = float_label
         self.placeholder = placeholder or self.label
         self.col_class = col_class
@@ -75,7 +75,7 @@ class BaseInput:
         self.edit_el = None
 
         self.html = f'\
-            <div class="form-group pm-form-group">\
+            <div class="form-group da-form-group">\
                 <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
