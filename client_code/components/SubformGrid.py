@@ -156,11 +156,14 @@ class SubformGrid(BaseInput, GridView):
         if not self.visible:
             # anvil.js.window.document.getElementById(self.grid_el_id).style.display = 'block'
             self.visible = True
-            if 'element' in self.grid.keys() and self.grid.isRendered:
+            if 'element' in self.grid.keys():
                 self.grid.element.style.display = 'block'
                 self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
+        elif not self.grid.isRendered:
+            GridView.form_show(self, get_data=False)
+
 
     def hide(self):
         print('hide subformgrid', self.grid_el_id)
