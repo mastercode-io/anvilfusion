@@ -66,7 +66,7 @@ class BaseInput:
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
         self._grid_column = None
-        self.grid_field = (grid_field or self.name or self.label).replace('.', '__')
+        self.grid_field = (grid_field or self.name or self.label or '').replace('.', '__')
         self._control = None
         self.visible = False
         self.on_change = on_change
