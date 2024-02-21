@@ -29,6 +29,9 @@ class SubformGrid(BaseInput, GridView):
             container_id=container_id,
             **kwargs)
 
+        if view_config is None:
+            view_config = {}
+
         if edit_mode == 'inline':
             self.inline_input_fields = view_config.get('inline_edit_fields', [])
             grid_config = {
