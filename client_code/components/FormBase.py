@@ -143,7 +143,6 @@ class FormBase:
 
     @button_save_label.setter
     def button_save_label(self, value):
-        print('set button label', value, self.container_el.querySelector('.da-save-button'))
         self.container_el.querySelector('.da-save-button').innerHTML = value
 
     @property
@@ -301,7 +300,6 @@ class FormBase:
         #     self.data = self.class_name(**instance_data)
         #     self.data = self.default_data
         if kwargs.get('force_show'):
-            print('FORCE SHOW')
             for field in self.form_fields:
                 field.visible = False
         for field in [x for x in self.form_fields if x not in self.subforms and not x.is_dependent]:
@@ -310,12 +308,8 @@ class FormBase:
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
         for field in [x for x in self.form_fields if x in self.subforms or x.is_dependent]:
-            print('is dependent', field.name, self.data)
-            print('first show then..')
             field.show()
             field.value = self.data
-        print('showed')
-        print('DEBUG')
         # for subform in self.subforms:
         #     subform.value = self.data
         for field in self.form_fields:
