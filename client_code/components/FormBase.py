@@ -143,6 +143,7 @@ class FormBase:
 
     @button_save_label.setter
     def button_save_label(self, value):
+        print('set button label', value, self.container_el.querySelector('.da-save-button'))
         self.container_el.querySelector('.da-save-button').innerHTML = value
 
     @property
