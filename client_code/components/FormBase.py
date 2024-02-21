@@ -344,7 +344,7 @@ class FormBase:
                 if self.subforms:
                     for subform in self.subforms:
                         subform.save_rows(self.data)
-            if not kwargs.get('hide', True):
+            if kwargs.get('hide', True):
                 for field in self.form_fields:
                     field.hide()
                     field.value = None
