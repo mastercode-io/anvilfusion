@@ -346,8 +346,8 @@ class GridView:
             <div id="da-grid-container" style="height:{self.grid_height}px;">\
                 <div id="{self.grid_el_id}"></div>\
             </div>'
-        self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
-        # self.grid.appendTo(anvil.js.window.document.getElementById(self.grid_el_id))
+        # self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
         if not self.edit_mode == 'inline':
             for item in self.toolbar_items:
