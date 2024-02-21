@@ -162,8 +162,8 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
-        self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
-            # GridView.form_show(self, get_data=False)
+        # self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        # GridView.form_show(self, get_data=False)
 
 
     def hide(self):
