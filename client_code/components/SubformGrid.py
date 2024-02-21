@@ -1,4 +1,5 @@
 import anvil.js
+from anvil.js.window import ej, jQuery
 from .FormInputs import BaseInput, LookupInput
 from .GridView import GridView
 from ..tools.utils import AppEnv
@@ -161,8 +162,9 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
-        elif not self.grid.isRendered:
-            GridView.form_show(self, get_data=False)
+        if not self.grid.isRendered:
+            self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+            # GridView.form_show(self, get_data=False)
 
 
     def hide(self):
