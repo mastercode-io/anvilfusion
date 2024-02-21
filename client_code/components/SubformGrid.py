@@ -162,8 +162,7 @@ class SubformGrid(BaseInput, GridView):
                 self.grid.refresh()
             else:
                 GridView.form_show(self, get_data=False)
-        if not self.grid.isRendered:
-            self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
             # GridView.form_show(self, get_data=False)
 
 
