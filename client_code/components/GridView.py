@@ -518,7 +518,7 @@ class GridView:
         else:
             if row_index is None:
                 row_index = self.grid.getRowIndexByPrimaryKey(grid_row['uid'])
-            print('updateRow', row_index, grid_row)
+            # print('updateRow', row_index, grid_row)
             # print('dataSource', type(self.grid.dataSource), self.grid.dataSource)
             self.grid.updateRow(row_index, grid_row)
             self.grid.dataSource[row_index] = grid_row
