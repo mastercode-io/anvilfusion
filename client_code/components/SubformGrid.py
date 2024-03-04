@@ -123,7 +123,7 @@ class SubformGrid(BaseInput, GridView):
         print('set subformgrid value', value)
         if value and value.uid:
             print('value not empty', value.uid)
-            print(self.subform_grid_view)
+            # print(self.subform_grid_view)
             self._value = value
             if self.model and self.is_dependent:
                 if not self.filters:
@@ -137,7 +137,7 @@ class SubformGrid(BaseInput, GridView):
                 for grid_row in self.grid_data:
                     grid_row['row'] = dict(grid_row['row'])
                 self.grid.dataSource = self.grid_data
-                print('subformgrid data', self.filters, self.grid_data)
+                # print('subformgrid data', self.filters, self.grid_data)
         elif value:
             self.grid_data = value
             self.grid.dataSource = self.grid_data
@@ -149,8 +149,8 @@ class SubformGrid(BaseInput, GridView):
         if 'element' in self.grid.keys():
             self.grid.refresh()
             self.grid.dataBind()
-        print('subformgrid data', self.filters, self.grid_data)
-        print('subformgrid dataSource', self.grid.dataSource)
+        # print('subformgrid data', self.filters, self.grid_data)
+        # print('subformgrid dataSource', self.grid.dataSource)
 
     def show(self):
         print('show subformgrid')
