@@ -204,8 +204,8 @@ class SubformGrid(BaseInput, GridView):
                 self.to_delete.append(args.data[0]['uid'])
             self.to_save.pop(args.data[0]['uid'], None)
 
-    def add_edit_row(self, args=None, form_data=None):
-        GridView.add_edit_row(self, args=args, form_data=self.form_data)
+    def add_edit_row(self, args=None, form_data=None, **kwargs):
+        GridView.add_edit_row(self, args=args, form_data=self.form_data, edit_local=True)
 
     def delete_selected(self, args, persist=False):
         self.to_delete.extend([x.uid for x in self.grid.getSelectedRecords() or [] if x.uid])

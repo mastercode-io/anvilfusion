@@ -446,16 +446,16 @@ class GridView:
             if not self.confirm_dialog:
                 self.confirm_delete(args)
 
-    def add_edit_row(self, args=None, form_data=None):
+    def add_edit_row(self, args=None, form_data=None, edit_local=False):
         print('add_edit_row', args, form_data)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
-            if args.rowData.uid and 'grid' not in args.rowData.uid:
+            if args.rowData.uid and 'grid' not in args.rowData.uid and not edit_local:
                 instance = self.grid_class.get(args.rowData.uid)
                 print(args.rowData.uid, instance)
             else:
                 props = args.rowData
-                props.pop('uid', None)
+                # props.pop('uid', None)
                 instance = self.grid_class(**props)
         else:
             form_action = 'add'
