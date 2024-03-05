@@ -579,7 +579,6 @@ class DropdownInput(BaseInput):
 
     @options.setter
     def options(self, options):
-        print('set options', options, self.name, self._control)
         if isinstance(options, list) and options != [] and isinstance(options[0], str):
             self._options = [{'text': option, 'value': option} for option in options]
         else:
@@ -641,20 +640,21 @@ class LookupInput(DropdownInput):
     @data.setter
     def data(self, data):
         if data:
-            print('lookup data', data)
             self.options = self.get_options(data)
-            print('dropdown options', self.options)
         else:
             self.options = None
 
     def get_options(self, data):
-        return [
+        print('get options')
+        options = [
             {
                 'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
                 else option[self.text_field.split('.', 1)[0]],
                 'uid': option['uid']
             } for option in data
         ]
+        print('options', options)
+        return options
 
     @property
     def value(self):
