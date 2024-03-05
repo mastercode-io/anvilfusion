@@ -342,16 +342,21 @@ class GridView:
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        if self.grid_height < 0:
+            self.grid_height = None
         print('grid height', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
-        self.container_el.innerHTML = f'\
-            <div id="da-grid-container" style="height:{self.grid_height}px;">\
-                <div id="{self.grid_el_id}"></div>\
-            </div>'
+        if self.grid_height > 0:
+            self.container_el.innerHTML = f'\
+                <div id="da-grid-container" style="height:{self.grid_height}px;">\
+                    <div id="{self.grid_el_id}"></div>\
+                </div>'
+        else:
+            self.container_el.innerHTML = f'\
+                <div id="da-grid-container" style="height:100%;">\
+                    <div id="{self.grid_el_id}"></div>\
+                </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
         print('grid height', self.grid_height, self.container_el.offsetHeight)
-        if self.grid_height < 0:
-            self.grid_height = self.container_el.offsetHeight
-            self.grid.refresh()
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
