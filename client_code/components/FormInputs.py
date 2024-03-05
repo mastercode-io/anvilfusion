@@ -662,6 +662,7 @@ class LookupInput(DropdownInput):
             else:
                 print('regular')
                 name = option[self.text_field.split('.', 1)[0]]
+                print('name', name)
             uid = option['uid']
             options.append({'name': name, 'uid': uid})
         print('options', options)
