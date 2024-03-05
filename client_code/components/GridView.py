@@ -342,6 +342,7 @@ class GridView:
         self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        print('grid height', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
         self.container_el.innerHTML = f'\
             <div id="da-grid-container" style="height:{self.grid_height}px;">\
                 <div id="{self.grid_el_id}"></div>\
