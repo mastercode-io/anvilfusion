@@ -661,7 +661,11 @@ class LookupInput(DropdownInput):
                 name = self.compute_option(option)
             else:
                 print('regular')
-                name = option[self.text_field.split('.', 1)[0]]
+                try:
+                    name = option[self.text_field.split('.', 1)[0]]
+                except Exception as e:
+                    print('error', e)
+                    # name = option[self.text_field]
                 print('name', name)
             uid = option['uid']
             options.append({'name': name, 'uid': uid})
