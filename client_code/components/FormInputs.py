@@ -675,9 +675,10 @@ class LookupInput(DropdownInput):
         return options
 
     def get_field_value(self, data, field):
+        print('get field value', data, field)
         field_name = field.split('.', 1)
         if len(field_name) > 1:
-            return self.get_field_value(self, data[field_name[0]], field_name[1])
+            return self.get_field_value(data[field_name[0]], field_name[1])
         else:
             return data[field_name[0]]
 
