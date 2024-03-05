@@ -645,33 +645,15 @@ class LookupInput(DropdownInput):
             self.options = None
 
     def get_options(self, data):
-        print('get options')
-        # options = [
-        #     {
-        #         'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-        #         else option[self.text_field.split('.', 1)[0]],
-        #         'uid': option['uid']
-        #     } for option in data
-        # ]
         options = []
         for option in data:
             data_row = option.get('row', option)
             if self.compute_option and callable(self.compute_option):
-                # print('computed')
                 name = self.compute_option(data_row)
             else:
                 name = self.get_field_value(data_row, self.text_field)
-                # text_field = self.text_field.split('.')
-                # # print('regular', self.text_field, self.text_field.split('.', 1))
-                # try:
-                #     name = data_row[self.text_field.split('.', 1)[0]]
-                # except Exception as e:
-                #     print('error', e)
-                #     # name = option[self.text_field]
-                print('name', name)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
-        print('options', options)
         return options
 
     def get_field_value(self, data, field):
