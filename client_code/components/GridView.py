@@ -351,6 +351,7 @@ class GridView:
         print('grid height', self.grid_height, self.container_el.offsetHeight)
         if self.grid_height < 0:
             self.grid_height = self.container_el.offsetHeight
+            self.grid.refresh()
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
