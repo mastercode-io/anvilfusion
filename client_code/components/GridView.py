@@ -352,11 +352,11 @@ class GridView:
                 </div>'
         else:
             self.container_el.innerHTML = f'\
-                <div id="da-grid-container" style="height:100%;">\
+                <div id="da-grid-container">\
                     <div id="{self.grid_el_id}"></div>\
                 </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
-        if not self.grid_height:
+        if self.grid_height is None:
             jQuery(f"#da-grid-container")[0].style.height = f'{self.container_el.offsetHeight}px'
         print('grid height', self.grid.height, self.container_el.offsetHeight)
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
