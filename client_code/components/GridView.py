@@ -347,7 +347,8 @@ class GridView:
                 <div id="{self.grid_el_id}"></div>\
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
-        print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
+        print('grid height', self.grid_height, self.container_el.offsetHeight)
+        # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
         if not self.edit_mode == 'inline':
@@ -447,7 +448,7 @@ class GridView:
                 self.confirm_delete(args)
 
     def add_edit_row(self, args=None, form_data=None, data_row=None):
-        print('add_edit_row', args, form_data)
+        # print('add_edit_row', args, form_data)
         if args is not None and args.requestType == 'beginEdit':
             form_action = 'edit'
             if args.rowData.uid and 'grid' not in args.rowData.uid and not data_row:
