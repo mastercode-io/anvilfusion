@@ -579,6 +579,7 @@ class DropdownInput(BaseInput):
 
     @options.setter
     def options(self, options):
+        print('set options', options, self.name, self._control)
         if isinstance(options, list) and options != [] and isinstance(options[0], str):
             self._options = [{'text': option, 'value': option} for option in options]
         else:
