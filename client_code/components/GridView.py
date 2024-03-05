@@ -349,6 +349,7 @@ class GridView:
             </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
         print('grid height', self.grid_height, self.container_el.offsetHeight)
+        self.grid_height = self.container_el.offsetHeight
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
