@@ -660,7 +660,7 @@ class LookupInput(DropdownInput):
                 print('computed')
                 name = self.compute_option(option)
             else:
-                print('regular')
+                print('regular', self.text_field, self.text_field.split('.', 1))
                 try:
                     name = option[self.text_field.split('.', 1)[0]]
                 except Exception as e:
