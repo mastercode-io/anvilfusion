@@ -660,17 +660,26 @@ class LookupInput(DropdownInput):
                 # print('computed')
                 name = self.compute_option(data_row)
             else:
-                # print('regular', self.text_field, self.text_field.split('.', 1))
-                try:
-                    name = data_row[self.text_field.split('.', 1)[0]]
-                except Exception as e:
-                    print('error', e)
-                    # name = option[self.text_field]
+                name = self.get_field_value(data_row, self.text_field)
+                # text_field = self.text_field.split('.')
+                # # print('regular', self.text_field, self.text_field.split('.', 1))
+                # try:
+                #     name = data_row[self.text_field.split('.', 1)[0]]
+                # except Exception as e:
+                #     print('error', e)
+                #     # name = option[self.text_field]
                 print('name', name)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
         print('options', options)
         return options
+
+    def get_field_value(self, data, field):
+        field_name = field.split('.', 1)
+        if len(field_name) > 1:
+            return self.get_field_value(self, data[field_name[0]], field_name[1])
+        else:
+            return data[field_name[0]]
 
     @property
     def value(self):
