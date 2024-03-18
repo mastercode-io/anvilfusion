@@ -47,7 +47,6 @@ class DashboardPage:
                 </div>\
                 <div id="{self._element_id}"></div>\
             </div>'
-
         # if self.page_title:
         #     dashboard_header = ej.navigations.AppBar({'isSticky': True, 'colorMode': 'Inherit'})
         #     dashboard_header.appendTo(f"#{self._element_id}_header")
