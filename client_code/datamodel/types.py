@@ -53,13 +53,13 @@ FIELD_TYPES = {
         'ColumnType': 'date',
         'InputType': 'DateInput',
         'GridType': 'date',
-        'GridFormat': 'dd/MM/yyyy',
+        'GridFormat': 'dd-MM-yyyy',
     },
     'datetime': {
         'ColumnType': 'datetime',
         'InputType': 'DateTimeInput',
         'GridType': 'datetime',
-        'GridFormat': 'dd/MM/yyyy HH:mm',
+        'GridFormat': 'dd-MM-yyyy HH:mm',
     },
     'time': {
         'ColumnType': 'datetime',
