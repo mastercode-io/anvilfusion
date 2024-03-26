@@ -305,13 +305,14 @@ class NumberInput(BaseInput):
 
 # Date picker input
 class DateInput(BaseInput):
-    def __init__(self, **kwargs):
+    def __init__(self, string_format=None, **kwargs):
         super().__init__(**kwargs)
+        self.string_format = string_format or 'dd-MM-yyyy'
         self.grid_column['type'] = 'date'
-        self.grid_column['format'] = {'type': 'date', 'format': 'dd/MM/yyyy'}
+        self.grid_column['format'] = {'type': 'date', 'format': 'dd-MM-yyyy'}
 
     def create_control(self):
-        self.control = ej.calendars.DatePicker({'placeholder': self.placeholder})
+        self.control = ej.calendars.DatePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
     def value(self):
@@ -344,13 +345,14 @@ class DateInput(BaseInput):
 
 # Date-Time picker input
 class DateTimeInput(BaseInput):
-    def __init__(self, **kwargs):
+    def __init__(self, string_format=None, **kwargs):
         super().__init__(**kwargs)
+        self.string_format = string_format or 'dd-MM-yyyy hh:mm a'
         self.grid_column['type'] = 'dateTime'
-        self.grid_column['format'] = {'type': 'dateTime', 'format': 'dd/MM/yyyy hh:mm a'}
+        self.grid_column['format'] = {'type': 'dateTime', 'format': 'dd-MM-yyyy hh:mm a'}
 
     def create_control(self):
-        self.control = ej.calendars.DateTimePicker({'placeholder': self.placeholder})
+        self.control = ej.calendars.DateTimePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
     def value(self):
@@ -382,13 +384,14 @@ class DateTimeInput(BaseInput):
 
 # Time picker input
 class TimeInput(BaseInput):
-    def __init__(self, **kwargs):
+    def __init__(self, string_format=None, **kwargs):
         super().__init__(**kwargs)
+
         self.grid_column['type'] = 'dateTime'
         self.grid_column['format'] = {'type': 'dateTime', 'format': 'hh:mm a'}
 
     def create_control(self):
-        self.control = ej.calendars.TimePicker({'placeholder': self.placeholder})
+        self.control = ej.calendars.TimePicker({'placeholder': self.placeholder, 'format': 'hh:mm a'})
 
     @property
     def value(self):
