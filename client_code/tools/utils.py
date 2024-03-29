@@ -101,6 +101,7 @@ def get_cookies():
 # Application environment cache
 # Initialise user session and store user info app session
 def init_user_session(login_form=None, after_login=None, user_email=None, password=None):
+    print(f'AnvilFusion version: {EXECUTABLE_VERSION}')
     anvil.users.get_user()
     anvil.server.call('check_session', 'a')
     logged_user = anvil.server.call('init_user_session', user_email=user_email, password=password)
