@@ -5,6 +5,7 @@ import sys
 import re
 import uuid
 import datetime
+from ..__init__ import EXECUTABLE_VERSION
 
 
 # name string conversions
