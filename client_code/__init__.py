@@ -23,4 +23,6 @@
 #
 # This software is published at # https://github.com/mastercode-io/anvil-fusion
 __version__ = "0.1"
-EXECUTABLE_VERSION = 'development'
+__environment__ = 'development'
+
+print(f'AnvilFusion version: {__version__} ({__environment__})')
