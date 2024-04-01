@@ -492,6 +492,11 @@ def _delete(self, audit=True):
     anvil.server.call("delete_object", self, audit)
 
 
+def _validate(self):
+    """Provides a method to validate an instance"""
+    return True, None
+
+
 def model_type(cls):
     """A decorator to provide a usable model class"""
     class_members = {
@@ -582,6 +587,7 @@ def model_type(cls):
         "get_json_view": _get_json_view,
         "get_json_schema": _get_json_schema,
         "to_json_dict": _to_json_dict,
+        "validate": _validate,
         "update": _update,
         "save": _save,
         "expunge": _delete,
