@@ -121,6 +121,7 @@ class GridView:
                  filters=None,
                  grid_modes=None,
                  toolbar_items=None,
+                 toolbar_actions=None,
                  context_menu_items=None,
                  persist=True,
                  edit_mode='dialog',
@@ -142,6 +143,7 @@ class GridView:
         self.confirm_dialog = None
         self.show_confirm_dialog = True
         self.toolbar_items = []
+        self.toolbar_actions = toolbar_actions or {}
         self.context_menu_actions = {}
         self.grid_data = data or []
 
@@ -321,7 +323,7 @@ class GridView:
         # attach grid event handlers
         self.grid_config['actionBegin'] = self.grid_action_handler
         self.grid_config['actionComplete'] = self.grid_action_handler
-        # self.grid_config['queryCellInfo'] = self.query_cell_info
+        self.grid_config['queryCellInfo'] = self.query_cell_info
         # self.grid_config['recordClick'] = self.record_click
         # self.grid_config['rowSelecting'] = lambda args: print('rowSelecting', args)
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
@@ -431,6 +433,9 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
+        elif args.item.id in self.toolbar_actions and callable(self.toolbar_actions[args.item.id]['action']):
+            print('toolbar item', args.item.id)
+            self.toolbar_actions[args.item.id]['action'](args)
 
     def context_menu_click(self, args):
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
