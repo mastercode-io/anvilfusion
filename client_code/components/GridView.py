@@ -540,5 +540,5 @@ class GridView:
             self.grid.dataSource[row_index] = grid_row
             # else:
             #     self.grid.updateRow(self.grid.getRowIndexByPrimaryKey(grid_row['uid']), grid_row)
-        self.grid.refresh()
+        # self.grid.refresh()
         # print('updated grid', self.grid.dataSource)
