@@ -6,7 +6,6 @@ from ..tools.utils import AppEnv, camel_to_title
 import string
 import uuid
 
-
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
 GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
                                'align': 'Right', 'style': 'color: #d6292c;'}
@@ -283,10 +282,23 @@ class GridView:
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
-            toolbar_items = toolbar_items or \
-                            self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or \
-                            GRID_DEFAULT_TOOLBAR_ITEMS
-            self.toolbar_items = toolbar_items.copy()
+            tb_items = []
+            if self.toolbar_actions:
+                for item_id in self.toolbar_actions.keys():
+                    toolbar_item = {
+                        'id': item_id,
+                        'text': toolbar_actions[item_id].get('label', ''),
+                        'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
+                        'prefixIcon': toolbar_actions[item_id].get('icon', ''),
+                        'align': 'Right',
+                    }
+                    tb_items.append(toolbar_item)
+            tb_items.extend(
+                toolbar_items or
+                self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or
+                GRID_DEFAULT_TOOLBAR_ITEMS
+            )
+            self.toolbar_items = tb_items.copy()
         else:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
@@ -433,7 +445,7 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
-        elif args.item.id in self.toolbar_actions and callable(self.toolbar_actions[args.item.id]['action']):
+        elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id]['action']):
             print('toolbar item', args.item.id)
             self.toolbar_actions[args.item.id]['action'](args)
 
