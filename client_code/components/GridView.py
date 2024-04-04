@@ -475,6 +475,7 @@ class GridView:
 
     def row_selected(self, args):
         for item in self.grid.toolbarModule.toolbar.properties.items:
+            print(item.properties)
             if item.properties.id in self.toolbar_actions.keys():
                 item.properties.disabled = False
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
