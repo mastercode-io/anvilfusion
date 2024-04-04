@@ -476,9 +476,7 @@ class GridView:
     def row_selected(self, args):
         for item in self.grid.toolbarModule.toolbar.properties.items:
             if item.properties.id in self.toolbar_actions.keys():
-                print(item.properties.id, item.properties.visible)
-                item.properties.visible = True
-                print(item.properties.id, item.properties)
+                self.grid.element.querySelector(f'{self.grid_el_id}-action-{item.properties.id}').style.display = 'inline-flex'
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
@@ -486,8 +484,8 @@ class GridView:
         if not self.grid.getSelectedRecords():
             for item in self.grid.toolbarModule.toolbar.properties.items:
                 if item.properties.id in self.toolbar_actions.keys():
-                    print(item.properties.id, item.properties.visible)
-                    item.properties.visible = False
+                    self.grid.element.querySelector(
+                        f'{self.grid_el_id}-action-{item.properties.id}').style.display = 'none'
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
