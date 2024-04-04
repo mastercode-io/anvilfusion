@@ -145,6 +145,7 @@ class GridView:
         self.toolbar_actions = toolbar_actions or {}
         self.context_menu_actions = {}
         self.grid_data = data or []
+        self.grid_el_id = uuid.uuid4()
 
         print('GridView', view_name, model)
 
@@ -292,7 +293,8 @@ class GridView:
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
-                        'cssClass': toolbar_actions[item_id].get('css_class', 'da-grid-view-toolbar-action-button'),
+                        'cssClass': toolbar_actions[item_id].get('css_class', 'e-outline e-round'),
+                        # 'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
@@ -355,7 +357,6 @@ class GridView:
         print('show grid')
         # try:
         # print('\nGrid data source\n', self.grid.dataSource, '\n')
-        self.grid_el_id = uuid.uuid4()
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
@@ -400,6 +401,14 @@ class GridView:
                 elif item.get('id') == 'delete':
                     self.grid.element.querySelector(
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
+
+        # for item_id in self.toolbar_actions.keys():
+        #     item_button = ej.buttons.Button({
+        #         'content': self.toolbar_actions[item_id].get('label', ''),
+        #         'iconCss': self.toolbar_actions[item_id].get('icon', ''),
+        #         'cssClass': self.toolbar_actions[item_id].get('css_class', 'da-grid-view-toolbar-action-button'),
+        #     })
+        #     item_button.appendTo(f'#{self.grid_el_id}-action-{item_id}')
 
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
