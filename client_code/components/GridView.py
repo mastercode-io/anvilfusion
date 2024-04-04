@@ -292,7 +292,7 @@ class GridView:
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
-                        # 'cssClass': toolbar_actions[item_id].get('css_class', 'btn'),
+                        'cssClass': toolbar_actions[item_id].get('css_class', ''),
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
@@ -307,7 +307,7 @@ class GridView:
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(
             0,
-            {'id': 'title', 'template': f'<div class="h4 a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
+            {'id': 'title', 'template': f'<div class="a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
             # type: ignore
         )
         if 'Filter' in self.grid_view['config']['modes']:
