@@ -287,10 +287,12 @@ class GridView:
                 for item_id in self.toolbar_actions.keys():
                     toolbar_item = {
                         'id': item_id,
+                        'type': 'Button',
                         'text': toolbar_actions[item_id].get('label', ''),
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
-                        'align': 'Right',
+                        'align': 'Left',
+                        'cssClass': toolbar_actions[item_id].get('css_class', 'btn btn-primary'),
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
