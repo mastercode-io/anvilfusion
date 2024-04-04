@@ -431,7 +431,7 @@ class GridView:
             # print(self.grid_config['columns'])
         # for k in self.grid.keys():
         #     print(k, self.grid[k])
-        print(self.grid['toolbarModule'])
+        print(self.grid.toolbarModule)
         print('show grid done')
         # except Exception as e:
         #     print('Error in Grid form_show', e)
