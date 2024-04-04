@@ -307,7 +307,7 @@ class GridView:
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(
             0,
-            {'id': 'title', 'template': f'<div class="a-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
+            {'id': 'title', 'template': f'<div class="da-grid-view-title">{self.grid_title}</div>', 'align': 'Left'},
             # type: ignore
         )
         if 'Filter' in self.grid_view['config']['modes']:
