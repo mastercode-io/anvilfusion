@@ -388,9 +388,10 @@ class GridView:
                 item_style = item.get('style')
                 button = self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="{item_title}"] button')
                 if item_css_class:
-                    button.classList.add(item_css_class)
+                    item_css_class = item_css_class.split(' ')
+                    button.classList.extend(item_css_class)
                     for text in button.children:
-                        text.classList.add(item_css_class)
+                        text.classList.extend(item_css_class)
                 if item_style:
                     button.style = item_style
                     for text in button.children:
