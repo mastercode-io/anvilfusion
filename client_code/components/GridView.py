@@ -293,6 +293,7 @@ class GridView:
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
+                        'disabled': True,
                         # 'cssClass': toolbar_actions[item_id].get('css_class', 'e-outline'),
                         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
                     }
