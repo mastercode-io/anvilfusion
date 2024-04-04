@@ -478,6 +478,7 @@ class GridView:
             if item.properties.id in self.toolbar_actions.keys():
                 print(item.properties.id, item.properties.disabled)
                 item.properties.disabled = False
+                print(item.properties.id, item.properties)
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
