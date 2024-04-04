@@ -429,8 +429,9 @@ class GridView:
             self.grid['dataSource'] = self.grid_data
             # print(self.grid_data)
             # print(self.grid_config['columns'])
-        for k in self.grid.keys():
-            print(k, self.grid[k])
+        # for k in self.grid.keys():
+        #     print(k, self.grid[k])
+        print(self.grid['toolbarModule'])
         print('show grid done')
         # except Exception as e:
         #     print('Error in Grid form_show', e)
