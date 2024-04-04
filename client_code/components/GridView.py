@@ -293,7 +293,7 @@ class GridView:
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
-                        'disabled': True,
+                        'visible': False,
                         # 'cssClass': toolbar_actions[item_id].get('css_class', 'e-outline'),
                         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
                     }
@@ -476,8 +476,8 @@ class GridView:
     def row_selected(self, args):
         for item in self.grid.toolbarModule.toolbar.properties.items:
             if item.properties.id in self.toolbar_actions.keys():
-                print(item.properties.id, item.properties.disabled)
-                item.properties.disabled = False
+                print(item.properties.id, item.properties.visible)
+                item.properties.visible = True
                 print(item.properties.id, item.properties)
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
@@ -486,8 +486,8 @@ class GridView:
         if not self.grid.getSelectedRecords():
             for item in self.grid.toolbarModule.toolbar.properties.items:
                 if item.properties.id in self.toolbar_actions.keys():
-                    print(item.properties.id, item.properties.disabled)
-                    item.properties.disabled = True
+                    print(item.properties.id, item.properties.visible)
+                    item.properties.visible = False
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
