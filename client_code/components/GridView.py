@@ -292,7 +292,7 @@ class GridView:
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
-                        'cssClass': toolbar_actions[item_id].get('css_class', ''),
+                        'cssClass': toolbar_actions[item_id].get('css_class', 'da-grid-view-toolbar-action-button'),
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
