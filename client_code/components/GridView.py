@@ -470,11 +470,17 @@ class GridView:
             self.context_menu_actions[args.item.id](args)
 
     def row_selected(self, args):
+        for item in self.grid.toolbar.items:
+            if item.id in self.toolbar_actions.keys():
+                item.disabled = False
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
         # print('row_deselected', args)
         if not self.grid.getSelectedRecords():
+            for item in self.grid.toolbar.items:
+                if item.id in self.toolbar_actions.keys():
+                    item.disabled = False
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
