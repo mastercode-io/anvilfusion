@@ -429,7 +429,7 @@ class GridView:
             self.grid['dataSource'] = self.grid_data
             # print(self.grid_data)
             # print(self.grid_config['columns'])
-        print(self.grid.toolbar)
+        print(self.grid.toolbarModdule)
         print('show grid done')
         # except Exception as e:
         #     print('Error in Grid form_show', e)
@@ -470,7 +470,7 @@ class GridView:
             self.context_menu_actions[args.item.id](args)
 
     def row_selected(self, args):
-        for item in self.grid.toolbar.items:
+        for item in self.grid.toolbarModule.items:
             if item.id in self.toolbar_actions.keys():
                 item.disabled = False
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
@@ -478,7 +478,7 @@ class GridView:
     def row_deselected(self, args):
         # print('row_deselected', args)
         if not self.grid.getSelectedRecords():
-            for item in self.grid.toolbar.items:
+            for item in self.grid.toolbarModule.items:
                 if item.id in self.toolbar_actions.keys():
                     item.disabled = False
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
