@@ -462,9 +462,9 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
-        elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id]['action']):
-            print('toolbar item', args.item.id)
-            self.toolbar_actions[args.item.id]['action'](args)
+        # elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id]['action']):
+        #     print('toolbar item', args.item.id)
+        #     self.toolbar_actions[args.item.id]['action'](args)
 
     def context_menu_click(self, args):
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
