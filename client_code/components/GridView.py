@@ -292,10 +292,8 @@ class GridView:
                         'text': self.toolbar_actions[item_id].get('label', ''),
                         'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
-                        'align': 'Left',
-                        # 'visible': False,
-                        # 'cssClass': toolbar_actions[item_id].get('css_class', 'e-outline'),
                         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
+                        'align': 'Left',
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
