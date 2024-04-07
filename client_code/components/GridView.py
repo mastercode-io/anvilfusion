@@ -288,19 +288,14 @@ class GridView:
                 for item_id in self.toolbar_actions.keys():
                     toolbar_item = {
                         'id': item_id,
-                        'type': 'Input',
-                        'text': toolbar_actions[item_id].get('label', ''),
-                        'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
-                        'prefixIcon': toolbar_actions[item_id].get('icon', ''),
+                        'type': self.toolbar_actions[item_id].get('type', 'Button'),
+                        'text': self.toolbar_actions[item_id].get('label', ''),
+                        'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
+                        'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
                         'align': 'Left',
                         # 'visible': False,
                         # 'cssClass': toolbar_actions[item_id].get('css_class', 'e-outline'),
-                        # 'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
-                        'template': ej.buttons.Button({
-                            'content': self.toolbar_actions[item_id].get('label', ''),
-                            'iconCss': self.toolbar_actions[item_id].get('icon', ''),
-                            'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
-                        })
+                        'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
                     }
                     tb_items.append(toolbar_item)
             tb_items.extend(
@@ -411,14 +406,14 @@ class GridView:
                     self.grid.element.querySelector(
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
-        # for item_id in self.toolbar_actions.keys():
-        #     item_button = ej.buttons.Button({
-        #         'content': self.toolbar_actions[item_id].get('label', ''),
-        #         'iconCss': self.toolbar_actions[item_id].get('icon', ''),
-        #         'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
-        #     })
-        #     item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
-        #     self.grid.element.querySelector(f'[id="{self.grid_el_id}-action-{item_id}"]').style.display = 'none'
+        for item_id in self.toolbar_actions.keys():
+            item_button = ej.buttons.Button({
+                'content': self.toolbar_actions[item_id].get('label', ''),
+                'iconCss': self.toolbar_actions[item_id].get('icon', ''),
+                'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
+            })
+            item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
+            self.grid.element.querySelector(f'[id="{self.grid_el_id}-action-{item_id}"]').style.display = 'none'
 
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
