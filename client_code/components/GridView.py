@@ -410,7 +410,8 @@ class GridView:
                 'iconCss': self.toolbar_actions[item_id].get('icon', ''),
                 'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
             })
-            item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
+            # item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
+            self.toolbar_actions[item_id]['control'].appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
             self.grid.element.querySelector(f'[id="{self.grid_el_id}-action-{item_id}"]').style.display = 'none'
 
         if not self.grid_data and get_data:
