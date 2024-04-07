@@ -288,7 +288,7 @@ class GridView:
                 for item_id in self.toolbar_actions.keys():
                     toolbar_item = {
                         'id': item_id,
-                        'type': 'Button',
+                        'type': 'Input',
                         'text': toolbar_actions[item_id].get('label', ''),
                         'tooltipText': toolbar_actions[item_id].get('tooltip', ''),
                         'prefixIcon': toolbar_actions[item_id].get('icon', ''),
