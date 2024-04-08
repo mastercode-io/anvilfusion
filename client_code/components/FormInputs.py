@@ -220,9 +220,10 @@ class Button(BaseInput):
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
         })
-        self.control.element.onclick = self.action
 
-    # def show(self):
+    def show(self):
+        super().show()
+        self.control.element.onclick = self.action
     #     if not self.visible:
     #         if self._control is None:
     #             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
