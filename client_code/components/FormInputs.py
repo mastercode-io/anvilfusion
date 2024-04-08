@@ -39,6 +39,7 @@ class BaseInput:
                  placeholder=None,
                  col_class=None,
                  col_style=None,
+                 css_class=None,
                  value=None,
                  save=True,
                  enabled=True,
@@ -50,6 +51,7 @@ class BaseInput:
                  required=False,
                  **kwargs):
         self.name = name
+        self.type = 'Input'
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
         self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
@@ -57,6 +59,7 @@ class BaseInput:
         self.placeholder = placeholder or self.label
         self.col_class = col_class
         self.col_style = col_style
+        self.css_class = css_class
         self._value = value
         self.save = save
         self.is_dependent = is_dependent
@@ -201,6 +204,72 @@ class BaseInput:
         if self._control is not None:
             self.control.destroy()
             self._control = None
+
+
+class Button(BaseInput):
+    def __init__(self, icon=None, action=None, **kwargs):
+        super().__init__(**kwargs)
+        self.type = 'Button'
+        self.icon = icon
+        self.action = action
+        self.html = f'<button id="{self.el_id}" name="{self.el_id}">{self.label}</button>'
+
+    def create_control(self):
+        self.control = ej.buttons.Button({
+            'content': self.label,
+            'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
+            'cssClass': self.css_class or '',
+        })
+        self.control.addEventListener('click', self.action)
+
+    # def show(self):
+    #     if not self.visible:
+    #         if self._control is None:
+    #             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
+    #             self.create_control()
+    #             self.control.appendTo(f"#{self.el_id}")
+    #         else:
+    #             anvil.js.window.document.getElementById(self.container_id).style.display = 'inline-flex'
+    #         self.value = self._value
+    #         self.visible = True
+    #
+    # def hide(self):
+    #     if self.visible:
+    #         self.visible = False
+    #         anvil.js.window.document.getElementById(self.container_id).style.display = 'none'
+
+    def destroy(self):
+        pass
+
+    @property
+    def value(self):
+        return self.label
+
+    @value.setter
+    def value(self, value):
+        self.label = value
+        if self._control is not None:
+            self.control.content = value
+
+    @property
+    def enabled(self):
+        if self._control is not None:
+            self._enabled = not self.control.disbled
+            return self._enabled
+
+    @enabled.setter
+    def enabled(self, value):
+        self._enabled = not value if value else False
+        if self._control is not None:
+            self.control.disabled = not self._enabled
+
+    @property
+    def required(self):
+        return None
+
+    @required.setter
+    def required(self, value):
+        pass
 
 
 class HiddenInput(BaseInput):

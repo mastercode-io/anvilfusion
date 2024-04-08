@@ -285,14 +285,24 @@ class GridView:
         if 'Toolbar' in self.grid_view['config']['modes']:
             tb_items = []
             if self.toolbar_actions:
-                for item_id in self.toolbar_actions.keys():
+                # for item_id in self.toolbar_actions.keys():
+                #     toolbar_item = {
+                #         'id': item_id,
+                #         'type': self.toolbar_actions[item_id].get('type', 'Button'),
+                #         'text': self.toolbar_actions[item_id].get('label', ''),
+                #         'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
+                #         'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
+                #         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
+                #         'align': 'Left',
+                #     }
+                for action_item in self.toolbar_actions:
                     toolbar_item = {
-                        'id': item_id,
-                        'type': self.toolbar_actions[item_id].get('type', 'Button'),
-                        'text': self.toolbar_actions[item_id].get('label', ''),
-                        'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
-                        'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
-                        'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
+                        'id': action_item.el_id,
+                        'type': action_item.type,
+                        'text': action_item.label,
+                        'tooltipText': '',
+                        'prefixIcon': getattr(action_item, 'icon', ''),
+                        'template': f'<div id="{action_item.container_id}"></div>',
                         'align': 'Left',
                     }
                     tb_items.append(toolbar_item)
@@ -404,15 +414,18 @@ class GridView:
                     self.grid.element.querySelector(
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
-        for item_id in self.toolbar_actions.keys():
-            item_button = ej.buttons.Button({
-                'content': self.toolbar_actions[item_id].get('label', ''),
-                'iconCss': self.toolbar_actions[item_id].get('icon', ''),
-                'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
-            })
-            # item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
-            self.toolbar_actions[item_id]['control'].appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
-            self.grid.element.querySelector(f'[id="{self.grid_el_id}-action-{item_id}"]').style.display = 'none'
+        for action_item in self.toolbar_actions:
+            action_item.show()
+            action_item.hide()
+        # for item_id in self.toolbar_actions.keys():
+        #     item_button = ej.buttons.Button({
+        #         'content': self.toolbar_actions[item_id].get('label', ''),
+        #         'iconCss': self.toolbar_actions[item_id].get('icon', ''),
+        #         'cssClass': self.toolbar_actions[item_id].get('css_class', 'e-outline'),
+        #     })
+        #     # item_button.appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
+        #     self.toolbar_actions[item_id]['control'].appendTo(jQuery(f'#{self.grid_el_id}-action-{item_id}')[0])
+        #     self.grid.element.querySelector(f'[id="{self.grid_el_id}-action-{item_id}"]').style.display = 'none'
 
         if not self.grid_data and get_data:
             print('get grid data', self.filters, self.search_queries)
@@ -471,21 +484,25 @@ class GridView:
             self.context_menu_actions[args.item.id](args)
 
     def row_selected(self, args):
-        for item in self.grid.toolbarModule.toolbar.properties.items:
-            if item.properties.id in self.toolbar_actions.keys():
-                self.grid.element.querySelector(
-                    f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
-                ).style.display = 'inline-flex'
+        # for item in self.grid.toolbarModule.toolbar.properties.items:
+        #     if item.properties.id in self.toolbar_actions.keys():
+        #         self.grid.element.querySelector(
+        #             f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
+        #         ).style.display = 'inline-flex'
+        for action_item in self.toolbar_actions:
+            action_item.show()
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
         # print('row_deselected', args)
         if not self.grid.getSelectedRecords():
-            for item in self.grid.toolbarModule.toolbar.properties.items:
-                if item.properties.id in self.toolbar_actions.keys():
-                    self.grid.element.querySelector(
-                        f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
-                    ).style.display = 'none'
+            # for item in self.grid.toolbarModule.toolbar.properties.items:
+            #     if item.properties.id in self.toolbar_actions.keys():
+            #         self.grid.element.querySelector(
+            #             f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
+            #         ).style.display = 'none'
+            for action_item in self.toolbar_actions:
+                action_item.show()
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
