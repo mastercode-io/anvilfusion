@@ -220,7 +220,7 @@ class Button(BaseInput):
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
         })
-        self.control.addEventListener('click', self.action)
+        self.control.element.onclick = self.action
 
     # def show(self):
     #     if not self.visible:

@@ -502,7 +502,7 @@ class GridView:
             #             f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
             #         ).style.display = 'none'
             for action_item in self.toolbar_actions:
-                action_item.show()
+                action_item.hide()
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
