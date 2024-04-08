@@ -223,7 +223,7 @@ class Button(BaseInput):
 
     def show(self):
         super().show()
-        self.control.element.onclick = self.action
+        # self.control.element.onclick = self.action
     #     if not self.visible:
     #         if self._control is None:
     #             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
