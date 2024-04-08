@@ -286,9 +286,9 @@ class GridView:
             if isinstance(toolbar_actions, list):
                 self.toolbar_actions = {}
                 for action_item in toolbar_actions:
-                    self.toolbar_actions[action_item.el_id] = action_item
+                    self.toolbar_actions[action_item.container_id] = action_item
                     toolbar_item = {
-                        'id': action_item.el_id,
+                        'id': action_item.container_id,
                         'type': action_item.type,
                         'text': action_item.label,
                         'tooltipText': '',
@@ -476,7 +476,7 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
-        elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id].action):
+        elif args.item.id in self.toolbar_actions and callable(self.toolbar_actions[args.item.id].action):
             print('toolbar item', args.item.id)
             self.toolbar_actions[args.item.id].action(args)
 
