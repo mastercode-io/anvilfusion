@@ -142,7 +142,6 @@ class GridView:
         self.confirm_dialog = None
         self.show_confirm_dialog = True
         self.toolbar_items = []
-        self.toolbar_actions = toolbar_actions or {}
         self.context_menu_actions = {}
         self.grid_data = data or []
         self.grid_el_id = uuid.uuid4()
@@ -284,18 +283,10 @@ class GridView:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
             tb_items = []
-            if self.toolbar_actions:
-                # for item_id in self.toolbar_actions.keys():
-                #     toolbar_item = {
-                #         'id': item_id,
-                #         'type': self.toolbar_actions[item_id].get('type', 'Button'),
-                #         'text': self.toolbar_actions[item_id].get('label', ''),
-                #         'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
-                #         'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
-                #         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
-                #         'align': 'Left',
-                #     }
-                for action_item in self.toolbar_actions:
+            if isinstance(toolbar_actions, list):
+                self.toolbar_actions = {}
+                for action_item in toolbar_actions:
+                    self.toolbar_actions[action_item.el_id] = action_item
                     toolbar_item = {
                         'id': action_item.el_id,
                         'type': action_item.type,
@@ -306,6 +297,16 @@ class GridView:
                         'align': 'Left',
                     }
                     tb_items.append(toolbar_item)
+            # for item_id in self.toolbar_actions.keys():
+            #     toolbar_item = {
+            #         'id': item_id,
+            #         'type': self.toolbar_actions[item_id].get('type', 'Button'),
+            #         'text': self.toolbar_actions[item_id].get('label', ''),
+            #         'tooltipText': self.toolbar_actions[item_id].get('tooltip', ''),
+            #         'prefixIcon': self.toolbar_actions[item_id].get('icon', ''),
+            #         'template': f'<div id="{self.grid_el_id}-action-{item_id}"></div>',
+            #         'align': 'Left',
+            #     }
             tb_items.extend(
                 toolbar_items or
                 self.grid_view['config'].get('toolbar', AppEnv.grid_settings.get('toolbar_items')) or
@@ -415,8 +416,8 @@ class GridView:
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
         for action_item in self.toolbar_actions:
-            action_item.show()
-            action_item.hide()
+            self.toolbar_actions[action_item].show()
+            self.toolbar_actions[action_item].hide()
         # for item_id in self.toolbar_actions.keys():
         #     item_button = ej.buttons.Button({
         #         'content': self.toolbar_actions[item_id].get('label', ''),
@@ -475,9 +476,9 @@ class GridView:
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
             self.confirm_delete(args)
-        # elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id]['action']):
-        #     print('toolbar item', args.item.id)
-        #     self.toolbar_actions[args.item.id]['action'](args)
+        elif args.item.id in self.toolbar_actions.keys() and callable(self.toolbar_actions[args.item.id].action):
+            print('toolbar item', args.item.id)
+            self.toolbar_actions[args.item.id].action(args)
 
     def context_menu_click(self, args):
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
@@ -490,7 +491,7 @@ class GridView:
         #             f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
         #         ).style.display = 'inline-flex'
         for action_item in self.toolbar_actions:
-            action_item.show()
+            self.toolbar_actions[action_item].show()
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
@@ -502,7 +503,7 @@ class GridView:
             #             f'[id="{self.grid_el_id}-action-{item.properties.id}"]'
             #         ).style.display = 'none'
             for action_item in self.toolbar_actions:
-                action_item.hide()
+                self.toolbar_actions[action_item].hide()
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
