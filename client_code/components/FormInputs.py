@@ -277,6 +277,7 @@ class Button(BaseInput):
 class DropdownButton(Button):
     def __init__(self, options=None, **kwargs):
         super().__init__(**kwargs)
+        self.type = 'Input'
         self.options = options
         # self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
