@@ -50,8 +50,8 @@ class BaseInput:
                  grid_field=None,
                  required=False,
                  **kwargs):
-        print('BaseInput')
         self.name = name
+        print('BaseInput')
         self.type = 'Input'
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
