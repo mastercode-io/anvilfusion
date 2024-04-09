@@ -418,8 +418,9 @@ class GridView:
                     self.grid.element.querySelector(
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
-        time.sleep(1)
         for action_item in self.toolbar_actions:
+            self.toolbar_actions[action_item]['input'].show()
+            self.toolbar_actions[action_item]['input'].hide()
             self.toolbar_actions[action_item]['input'].show()
             self.toolbar_actions[action_item]['input'].hide()
             self.toolbar_actions[action_item]['input'].show()
