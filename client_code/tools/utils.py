@@ -55,6 +55,10 @@ def snake_to_camel(string):
     return ''.join([first.title(), *map(str.title, rest)])
 
 
+def label_to_id(label):
+    return label.lower().replace(' ', '_')
+
+
 # compose ui element id
 def get_form_field_id(form_id, field_name):
     return f"{form_id}_{field_name}"

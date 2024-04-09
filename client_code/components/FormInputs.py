@@ -5,7 +5,7 @@ import anvil.js
 from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
 from ..datamodel.types import FieldTypes
-from ..tools.utils import AppEnv, DotDict, new_el_id
+from ..tools.utils import AppEnv, DotDict, new_el_id, label_to_id
 import datetime
 
 
@@ -271,6 +271,21 @@ class Button(BaseInput):
     @required.setter
     def required(self, value):
         pass
+
+
+class DropdownButton(Button):
+    def __init__(self, options=None, **kwargs):
+        super().__init__(**kwargs)
+        self.options = options
+
+    def create_control(self):
+        self.control = ej.splitbuttons.DropDownButton({
+            'content': self.label,
+            'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
+            'cssClass': self.css_class or '',
+            'items': [{'id': label_to_id(option), 'text': option} for option in self.options]
+        })
+
 
 
 class HiddenInput(BaseInput):
