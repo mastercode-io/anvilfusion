@@ -5,6 +5,7 @@ from . import FormBase
 from ..tools.utils import AppEnv, camel_to_title
 import string
 import uuid
+import time
 
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
 GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
@@ -417,6 +418,7 @@ class GridView:
                     self.grid.element.querySelector(
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
+        time.sleep(0.3)
         for action_item in self.toolbar_actions:
             self.toolbar_actions[action_item]['input'].show()
             self.toolbar_actions[action_item]['input'].hide()
