@@ -278,6 +278,7 @@ class DropdownButton(Button):
     def __init__(self, options=None, **kwargs):
         super().__init__(**kwargs)
         self.options = options
+        self.html = f'<button id="{self.el_id}" name="{self.el_id}">{self.label}</button>'
 
     def create_control(self):
         self.control = ej.splitbuttons.DropDownButton({
