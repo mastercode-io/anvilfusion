@@ -159,7 +159,9 @@ class BaseInput:
     def create_control(self):
         pass
 
-    def show(self):
+    def show(self, new_container_id=None):
+        if new_container_id:
+            self.container_id = new_container_id
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             if self._control is None:
