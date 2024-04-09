@@ -940,6 +940,7 @@ class FileUploadInput(BaseInput):
 # Form inline message area
 class InlineMessage(BaseInput):
     def __init__(self, message=None, **kwargs):
+        print('inline message', kwargs)
         super().__init__(**kwargs)
         print('inline message', self.el_id, self.container_id)
 
