@@ -418,7 +418,7 @@ class GridView:
         for action_item in self.toolbar_actions:
             self.toolbar_actions[action_item]['control'].show()
             if self.toolbar_actions[action_item]['selected_records']:
-                self.toolbar_actions[action_item].hide()
+                self.toolbar_actions[action_item]['control'].hide()
         # for item_id in self.toolbar_actions.keys():
         #     item_button = ej.buttons.Button({
         #         'content': self.toolbar_actions[item_id].get('label', ''),
@@ -494,7 +494,7 @@ class GridView:
         #         ).style.display = 'inline-flex'
         for action_item in self.toolbar_actions:
             if self.toolbar_actions[action_item]['selected_records']:
-                self.toolbar_actions[action_item].show()
+                self.toolbar_actions[action_item]['control'].show()
         self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
 
     def row_deselected(self, args):
@@ -507,7 +507,7 @@ class GridView:
             #         ).style.display = 'none'
             for action_item in self.toolbar_actions:
                 if self.toolbar_actions[action_item]['selected_records']:
-                    self.toolbar_actions[action_item].hide()
+                    self.toolbar_actions[action_item]['control'].hide()
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
     def record_click(self, args):
