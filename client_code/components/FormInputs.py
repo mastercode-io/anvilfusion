@@ -941,7 +941,7 @@ class InlineMessage(BaseInput):
         super().__init__(**kwargs)
 
         self.html = f'<div id="{self.el_id}"></div>'
-        self.content = content
+        self._content = content
         self._message_type = None
         self.save = False
 
@@ -961,10 +961,11 @@ class InlineMessage(BaseInput):
     @message_type.setter
     def message_type(self, value):
         self._message_type = value
-        if self._message_type is not None:
-            anvil.js.window.document.getElementById(self.el_id).className = self._message_type
-        else:
-            anvil.js.window.document.getElementById(self.el_id).className = ''
+        if self.visible:
+            if self._message_type is not None:
+                anvil.js.window.document.getElementById(self.el_id).className = self._message_type
+            else:
+                anvil.js.window.document.getElementById(self.el_id).className = ''
 
     def show(self):
         if not self.visible:
