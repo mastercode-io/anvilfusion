@@ -216,16 +216,14 @@ class Button(BaseInput):
         self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
     def create_control(self):
-        print('create button', self.content, self.icon, self.css_class)
         self.control = ej.buttons.Button({
             'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
         })
 
-    def show(self):
-        print('show button', self.content, self.icon, self.css_class)
-        super().show()
+    # def show(self):
+    #     super().show()
         # self.control.element.onclick = self.action
     #     if not self.visible:
     #         if self._control is None:
@@ -278,13 +276,11 @@ class Button(BaseInput):
 
 class DropdownButton(Button):
     def __init__(self, options=None, **kwargs):
-        print('dropdown button', kwargs)
         super().__init__(**kwargs)
         self.options = options
         # self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
     def create_control(self):
-        print('create dropdown button', self.content, self.icon, self.css_class, self.options)
         self.control = ej.splitbuttons.DropDownButton({
             'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
