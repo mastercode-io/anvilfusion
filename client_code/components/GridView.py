@@ -419,14 +419,10 @@ class GridView:
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
         for action_item in self.toolbar_actions:
-            print('action_item', action_item, self.toolbar_actions[action_item]['input'].type)
-            if self.toolbar_actions[action_item]['input'].type == 'Input':
-                new_container_id = action_item
-            else:
-                new_container_id = None
-            self.toolbar_actions[action_item]['input'].show(new_container_id=new_container_id)
-            if self.toolbar_actions[action_item]['selected_records']:
-                self.toolbar_actions[action_item]['input'].hide()
+            if self.toolbar_actions[action_item]['input'].type != 'Input':
+                self.toolbar_actions[action_item]['input'].show()
+                if self.toolbar_actions[action_item]['selected_records']:
+                    self.toolbar_actions[action_item]['input'].hide()
         # for item_id in self.toolbar_actions.keys():
         #     item_button = ej.buttons.Button({
         #         'content': self.toolbar_actions[item_id].get('label', ''),
