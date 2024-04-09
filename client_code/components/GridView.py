@@ -286,9 +286,9 @@ class GridView:
             if isinstance(toolbar_actions, list):
                 self.toolbar_actions = {}
                 for action_item in toolbar_actions:
-                    self.toolbar_actions[action_item['control'].container_id] = action_item
+                    self.toolbar_actions[action_item['name']] = action_item
                     toolbar_item = {
-                        'id': action_item['control'].container_id,
+                        'id': action_item['name'],
                         'type': action_item['control'].type,
                         'text': action_item['control'].label,
                         'tooltipText': '',
@@ -463,7 +463,7 @@ class GridView:
                 button.appendTo(el)
 
     def toolbar_click(self, args):
-        print('toolbar_click', args.item, args.cancel)
+        print('toolbar_click', args.item.id, args.cancel)
         if args.item.id == 'add':
             args.cancel = True
             self.add_edit_row(args=None)
