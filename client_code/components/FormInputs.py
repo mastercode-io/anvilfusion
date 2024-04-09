@@ -207,9 +207,10 @@ class BaseInput:
 
 
 class Button(BaseInput):
-    def __init__(self, icon=None, action=None, **kwargs):
+    def __init__(self, content=None, icon=None, action=None, **kwargs):
         super().__init__(**kwargs)
         self.type = 'Button'
+        self.content = content
         self.icon = icon
         self.action = action
         self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.label}</div>'
@@ -217,7 +218,7 @@ class Button(BaseInput):
     def create_control(self):
         print('create button', self.label, self.icon, self.css_class)
         self.control = ej.buttons.Button({
-            'content': self.label,
+            'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
         })
@@ -285,7 +286,7 @@ class DropdownButton(Button):
     def create_control(self):
         print('create dropdown button', self.label, self.icon, self.css_class, self.options)
         self.control = ej.splitbuttons.DropDownButton({
-            'content': self.label,
+            'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
             'items': [{'id': label_to_id(option), 'text': option} for option in self.options],
