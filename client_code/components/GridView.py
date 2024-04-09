@@ -419,6 +419,8 @@ class GridView:
 
         for action_item in self.toolbar_actions:
             self.toolbar_actions[action_item]['input'].show()
+            self.toolbar_actions[action_item]['input'].hide()
+            self.toolbar_actions[action_item]['input'].show()
             if self.toolbar_actions[action_item]['selected_records']:
                 self.toolbar_actions[action_item]['input'].hide()
         # for item_id in self.toolbar_actions.keys():
