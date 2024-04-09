@@ -290,10 +290,10 @@ class GridView:
                     self.toolbar_actions[action_item['name']] = action_item
                     toolbar_item = {
                         'id': action_item['name'],
-                        # 'type': action_item['input'].type,
-                        # 'text': action_item['input'].content,
-                        # 'tooltipText': '',
-                        # 'prefixIcon': getattr(action_item['input'], 'icon', ''),
+                        'type': action_item['input'].type,
+                        'text': action_item['input'].content,
+                        'tooltipText': '',
+                        'prefixIcon': getattr(action_item['input'], 'icon', ''),
                         'template': f'<div id="{action_item["input"].container_id}"></div>',
                         'align': 'Left',
                     }

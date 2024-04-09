@@ -224,7 +224,7 @@ class Button(BaseInput):
         })
 
     def show(self):
-        print('show button', self.label, self.icon, self.css_class)
+        print('show button', self.content, self.icon, self.css_class)
         super().show()
         # self.control.element.onclick = self.action
     #     if not self.visible:
