@@ -279,9 +279,10 @@ class Button(BaseInput):
 
 class DropdownButton(Button):
     def __init__(self, options=None, **kwargs):
+        print('dropdown button', kwargs)
         super().__init__(**kwargs)
         self.options = options
-        self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
+        # self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
     def create_control(self):
         print('create dropdown button', self.content, self.icon, self.css_class, self.options)
