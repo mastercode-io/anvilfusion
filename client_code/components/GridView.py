@@ -420,7 +420,7 @@ class GridView:
 
         for action_item in self.toolbar_actions:
             print('action_item', action_item, self.toolbar_actions[action_item]['input'].type)
-            if self.toolbar_actions[action_item]['input'].type != 'Input':
+            if self.toolbar_actions[action_item]['input'].type == 'Input':
                 new_container_id = action_item
             else:
                 new_container_id = None
