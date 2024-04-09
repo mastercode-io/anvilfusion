@@ -639,6 +639,7 @@ class DropdownInput(BaseInput):
         if self.select == 'single':
             self.control = ej.dropdowns.DropDownList({
                 'placeholder': self.placeholder,
+                'cssClass': self.css_class,
                 'showClearButton': True,
                 'fields': self.fields,
                 'dataSource': self.options,
@@ -647,6 +648,7 @@ class DropdownInput(BaseInput):
         elif self.select == 'multi':
             self.control = ej.dropdowns.MultiSelect({
                 'placeholder': self.placeholder,
+                'cssClass': self.css_class,
                 'showClearButton': True,
                 'fields': self.fields,
                 'dataSource': self.options,
