@@ -212,7 +212,7 @@ class Button(BaseInput):
         self.type = 'Button'
         self.icon = icon
         self.action = action
-        self.html = f'<button id="{self.el_id}" name="{self.el_id}">{self.label}</button>'
+        self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.label}</div>'
 
     def create_control(self):
         self.control = ej.buttons.Button({
