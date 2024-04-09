@@ -221,8 +221,8 @@ class Button(BaseInput):
             'cssClass': self.css_class or '',
         })
 
-    # def show(self):
-    #     super().show()
+    def show(self):
+        super().show()
         # self.control.element.onclick = self.action
     #     if not self.visible:
     #         if self._control is None:
