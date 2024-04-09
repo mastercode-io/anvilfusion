@@ -246,13 +246,12 @@ class Button(BaseInput):
         pass
 
     @property
-    def value(self):
-        return self.label
+    def content(self):
+        return self._content
 
-    @value.setter
-    def value(self, value):
-        self._value = value
-        self.label = value
+    @content.setter
+    def content(self, value):
+        self._content = value
         if self._control is not None:
             self.control.content = value
 
