@@ -162,8 +162,6 @@ class BaseInput:
     def show(self, new_container_id=None):
         if new_container_id is not None:
             self.container_id = new_container_id
-            print('new container id', self.container_id)
-            print(anvil.js.window.document.getElementById(self.container_id))
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             if self._control is None:
