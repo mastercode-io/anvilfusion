@@ -66,7 +66,9 @@ class BaseInput:
         self.is_dependent = is_dependent
         self._enabled = enabled
         self._required = required
+        print('el_id 1', el_id)
         self.el_id = el_id if el_id is not None else new_el_id()
+        print('el_id 2', self.el_id)
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
         self._grid_column = None
