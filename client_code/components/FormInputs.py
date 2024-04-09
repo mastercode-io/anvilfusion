@@ -50,12 +50,12 @@ class BaseInput:
                  grid_field=None,
                  required=False,
                  **kwargs):
-        print('BaseInput')
         self.name = name
         self.type = 'Input'
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
         self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
+        print('BaseInput')
         self.float_label = float_label
         self.placeholder = placeholder or self.label
         self.col_class = col_class
@@ -66,9 +66,7 @@ class BaseInput:
         self.is_dependent = is_dependent
         self._enabled = enabled
         self._required = required
-        print('el_id 1', el_id)
         self.el_id = el_id if el_id is not None else new_el_id()
-        print('el_id 2', self.el_id)
         self.container_id = container_id if container_id is not None else new_el_id()
         self._html = None
         self._grid_column = None
