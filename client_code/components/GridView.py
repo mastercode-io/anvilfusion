@@ -291,12 +291,12 @@ class GridView:
                     toolbar_item = {
                         'id': action_item['name'],
                         'type': action_item['input'].type,
-                        # 'text': action_item['input'].content,
-                        # 'tooltipText': '',
-                        # 'prefixIcon': getattr(action_item['input'], 'icon', ''),
                         'template': f'<div id="{action_item["input"].container_id}"></div>',
                         'align': 'Left',
                     }
+                    if action_item['input'].type == 'Input':
+                        action_item['input'].create_control()
+                        toolbar_item['template'] = action_item['input'].control
                     tb_items.append(toolbar_item)
                 print('toolbar_actions', tb_items)
             # for item_id in self.toolbar_actions.keys():
