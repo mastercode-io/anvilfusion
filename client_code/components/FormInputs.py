@@ -941,6 +941,7 @@ class FileUploadInput(BaseInput):
 class InlineMessage(BaseInput):
     def __init__(self, message=None, **kwargs):
         super().__init__(**kwargs)
+        print('inline message', self.el_id, self.container_id)
 
         self.html = f'<div id="{self.el_id}"></div>'
         self._message = message
