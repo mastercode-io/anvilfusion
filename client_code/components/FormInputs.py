@@ -270,7 +270,7 @@ class Button(BaseInput):
 
     @required.setter
     def required(self, value):
-        pass
+        self._value = value
 
 
 class DropdownButton(Button):
@@ -283,9 +283,9 @@ class DropdownButton(Button):
             'content': self.label,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
-            'items': [{'id': label_to_id(option), 'text': option} for option in self.options]
+            'items': [{'id': label_to_id(option), 'text': option} for option in self.options],
+            'select': self.action,
         })
-
 
 
 class HiddenInput(BaseInput):
