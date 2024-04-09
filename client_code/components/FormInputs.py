@@ -50,6 +50,7 @@ class BaseInput:
                  grid_field=None,
                  required=False,
                  **kwargs):
+        print('BaseInput')
         self.name = name
         self.type = 'Input'
         self.label = label if shadow_label is False else ''
