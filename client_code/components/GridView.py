@@ -419,6 +419,7 @@ class GridView:
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
         for action_item in self.toolbar_actions:
+            print('action_item', action_item, self.toolbar_actions[action_item])
             if self.toolbar_actions[action_item]['input'].type != 'Input':
                 new_container_id = action_item
             else:
