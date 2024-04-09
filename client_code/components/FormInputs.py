@@ -216,7 +216,7 @@ class Button(BaseInput):
         self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.label}</div>'
 
     def create_control(self):
-        print('create button', self.label, self.icon, self.css_class)
+        print('create button', self.content, self.icon, self.css_class)
         self.control = ej.buttons.Button({
             'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
