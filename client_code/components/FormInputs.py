@@ -51,8 +51,8 @@ class BaseInput:
                  required=False,
                  **kwargs):
         self.name = name
-        print('BaseInput')
         self.type = 'Input'
+        print('BaseInput')
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
         self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
