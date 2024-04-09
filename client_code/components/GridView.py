@@ -481,6 +481,8 @@ class GridView:
               callable(self.toolbar_actions[args.item.id]['control'].action)):
             print('toolbar item', args.item.id)
             self.toolbar_actions[args.item.id]['control'].action(args)
+        else:
+            args.cancel = True
 
     def context_menu_click(self, args):
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
