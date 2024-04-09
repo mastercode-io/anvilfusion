@@ -248,6 +248,7 @@ class Button(BaseInput):
 
     @value.setter
     def value(self, value):
+        self._value = value
         self.label = value
         if self._control is not None:
             self.control.content = value
