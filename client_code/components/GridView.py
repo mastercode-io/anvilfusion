@@ -297,7 +297,7 @@ class GridView:
                         'align': 'Left',
                     }
                     tb_items.append(toolbar_item)
-                print('toolbar_actions', self.toolbar_actions)
+                print('toolbar_actions', tb_items)
             # for item_id in self.toolbar_actions.keys():
             #     toolbar_item = {
             #         'id': item_id,
@@ -314,6 +314,7 @@ class GridView:
                 GRID_DEFAULT_TOOLBAR_ITEMS
             )
             self.toolbar_items = tb_items.copy()
+            print('toolbar_items', self.toolbar_items)
         else:
             self.toolbar_items = []
         self.grid_config['toolbar'] = self.toolbar_items
