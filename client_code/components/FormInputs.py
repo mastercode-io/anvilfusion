@@ -52,7 +52,6 @@ class BaseInput:
                  **kwargs):
         self.name = name
         self.type = 'Input'
-        print('BaseInput')
         self.label = label if shadow_label is False else ''
         self.field_type = field_type or FieldTypes.SINGLE_LINE
         self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
@@ -938,39 +937,37 @@ class FileUploadInput(BaseInput):
 
 # Form inline message area
 class InlineMessage(BaseInput):
-    def __init__(self, message=None, **kwargs):
-        print('inline message', kwargs)
+    def __init__(self, content=None, **kwargs):
         super().__init__(**kwargs)
-        print('inline message', self.el_id, self.container_id)
 
         self.html = f'<div id="{self.el_id}"></div>'
-        self._message = message
-        self._type = None
+        self.content = content
+        self._message_type = None
         self.save = False
 
     @property
-    def message(self):
-        return self._message
+    def content(self):
+        return self._content
 
-    @message.setter
-    def message(self, message):
-        self._message = message
-        anvil.js.window.document.getElementById(self.el_id).innerHTML = message
+    @content.setter
+    def content(self, content):
+        self._content = content
+        anvil.js.window.document.getElementById(self.el_id).innerHTML = content
 
     @property
-    def type(self):
-        return self._type
+    def message_type(self):
+        return self._message_type
 
-    @type.setter
-    def type(self, value):
-        self._type = value
-        if self._type is not None:
-            anvil.js.window.document.getElementById(self.el_id).className = self._type
+    @message_type.setter
+    def message_type(self, value):
+        self._message_type = value
+        if self._message_type is not None:
+            anvil.js.window.document.getElementById(self.el_id).className = self._message_type
         else:
             anvil.js.window.document.getElementById(self.el_id).className = ''
 
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-            anvil.js.window.document.getElementById(self.el_id).innerHTML = self._message
+            anvil.js.window.document.getElementById(self.el_id).innerHTML = self._content
             self.visible = True
