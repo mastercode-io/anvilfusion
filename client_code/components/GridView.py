@@ -284,8 +284,8 @@ class GridView:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
         if 'Toolbar' in self.grid_view['config']['modes']:
             tb_items = []
+            self.toolbar_actions = {}
             if isinstance(toolbar_actions, list):
-                self.toolbar_actions = {}
                 for action_item in toolbar_actions:
                     self.toolbar_actions[action_item['name']] = action_item
                     toolbar_item = {
