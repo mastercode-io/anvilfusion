@@ -982,16 +982,19 @@ class InlineMessage(BaseInput):
         if label_el_id is not None:
             self._label_style_source = label_el_id
         if self._label_style_source is not None:
-            print('setting label style', self._label_style_source)
-            source_el = anvil.js.window.document.getElementById(label_el_id)
-            target_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
-            computed_styles = anvil.js.window.getComputedStyle(source_el)
-            for style_name in computed_styles:
-                print(style_name, computed_styles[style_name])
-                try:
-                    target_el.style[style_name] = computed_styles[style_name]
-                except Exception as e:
-                    print(f'Could not set style {style_name}: {e}')
+            try:
+                print('setting label style', self._label_style_source)
+                source_el = anvil.js.window.document.getElementById(label_el_id)
+                target_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+                computed_styles = anvil.js.window.getComputedStyle(source_el)
+                for style_name in computed_styles:
+                    print(style_name, computed_styles[style_name])
+                    try:
+                        target_el.style[style_name] = computed_styles[style_name]
+                    except Exception as e:
+                        print(f'Could not set style {style_name}: {e}')
+            except Exception as e:
+                print(f'Label style error: {e}')
 
     def show(self):
         if not self.visible:
