@@ -988,11 +988,12 @@ class InlineMessage(BaseInput):
                 target_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
                 computed_styles = anvil.js.window.getComputedStyle(source_el)
                 for style_name in computed_styles:
-                    print(style_name, computed_styles[style_name])
-                    try:
-                        target_el.style[style_name] = computed_styles[style_name]
-                    except Exception as e:
-                        print(f'Could not set style {style_name}: {e}')
+                    if style_name[0] != '-':
+                        print(style_name, computed_styles[style_name])
+                        try:
+                            target_el.style[style_name] = computed_styles[style_name]
+                        except Exception as e:
+                            print(f'Could not set style {style_name}: {e}')
             except Exception as e:
                 print(f'Label style error: {e}')
 
