@@ -943,7 +943,7 @@ class InlineMessage(BaseInput):
         # self.html = f'<div id="{self.el_id}"></div>'
         self.html = f'\
             <div class="form-group da-form-group">\
-                <div class="e-float-text e-label-top">{self.label}</div>\
+                <div id="label_{self.el_id}">{self.label}</div>\
                 <div id="{self.el_id}" name="{self.el_id}"></div>\
             </div>'
         self._content = content
@@ -971,6 +971,21 @@ class InlineMessage(BaseInput):
                 anvil.js.window.document.getElementById(self.el_id).className = self._message_type
             else:
                 anvil.js.window.document.getElementById(self.el_id).className = ''
+
+    @property
+    def label_style(self):
+        return None
+
+    @label_style.setter
+    def label_style(self, label_el_id):
+        source_label = anvil.js.window.document.getElementById(label_el_id)
+        target_label = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+        computed_styles = anvil.js.window.getComputedStyle(source_label)
+        for style_name in computed_styles:
+            try:
+                target_label.style[style_name] = computed_styles[style_name]
+            except Exception as e:
+                print(f'Could not set style {style_name}: {e}')
 
     def show(self):
         if not self.visible:
