@@ -943,7 +943,7 @@ class InlineMessage(BaseInput):
         # self.html = f'<div id="{self.el_id}"></div>'
         self.html = f'\
             <div class="form-group da-form-group">\
-                <label class="e-float-text e-label-top" for="{self.el_id}">{self.label}</label>\
+                <div class="e-float-text e-label-top">{self.label}</div>\
                 <div id="{self.el_id}" name="{self.el_id}"></div>\
             </div>'
         self._content = content
