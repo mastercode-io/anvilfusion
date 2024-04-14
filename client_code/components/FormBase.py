@@ -40,6 +40,7 @@ class FormBase:
                  action='add',
                  data=None,
                  persist=True,
+                 allow_edit=True,
                  update_source=None,
                  source=None,
                  width=POPUP_WIDTH_COL1,
@@ -74,6 +75,7 @@ class FormBase:
         self.data = data
         self.validation = validation
         self.validator = None
+        self.allow_edit = allow_edit
 
         # create form HTML content
         if content is not None:
@@ -317,6 +319,10 @@ class FormBase:
             if field.on_change is not None:
                 # print('on_change', field.name)
                 field.on_change({'name': field.name, 'value': field.value})
+        if self.allow_edit is False:
+            for field in self.form_fields:
+                field.enabled = False
+
         self.container_el.style.visibility = 'visible'
         self.form.cssClass = 'e-fixed py-dialog'
         if self.form_tabs is not None:

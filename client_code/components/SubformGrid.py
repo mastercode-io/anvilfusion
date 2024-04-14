@@ -101,11 +101,20 @@ class SubformGrid(BaseInput, GridView):
 
     @property
     def enabled(self):
-        return None
+        return self._enabled
 
     @enabled.setter
     def enabled(self, value):
-        pass
+        self._enabled = value
+        if self._enabled:
+            self.grid.editSettings.allowEditing = True
+            self.grid.editSettings.allowAdding = True
+            self.grid.editSettings.allowDeleting = True
+        else:
+            self.grid.editSettings.allowEditing = False
+            self.grid.editSettings.allowAdding = False
+            self.grid.editSettings.allowDeleting = False
+
 
     @property
     def value(self):
