@@ -975,33 +975,8 @@ class InlineMessage(BaseInput):
             else:
                 anvil.js.window.document.getElementById(self.el_id).className = ''
 
-    @property
-    def label_style(self):
-        return None
-
-    @label_style.setter
-    def label_style(self, label_el_id=None):
-        if label_el_id is not None:
-            self._label_style_source = label_el_id
-        if self._label_style_source is not None:
-            try:
-                print('setting label style', self._label_style_source)
-                source_el = anvil.js.window.document.getElementById(label_el_id)
-                target_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
-                computed_styles = anvil.js.window.getComputedStyle(source_el)
-                for style_name in computed_styles:
-                    if style_name[0] != '-':
-                        print(style_name, computed_styles[style_name])
-                        try:
-                            target_el.style[style_name] = computed_styles[style_name]
-                        except Exception as e:
-                            print(f'Could not set style {style_name}: {e}')
-            except Exception as e:
-                print(f'Label style error: {e}')
-
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             anvil.js.window.document.getElementById(self.el_id).innerHTML = self._content
             self.visible = True
-            self.label_style = self._label_style_source
