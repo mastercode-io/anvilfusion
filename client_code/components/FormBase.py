@@ -322,6 +322,11 @@ class FormBase:
         if self.allow_edit is False:
             for field in self.form_fields:
                 field.enabled = False
+            for button in self.form.getButtons():
+                if 'da-save-button' in button.cssClass:
+                    button.disabled = True
+                elif 'da-cancel-button' in button.cssClass:
+                    button.content = 'Close'
 
         self.container_el.style.visibility = 'visible'
         self.form.cssClass = 'e-fixed py-dialog'
@@ -335,9 +340,6 @@ class FormBase:
             self.validation['customPlacement'] = lambda input_el, error: \
                 input_el.parentElement.parentElement.appendChild(error)
             self.validator = ej.inputs.FormValidator(f"#{self.form_id}", self.validation)
-        button = self.form.getButtons()[0]
-        for k in button.keys():
-            print(k, button[k])
         print('form open end')
 
     def form_validate(self):
