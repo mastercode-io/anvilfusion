@@ -336,7 +336,7 @@ class FormBase:
                 input_el.parentElement.parentElement.appendChild(error)
             self.validator = ej.inputs.FormValidator(f"#{self.form_id}", self.validation)
         for button in self.form.getButton():
-            print('button', button, button.element)
+            print('button', button)
         print('form open end')
 
     def form_validate(self):
