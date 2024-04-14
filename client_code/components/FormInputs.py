@@ -937,7 +937,7 @@ class FileUploadInput(BaseInput):
 
 # Form inline message area
 class InlineMessage(BaseInput):
-    def __init__(self, content=None, **kwargs):
+    def __init__(self, content=None, label_style_source=None, **kwargs):
         super().__init__(**kwargs)
 
         # self.html = f'<div id="{self.el_id}"></div>'
@@ -948,6 +948,7 @@ class InlineMessage(BaseInput):
             </div>'
         self._content = content
         self._message_type = None
+        self._label_style_source = label_style_source
         self.save = False
 
     @property
@@ -977,18 +978,22 @@ class InlineMessage(BaseInput):
         return None
 
     @label_style.setter
-    def label_style(self, label_el_id):
-        source_label = anvil.js.window.document.getElementById(label_el_id)
-        target_label = anvil.js.window.document.getElementById(f'label_{self.el_id}')
-        computed_styles = anvil.js.window.getComputedStyle(source_label)
-        for style_name in computed_styles:
-            try:
-                target_label.style[style_name] = computed_styles[style_name]
-            except Exception as e:
-                print(f'Could not set style {style_name}: {e}')
+    def label_style(self, label_el_id=None):
+        if label_el_id is not None:
+            self._label_style_source = label_el_id
+        if self._label_style_source is not None:
+            source_el = anvil.js.window.document.getElementById(label_el_id)
+            target_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
+            computed_styles = anvil.js.window.getComputedStyle(source_el)
+            for style_name in computed_styles:
+                try:
+                    target_el.style[style_name] = computed_styles[style_name]
+                except Exception as e:
+                    print(f'Could not set style {style_name}: {e}')
 
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             anvil.js.window.document.getElementById(self.el_id).innerHTML = self._content
             self.visible = True
+            self.label_style = self._label_style_source
