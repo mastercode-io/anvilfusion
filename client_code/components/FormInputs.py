@@ -940,7 +940,12 @@ class InlineMessage(BaseInput):
     def __init__(self, content=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.html = f'<div id="{self.el_id}"></div>'
+        # self.html = f'<div id="{self.el_id}"></div>'
+        self.html = f'\
+            <div class="form-group da-form-group">\
+                <div class="e-float-text e-label-top">{self.label}</div>\
+                <div class="form-control" id="{self.el_id}" name="{self.el_id}"></div>\
+            </div>'
         self._content = content
         self._message_type = None
         self.save = False
