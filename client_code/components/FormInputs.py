@@ -943,7 +943,7 @@ class InlineMessage(BaseInput):
         # self.html = f'<div id="{self.el_id}"></div>'
         self.html = f'\
             <div class="form-group da-form-group">\
-                <div id="label_{self.el_id}">{self.label}</div>\
+                <div id="label_{self.el_id}" class="da-form-input-label">{self.label}</div>\
                 <div id="{self.el_id}" name="{self.el_id}"></div>\
             </div>'
         self._content = content
