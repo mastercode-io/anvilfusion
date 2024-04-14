@@ -937,18 +937,20 @@ class FileUploadInput(BaseInput):
 
 # Form inline message area
 class InlineMessage(BaseInput):
-    def __init__(self, content=None, label_style_source=None, **kwargs):
+    def __init__(self, content=None, label_css=None, **kwargs):
         super().__init__(**kwargs)
 
         # self.html = f'<div id="{self.el_id}"></div>'
+        if not self.css_class:
+            self.css_class = 'da-form-input-message'
+        label_css = label_css or 'da-form-input-label'
         self.html = f'\
             <div class="form-group da-form-group">\
-                <div id="label_{self.el_id}" class="da-form-input-label">{self.label}</div>\
-                <div id="{self.el_id}" name="{self.el_id}"></div>\
+                <div id="label_{self.el_id}" class="{label_css}">{self.label}</div>\
+                <div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}"></div>\
             </div>'
         self._content = content
         self._message_type = None
-        self._label_style_source = label_style_source
         self.save = False
 
     @property
