@@ -324,7 +324,7 @@ class FormBase:
                 field.enabled = False
             for button in self.form.getButtons():
                 if 'da-save-button' in button.cssClass:
-                    button.disabled = True
+                    button.element.style.display = 'none'
                 elif 'da-cancel-button' in button.cssClass:
                     button.content = 'Close'
 
