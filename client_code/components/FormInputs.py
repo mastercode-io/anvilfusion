@@ -949,7 +949,7 @@ class InlineMessage(BaseInput):
                 <div id="label_{self.el_id}" class="{label_css}">{self.label}</div>\
                 <div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}"></div>\
             </div>'
-        self._content = content
+        self._content = content or ''
         self._message_type = None
         self.save = False
 
@@ -959,7 +959,7 @@ class InlineMessage(BaseInput):
 
     @content.setter
     def content(self, content):
-        self._content = content
+        self._content = content or ''
         anvil.js.window.document.getElementById(self.el_id).innerHTML = content
 
     @property
