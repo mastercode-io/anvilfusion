@@ -126,6 +126,7 @@ class GridView:
                  persist=True,
                  edit_mode='dialog',
                  add_edit_form=None,
+                 content_wrap=True,
                  data=None,
                  ):
 
@@ -282,6 +283,11 @@ class GridView:
             self.grid_config['pageSettings'] = {'pageSize': 1000000}
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
+        if self.grid_view['config'].get('content_wrap', False):
+            self.grid_config['allowTextWrap'] = True
+            self.grid_config['textWrapSettings'] = {'wrapMode': 'Content'}
+        else:
+            self.grid_config['allowTextWrap'] = False
         if 'Toolbar' in self.grid_view['config']['modes']:
             tb_items = []
             self.toolbar_actions = {}
