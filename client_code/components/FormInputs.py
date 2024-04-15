@@ -520,7 +520,7 @@ class CheckboxInput(BaseInput):
 
         self.html = f'\
       <div class="form-group pm-form-group">\
-        <input type="checkbox" class="form-control pm-checkbox-input" id="{self.el_id}" name="{self.el_id}">\
+        <input type="checkbox" class="form-control da-checkbox-input" id="{self.el_id}" name="{self.el_id}">\
       </div>'
 
         self.grid_column['type'] = 'boolean'
@@ -530,7 +530,7 @@ class CheckboxInput(BaseInput):
         self.control = ej.buttons.CheckBox({
             'label': self.label,
             'labelPosition': self.label_position,
-            'cssClass': 'pm-checkbox-input',
+            'cssClass': self.css_class or 'da-checkbox-input',
         })
 
     @property
