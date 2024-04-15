@@ -292,6 +292,7 @@ class DropdownButton(Button):
             'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
+            'isPrimary': True if self.is_primary else False,
             'items': [{'id': label_to_id(option), 'text': option} for option in self.options],
             'select': self.action,
         })
