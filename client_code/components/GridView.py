@@ -283,7 +283,7 @@ class GridView:
             self.grid_config['pageSettings'] = {'pageSize': 1000000}
         if 'Edit' in self.grid_view['config']['modes']:
             self.grid_config['editSettings'] = self.grid_view['config'].get('editSettings', GRID_DEFAULT_EDIT_SETTINGS)
-        if self.grid_view['config'].get('content_wrap', False):
+        if self.grid_view['config'].get('content_wrap', True):
             self.grid_config['allowTextWrap'] = True
             self.grid_config['textWrapSettings'] = {'wrapMode': 'Content'}
         else:
