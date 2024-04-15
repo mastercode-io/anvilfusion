@@ -275,6 +275,10 @@ class Button(BaseInput):
     def required(self, value):
         self._value = value
 
+    def show(self):
+        super().show()
+        self.control.element.onclick = self.action
+
 
 class DropdownButton(Button):
     def __init__(self, options=None, **kwargs):
