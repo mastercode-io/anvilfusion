@@ -381,6 +381,7 @@ class GridView:
         if self.grid_height < 0:
             self.grid_height = None
         print('grid height', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
+        print('el id', self.grid_el_id)
         if self.grid_height:
             self.container_el.innerHTML = f'\
                 <div id="da-grid-container" style="height:{self.grid_height}px;">\
