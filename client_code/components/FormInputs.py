@@ -207,12 +207,13 @@ class BaseInput:
 
 
 class Button(BaseInput):
-    def __init__(self, content=None, icon=None, action=None, **kwargs):
+    def __init__(self, is_primary=True, content=None, icon=None, action=None, **kwargs):
         super().__init__(**kwargs)
         self.type = 'Button'
         self.content = content
         self.icon = icon
         self.action = action
+        self.is_primary = is_primary
         self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
     def create_control(self):
@@ -220,6 +221,7 @@ class Button(BaseInput):
             'content': self.content,
             'iconCss': f'fa-solid fa-{self.icon}' if self.icon else '',
             'cssClass': self.css_class or '',
+            'isPrimary': True if self.is_primary else False,
         })
 
     # def show(self):
