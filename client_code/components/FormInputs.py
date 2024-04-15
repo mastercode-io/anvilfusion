@@ -952,7 +952,7 @@ class InlineMessage(BaseInput):
         label_css = label_css or 'da-form-input-label'
         self.html = f'\
             <div class="form-group da-form-group">\
-                <div id="label_{self.el_id}" class="{label_css}">{self.label}</div>\
+                <div id="label_{self.el_id}" class="{label_css}">{self.label or ""}</div>\
                 <div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}"></div>\
             </div>'
         self._content = content or ''
