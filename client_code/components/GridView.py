@@ -288,6 +288,7 @@ class GridView:
             self.grid_config['textWrapSettings'] = {'wrapMode': 'Content'}
         else:
             self.grid_config['allowTextWrap'] = False
+            self.grid_config['textWrapSettings'] = {'wrapMode': 'Header'}
         if 'Toolbar' in self.grid_view['config']['modes']:
             tb_items = []
             self.toolbar_actions = {}
@@ -342,7 +343,7 @@ class GridView:
             self.grid_config['rowSelected'] = self.row_selected
             self.grid_config['rowDeselected'] = self.row_deselected
         self.grid_config['showColumnMenu'] = True
-        self.grid_config['allowTextWrap'] = True
+        # self.grid_config['allowTextWrap'] = True
         if context_menu_items:
             self.grid_config['contextMenuItems'] = []
             for item in context_menu_items:

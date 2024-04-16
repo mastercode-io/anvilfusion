@@ -52,11 +52,16 @@ class SubformGrid(BaseInput, GridView):
                 # 'cellSave': '',
                 'gridLines': 'Default',
                 'allowScrolling': True,
-                'allowTextWrap': True,
-                'textWrapSettings': {'wrapMode': 'Content'},
                 'width': '100%',
                 'height': '100%',
             }
+            if view_config.get('content_wrap', True):
+                grid_config['allowTextWrap'] = True
+                grid_config['textWrapSettings'] = {'wrapMode': 'Content'}
+            else:
+                grid_config['allowTextWrap'] = False
+                grid_config['textWrapSettings'] = {'wrapMode': 'Header'}
+
             if model is not None:
                 grid_config['columns'][0:0] = [
                     {'field': 'uid', 'headerText': 'UID', 'visible': False, 'isPrimaryKey': True, 'width': '0px'},  # noqa
