@@ -6,6 +6,9 @@ from . import types
 from ..tools.utils import AppEnv, get_plural_name, get_table_name
 
 
+SYSTEM_TENANT_UID = '00000000-0000-0000-0000-000000000000'
+
+
 class Attribute:
     """A class to represent an attribute of a model object class.
     Attributes are persisted as columns on the class's relevant data table

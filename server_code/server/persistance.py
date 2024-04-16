@@ -11,7 +11,7 @@ from importlib import import_module
 from uuid import uuid4
 from datetime import datetime, date
 
-from ..datamodel.particles import ModelSearchResults, ModelTypeBase
+from ..datamodel.particles import ModelSearchResults, ModelTypeBase, SYSTEM_TENANT_UID
 from ..datamodel import types
 from ..tools.utils import AppEnv
 from . import security
@@ -37,9 +37,8 @@ def caching_query(search_function):
                 search_args[arg] = ref_row
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-        # if (anvil.server.session['user_permissions'].get('super_admin', False)
-        #         and not anvil.server.session['user_permissions'].get('locked_tenant', False)):
-        if user_permissions['super_admin'] and not user_permissions['locked_tenant']:
+        if (user_permissions['super_admin'] and not user_permissions['locked_tenant']
+                and search_args['tenant_uid'] != SYSTEM_TENANT_UID):
             search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
@@ -245,11 +244,12 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     search_definition = anvil.server.session.get(rows_id, None).copy()
     # if search_definition is not None and 'tenant_uid' not in search_definition.keys():
     if search_definition is not None:
-        if not user_permissions['super_admin']:
-            search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
-        else:
-            if user_permissions['locked_tenant']:
+        if 'tenant_uid' not in search_definition.keys():
+            if not user_permissions['super_admin']:
                 search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
+            else:
+                if user_permissions['locked_tenant']:
+                    search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
         # print('search_definition 2', search_definition)
