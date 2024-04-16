@@ -99,29 +99,17 @@ def get_user_permissions(logged_user=None, background_task_id=None):
 
 def _get_row(module_name, class_name, uid, background_task_id=None, **search_args):
     """Return the data tables row for a given object instance"""
-    search_args['uid'] = uid
-    logged_user = get_logged_user(background_task_id=background_task_id)
-    user_permissions = get_user_permissions(logged_user=logged_user)
-    # if (not user_permissions['super_admin'] or
-    #         (user_permissions['developer'] and 'tenant_uid' not in search_args.keys())):
-    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    # if (not user_permissions['super_admin']
-    #         and not user_permissions.get('locked_tenant', False)
-    #         and 'tenant_uid' not in search_args.keys()):
-    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    # print('persistence', anvil.server.session)
-    # if not anvil.server.session.get('user_permissions', {}).get('super_admin', False):
-    #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    # else:
-    #     if anvil.server.session.get('user_permissions', {}).get('locked_tenant', False):
-    #         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if 'tenant_uid' not in search_args.keys():
-        if not user_permissions['super_admin']:
-            search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-        else:
-            if user_permissions['locked_tenant']:
-                search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-    return get_table(module_name, class_name).get(**search_args)
+    # search_args['uid'] = uid
+    # logged_user = get_logged_user(background_task_id=background_task_id)
+    # user_permissions = get_user_permissions(logged_user=logged_user)
+    # if 'tenant_uid' not in search_args.keys():
+    #     if not user_permissions['super_admin']:
+    #         search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
+    #     else:
+    #         if user_permissions['locked_tenant']:
+    #             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
+    # return get_table(module_name, class_name).get(**search_args)
+    return get_table(module_name, class_name).get(uid=uid)
 
 
 def _get_row_by(module_name, class_name, prop, value, background_task_id=None, **search_args):
