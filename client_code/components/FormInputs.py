@@ -217,6 +217,7 @@ class Button(BaseInput):
         self.action = action
         self.is_primary = is_primary
         self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
+        self.save = False
 
     def create_control(self):
         self.control = ej.buttons.Button({
