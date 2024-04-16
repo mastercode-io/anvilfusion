@@ -263,7 +263,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
             rows = get_table(module_name, class_name).search(**search_definition)
     else:
         rows = []
-    # print('rows', len(rows))
+    print('rows', len(rows))
 
     start = (page - 1) * page_length
     end = page * page_length
