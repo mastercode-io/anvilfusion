@@ -970,7 +970,9 @@ class InlineMessage(BaseInput):
     @content.setter
     def content(self, content):
         self._content = content or ''
-        anvil.js.window.document.getElementById(self.el_id).innerHTML = content
+        el = anvil.js.window.document.getElementById(self.el_id)
+        if el:
+            el.innerHTML = self._content
 
     @property
     def message_type(self):
