@@ -748,6 +748,7 @@ class LookupInput(DropdownInput):
         options = []
         for option in data:
             data_row = option.get('row', option)
+            print('get options', data_row, self.text_field)
             if self.compute_option and callable(self.compute_option):
                 name = self.compute_option(data_row)
             else:
