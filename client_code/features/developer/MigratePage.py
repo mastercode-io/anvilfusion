@@ -30,15 +30,15 @@ class MigratePage(PageBase):
         self.migrate_button.addEventListener('onclick', self.migrate_button_action)
         self.migrate_button.element.onclick = self.migrate_button_action
         self.execution_log.show()
-        self.execution_log.message = 'Click <b>Migrate DB</b> to start migration'
+        self.execution_log.content = 'Click <b>Migrate DB</b> to start migration'
 
 
     def migrate_button_action(self, args):
         print('MigratePage.migrate_button_action')
         self.execution_log.message = 'Starting migration...<br><br>'
         migrate_db_schema(logger=self.log_message)
-        self.execution_log.message += '<br>Migration complete.'
+        self.execution_log.content = '<br>Migration complete.'
 
 
     def log_message(self, message):
-        self.execution_log.message += str(message) + '<br>'
+        self.execution_log.content += str(message) + '<br>'
