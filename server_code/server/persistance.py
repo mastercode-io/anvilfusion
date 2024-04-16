@@ -239,6 +239,7 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None, backgrou
 @anvil.server.callable
 def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None, background_task_id=None):
     """Return a list of object instances from a cached data tables search"""
+    print('fetch_objects', class_name, module_name, rows_id, page, page_length, max_depth, background_task_id)
     logged_user = get_logged_user(background_task_id=background_task_id)
     user_permissions = get_user_permissions(logged_user=logged_user)
     search_definition = anvil.server.session.get(rows_id, None).copy()
