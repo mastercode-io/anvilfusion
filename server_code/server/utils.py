@@ -164,7 +164,7 @@ def init_model_enumerations(module, model_list):
         # print(model, props)
         view_config = {
             'model': props['model'],
-            'columns': [{'name': props['name_field']}],
+            'columns': [{'name': props['text_field']}],
         }
         cls = getattr(models, view_config['model'], None)
         if cls:
@@ -174,7 +174,7 @@ def init_model_enumerations(module, model_list):
             if props['name_field'] != 'name':
                 # name_field = props['name_field'].split('.', 1)[0]
                 for option in model_list[model]['options']:
-                    option['name'] = option[props['name_field'].replace('.', '__')]
+                    option['name'] = option[props['text_field'].replace('.', '__')]
     return model_list
 
 
