@@ -5,6 +5,7 @@ import anvil.js
 from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
 from ..datamodel.types import FieldTypes
+from ..datamodel.particles import ModelTypeBase
 from ..tools.utils import AppEnv, DotDict, new_el_id, label_to_id
 import datetime
 
@@ -749,7 +750,7 @@ class LookupInput(DropdownInput):
         print('get options', len(data), self.text_field)
         for option in data:
             print('option', option)
-            data_row = option.get('row', option)
+            data_row = option if (isinstance(option, ModelTypeBase)) else option.get('row', option)
             print('get options', data_row, self.text_field)
             if self.compute_option and callable(self.compute_option):
                 name = self.compute_option(data_row)
