@@ -969,9 +969,6 @@ class InlineMessage(BaseInput):
     @content.setter
     def content(self, content):
         self._content = content or ''
-        print('set content', self._content, self.el_id, self.container_id)
-        el = anvil.js.window.document.getElementById(self.el_id)
-        print('el', el)
         anvil.js.window.document.getElementById(self.el_id).innerHTML = content
 
     @property
