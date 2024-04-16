@@ -954,11 +954,10 @@ class InlineMessage(BaseInput):
         if not self.css_class:
             self.css_class = 'da-form-input-message'
         label_css = label_css or 'da-form-input-label'
-        self.html = f'\
-            <div class="form-group da-form-group">\
-                <div id="label_{self.el_id}" class="{label_css}">{self.label or ""}</div>\
-                <div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}"></div>\
-            </div>'
+        self.html = '<div class="form-group da-form-group">'
+        if self.label:
+            self.html += f'<label id="label_{self.el_id}" class="{label_css}">{self.label or ""}</label>'
+        self.html += f'<div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}">{content or ""}</div></div>'
         self._content = content or ''
         self._message_type = None
         self.save = False
