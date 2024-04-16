@@ -746,7 +746,7 @@ class LookupInput(DropdownInput):
 
     def get_options(self, data):
         options = []
-        print('get options', data, self.text_field)
+        print('get options', len(data), self.text_field)
         for option in data:
             data_row = option.get('row', option)
             print('get options', data_row, self.text_field)
