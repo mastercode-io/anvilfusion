@@ -165,7 +165,8 @@ class BaseInput:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html + self.shadow_label
             if self._control is None:
                 self.create_control()
-            self.control.appendTo(f"#{self.el_id}")
+            if self.control:
+                self.control.appendTo(f"#{self.el_id}")
             self.value = self._value
             self.visible = True
             self.enabled = self._enabled
@@ -969,6 +970,8 @@ class InlineMessage(BaseInput):
     def content(self, content):
         self._content = content or ''
         print('set content', self._content, self.el_id, self.container_id)
+        el = anvil.js.window.document.getElementById(self.el_id)
+        print('el', el)
         anvil.js.window.document.getElementById(self.el_id).innerHTML = content
 
     @property
