@@ -244,7 +244,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     user_permissions = get_user_permissions(logged_user=logged_user)
     search_definition = anvil.server.session.get(rows_id, None).copy()
     # if search_definition is not None and 'tenant_uid' not in search_definition.keys():
-    if search_definition is not None:
+    if search_definition is not None and search_definition.get('tenant_uid', None) is None:
         if not user_permissions['super_admin']:
             search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         else:
