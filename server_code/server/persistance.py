@@ -281,7 +281,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         ],
         is_last_page,
     )
-    #print('results', len(results[0]), results[1])
+    print('results', len(results[0]), results[1])
     return results
 
 
