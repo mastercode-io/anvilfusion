@@ -739,6 +739,7 @@ class LookupInput(DropdownInput):
 
     @data.setter
     def data(self, data):
+        print('lookup data', data)
         if data:
             self.options = self.get_options(data)
         else:
