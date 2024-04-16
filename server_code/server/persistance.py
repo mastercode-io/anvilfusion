@@ -115,11 +115,12 @@ def _get_row(module_name, class_name, uid, background_task_id=None, **search_arg
     # else:
     #     if anvil.server.session.get('user_permissions', {}).get('locked_tenant', False):
     #         search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not user_permissions['super_admin']:
-        search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-    else:
-        if user_permissions['locked_tenant']:
+    if 'tenant_uid' not in search_args.keys():
+        if not user_permissions['super_admin']:
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
+        else:
+            if user_permissions['locked_tenant']:
+                search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
 
@@ -139,11 +140,12 @@ def _get_row_by(module_name, class_name, prop, value, background_task_id=None, *
     #         and not user_permissions.get('locked_tenant', False)
     #         and 'tenant_uid' not in search_args.keys()):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not user_permissions['super_admin']:
-        search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-    else:
-        if user_permissions['locked_tenant']:
+    if 'tenant_uid' not in search_args.keys():
+        if not user_permissions['super_admin']:
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
+        else:
+            if user_permissions['locked_tenant']:
+                search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     return get_table(module_name, class_name).get(**search_args)
 
 
@@ -156,11 +158,12 @@ def _search_rows(module_name, class_name, uids, background_task_id=None):
     #         and not anvil.server.session['user_permissions'].get('locked_tenant', False)
     #         and 'tenant_uid' not in search_args.keys()):
     #     search_args['tenant_uid'] = anvil.server.session.get('tenant_uid', None)
-    if not user_permissions['super_admin']:
-        search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
-    else:
-        if user_permissions['locked_tenant']:
+    if 'tenant_uid' not in search_args.keys():
+        if not user_permissions['super_admin']:
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
+        else:
+            if user_permissions['locked_tenant']:
+                search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     return get_table(module_name, class_name).search(**search_args)
 
 
@@ -239,7 +242,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     logged_user = get_logged_user(background_task_id=background_task_id)
     user_permissions = get_user_permissions(logged_user=logged_user)
     search_definition = anvil.server.session.get(rows_id, None).copy()
-    if search_definition is not None:
+    if search_definition is not None and 'tenant_uid' not in search_definition.keys():
         if not user_permissions['super_admin']:
             search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         else:
@@ -428,11 +431,12 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
                 filters[key] = q.any_of(*[[row] for row in rel_rows])
             else:
                 filters[key] = q.any_of(*rel_rows)
-    if not user_permissions['super_admin']:
-        filters['tenant_uid'] = logged_user.get('tenant_uid', None)
-    else:
-        if user_permissions['locked_tenant']:
+    if 'tenant_uid' not in filters.keys():
+        if not user_permissions['super_admin']:
             filters['tenant_uid'] = logged_user.get('tenant_uid', None)
+        else:
+            if user_permissions['locked_tenant']:
+                filters['tenant_uid'] = logged_user.get('tenant_uid', None)
 
     etime = datetime.now()
     # print('fetch_view: build query', (etime - stime))
