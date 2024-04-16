@@ -53,8 +53,8 @@ def caching_query(search_function):
             search_args["class_name"] = class_name
         rows_id = str(uuid4())
         anvil.server.session[rows_id] = search_args
-        print('caching_query', class_name, module_name, rows_id, page_length, page, max_depth, length)
-        print('search_args', search_args)
+        # print('caching_query', class_name, module_name, rows_id, page_length, page, max_depth, length)
+        # print('search_args', search_args)
         return ModelSearchResults(
             class_name,
             module_name,
@@ -227,11 +227,11 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None, backgrou
 @anvil.server.callable
 def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None, background_task_id=None):
     """Return a list of object instances from a cached data tables search"""
-    print('fetch_objects', class_name, module_name, rows_id, page, page_length, max_depth, background_task_id)
+    # print('fetch_objects', class_name, module_name, rows_id, page, page_length, max_depth, background_task_id)
     logged_user = get_logged_user(background_task_id=background_task_id)
     user_permissions = get_user_permissions(logged_user=logged_user)
     search_definition = anvil.server.session.get(rows_id, None).copy()
-    print('search_definition', search_definition)
+    # print('search_definition', search_definition)
     # if search_definition is not None and 'tenant_uid' not in search_definition.keys():
     if search_definition is not None:
         if 'tenant_uid' not in search_definition.keys():
@@ -251,7 +251,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
             rows = get_table(module_name, class_name).search(**search_definition)
     else:
         rows = []
-    print('rows', len(rows))
+    # print('rows', len(rows))
 
     start = (page - 1) * page_length
     end = page * page_length
@@ -269,7 +269,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         ],
         is_last_page,
     )
-    print('results', len(results[0]), results[1])
+    # print('results', len(results[0]), results[1])
     return results
 
 
