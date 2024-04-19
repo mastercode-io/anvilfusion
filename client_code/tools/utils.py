@@ -5,7 +5,7 @@ import sys
 import re
 import uuid
 import datetime
-from .. import __version__, __environment__
+from .._version import __version__, __environment__
 
 
 # name string conversions
