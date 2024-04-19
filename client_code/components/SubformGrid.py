@@ -219,7 +219,7 @@ class SubformGrid(BaseInput, GridView):
             self.to_save.pop(args.data[0]['uid'], None)
 
     def add_edit_row(self, args=None, **kwargs):
-        if args.rowData.uid:
+        if args and args.rowData.uid:
             data_row = self.to_save.get(args.rowData.uid, None)
         else:
             data_row = None
