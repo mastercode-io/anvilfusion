@@ -27,8 +27,3 @@
 # This software is published at # https://github.com/mastercode-io/anvil-fusion
 from . import persistance
 from . import security
-
-__version__ = "0.1"
-__environment__ = 'development'
-
-print(f'AnvilFusion version: {__version__} ({__environment__})')
