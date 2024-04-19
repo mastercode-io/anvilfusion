@@ -1,4 +1,5 @@
 # Helper classes and functions
+from anvil import app
 import anvil.server
 import anvil.users
 import sys
@@ -106,7 +107,11 @@ def get_cookies():
 # Application environment cache
 # Initialise user session and store user info app session
 def init_user_session(login_form=None, after_login=None, user_email=None, password=None):
+    print('--- App Info ---')
     print(f'AnvilFusion version: {__version__} ({__environment__})')
+    print(f'git branch: {app.branch}')
+    print(f'environment: {app.environment.name} ({app.environment.tags})')
+    print(f'id: {app.id}')
     anvil.users.get_user()
     anvil.server.call('check_session', 'a')
     logged_user = anvil.server.call('init_user_session', user_email=user_email, password=password)
