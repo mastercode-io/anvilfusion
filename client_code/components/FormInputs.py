@@ -999,10 +999,12 @@ class InlineMessage(BaseInput):
         self._accent = value
         if self.visible:
             if self._accent is not None:
-                accent_class = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {}).get('class', '')
-                accent_icon = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {}).get('icon', None)
+                accent_props = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {})
+                accent_class = accent_props.get('class', '')
+                accent_icon = accent_props.get('icon', None)
+                print('accent', accent_class, accent_icon)
                 anvil.js.window.document.getElementById(self.el_id).className = self.css_class + ' ' + accent_class
-                self.content = f'<i class="{accent_icon}"></i> {self._content}'
+                self.content = f'<i class="{accent_icon}"></i> {self._content}' if accent_icon else self._content
             else:
                 anvil.js.window.document.getElementById(self.el_id).className = self.css_class
                 self.content = self._content
