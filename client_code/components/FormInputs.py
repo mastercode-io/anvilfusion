@@ -978,6 +978,7 @@ class InlineMessage(BaseInput):
         el = anvil.js.window.document.getElementById(self.el_id)
         if el:
             el.innerHTML = self._content
+            self.icon = self._icon
 
     @property
     def icon(self):
@@ -1001,12 +1002,12 @@ class InlineMessage(BaseInput):
             if self._accent is not None:
                 accent_props = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {})
                 accent_class = accent_props.get('class', '')
-                accent_icon = accent_props.get('icon', None)
-                print('accent', accent_class, accent_icon)
+                self._icon = accent_props.get('icon', None)
                 anvil.js.window.document.getElementById(self.el_id).className = self.css_class + ' ' + accent_class
-                self.content = f'<i class="{accent_icon}"></i> {self._content}' if accent_icon else self._content
+                self.content = self._content
             else:
                 anvil.js.window.document.getElementById(self.el_id).className = self.css_class
+                self._icon = None
                 self.content = self._content
 
     def show(self):
