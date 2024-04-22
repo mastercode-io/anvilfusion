@@ -947,20 +947,26 @@ class FileUploadInput(BaseInput):
 
 # Form inline message area
 class InlineMessage(BaseInput):
-    def __init__(self, content=None, label_css=None, **kwargs):
+    def __init__(self, content=None, icon=None, label_css=None, accent=None, **kwargs):
         super().__init__(**kwargs)
 
         # self.html = f'<div id="{self.el_id}"></div>'
+        self._content = content or ''
+        self._icon = icon
+        self._accent = accent
+        self.save = False
+
         if not self.css_class:
             self.css_class = 'da-form-input-message'
         label_css = label_css or 'da-form-input-label'
+
         self.html = '<div class="form-group da-form-group">'
         if self.label:
             self.html += f'<label id="label_{self.el_id}" class="{label_css}">{self.label or ""}</label>'
-        self.html += f'<div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}">{content or ""}</div></div>'
-        self._content = content or ''
-        self._message_type = None
-        self.save = False
+        prefix_icon = f'<i class="{self._icon}"></i> ' if self._icon else ''
+        self.html += (f'<div id="{self.el_id}" name="{self.el_id}" class="{self.css_class}">'
+                      f'{prefix_icon}{content or ""}</div>'
+                      f'</div>')
 
     @property
     def content(self):
@@ -974,20 +980,37 @@ class InlineMessage(BaseInput):
             el.innerHTML = self._content
 
     @property
-    def message_type(self):
-        return self._message_type
+    def icon(self):
+        return self._icon
 
-    @message_type.setter
-    def message_type(self, value):
-        self._message_type = value
+    @icon.setter
+    def icon(self, value):
+        self._icon = value
         if self.visible:
-            if self._message_type is not None:
-                anvil.js.window.document.getElementById(self.el_id).className = self._message_type
+            if self._icon is not None:
+                anvil.js.window.document.getElementById(self.el_id).innerHTML = f'<i class="{self._icon}"></i> {self._content}'
+
+    @property
+    def accent(self):
+        return self._accent
+
+    @accent.setter
+    def accent(self, value):
+        self._accent = value
+        if self.visible:
+            if self._accent is not None:
+                accent_class = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {}).get('class', '')
+                accent_icon = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {}).get('icon', None)
+                anvil.js.window.document.getElementById(self.el_id).className = self.css_class + ' ' + accent_class
+                self.content = f'<i class="{accent_icon}"></i> {self._content}'
             else:
-                anvil.js.window.document.getElementById(self.el_id).className = ''
+                anvil.js.window.document.getElementById(self.el_id).className = self.css_class
+                self.content = self._content
 
     def show(self):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-            anvil.js.window.document.getElementById(self.el_id).innerHTML = self._content
+            self.content = self._content
+            self._icon = self.icon
+            self._accent = self.accent
             self.visible = True

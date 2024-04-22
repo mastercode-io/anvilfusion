@@ -229,6 +229,7 @@ class AppEnv:
     enum_models = None
     enum_constants = None
     grid_settings = {}
+    theme = {}
     start_menu = None
     aws_config = {
         'region': None,
