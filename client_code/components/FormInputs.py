@@ -997,6 +997,7 @@ class InlineMessage(BaseInput):
 
     @accent.setter
     def accent(self, value):
+        print('set accent', value, self._accent)
         self._accent = value
         if self.visible:
             if self._accent is not None:
@@ -1014,6 +1015,6 @@ class InlineMessage(BaseInput):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             self.content = self._content
-            self.icon = self._icon
             self.accent = self._accent
+            self.icon = self._icon
             self.visible = True
