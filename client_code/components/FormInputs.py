@@ -1004,6 +1004,7 @@ class InlineMessage(BaseInput):
                 accent_props = AppEnv.theme.get('components', {}).get('alert', {}).get(self._accent, {})
                 accent_class = accent_props.get('class', '')
                 self._icon = accent_props.get('icon', None)
+                print('set accent', accent_class, self._icon)
                 anvil.js.window.document.getElementById(self.el_id).className = self.css_class + ' ' + accent_class
                 self.content = self._content
             else:
