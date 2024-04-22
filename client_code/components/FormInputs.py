@@ -1014,6 +1014,6 @@ class InlineMessage(BaseInput):
         if not self.visible:
             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
             self.content = self._content
-            self._icon = self.icon
-            self._accent = self.accent
+            self.icon = self._icon
+            self.accent = self._accent
             self.visible = True
