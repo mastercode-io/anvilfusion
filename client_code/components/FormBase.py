@@ -32,6 +32,7 @@ class FormBase:
                  fields=None,
                  sections=None,
                  tabs=None,
+                 buttons_mode='default',
                  buttons=None,
                  button_save_label='Save',
                  button_cancel_label='Cancel',
@@ -100,22 +101,10 @@ class FormBase:
             self.data = self.class_name(**instance_data)
 
         # create form control
-        self.form = ej.popups.Dialog({
+        form_config = {
             'header': header or string.capwords(self.action + ' ' + camel_to_title(self.form_model)),
             'content': self.form_content,
             'showCloseIcon': True,
-            'buttons': buttons or [
-                {
-                    'buttonModel':
-                        {'isPrimary': True, 'content': button_save_label, 'cssClass': 'da-save-button'},
-                    'click': self.form_save,
-                },
-                {
-                    'buttonModel':
-                        {'isPrimary': False, 'content': button_cancel_label, 'cssClass': 'da-cancel-button'},
-                    'click': self.form_cancel,
-                },
-            ],
             'target': self.target_el,
             'isModal': self.modal,
             'width': width,
@@ -128,7 +117,26 @@ class FormBase:
             'close': self.form_cancel,
             'beforeOpen': self.before_open,
             'created': self.form_created,
-        })
+        }
+        if buttons_mode == 'default':
+            form_config['buttons'] = [
+                {
+                    'buttonModel':
+                        {'isPrimary': True, 'content': button_save_label, 'cssClass': 'da-save-button'},
+                    'click': self.form_save,
+                },
+                {
+                    'buttonModel':
+                        {'isPrimary': False, 'content': button_cancel_label, 'cssClass': 'da-cancel-button'},
+                    'click': self.form_cancel,
+                },
+            ]
+        elif buttons_mode == 'custom':
+            form_config['buttons'] = buttons
+        elif buttons_mode == 'off':
+            form_config['buttons'] = []
+            form_config['showCloseIcon'] = False
+        self.form = ej.popups.Dialog(form_config)
         self.form.cssClass = 'e-fixed py-dialog'
         self.form.appendTo(self.container_el)
 
