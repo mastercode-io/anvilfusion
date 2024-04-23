@@ -134,7 +134,7 @@ class FormBase:
         elif buttons_mode == 'custom':
             form_config['buttons'] = buttons
         elif buttons_mode == 'off':
-            form_config['buttons'] = []
+            form_config['buttons'] = None
             form_config['showCloseIcon'] = False
         self.form = ej.popups.Dialog(form_config)
         self.form.cssClass = 'e-fixed py-dialog'
