@@ -294,7 +294,6 @@ def _from_row(unique_identifier, attributes, relationships, computes, system_att
                         ]
 
         for name, computed in computes.items():
-            print('computed', name, computed.depends_on)
             args = {dep: attrs[dep] for dep in computed.depends_on}
             attrs[name] = computed.compute(cls, args)
 
