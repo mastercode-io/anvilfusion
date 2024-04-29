@@ -293,6 +293,8 @@ class FormBase:
         self.form_el.addEventListener('keypress', form_submit)
 
     def destroy(self):
+        for field in self.form_fields:
+            field.destroy()
         self.form.destroy()
         self.container_el.remove()
 

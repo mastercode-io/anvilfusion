@@ -107,6 +107,10 @@ class MultiFieldInput(FormInputs.BaseInput):
             anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
             self.visible = False
 
+    def destroy(self):
+        for field in self.fields:
+            field.destroy()
+
 
 class HyperlinkInput(MultiFieldInput):
 
