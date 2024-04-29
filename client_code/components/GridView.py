@@ -404,7 +404,6 @@ class GridView:
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
 
-        print('debug A')
         if not self.edit_mode == 'inline':
             for item in self.toolbar_items:
                 item_title = item.get('tooltipText', item.get('text', ''))
@@ -430,6 +429,7 @@ class GridView:
                         f'#{self.container_id} .e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
         print('debug B')
+        print(self.toolbar_actions.keys())
         for action_item in self.toolbar_actions:
             if self.toolbar_actions[action_item]['input'].type != 'Input':
                 self.toolbar_actions[action_item]['input'].show()
