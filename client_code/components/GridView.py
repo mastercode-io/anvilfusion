@@ -322,9 +322,9 @@ class GridView:
                 GRID_DEFAULT_TOOLBAR_ITEMS
             )
             self.toolbar_items = tb_items.copy()
-            print('toolbar_items', self.toolbar_items)
         else:
             self.toolbar_items = []
+        print('toolbar_items', self.toolbar_items)
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(
