@@ -648,7 +648,7 @@ class DropdownInput(BaseInput):
             self.control = ej.dropdowns.DropDownList({
                 'placeholder': self.placeholder,
                 'cssClass': self.css_class,
-                'showClearButton': True,
+                'showClearButton': True if self.required else False,
                 'fields': self.fields,
                 'dataSource': self.options,
                 'allowFiltering': True,
@@ -657,7 +657,7 @@ class DropdownInput(BaseInput):
             self.control = ej.dropdowns.MultiSelect({
                 'placeholder': self.placeholder,
                 'cssClass': self.css_class,
-                'showClearButton': True,
+                'showClearButton': True if self.required else False,
                 'fields': self.fields,
                 'dataSource': self.options,
                 'showDropDownIcon': True,
