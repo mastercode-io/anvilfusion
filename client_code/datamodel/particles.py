@@ -266,7 +266,8 @@ def _from_row(unique_identifier, attributes, relationships, computes, system_att
             attrs["uid"] = attrs[unique_identifier]
 
         for name, relationship in relationships.items():
-            print(name, relationship)
+            if attrs["uid"] == "f85a3743-6b2b-41a4-b6d2-f2807d42ff28":
+                print(name, relationship)
             xref = None
             attrs[name] = None
 
