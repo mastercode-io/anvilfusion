@@ -266,6 +266,7 @@ def _from_row(unique_identifier, attributes, relationships, computes, system_att
             attrs["uid"] = attrs[unique_identifier]
 
         for name, relationship in relationships.items():
+            print(name, relationship)
             xref = None
             attrs[name] = None
 
