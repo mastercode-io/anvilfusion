@@ -225,6 +225,12 @@ def get_object_by(class_name, module_name, prop, value, max_depth=None, backgrou
 
 
 @anvil.server.callable
+def get_row(class_name, module_name, uid):
+    """Return the data tables row for a given object instance"""
+    return _get_row(module_name, class_name, uid)
+
+
+@anvil.server.callable
 def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth=None, background_task_id=None):
     """Return a list of object instances from a cached data tables search"""
     # print('fetch_objects', class_name, module_name, rows_id, page, page_length, max_depth, background_task_id)

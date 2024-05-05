@@ -334,6 +334,17 @@ def _get_by(cls, prop, value, max_depth=None):
 
 
 @classmethod
+def _get_row(cls, uid):
+    """Provides a method to retrieve a table row from a table"""
+    return anvil.server.call(
+        "get_row",
+        cls.__name__,
+        cls.__module__,
+        uid,
+    )
+
+
+@classmethod
 def _search(
         cls,
         page_length=100,
@@ -584,6 +595,7 @@ def model_type(cls):
         "attribute_value": attribute_value,
         "get": _get,
         "get_by": _get_by,
+        "get_row": _get_row,
         "search": _search,
         "get_grid_view": _get_grid_view,
         "get_row_view": _get_row_view,
