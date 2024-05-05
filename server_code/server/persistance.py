@@ -109,6 +109,8 @@ def _get_row(module_name, class_name, uid, background_task_id=None, **search_arg
     #         if user_permissions['locked_tenant']:
     #             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
     # return get_table(module_name, class_name).get(**search_args)
+    print('get_row', module_name, class_name, uid)
+    print(get_table(module_name, class_name).get(uid=uid))
     return get_table(module_name, class_name).get(uid=uid)
 
 
