@@ -493,12 +493,12 @@ class GridView:
         elif args.item.id == 'search':
             pass
         elif args.item.id == 'delete' and self.grid.getSelectedRecords():
+            args.cancel = True
             self.confirm_delete(args)
         elif (args.item.id in self.toolbar_actions and self.toolbar_actions[args.item.id]['toolbar_click'] and
               callable(self.toolbar_actions[args.item.id]['input'].action)):
             print('toolbar item', args.item.id)
             self.toolbar_actions[args.item.id]['input'].action(args)
-        else:
             args.cancel = True
 
     def context_menu_click(self, args):
