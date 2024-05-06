@@ -374,7 +374,7 @@ class GridView:
         self.grid_config['actionBegin'] = self.grid_action_handler
         self.grid_config['actionComplete'] = self.grid_action_handler
         self.grid_config['queryCellInfo'] = self.query_cell_info
-        self.grid_config['allowGrouping'] = True
+        # self.grid_config['allowGrouping'] = True
         # self.grid_config['recordClick'] = self.record_click
         # self.grid_config['rowSelecting'] = lambda args: print('rowSelecting', args)
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
