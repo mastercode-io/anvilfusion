@@ -147,6 +147,7 @@ class GridView:
         self.context_menu_actions = {}
         self.grid_data = data or []
         self.grid_el_id = uuid.uuid4()
+        self.grid_column_indexes = None
 
         print('GridView', view_name, model)
 
@@ -379,6 +380,7 @@ class GridView:
         print('show grid')
         # try:
         # print('\nGrid data source\n', self.grid.dataSource, '\n')
+        self.grid_column_indexes = {col.get('field'): i for i, col in enumerate(self.grid.columns)}
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
