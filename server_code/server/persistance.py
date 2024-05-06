@@ -492,8 +492,13 @@ def save_object(instance, audit, background_task_id=None):
         for name, relationship in instance._relationships.items()
         if relationship.with_many and getattr(instance, name) is not None
     }
+    none_relationships = {
+        name: None
+        for name, relationship in instance._relationships.items()
+        if getattr(instance, name) is None
+    }
 
-    members = {**attributes, **single_relationships, **multi_relationships}
+    members = {**attributes, **single_relationships, **multi_relationships, **none_relationships}
     cross_references = [
         {"name": name, "relationship": relationship}
         for name, relationship in instance._relationships.items()
