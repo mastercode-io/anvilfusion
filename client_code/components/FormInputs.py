@@ -45,6 +45,7 @@ class BaseInput:
                  save=True,
                  enabled=True,
                  el_id=None,
+                 el_style=None,
                  container_id=None,
                  on_change=None,
                  is_dependent=False,
@@ -61,6 +62,7 @@ class BaseInput:
         self.col_class = col_class
         self.col_style = col_style
         self.css_class = css_class
+        self.el_style = el_style
         self._value = value
         self.save = save
         self.is_dependent = is_dependent
@@ -216,7 +218,7 @@ class Button(BaseInput):
         self.icon = icon
         self.action = action
         self.is_primary = is_primary
-        self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
+        self.html = f'<div id="{self.el_id}" name="{self.el_id}" style="{self.el_style}">{self.content}</div>'
         self.save = False
 
     def create_control(self):
