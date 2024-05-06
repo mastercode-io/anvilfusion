@@ -253,6 +253,7 @@ class GridView:
                         'disableHtmlEncode': column.get('disable_html_encode', True),
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
                         'visible': column.get('visible', True),
+                        'allowGrouping': column.get('allow_grouping', True),
                         # 'valueAccessor': self.format_value,
                         # 'formatter': self.get_value,
                         # def get_value(column, data):
