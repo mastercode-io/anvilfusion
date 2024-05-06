@@ -341,6 +341,16 @@ class GridView:
                                                {'type': 'checkbox',
                                                 'field': '_selected',
                                                 'lockColumn': True,
+                                                'headerText': '',
+                                                'allowSorting': False,
+                                                'allowFiltering': False,
+                                                'allowEditing': False,
+                                                'allowResizing': False,
+                                                'allowReordering': False,
+                                                'showColumnMenu': False,
+                                                'showInColumnChooser': False,
+                                                'visible': True,
+
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']}
                                                )
             self.grid_config['rowSelected'] = self.row_selected
