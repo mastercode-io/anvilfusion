@@ -337,7 +337,9 @@ class GridView:
         if 'Selection' in self.grid_view['config']['modes']:
             self.grid_config['selectionSettings'] = GRID_DEFAULT_SELECTION_SETTINGS
             self.grid_config['columns'].insert(0,
-                                               {'type': 'checkbox', 'lockColumn': True,  # type: ignore
+                                               {'type': 'checkbox',
+                                                'field': '_selected',
+                                                'lockColumn': True,
                                                 'width': GRID_DEFAULT_SELECTION_SETTINGS['checkboxWidth']}
                                                )
             self.grid_config['rowSelected'] = self.row_selected
