@@ -380,7 +380,7 @@ class GridView:
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
 
         # create Grid control
-        print('\nGrid config\n', json.dumps(self.grid_config), '\n')
+        print('\nGrid config\n', self.grid_config, '\n')
         self.grid = ej.grids.Grid(self.grid_config)
 
     @staticmethod
