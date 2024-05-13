@@ -5,7 +5,7 @@ from . import FormBase
 from ..tools.utils import AppEnv, camel_to_title
 import string
 import uuid
-import time
+import json
 
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
 GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
@@ -307,7 +307,7 @@ class GridView:
                         action_item['input'].create_control()
                         toolbar_item['template'] = action_item['input'].control
                     tb_items.append(toolbar_item)
-                print('toolbar_actions', tb_items)
+                # print('toolbar_actions', tb_items)
             # for item_id in self.toolbar_actions.keys():
             #     toolbar_item = {
             #         'id': item_id,
@@ -326,7 +326,7 @@ class GridView:
             self.toolbar_items = tb_items.copy()
         else:
             self.toolbar_items = []
-        print('toolbar_items', self.toolbar_items)
+        # print('toolbar_items', self.toolbar_items)
         self.grid_config['toolbar'] = self.toolbar_items
         self.grid_config['toolbarClick'] = self.toolbar_click
         self.grid_config['toolbar'].insert(
@@ -381,7 +381,7 @@ class GridView:
 
         # create Grid control
         self.grid = ej.grids.Grid(self.grid_config)
-        # print('\nGrid config\n', json.dumps(self.grid_config), '\n')
+        print('\nGrid config\n', json.dumps(self.grid_config), '\n')
 
     @staticmethod
     def format_value(col, row, cell):
