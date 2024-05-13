@@ -380,8 +380,8 @@ class GridView:
         # self.grid_config['rowSelected'] = lambda args: print('rowSelected', args)
 
         # create Grid control
-        self.grid = ej.grids.Grid(self.grid_config)
         print('\nGrid config\n', json.dumps(self.grid_config), '\n')
+        self.grid = ej.grids.Grid(self.grid_config)
 
     @staticmethod
     def format_value(col, row, cell):
