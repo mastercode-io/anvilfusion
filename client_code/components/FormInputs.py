@@ -338,7 +338,7 @@ class TextInput(BaseInput):
 
         self.html = f'\
             <div class="form-group pm-form-group">\
-                <input type="text" class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <input type="text" class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
     def create_control(self):
@@ -377,10 +377,11 @@ class MultiLineInput(BaseInput):
     def __init__(self, rows=2, **kwargs):
         super().__init__(**kwargs)
 
-        self.html = f'\
+        self.html = (f'\
             <div class="form-group pm-form-group">\
-                <textarea class="form-control" id="{self.el_id}" name="{self.el_id}" rows="{rows}"></textarea>\
-            </div>'
+                <textarea class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}" rows="{rows}">\
+                </textarea>\
+            </div>')
 
     def create_control(self):
         self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
