@@ -389,7 +389,7 @@ class GridView:
 
     # get Grid data and refresh the view
     def form_show(self, get_data=True, **args):
-        print('show grid')
+        print('show grid', 'get_data', get_data)
         # try:
         # print('\nGrid data source\n', self.grid.dataSource, '\n')
         self.grid_column_indexes = {col.get('field'): i for i, col in enumerate(self.grid.columns)}
