@@ -46,8 +46,8 @@ def migrate_db_schema(logger=None):
     for class_name in models:
         if logger:
             logger(class_name)
-        else:
-            print(class_name)
+        # else:
+        print(class_name)
         sample_obj, sample_refs, update_log = update_model(class_name)
         
         if sample_obj:
@@ -61,8 +61,8 @@ def migrate_db_schema(logger=None):
     for line in migration_report:
         if logger:
             logger(line)
-        else:
-            print(line)
+        # else:
+        print(line)
 
 
 def update_model(class_name, force_update=False, self_ref=False):
