@@ -253,7 +253,7 @@ class FormBase:
             if 'rows' in section:
                 for row in section['rows']:
                     html_content += '<div class="row">'
-                    col_size = 12 // len(row)
+                    col_size = 12 // len(row) or 1
                     for field in row:
                         # print('field', field)
                         if field is None or isinstance(field, str):
