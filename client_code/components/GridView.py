@@ -397,22 +397,22 @@ class GridView:
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
             self.grid_height = None
-        print('grid height', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
+        print('grid height A', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
         print('container_el', self.container_el.id)
         if self.grid_height:
             self.container_el.innerHTML = f'\
-                <div id="da-grid-container" style="height:{self.grid_height}px;">\
+                <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
                     <div id="{self.grid_el_id}"></div>\
                 </div>'
         else:
             self.container_el.innerHTML = f'\
-                <div id="da-grid-container">\
+                <div id="da-grid-container-{self.grid_el_id}">\
                     <div id="{self.grid_el_id}"></div>\
                 </div>'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
         if self.grid_height is None:
-            print('grid height', self.grid.height, self.container_el.offsetHeight)
-            grid_container = self.container_el.querySelector('#da-grid-container')
+            print('grid height B', self.grid.height, self.container_el.offsetHeight)
+            grid_container = self.container_el.querySelector(f'#da-grid-container-{self.grid_el_id}')
             grid_container.style.height = f'{self.container_el.offsetHeight}px'
             # jQuery(f"#da-grid-container")[0].style.height = f'{self.container_el.offsetHeight}px'
             # print(jQuery(f"#da-grid-container")[0].style.height)
