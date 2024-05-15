@@ -53,7 +53,7 @@ class MultiFieldInput(FormInputs.BaseInput):
             self.sections = [{
                 'name': self.name,
                 'label': section_label,
-                'label_style': 'margin-top:-2px;',
+                # 'label_style': 'margin-top:-2px;',
                 'rows': section_rows,
             }]
         else:
