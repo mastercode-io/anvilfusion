@@ -355,6 +355,32 @@ class SectionSubtitle(BaseInput):
         anvil.js.window.document.getElementById(self.el_id).innerHTML = self._value
 
 
+class ContentFrame(BaseInput):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.save = False
+        if self.css_class is None:
+            self.css_class = 'da-dialog-section-header'
+        if self.el_style is None:
+            self.el_style = ''
+        self.html = f'<div id="{self.el_id}" class="{self.css_class}" style={self.el_style}>{self.value}</div>'
+
+    def create_control(self):
+        pass
+
+    def destroy(self):
+        pass
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        anvil.js.window.document.getElementById(self.el_id).innerHTML = self._value
+
+
 # Single line text input
 class TextInput(BaseInput):
     def __init__(self, input_type='text', **kwargs):
