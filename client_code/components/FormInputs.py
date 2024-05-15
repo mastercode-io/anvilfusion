@@ -332,13 +332,12 @@ class HiddenInput(BaseInput):
 
 
 class SectionSubtitle(BaseInput):
-    def __init__(self, content=None, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.save = False
-        self.content = content
         if self.css_class is None:
             self.css_class = 'da-dialog-section-subtitle'
-        self.html = f'<h5 id="{self.el_id}" class="{self.css_class}" style={self.el_style}>{self.content}</h5>'
+        self.html = f'<h5 id="{self.el_id}" class="{self.css_class}" style={self.el_style}>{self.value}</h5>'
 
     def create_control(self):
         pass
@@ -353,8 +352,7 @@ class SectionSubtitle(BaseInput):
     @value.setter
     def value(self, value):
         self._value = value
-        self.content = value
-        anvil.js.window.document.getElementById(self.el_id).innerHTML = self.content
+        anvil.js.window.document.getElementById(self.el_id).innerHTML = self._value
 
 
 # Single line text input
