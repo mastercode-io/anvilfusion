@@ -336,7 +336,7 @@ class SectionSubtitle(BaseInput):
         super().__init__(**kwargs)
         self.save = False
         if self.css_class is None:
-            self.css_class = 'da-dialog-section-subtitle'
+            self.css_class = 'da-dialog-section-header'
         self.html = f'<h5 id="{self.el_id}" class="{self.css_class}" style={self.el_style}>{self.value}</h5>'
 
     def create_control(self):
