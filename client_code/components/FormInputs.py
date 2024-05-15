@@ -193,13 +193,15 @@ class BaseInput:
         return self.edit_el
 
     def grid_edit_read(self, input_element, input_value):
-        return self.control.value
+        if self._control is not None:
+            return self.control.value
 
     def grid_edit_write(self, args):
         self.create_control()
-        self.control.appendTo(self.edit_el)
-        if args.column.field in args.rowData:
-            self.control.value = args.rowData[args.column.field]
+        if self.control is not None:
+            self.control.appendTo(self.edit_el)
+            if args.column.field in args.rowData:
+                self.control.value = args.rowData[args.column.field]
 
     def grid_edit_destroy(self):
         pass
@@ -327,6 +329,32 @@ class HiddenInput(BaseInput):
     @value.setter
     def value(self, value):
         self._value = value
+
+
+class SectionSubtitle(BaseInput):
+    def __init__(self, content=None, **kwargs):
+        super().__init__(**kwargs)
+        self.save = False
+        self.content = content
+        if self.css_class is None:
+            self.css_class = 'da-dialog-section-subtitle'
+        self.html = f'<h5 id="{self.el_id}" class="{self.css_class}" style={self.el_style}>{self.content}</h5>'
+
+    def create_control(self):
+        pass
+
+    def destroy(self):
+        pass
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        self.content = value
+        anvil.js.window.document.getElementById(self.el_id).innerHTML = self.content
 
 
 # Single line text input
