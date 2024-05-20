@@ -46,7 +46,7 @@ class Tabs:
             'items': [{'header': {'text': item['label']}, 'content': f"#{item['content_id']}"}
                       for item in self.items.values()],
             'animation': {
-                'enable': True,
+                'enable': False,
                 'previous': {'effect': 'FadeOut', 'duration': 100},
                 'next': {'effect': 'FadeIn', 'duration': 100}
             },
