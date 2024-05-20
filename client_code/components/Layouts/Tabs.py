@@ -35,7 +35,7 @@ class Tabs:
     def tabs_content(self):
         html = f'<div id="{self.tabs_id}"></div>'
         for item in self.items.values():
-            html += f'<div id="{item["content_id"]}">{item["content"]}</div>'
+            html += f'<div id="{item["content_id"]}" style="display:none;">{item["content"]}</div>'
         return html
 
 
