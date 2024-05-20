@@ -45,6 +45,11 @@ class Tabs:
         self.tabs = ej.navigations.Tab({
             'items': [{'header': {'text': item['label']}, 'content': f"#{item['content_id']}"}
                       for item in self.items.values()],
-            # 'selectedItem': self.selected_item,
+            'animation': {
+                'enable': True,
+                'previous': {'effect': 'FadeOut', 'duration': 100},
+                'next': {'effect': 'FadeIn', 'duration': 100}
+            },
+            'selectedItem': self.selected_item,
         })
         self.tabs.appendTo(jQuery(f'#{self.tabs_id}')[0])
