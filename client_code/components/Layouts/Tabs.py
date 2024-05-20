@@ -47,4 +47,4 @@ class Tabs:
                       for item in self.items.values()],
             'selectedItem': self.selected_item,
         })
-        self.tabs.appendTo(f"#{self.tabs_id}")
+        self.tabs.appendTo(anvil.js.window.document.getElementById(self.tabs_id))
