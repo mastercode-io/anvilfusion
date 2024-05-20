@@ -42,6 +42,7 @@ class Tabs:
 
     def form_show(self):
         anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
+        print([{'header': {'text': item['label']}, 'content': f"{item['content']}"} for item in self.items.values()])
         self.tabs = ej.navigations.Tab({
             'items': [{'header': {'text': item['label']}, 'content': f"{item['content']}"}
                       for item in self.items.values()],
