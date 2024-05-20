@@ -46,6 +46,6 @@ class Tabs:
         self.tabs = ej.navigations.Tab({
             'items': [{'header': {'text': item['label']}, 'content': f"{item['content']}"}
                       for item in self.items.values()],
-            'selectedItem': self.selected_item,
+            # 'selectedItem': self.selected_item,
         })
         self.tabs.appendTo(jQuery(f'#{self.tabs_id}')[0])
