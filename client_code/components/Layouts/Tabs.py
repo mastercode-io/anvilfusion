@@ -15,19 +15,19 @@ class Tabs:
         self.container_id = container_id or f'tabs-container-{uuid.uuid4()}'
         self.tabs_id = f'tabs-control-{uuid.uuid4()}'
         self.tabs_config = tabs_config or []
-        self.selected_tab = selected_item
+        self.selected_item = selected_item
         self.tabs = None
 
         self.items = {}
         for tab in self.tabs_config:
             item = {
                 'id': tab.get('id') or f"tab-{tab['name']}-{uuid.uuid4()}",
-                'label': tab.get('label') or 'Tab',
+                'label': tab.get('label') or tab['name'],
                 'content_id': f"tab-{tab['name']}-content-{uuid.uuid4()}",
                 'content': tab.get('content') or '',
                 'enabled': tab.get('enabled') or True
             }
-            self.items[item['name']] = item
+            self.items[tab['name']] = item
 
         self.html = self.tabs_content()
 
@@ -44,6 +44,6 @@ class Tabs:
         anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
         self.tabs = ej.navigations.Tab({
             'items': self.items,
-            'selected': self.selected_tab
+            'selectedItem': self.selected_item,
         })
         self.tabs.appendTo(f"#{self.tabs_id}")
