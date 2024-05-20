@@ -697,7 +697,6 @@ class DropdownInput(BaseInput):
             self.fields = {'text': text_field, 'value': value_field}
             self._options = options
         super().__init__(**kwargs)
-        print('options', self.options)
 
     def create_control(self):
         if self.select == 'single':
