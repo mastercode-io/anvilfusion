@@ -83,7 +83,7 @@ class BaseInput:
 
         self.html = f'\
             <div class="form-group da-form-group">\
-                <input class="form-control" id="{self.el_id}" name="{self.el_id}">\
+                <div class="form-control" id="{self.el_id}" name="{self.el_id}"></div>\
             </div>'
 
     @property
