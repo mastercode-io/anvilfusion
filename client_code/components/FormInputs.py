@@ -86,7 +86,7 @@ class BaseInput:
         else:
             self.html = f'\
                 <div class="form-group da-form-group">\
-                    <div class="form-control" id="{self.el_id}" name="{self.el_id}"></div>\
+                    <input class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}">\
                 </div>'
 
     @property
@@ -171,14 +171,6 @@ class BaseInput:
                 'model': kwargs['model'],
                 'value': self.value,
             })
-            print('create_control', self.name,
-                  {
-                      'mode': self.inplace_mode,
-                      'type': kwargs['control_type'],
-                      'model': kwargs['model'],
-                      'value': self.value,
-                  }
-                  )
 
     def show(self):
         if not self.visible:
@@ -387,10 +379,11 @@ class TextInput(BaseInput):
         self.input_type = input_type
         self.element = None
 
-        # self.html = f'\
-        #     <div class="form-group pm-form-group">\
-        #         <input type="text" class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}">\
-        #     </div>'
+        if self.inplace_mode is None:
+            self.html = f'\
+                <div class="form-group da-form-group">\
+                    <input type="text" class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}">\
+                </div>'
 
     def create_control(self):
         if self.inplace_mode is not None:
@@ -436,11 +429,12 @@ class MultiLineInput(BaseInput):
     def __init__(self, rows=2, **kwargs):
         super().__init__(**kwargs)
 
-        # self.html = (f'\
-        #     <div class="form-group pm-form-group">\
-        #         <textarea class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}" rows="{rows}">\
-        #         </textarea>\
-        #     </div>')
+        if self.inplace_mode is None:
+            self.html = (f'\
+                <div class="form-group pm-form-group">\
+                    <textarea class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}" rows="{rows}">\
+                    </textarea>\
+                </div>')
 
     def create_control(self):
         if self.inplace_mode is not None:
@@ -501,7 +495,6 @@ class DateInput(BaseInput):
     @property
     def value(self):
         if self._control is not None and self.control.value is not None:
-            print('get value', self.control.value)
             epoch = self.control.value.getTime()
             self._value = datetime.date.fromtimestamp(epoch / 1000)
         return self._value
