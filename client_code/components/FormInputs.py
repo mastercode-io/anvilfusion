@@ -168,7 +168,14 @@ class BaseInput:
                 'model': kwargs['model'],
                 'value': self.value,
             })
-            print('create_control', self.name, kwargs['control_type'], kwargs['model'])
+            print('create_control', self.name,
+                  {
+                      'mode': self.inplace_mode,
+                      'type': kwargs['control_type'],
+                      'model': kwargs['model'],
+                      'value': self.value,
+                  }
+                  )
 
     def show(self):
         if not self.visible:
@@ -914,7 +921,7 @@ class SignatureInput(BaseInput):
         canvas_height = f'height:{self.height};' if self.height is not None else ''
         canvas_width = f'width:{self.width};' if self.width is not None else ''
         self.html = f'<div id="parent-{self.el_id}">\
-      <div class="form-group pm-form-group" style="{canvas_height}{canvas_width}">{self.label}<br>\
+      <div class="form-group da-form-group" style="{canvas_height}{canvas_width}">{self.label}<br>\
         <canvas class="form-control" style="height:100%;width:100%;" id="{self.el_id}" name="{self.el_id}"></canvas>\
       </div></div>'
 
