@@ -826,7 +826,7 @@ class LookupInput(DropdownInput):
                     view_config={'columns': [{'name': col} for col in cols]},
                     filters=filters, search_queries=search_queries)
         if data:
-            print('lookup data', data)
+            # print('lookup data', data)
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
