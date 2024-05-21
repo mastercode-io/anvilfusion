@@ -169,7 +169,6 @@ class BaseInput:
                 'mode': self.inplace_mode,
                 'type': kwargs['control_type'],
                 'model': kwargs['model'],
-                # 'value': self.value,
             })
 
     def show(self):
@@ -748,6 +747,7 @@ class DropdownInput(BaseInput):
                 'cssClass': self.css_class,
                 'showClearButton': False if self.required else True,
                 'showDropDownIcon': True if self.select == 'multi' else False,
+                'allowObjectBinding': True if self.value_field == 'uid' else False,
                 'fields': self.fields,
                 'dataSource': self.options,
                 'allowFiltering': True,
