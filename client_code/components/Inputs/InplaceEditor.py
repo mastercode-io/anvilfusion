@@ -20,7 +20,7 @@ class InplaceEditor(BaseInput):
             'mode': self.edit_mode,
             'value': self._value,
             'type': self.input_type,
-            'save': self.submit,
+            # 'save': self.submit,
         })
 
     def submit(self, **event_args):
