@@ -1,6 +1,4 @@
 # Form input fields and controls
-import uuid
-
 import anvil.js
 from anvil import BlobMedia
 from anvil.js.window import jQuery, ej, FileReader, Uint8Array, Event
@@ -8,6 +6,7 @@ from ..datamodel.types import FieldTypes
 from ..datamodel.particles import ModelTypeBase
 from ..tools.utils import AppEnv, DotDict, new_el_id, label_to_id
 import datetime
+import uuid
 
 
 # Implemented form input field control classes
@@ -231,24 +230,6 @@ class Button(BaseInput):
             'isPrimary': True if self.is_primary else False,
         })
 
-    # def show(self):
-    #     super().show()
-        # self.control.element.onclick = self.action
-    #     if not self.visible:
-    #         if self._control is None:
-    #             anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-    #             self.create_control()
-    #             self.control.appendTo(f"#{self.el_id}")
-    #         else:
-    #             anvil.js.window.document.getElementById(self.container_id).style.display = 'inline-flex'
-    #         self.value = self._value
-    #         self.visible = True
-    #
-    # def hide(self):
-    #     if self.visible:
-    #         self.visible = False
-    #         anvil.js.window.document.getElementById(self.container_id).style.display = 'none'
-
     def destroy(self):
         pass
 
@@ -292,7 +273,6 @@ class DropdownButton(Button):
         super().__init__(**kwargs)
         self.type = 'Input'
         self.options = options
-        # self.html = f'<div id="{self.el_id}" name="{self.el_id}">{self.content}</div>'
 
     def create_control(self):
         self.control = ej.splitbuttons.DropDownButton({
@@ -401,27 +381,28 @@ class TextInput(BaseInput):
 
     def show(self):
         super().show()
+        self.element = anvil.js.window.document.getElementById(self.el_id)
         if self.input_type == 'tel':
-            self.element = anvil.js.window.document.getElementById(self.el_id)
             self.control.addEventListener('input', self.format_phone_number)
 
     # @staticmethod
     def format_phone_number(self, args):
-        input_value = "".join(filter(str.isdigit, self.element.value))
-        print(input_value)
-        if input_value:
-            print('debug')
-            input_value = input_value[:10]
-            formatted_value = ""
-            if len(input_value) > 0:
-                formatted_value = "(" + input_value[:3]
-            if len(input_value) > 3:
-                formatted_value += ") " + input_value[3:6]
-            if len(input_value) > 6:
-                formatted_value += "-" + input_value[6:]
-            self.element.value = formatted_value
-        else:
-            self.element.value = input_value
+        if isinstance(self.element.value, str):
+            input_value = "".join(filter(str.isdigit, self.element.value))
+            print(input_value)
+            if input_value:
+                print('debug')
+                input_value = input_value[:10]
+                formatted_value = ""
+                if len(input_value) > 0:
+                    formatted_value = "(" + input_value[:3]
+                if len(input_value) > 3:
+                    formatted_value += ") " + input_value[3:6]
+                if len(input_value) > 6:
+                    formatted_value += "-" + input_value[6:]
+                self.element.value = formatted_value
+            else:
+                self.element.value = input_value
 
 
 # Multi line text input
