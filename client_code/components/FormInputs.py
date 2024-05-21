@@ -169,7 +169,7 @@ class BaseInput:
                 'mode': self.inplace_mode,
                 'type': kwargs['control_type'],
                 'model': kwargs['model'],
-                'value': self.value,
+                # 'value': self.value,
             })
 
     def show(self):
