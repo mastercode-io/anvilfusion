@@ -808,7 +808,7 @@ class LookupInput(DropdownInput):
                  add_item=False, inline_grid=False,
                  **kwargs):
         self.model = model
-        self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title
+        self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
         self.compute_option = compute_option
         self.add_item = add_item
         self.add_item_label = add_item_label or 'Add Item'
