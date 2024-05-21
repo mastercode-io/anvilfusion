@@ -744,12 +744,15 @@ class DropdownInput(BaseInput):
             control_type = 'DropDownList' if self.select == 'single' else 'MultiSelect'
             model = {
                 'placeholder': self.placeholder,
+                'emptyText': self.placeholder
                 'cssClass': self.css_class,
                 'showClearButton': False if self.required else True,
                 'showDropDownIcon': True if self.select == 'multi' else False,
                 # 'allowObjectBinding': True if self.value_field == 'uid' else False,
                 'fields': self.fields,
                 'dataSource': self.options,
+                'primaryKey': 'uid',
+                'name': self.name,
                 'allowFiltering': True,
             }
             super().create_control(control_type=control_type, model=model)
