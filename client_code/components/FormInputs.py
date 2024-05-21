@@ -81,10 +81,13 @@ class BaseInput:
         self.grid_data = None
         self.edit_el = None
 
-        self.html = f'\
-            <div class="form-group da-form-group">\
-                <div class="form-control" id="{self.el_id}" name="{self.el_id}"></div>\
-            </div>'
+        if self.inplace_mode is not None:
+            self.html = f'<div id="{self.el_id}"></div>'
+        else:
+            self.html = f'\
+                <div class="form-group da-form-group">\
+                    <div class="form-control" id="{self.el_id}" name="{self.el_id}"></div>\
+                </div>'
 
     @property
     def grid_column(self):
@@ -384,10 +387,10 @@ class TextInput(BaseInput):
         self.input_type = input_type
         self.element = None
 
-        self.html = f'\
-            <div class="form-group pm-form-group">\
-                <input type="text" class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}">\
-            </div>'
+        # self.html = f'\
+        #     <div class="form-group pm-form-group">\
+        #         <input type="text" class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}">\
+        #     </div>'
 
     def create_control(self):
         if self.inplace_mode is not None:
@@ -433,11 +436,11 @@ class MultiLineInput(BaseInput):
     def __init__(self, rows=2, **kwargs):
         super().__init__(**kwargs)
 
-        self.html = (f'\
-            <div class="form-group pm-form-group">\
-                <textarea class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}" rows="{rows}">\
-                </textarea>\
-            </div>')
+        # self.html = (f'\
+        #     <div class="form-group pm-form-group">\
+        #         <textarea class="form-control {self.css_class}" id="{self.el_id}" name="{self.el_id}" rows="{rows}">\
+        #         </textarea>\
+        #     </div>')
 
     def create_control(self):
         if self.inplace_mode is not None:
@@ -492,7 +495,8 @@ class DateInput(BaseInput):
                 'format': self.string_format,
             }
             super().create_control(control_type='Date', model=model)
-        self.control = ej.calendars.DatePicker({'placeholder': self.placeholder, 'format': self.string_format})
+        else:
+            self.control = ej.calendars.DatePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
     def value(self):
@@ -609,9 +613,9 @@ class CheckboxInput(BaseInput):
         super().__init__(**kwargs)
 
         self.html = f'\
-      <div class="form-group pm-form-group">\
-        <input type="checkbox" class="form-control da-checkbox-input" id="{self.el_id}" name="{self.el_id}">\
-      </div>'
+            <div class="form-group pm-form-group">\
+                <input type="checkbox" class="form-control da-checkbox-input" id="{self.el_id}" name="{self.el_id}">\
+            </div>'
 
         self.grid_column['type'] = 'boolean'
         self.grid_column['displayAsCheckBox'] = True
@@ -921,9 +925,9 @@ class SignatureInput(BaseInput):
         canvas_height = f'height:{self.height};' if self.height is not None else ''
         canvas_width = f'width:{self.width};' if self.width is not None else ''
         self.html = f'<div id="parent-{self.el_id}">\
-      <div class="form-group da-form-group" style="{canvas_height}{canvas_width}">{self.label}<br>\
-        <canvas class="form-control" style="height:100%;width:100%;" id="{self.el_id}" name="{self.el_id}"></canvas>\
-      </div></div>'
+            <div class="form-group da-form-group" style="{canvas_height}{canvas_width}">{self.label}<br>\
+                <canvas class="form-control" style="height:100%;width:100%;" id="{self.el_id}" name="{self.el_id}"></canvas>\
+            </div></div>'
 
     def create_control(self):
         self.control = ej.inputs.Signature({'placeholder': self.placeholder})
