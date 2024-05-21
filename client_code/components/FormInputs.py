@@ -439,7 +439,7 @@ class MultiLineInput(BaseInput):
                 'placeholder': self.placeholder,
                 'multiline': True
             }
-            super().create_control(control_type='TextBox', model=model)
+            super().create_control(control_type='Text', model=model)
         else:
             self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
 
@@ -460,7 +460,7 @@ class NumberInput(BaseInput):
                 'showSpinButton': False,
                 'format': self.number_format,
             }
-            super().create_control(control_type='NumericTextBox', model=model)
+            super().create_control(control_type='Numeric', model=model)
         else:
             self.control = ej.inputs.NumericTextBox({
                 'placeholder': self.placeholder,
@@ -484,7 +484,7 @@ class DateInput(BaseInput):
                 'placeholder': self.placeholder,
                 'format': self.string_format,
             }
-            super().create_control(control_type='DatePicker', model=model)
+            super().create_control(control_type='Date', model=model)
         self.control = ej.calendars.DatePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
