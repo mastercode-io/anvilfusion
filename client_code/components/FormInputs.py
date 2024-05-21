@@ -176,7 +176,7 @@ class BaseInput:
             if self._control is None:
                 self.create_control()
             if self.control:
-                self.control.appendTo(f"#{self.el_id}")
+                self.control.appendTo(jQuery(f"#{self.el_id}")[0])
             self.value = self._value
             self.visible = True
             self.enabled = self._enabled
