@@ -168,6 +168,7 @@ class BaseInput:
                 'model': kwargs['model'],
                 'value': self.value,
             })
+            print('create_control', self.name, kwargs['control_type'], kwargs['model'])
 
     def show(self):
         if not self.visible:
