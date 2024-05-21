@@ -881,9 +881,15 @@ class LookupInput(DropdownInput):
     def value(self):
         if self._control and self.control.value is not None:
             if self.select == 'single':
-                self._value = self.control.getDataByValue(self.control.value)
+                if self.inplace_mode is None:
+                    self._value = self.control.getDataByValue(self.control.value)
+                else:
+                    self._value = self.control.model.getDataByValue(self.control.value)
             else:
-                self._value = [self.control.getDataByValue(item) for item in self.control.value]
+                if self.inplace_mode is None:
+                    self._value = [self.control.getDataByValue(item) for item in self.control.value]
+                else:
+                    self._value = [self.control.model.getDataByValue(item) for item in self.control.value]
         return self._value
 
     @value.setter
