@@ -22,7 +22,7 @@ class InplaceEditor(BaseInput):
             'value': self.value,
         }
         if self.input_control_id is not None:
-            control_config['model'] = f'#{self.input_control_id}'
+            control_config['template'] = f'#{self.input_control_id}'
         else:
             control_config['type'] = self.input_type
         print('InplaceEditor config', control_config)
