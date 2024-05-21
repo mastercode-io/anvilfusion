@@ -479,7 +479,7 @@ class DateInput(BaseInput):
         super().__init__(**kwargs)
         self.string_format = string_format or 'dd-MM-yyyy'
         self.grid_column['type'] = 'date'
-        self.grid_column['format'] = {'type': 'date', 'format': 'dd-MM-yyyy'}
+        self.grid_column['format'] = {'type': 'date', 'format': self.string_format}
 
     def create_control(self):
         if self.inplace_mode is not None:
@@ -527,10 +527,18 @@ class DateTimeInput(BaseInput):
         super().__init__(**kwargs)
         self.string_format = string_format or 'dd-MM-yyyy hh:mm a'
         self.grid_column['type'] = 'dateTime'
-        self.grid_column['format'] = {'type': 'dateTime', 'format': 'dd-MM-yyyy hh:mm a'}
+        self.grid_column['format'] = {'type': 'dateTime', 'format': self.string_format}
 
     def create_control(self):
-        self.control = ej.calendars.DateTimePicker({'placeholder': self.placeholder, 'format': self.string_format})
+        if self.inplace_mode is not None:
+            model = {
+                'type': 'DateTime',
+                'placeholder': self.placeholder,
+                'format': self.string_format,
+            }
+            super().create_control(control_type='Date', model=model)
+        else:
+            self.control = ej.calendars.DateTimePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
     def value(self):
@@ -565,11 +573,20 @@ class TimeInput(BaseInput):
     def __init__(self, string_format=None, **kwargs):
         super().__init__(**kwargs)
 
+        self.string_format = string_format or 'hh:mm a'
         self.grid_column['type'] = 'dateTime'
         self.grid_column['format'] = {'type': 'dateTime', 'format': 'hh:mm a'}
 
     def create_control(self):
-        self.control = ej.calendars.TimePicker({'placeholder': self.placeholder, 'format': 'hh:mm a'})
+        if self.inplace_mode is not None:
+            model = {
+                'type': 'Time',
+                'placeholder': self.placeholder,
+                'format': self.string_format,
+            }
+            super().create_control(control_type='Date', model=model)
+        else:
+            self.control = ej.calendars.TimePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
     def value(self):
@@ -724,25 +741,38 @@ class DropdownInput(BaseInput):
         super().__init__(**kwargs)
 
     def create_control(self):
-        if self.select == 'single':
-            self.control = ej.dropdowns.DropDownList({
+        if self.inplace_mode is not None:
+            control_type = 'DropDownList' if self.select == 'single' else 'MultiSelect'
+            model = {
                 'placeholder': self.placeholder,
                 'cssClass': self.css_class,
                 'showClearButton': False if self.required else True,
+                'showDropDownIcon': True if self.select == 'multi' else False,
                 'fields': self.fields,
                 'dataSource': self.options,
                 'allowFiltering': True,
-            })
-        elif self.select == 'multi':
-            self.control = ej.dropdowns.MultiSelect({
-                'placeholder': self.placeholder,
-                'cssClass': self.css_class,
-                'showClearButton': False if self.required else True,
-                'fields': self.fields,
-                'dataSource': self.options,
-                'showDropDownIcon': True,
-                'allowFiltering': True,
-            })
+            }
+            super().create_control(control_type=control_type, model=model)
+        else:
+            if self.select == 'single':
+                self.control = ej.dropdowns.DropDownList({
+                    'placeholder': self.placeholder,
+                    'cssClass': self.css_class,
+                    'showClearButton': False if self.required else True,
+                    'fields': self.fields,
+                    'dataSource': self.options,
+                    'allowFiltering': True,
+                })
+            elif self.select == 'multi':
+                self.control = ej.dropdowns.MultiSelect({
+                    'placeholder': self.placeholder,
+                    'cssClass': self.css_class,
+                    'showClearButton': False if self.required else True,
+                    'fields': self.fields,
+                    'dataSource': self.options,
+                    'showDropDownIcon': True,
+                    'allowFiltering': True,
+                })
 
     @property
     def value(self):
