@@ -501,6 +501,7 @@ class DateInput(BaseInput):
     @property
     def value(self):
         if self._control is not None and self.control.value is not None:
+            print('get value', self.control.value)
             epoch = self.control.value.getTime()
             self._value = datetime.date.fromtimestamp(epoch / 1000)
         return self._value
