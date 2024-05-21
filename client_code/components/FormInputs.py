@@ -37,6 +37,7 @@ class BaseInput:
                  float_label=True,
                  shadow_label=False,
                  placeholder=None,
+                 inplace_mode=None,
                  col_class=None,
                  col_style=None,
                  css_class=None,
@@ -58,6 +59,7 @@ class BaseInput:
         self.shadow_label = f'<div class="da-form-input-shadow-label">{label}</div>' if shadow_label is True else ''
         self.float_label = float_label
         self.placeholder = placeholder or self.label
+        self.inplace_mode = inplace_mode
         self.col_class = col_class
         self.col_style = col_style
         self.css_class = css_class
@@ -158,8 +160,14 @@ class BaseInput:
             label_el = anvil.js.window.document.getElementById(f'label_{self.el_id}')
             label_el.innerHTML += '<span style="color:red;!important"> *</span>'
 
-    def create_control(self):
-        pass
+    def create_control(self, **kwargs):
+        if self.inplace_mode is not None:
+            self.control = ej.inplaceeditor.InPlaceEditor({
+                'mode': self.inplace_mode,
+                'type': kwargs['control_type'],
+                'model': kwargs['model'],
+                'value': self.value,
+            })
 
     def show(self):
         if not self.visible:
@@ -374,10 +382,17 @@ class TextInput(BaseInput):
             </div>'
 
     def create_control(self):
-        self.control = ej.inputs.TextBox({
-            'placeholder': self.placeholder,
-            'type': self.input_type,
-        })
+        if self.inplace_mode is not None:
+            model = {
+                'type': self.input_type,
+                'placeholder': self.placeholder,
+            }
+            super().create_control(control_type='Text', model=model)
+        else:
+            self.control = ej.inputs.TextBox({
+                'placeholder': self.placeholder,
+                'type': self.input_type,
+            })
 
     def show(self):
         super().show()
@@ -417,7 +432,15 @@ class MultiLineInput(BaseInput):
             </div>')
 
     def create_control(self):
-        self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
+        if self.inplace_mode is not None:
+            model = {
+                'type': 'Text',
+                'placeholder': self.placeholder,
+                'multiline': True
+            }
+            super().create_control(control_type='TextBox', model=model)
+        else:
+            self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
 
 
 # Number input
@@ -430,11 +453,19 @@ class NumberInput(BaseInput):
         self.grid_column['format'] = 'C2'
 
     def create_control(self):
-        self.control = ej.inputs.NumericTextBox({
-            'placeholder': self.placeholder,
-            'showSpinButton': False,
-            'format': self.number_format,
-        })
+        if self.inplace_mode is not None:
+            model = {
+                'placeholder': self.placeholder,
+                'showSpinButton': False,
+                'format': self.number_format,
+            }
+            super().create_control(control_type='NumericTextBox', model=model)
+        else:
+            self.control = ej.inputs.NumericTextBox({
+                'placeholder': self.placeholder,
+                'showSpinButton': False,
+                'format': self.number_format,
+            })
 
 
 # Date picker input
@@ -446,6 +477,13 @@ class DateInput(BaseInput):
         self.grid_column['format'] = {'type': 'date', 'format': 'dd-MM-yyyy'}
 
     def create_control(self):
+        if self.inplace_mode is not None:
+            model = {
+                'type': 'Date',
+                'placeholder': self.placeholder,
+                'format': self.string_format,
+            }
+            super().create_control(control_type='DatePicker', model=model)
         self.control = ej.calendars.DatePicker({'placeholder': self.placeholder, 'format': self.string_format})
 
     @property
