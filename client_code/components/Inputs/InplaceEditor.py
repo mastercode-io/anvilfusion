@@ -5,7 +5,7 @@ from anvil.js.window import ej
 
 class InplaceEditor(BaseInput):
     def __init__(self,
-                 input_type=None,
+                 input_type='Text',
                  edit_mode='Inline',
                  **kwargs):
         super().__init__(**kwargs)
