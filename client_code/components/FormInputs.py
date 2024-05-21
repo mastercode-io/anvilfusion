@@ -744,7 +744,7 @@ class DropdownInput(BaseInput):
             control_type = 'DropDownList' if self.select == 'single' else 'MultiSelect'
             model = {
                 'placeholder': self.placeholder,
-                'emptyText': self.placeholder
+                'emptyText': self.placeholder,
                 'cssClass': self.css_class,
                 'showClearButton': False if self.required else True,
                 'showDropDownIcon': True if self.select == 'multi' else False,
