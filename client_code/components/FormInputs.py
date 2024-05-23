@@ -785,6 +785,7 @@ class DropdownInput(BaseInput):
 
     @value.setter
     def value(self, value):
+        print('DDL set value', value, )
         self._value = value
         if self._control is not None:
             if self.inplace_mode is None:
