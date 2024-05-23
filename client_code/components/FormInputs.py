@@ -787,7 +787,10 @@ class DropdownInput(BaseInput):
     def value(self, value):
         self._value = value
         if self._control is not None:
-            self.control.value = value
+            if self.inplace_mode is None:
+                self.control.value = value
+            else:
+                self.control.model.value = value
 
     @property
     def options(self):
