@@ -169,6 +169,8 @@ class BaseInput:
                 'mode': self.inplace_mode,
                 'type': kwargs['control_type'],
                 'model': kwargs['model'],
+                'primaryKey': kwargs.get('primaryKey', ''),
+                'name': kwargs.get('name', ''),
             })
 
     def show(self):
@@ -752,11 +754,12 @@ class DropdownInput(BaseInput):
                 # 'allowObjectBinding': True if self.value_field == 'uid' else False,
                 'fields': self.fields,
                 'dataSource': self.options,
-                'primaryKey': 'uid',
-                'name': self.text_field,
                 'allowFiltering': True,
             }
-            super().create_control(control_type=control_type, model=model)
+            super().create_control(control_type=control_type,
+                                   model=model,
+                                   primaryKey=self.value_field,
+                                   name=self.text_field)
         else:
             if self.select == 'single':
                 self.control = ej.dropdowns.DropDownList({
