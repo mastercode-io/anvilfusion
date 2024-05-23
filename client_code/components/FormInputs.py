@@ -731,6 +731,7 @@ class DropdownInput(BaseInput):
         self.select = select
         self.add_el_id = None
         self.value_field = value_field
+        self.text_field = text_field
         if isinstance(options, list) and options != [] and isinstance(options[0], str):
             self.fields = {'text': 'text', 'value': 'value'}
             self._options = [{'text': option, 'value': option} for option in options]
@@ -752,7 +753,7 @@ class DropdownInput(BaseInput):
                 'fields': self.fields,
                 'dataSource': self.options,
                 'primaryKey': 'uid',
-                'name': self.name,
+                'name': self.text_field,
                 'allowFiltering': True,
             }
             super().create_control(control_type=control_type, model=model)
