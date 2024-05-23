@@ -788,10 +788,11 @@ class DropdownInput(BaseInput):
         print('DDL set value', value, )
         self._value = value
         if self._control is not None:
-            if self.inplace_mode is None:
-                self.control.value = value
-            else:
-                self.control.model.value = value
+            self.control.value = value
+            # if self.inplace_mode is None:
+            #     self.control.value = value
+            # else:
+            #     self.control.model.value = value
 
     @property
     def options(self):
