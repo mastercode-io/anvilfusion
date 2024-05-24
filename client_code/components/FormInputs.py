@@ -843,7 +843,7 @@ class DropdownInput(BaseInput):
             print('element id', self.control.element.id)
             print(self.control.element.querySelector('.e-editable-value').innerText)
             print(self.control.element.querySelector('.e-editable-value').outerHTML)
-            time.sleep(0.5)
+            time.sleep(0.1)
             print(self.control.element.querySelector('.e-editable-value').outerHTML)
             self.value = self._value
             # self.control.element.querySelector('.e-editable-value').innerText = args['value']
