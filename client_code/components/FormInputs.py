@@ -745,23 +745,26 @@ class DropdownInput(BaseInput):
     def create_control(self):
         if self.inplace_mode is not None:
             control_type = 'DropDownList' if self.select == 'single' else 'MultiSelect'
-            model = {
-                'placeholder': self.placeholder,
-                'emptyText': self.placeholder,
-                'cssClass': self.css_class,
-                'showClearButton': False if self.required else True,
-                'showDropDownIcon': True if self.select == 'multi' else False,
-                'fields': self.fields,
-                'dataSource': self.options,
-                'allowFiltering': True,
+            self.control = ej.inplaceeditor.InPlaceEditor({
+                'mode': self.inplace_mode,
+                'type': control_type,
+                'model': {
+                    'placeholder': self.placeholder,
+                    'emptyText': self.placeholder,
+                    'cssClass': self.css_class,
+                    'showClearButton': False if self.required else True,
+                    'showDropDownIcon': True if self.select == 'multi' else False,
+                    'fields': self.fields,
+                    'dataSource': self.options,
+                    'allowFiltering': True,
+                },
+                'primaryKey': self.value_field,
+                'name': self.text_field,
                 'value': self.value,
                 'valueTemplate': f'<span>${{{self.text_field}}}</span>',
                 'actionSuccess': self.action_success,
-            }
-            super().create_control(control_type=control_type,
-                                   model=model,
-                                   primaryKey=self.value_field,
-                                   name=self.text_field)
+            })
+
         else:
             if self.select == 'single':
                 self.control = ej.dropdowns.DropDownList({
