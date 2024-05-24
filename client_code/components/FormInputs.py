@@ -751,10 +751,12 @@ class DropdownInput(BaseInput):
                 'cssClass': self.css_class,
                 'showClearButton': False if self.required else True,
                 'showDropDownIcon': True if self.select == 'multi' else False,
-                # 'allowObjectBinding': True if self.value_field == 'uid' else False,
                 'fields': self.fields,
                 'dataSource': self.options,
                 'allowFiltering': True,
+                'value': self.value,
+                'valueTemplate': '<span>${text}</span>',
+                'actionSuccess': self.action_success,
             }
             super().create_control(control_type=control_type,
                                    model=model,
@@ -810,6 +812,10 @@ class DropdownInput(BaseInput):
             self._options = options
         if self._control is not None:
             self.control.dataSource = options
+
+    def action_success(self, args):
+        if self.control is not None:
+            self.control.element.querySelector('.e-editable-value').innerText = args.value
 
 
 # Lookup input (dropdown with options from a model)
