@@ -819,7 +819,7 @@ class DropdownInput(BaseInput):
     def action_success(self, args):
         print('action success', args)
         if self.control is not None:
-            self.control.element.querySelector('.e-editable-value').innerText = args.value
+            self.control.element.querySelector('.e-editable-value').innerText = args['value']
 
 
 # Lookup input (dropdown with options from a model)
