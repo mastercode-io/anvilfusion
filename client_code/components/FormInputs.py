@@ -820,6 +820,8 @@ class DropdownInput(BaseInput):
         print('action success', args)
         if self.control is not None:
             print('element id', self.control.element.id)
+            print(self.control.element.querySelector('.e-editable-value').innerText)
+            print(self.control.element.querySelector('.e-editable-value').outerHTML)
             self.control.element.querySelector('.e-editable-value').innerText = args['value']
 
 
