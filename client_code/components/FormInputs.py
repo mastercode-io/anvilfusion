@@ -172,6 +172,7 @@ class BaseInput:
                 'model': kwargs['model'],
                 'primaryKey': kwargs.get('primaryKey', ''),
                 'name': kwargs.get('name', ''),
+                'emptyText': self.placeholder or '',
             })
 
     def show(self):
@@ -765,6 +766,7 @@ class DropdownInput(BaseInput):
                 'name': self.text_field,
                 'value': self.value,
                 'valueTemplate': f'<span>${{{self.text_field}}}</span>',
+                'emptyText': self.placeholder or '',
                 # 'actionSuccess': self.action_success,
                 'created': self.created,
             })
