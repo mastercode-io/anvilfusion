@@ -755,7 +755,7 @@ class DropdownInput(BaseInput):
                 'dataSource': self.options,
                 'allowFiltering': True,
                 'value': self.value,
-                'valueTemplate': '<span>${text}</span>',
+                'valueTemplate': f'<span>${{{self.text_field}}}</span>',
                 'actionSuccess': self.action_success,
             }
             super().create_control(control_type=control_type,
