@@ -6,6 +6,7 @@ from ..datamodel.types import FieldTypes
 from ..datamodel.particles import ModelTypeBase
 from ..tools.utils import AppEnv, DotDict, new_el_id, label_to_id
 import datetime
+import time
 import uuid
 
 
@@ -735,6 +736,8 @@ class DropdownInput(BaseInput):
         self.value_field = value_field
         self.text_field = text_field
         if isinstance(options, list) and options != [] and isinstance(options[0], str):
+            self.value_field = 'value'
+            self.text_field = 'text'
             self.fields = {'text': 'text', 'value': 'value'}
             self._options = [{'text': option, 'value': option} for option in options]
         else:
@@ -762,7 +765,8 @@ class DropdownInput(BaseInput):
                 'name': self.text_field,
                 'value': self.value,
                 'valueTemplate': f'<span>${{{self.text_field}}}</span>',
-                'actionSuccess': self.action_success,
+                # 'actionSuccess': self.action_success,
+                'created': self.created,
             })
 
         else:
@@ -816,6 +820,11 @@ class DropdownInput(BaseInput):
         if self._control is not None:
             self.control.dataSource = options
 
+    # def show(self):
+    #     if self.value is not None:
+    #
+    #     super().show()
+
     def action_success(self, args):
         print('action success', args)
         if self.control is not None:
@@ -823,6 +832,14 @@ class DropdownInput(BaseInput):
             print(self.control.element.querySelector('.e-editable-value').innerText)
             print(self.control.element.querySelector('.e-editable-value').outerHTML)
             self.control.element.querySelector('.e-editable-value').innerText = args['value']
+
+    def created(self, args):
+        print('created', args)
+        if self.control is not None:
+            print('element id', self.control.element.id)
+            print(self.control.element.querySelector('.e-editable-value').innerText)
+            print(self.control.element.querySelector('.e-editable-value').outerHTML)
+            # self.control.element.querySelector('.e-editable-value').innerText = args['value']
 
 
 # Lookup input (dropdown with options from a model)
