@@ -764,7 +764,7 @@ class DropdownInput(BaseInput):
                 },
                 'primaryKey': self.value_field,
                 'name': self.text_field,
-                'value': self.value,
+                'value': '',
                 'valueTemplate': f'<span>${{{self.text_field}}}</span>',
                 'emptyText': self.placeholder or '',
                 'created': self.created,
