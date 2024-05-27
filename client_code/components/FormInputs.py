@@ -825,7 +825,7 @@ class DropdownInput(BaseInput):
     def created(self, args):
         print('created', args)
         if self.control is not None:
-            # time.sleep(0.1)
+            time.sleep(0.1)
             self.value = self._value
 
 
