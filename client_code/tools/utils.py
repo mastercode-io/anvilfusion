@@ -113,7 +113,7 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
     print(f'environment: {app.environment.name} ({app.environment.tags})')
     print(f'id: {app.id}')
     stim0 = datetime.datetime.now()
-    anvil.users.get_user()
+    # anvil.users.get_user()
     stim1 = datetime.datetime.now()
     print(f'get_user: {stim1 - stim0}')
     anvil.server.call('check_session', 'a')
