@@ -805,13 +805,13 @@ class DropdownInput(BaseInput):
         if self._control is not None:
             self.control.value = value
             if self.inplace_mode is not None and self.visible:
-                print('element id', self.control.element.id)
-                print(self.control.element.querySelector('.e-editable-value').innerText)
-                print(self.control.element.querySelector('.e-editable-value').outerHTML)
+                # print('element id', self.control.element.id)
+                # print(self.control.element.querySelector('.e-editable-value').innerText)
+                # print(self.control.element.querySelector('.e-editable-value').outerHTML)
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
-                print('display value', value_text)
+                # print('display value', value_text)
 
     @property
     def options(self):
@@ -842,11 +842,11 @@ class DropdownInput(BaseInput):
     def created(self, args):
         print('created', args)
         if self.control is not None:
-            print('element id', self.control.element.id)
-            print(self.control.element.querySelector('.e-editable-value').innerText)
-            print(self.control.element.querySelector('.e-editable-value').outerHTML)
-            time.sleep(0.1)
-            print(self.control.element.querySelector('.e-editable-value').outerHTML)
+            # print('element id', self.control.element.id)
+            # print(self.control.element.querySelector('.e-editable-value').innerText)
+            # print(self.control.element.querySelector('.e-editable-value').outerHTML)
+            time.sleep(0.05)
+            # print(self.control.element.querySelector('.e-editable-value').outerHTML)
             self.value = self._value
             # self.control.element.querySelector('.e-editable-value').innerText = args['value']
 
