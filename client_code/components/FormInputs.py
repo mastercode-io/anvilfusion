@@ -811,6 +811,8 @@ class DropdownInput(BaseInput):
                                    if item[self.value_field] == value), '')
                 self.control.value = value
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
+                self.control.element.querySelector('.e-editable-value').style.color = (
+                    self.control.element.querySelector('.e-editable-value').style.backgroundColor)
 
     @property
     def options(self):
