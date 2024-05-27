@@ -116,7 +116,7 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
     # anvil.users.get_user()
     stim1 = datetime.datetime.now()
     print(f'get_user: {stim1 - stim0}')
-    anvil.server.call('check_session', 'a')
+    # anvil.server.call('check_session', 'a')
     stime2 = datetime.datetime.now()
     print(f'check_session: {stime2 - stim1}')
     logged_user = anvil.server.call('init_user_session', user_email=user_email, password=password)
