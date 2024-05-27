@@ -794,7 +794,10 @@ class DropdownInput(BaseInput):
     @property
     def value(self):
         if self._control and self.control.value is not None:
-            self._value = self.control.value
+            if self.inplace_mode is None:
+                self._value = self.control.value
+            else:
+                self._value = self.control.compPrevValue
         return self._value
 
     @value.setter
@@ -806,7 +809,7 @@ class DropdownInput(BaseInput):
             elif self.inplace_mode is not None and self.visible:
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
-                self.control.value = value
+                self.control.compPrevValue = value
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
 
     @property
@@ -823,7 +826,6 @@ class DropdownInput(BaseInput):
             self.control.dataSource = options
 
     def created(self, args):
-        print('created', args)
         if self.control is not None:
             time.sleep(0.05)
             self.value = self._value
