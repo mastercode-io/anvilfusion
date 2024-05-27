@@ -132,7 +132,7 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
     print('USER: ', logged_user)
     anvil.server.call('check_session', 'b')
     stime4 = datetime.datetime.now()
-    print(f'init_user_session: {stime4 - stime3}')
+    print(f'check_session 2: {stime4 - stime3}')
     return DotDict(logged_user) if logged_user else None
 
 
