@@ -767,7 +767,6 @@ class DropdownInput(BaseInput):
                 'value': self.value,
                 'valueTemplate': f'<span>${{{self.text_field}}}</span>',
                 'emptyText': self.placeholder or '',
-                # 'actionSuccess': self.action_success,
                 'created': self.created,
             })
 
@@ -800,18 +799,13 @@ class DropdownInput(BaseInput):
 
     @value.setter
     def value(self, value):
-        print('DDL set value', value, )
         self._value = value
         if self._control is not None:
             self.control.value = value
             if self.inplace_mode is not None and self.visible:
-                # print('element id', self.control.element.id)
-                # print(self.control.element.querySelector('.e-editable-value').innerText)
-                # print(self.control.element.querySelector('.e-editable-value').outerHTML)
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
-                # print('display value', value_text)
 
     @property
     def options(self):
@@ -826,29 +820,11 @@ class DropdownInput(BaseInput):
         if self._control is not None:
             self.control.dataSource = options
 
-    # def show(self):
-    #     if self.value is not None:
-    #
-    #     super().show()
-
-    def action_success(self, args):
-        print('action success', args)
-        if self.control is not None:
-            print('element id', self.control.element.id)
-            print(self.control.element.querySelector('.e-editable-value').innerText)
-            print(self.control.element.querySelector('.e-editable-value').outerHTML)
-            self.control.element.querySelector('.e-editable-value').innerText = args['value']
-
     def created(self, args):
         print('created', args)
         if self.control is not None:
-            # print('element id', self.control.element.id)
-            # print(self.control.element.querySelector('.e-editable-value').innerText)
-            # print(self.control.element.querySelector('.e-editable-value').outerHTML)
             time.sleep(0.05)
-            # print(self.control.element.querySelector('.e-editable-value').outerHTML)
             self.value = self._value
-            # self.control.element.querySelector('.e-editable-value').innerText = args['value']
 
 
 # Lookup input (dropdown with options from a model)
