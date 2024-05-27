@@ -809,8 +809,10 @@ class DropdownInput(BaseInput):
             elif self.inplace_mode is not None and self.visible:
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
-                self.control.compPrevValue = value
+                self.control.element.querySelector('.e-editable-value').style.display = 'none'
+                self.control.value = value
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
+                self.control.element.querySelector('.e-editable-value').style.display = 'inline-block'
 
     @property
     def options(self):
