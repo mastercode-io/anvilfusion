@@ -812,6 +812,7 @@ class DropdownInput(BaseInput):
                 self.control.element.querySelector('.e-editable-value').style.display = 'none'
                 self.control.value = value
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
+                time.sleep(0.05)
                 self.control.element.querySelector('.e-editable-value').style.display = 'inline-block'
 
     @property
