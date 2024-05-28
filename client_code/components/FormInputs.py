@@ -814,10 +814,11 @@ class DropdownInput(BaseInput):
                                    if item[self.value_field] == value), '')
                 el = self.control.element.querySelector('.e-editable-value')
                 print('el', el)
-                self.control.model.value = value
-                # while el.innerHTML != value_text:
-                #     # time.sleep(0.05)
-                #     el.innerHTML = value_text
+                # self.control.value = value
+                anvil.js.call('await_promise', 'self.control.value = value')
+                while el.innerHTML != value_text:
+                    # time.sleep(0.05)
+                    el.innerHTML = value_text
 
     @property
     def options(self):
