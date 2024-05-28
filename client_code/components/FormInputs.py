@@ -812,9 +812,9 @@ class DropdownInput(BaseInput):
             elif self.inplace_mode is not None and self.visible:
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
-                self.control.value = value
                 el = self.control.element.querySelector('.e-editable-value')
                 print('el', el)
+                self.control.value = value
                 self.control.element.querySelector('.e-editable-value').innerText = value_text
 
     @property
