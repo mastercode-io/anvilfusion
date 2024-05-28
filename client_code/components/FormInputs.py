@@ -816,7 +816,7 @@ class DropdownInput(BaseInput):
                 print('el', el)
                 self.control.value = value
                 while el.innerHTML != value_text:
-                    time.sleep(0.05)
+                    # time.sleep(0.05)
                     el.innerHTML = value_text
 
     @property
