@@ -154,7 +154,7 @@ class SubformGrid(BaseInput, GridView):
                     grid_row['row'] = dict(grid_row['row'])
                 self.grid.dataSource = self.grid_data
                 # print('subformgrid data', self.filters, self.grid_data)
-        elif value:
+        elif isinstance(value, list):
             print('row list', len(value))
             self.grid_data = value
             self.grid.dataSource = self.grid_data
