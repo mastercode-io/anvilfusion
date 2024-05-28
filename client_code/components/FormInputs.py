@@ -814,11 +814,27 @@ class DropdownInput(BaseInput):
                                    if item[self.value_field] == value), '')
                 el = self.control.element.querySelector('.e-editable-value')
                 print('el', el)
+                self._set_control_value(value)
                 # self.control.value = value
-                anvil.js.call('await_promise', 'self.control.value = value')
                 while el.innerHTML != value_text:
                     # time.sleep(0.05)
                     el.innerHTML = value_text
+
+    def _set_control_value(self, value):
+        # Wrap the assignment in a JavaScript function that returns a promise
+        promise_code = f"""
+        new Promise((resolve, reject) => {{
+            try {{
+                this.control.value = {value};
+                resolve();
+            }} catch (err) {{
+                reject(err);
+            }}
+        }})
+        """
+        promise = anvil.js.window.eval_js(promise_code)
+        # Wait for the promise to resolve
+        anvil.js.await_promise(promise)
 
     @property
     def options(self):
