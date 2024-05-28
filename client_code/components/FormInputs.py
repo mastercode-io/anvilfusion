@@ -813,7 +813,6 @@ class DropdownInput(BaseInput):
                 value_text = next((item[self.text_field] for item in self.options
                                    if item[self.value_field] == value), '')
                 el = self.control.element.querySelector('.e-editable-value')
-                print('el', el)
                 self.control.value = value
                 while True:
                     if el.innerHTML == value:
