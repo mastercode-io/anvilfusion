@@ -832,9 +832,10 @@ class DropdownInput(BaseInput):
             }}
         }})
         """
-        promise = anvil.js.window.eval_js(promise_code)
+        # Create a JavaScript function that returns the promise
+        set_value_promise = anvil.js.call_js('new Function', 'return (' + promise_code + ')').call(self.control, value)
         # Wait for the promise to resolve
-        anvil.js.await_promise(promise)
+        anvil.js.await_promise(set_value_promise)
 
     @property
     def options(self):
