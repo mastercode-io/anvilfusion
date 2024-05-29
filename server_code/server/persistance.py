@@ -160,6 +160,7 @@ def _search_rows(module_name, class_name, uids, background_task_id=None):
         search_args.pop('tenant_uid', None)
     elif user_permissions['developer'] and search_args['tenant_uid'] is None:
         search_args.pop('tenant_uid', None)
+    print('_search_rows search_args', search_args)
     return get_table(module_name, class_name).search(**search_args)
 
 
@@ -248,6 +249,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     # print('search_definition', search_definition)
     # if search_definition is not None and 'tenant_uid' not in search_definition.keys():
     if search_definition is not None:
+        print('fetch_objects search_definition', search_definition)
         if 'tenant_uid' not in search_definition.keys():
             if not user_permissions['super_admin']:
                 search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
