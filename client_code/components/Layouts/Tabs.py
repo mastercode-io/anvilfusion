@@ -59,8 +59,9 @@ class Tabs:
 
 
     def set_tab_content(self, tab_name=None, content=''):
-        print('set_tab_content', tab_name)
+        tab_id = self.items[tab_name]['id']
+        print('set_tab_content', tab_name, tab_id)
         for item in self.tabs.items:
-            if item.id == tab_name:
+            if item.id == tab_id:
                 item.content = content
                 break
