@@ -57,6 +57,8 @@ def save_logged_user(current_user=None):
             'email': anvil.server.session['user_email'],
             'timezone': anvil.server.session['user_timezone'],
             'permissions': anvil.server.session['user_permissions'],
+            'account_name': anvil.server.session['account_name'],
+            'data_files': anvil.server.session['data_files'],
         }
     else:
         logged_user = current_user.copy()
@@ -67,6 +69,8 @@ def save_logged_user(current_user=None):
         anvil.server.session['user_email'] = logged_user['email']
         anvil.server.session['user_timezone'] = logged_user['timezone']
         anvil.server.session['user_permissions'] = logged_user['permissions']
+        anvil.server.session['account_name'] = logged_user['account_name']
+        anvil.server.session['data_files'] = logged_user['data_files']
     anvil.server.session['logged_user'] = logged_user
     try:
         anvil.server.cookies.local['logged_user'] = logged_user
