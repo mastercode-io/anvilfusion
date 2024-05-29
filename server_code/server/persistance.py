@@ -253,7 +253,6 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
     # print('search_definition', search_definition)
     # if search_definition is not None and 'tenant_uid' not in search_definition.keys():
     if search_definition is not None:
-        print('fetch_objects search_definition', search_definition)
         if 'tenant_uid' not in search_definition.keys():
             if not user_permissions['super_admin']:
                 search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
@@ -265,7 +264,6 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
         search_definition.pop('all_tenants', None)
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
-        print('search_definition 2', search_definition)
         if isinstance(search_query, list):
             rows = get_table(module_name, class_name).search(*search_query, **search_definition)
         elif search_query is not None:
@@ -274,7 +272,7 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
             rows = get_table(module_name, class_name).search(**search_definition)
     else:
         rows = []
-    print('rows', len(rows))
+    # print('rows', len(rows))
 
     start = (page - 1) * page_length
     end = page * page_length
