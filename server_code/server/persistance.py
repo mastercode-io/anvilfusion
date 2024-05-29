@@ -40,6 +40,10 @@ def caching_query(search_function):
         if (user_permissions['super_admin'] and not user_permissions['locked_tenant']
                 and search_args['tenant_uid'] != SYSTEM_TENANT_UID):
             search_args.pop('tenant_uid', None)
+        if user_permissions['super_admin'] and search_args['tenant_uid'] is None:
+            search_args.pop('tenant_uid', None)
+        if user_permissions['developer'] and search_args['tenant_uid'] is None:
+            search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
         if isinstance(search_query, list):
