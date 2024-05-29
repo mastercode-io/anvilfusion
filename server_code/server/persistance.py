@@ -35,12 +35,14 @@ def caching_query(search_function):
                 ref_obj = search_args[arg]
                 ref_row = _get_row(ref_obj.__module__, ref_obj.__class__.__name__, ref_obj.__dict__['uid'])
                 search_args[arg] = ref_row
+        print('search_args', search_args)
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
         if (user_permissions['super_admin'] and not user_permissions['locked_tenant']
                 and search_args['tenant_uid'] != SYSTEM_TENANT_UID):
             search_args.pop('tenant_uid', None)
         if user_permissions['super_admin'] and search_args['tenant_uid'] is None:
+            print('AHHHH')
             search_args.pop('tenant_uid', None)
         if user_permissions['developer'] and search_args['tenant_uid'] is None:
             search_args.pop('tenant_uid', None)
