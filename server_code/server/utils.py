@@ -25,6 +25,7 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['user_name'] = user_name.strip()
     anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
+    locked_tenant = anvil.server.session['user_permissions'].get('locked_tenant', False)
     tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     tenant_uid = ''
     tenant_name = ''
@@ -39,7 +40,7 @@ def init_user_session(user_email=None, password=None):
         tenant_uid = '00000000-0000-0000-0000-000000000000'
         tenant_name = ''
         app_mode = 'Developer Mode'
-    if not app_mode or anvil.server.session['user_permissions'].get('locked_tenant', False):
+    if app_mode == '' or locked_tenant:
         tenant_uid = tenant_row['uid']
         tenant_name = tenant_row['name']
     # if (not anvil.server.session['user_permissions'].get('super_admin', False)
@@ -52,6 +53,7 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['account_name'] = tenant_name
     anvil.server.session['data_files'] = [{'uid': tenant_uid, 'name': tenant_row['name']}]
     anvil.server.session['app_mode'] = app_mode
+    anvil.server.session['locked_tenant'] = locked_tenant
 
     save_logged_user()
     return get_logged_user()
@@ -70,6 +72,7 @@ def save_logged_user(current_user=None):
             'account_name': anvil.server.session['account_name'],
             'data_files': anvil.server.session['data_files'],
             'app_mode': anvil.server.session['app_mode'],
+            'locked_tenant': anvil.server.session['locked_tenant'],
         }
     else:
         logged_user = current_user.copy()
@@ -83,6 +86,7 @@ def save_logged_user(current_user=None):
         anvil.server.session['account_name'] = logged_user['account_name']
         anvil.server.session['data_files'] = logged_user['data_files']
         anvil.server.session['app_mode'] = logged_user['app_mode'],
+        anvil.server.session['locked_tenant'] = logged_user['locked_tenant']
     anvil.server.session['logged_user'] = logged_user
     try:
         anvil.server.cookies.local['logged_user'] = logged_user
