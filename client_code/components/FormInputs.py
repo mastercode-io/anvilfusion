@@ -797,7 +797,7 @@ class DropdownInput(BaseInput):
             if self.inplace_mode is None:
                 self._value = self.control.value
             else:
-                if 'compPrevValue' in self.control:
+                if 'compPrevValue' in self.control.keys():
                     self._value = self.control.compPrevValue
                 else:
                     self._value = self.control.value

@@ -41,7 +41,7 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
     anvil.server.session['account_name'] = tenant_name
-    anvil.server.session['data_files'] = [tenant_row['name']]
+    anvil.server.session['data_files'] = [{'uid': tenant_uid, 'name': tenant_row['name']}]
 
     save_logged_user()
     return get_logged_user()
