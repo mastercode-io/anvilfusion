@@ -88,7 +88,7 @@ class BaseInput:
             self.html = f'<div id="{self.el_id}"></div>'
         else:
             self.html = f'\
-                <div class="form-group da-form-group">\
+                <div class="{self.container_class}">\
                     <input class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}">\
                 </div>'
 
