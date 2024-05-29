@@ -43,7 +43,7 @@ class Tabs:
         anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
         tabs_config = [
             {
-                'id': item['name'],
+                'id': item['id'],
                 'header': {'text': item['label']},
                 'content': f'<div id="{item["content_id"]}">{item["content"]}</div>',
                 'disabled': not item['enabled'],
