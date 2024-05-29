@@ -269,6 +269,13 @@ class AppEnv:
         ))
 
     @staticmethod
+    def set_current_tenant(tenant_uid=None, reload_func=None):
+        AppEnv.logged_user = DotDict(anvil.server.call('set_current_tenant', tenant_uid=tenant_uid))
+        if callable(reload_func):
+            reload_func()
+
+
+    @staticmethod
     def set_tenant_admin(tenant_uid=None, tenant_name=None, reload_func=None):
         print(AppEnv, AppEnv.logged_user)
         if AppEnv.logged_user.permissions.super_admin or AppEnv.logged_user.permissions.developer:
