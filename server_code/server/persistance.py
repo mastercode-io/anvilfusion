@@ -261,8 +261,8 @@ def fetch_objects(class_name, module_name, rows_id, page, page_length, max_depth
                 if user_permissions['locked_tenant']:
                     search_definition['tenant_uid'] = logged_user.get('tenant_uid', None)
         if search_definition.get('all_tenants', False):
-            search_definition.pop('all_tenants', None)
             search_definition.pop('tenant_uid', None)
+        search_definition.pop('all_tenants', None)
         class_name = search_definition.pop("class_name")
         search_query = search_definition.pop("search_query", None)
         print('search_definition 2', search_definition)
