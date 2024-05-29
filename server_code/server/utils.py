@@ -28,16 +28,25 @@ def init_user_session(user_email=None, password=None):
     tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     tenant_uid = ''
     tenant_name = ''
+    app_mode = ''
     if anvil.server.session['user_permissions'].get('super_admin', False):
         tenant_uid = '00000000-0000-0000-0000-000000000000'
-        tenant_name = 'Super Admin'
-        anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
-        anvil.server.session['tenant_name'] = ''
-    if (not anvil.server.session['user_permissions'].get('super_admin', False)
-            or anvil.server.session['user_permissions'].get('locked_tenant', False)):
+        tenant_name = ''
+        app_mode = 'Super Admin Mode'
+        # anvil.server.session['tenant_uid'] = '00000000-0000-0000-0000-000000000000'
+        # anvil.server.session['tenant_name'] = ''
+    elif anvil.server.session['user_permissions'].get('developer', False):
+        tenant_uid = '00000000-0000-0000-0000-000000000000'
+        tenant_name = ''
+        app_mode = 'Developer Mode'
+    if not app_mode or anvil.server.session['user_permissions'].get('locked_tenant', False):
         tenant_uid = tenant_row['uid']
-        tenant_name += f": {tenant_row['name']}" if tenant_name else tenant_row['name']
-        tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
+        tenant_name = tenant_row['name']
+    # if (not anvil.server.session['user_permissions'].get('super_admin', False)
+    #         or anvil.server.session['user_permissions'].get('locked_tenant', False)):
+    #     tenant_uid = tenant_row['uid']
+    #     tenant_name += f": {tenant_row['name']}" if tenant_name else tenant_row['name']
+    #     tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     anvil.server.session['tenant_uid'] = tenant_uid
     anvil.server.session['tenant_name'] = tenant_name
     anvil.server.session['account_name'] = tenant_name
@@ -59,6 +68,7 @@ def save_logged_user(current_user=None):
             'permissions': anvil.server.session['user_permissions'],
             'account_name': anvil.server.session['account_name'],
             'data_files': anvil.server.session['data_files'],
+            'app_mode': anvil.server.session['app_mode'],
         }
     else:
         logged_user = current_user.copy()
@@ -71,6 +81,7 @@ def save_logged_user(current_user=None):
         anvil.server.session['user_permissions'] = logged_user['permissions']
         anvil.server.session['account_name'] = logged_user['account_name']
         anvil.server.session['data_files'] = logged_user['data_files']
+        anvil.server.session['app_mode'] = logged_user['app_mode'],
     anvil.server.session['logged_user'] = logged_user
     try:
         anvil.server.cookies.local['logged_user'] = logged_user
