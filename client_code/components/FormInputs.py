@@ -42,6 +42,7 @@ class BaseInput:
                  col_class=None,
                  col_style=None,
                  css_class=None,
+                 container_class=None,
                  value=None,
                  save=True,
                  enabled=True,
@@ -64,6 +65,7 @@ class BaseInput:
         self.col_class = col_class
         self.col_style = col_style
         self.css_class = css_class
+        self.container_class = container_class or 'form-group da-form-group'
         self.el_style = el_style
         self._value = value
         self.save = save
