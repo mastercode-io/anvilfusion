@@ -50,7 +50,7 @@ class Tabs:
         self.tabs.appendTo(jQuery(f'#{self.tabs_id}')[0])
 
 
-    def set_tab_content(self, tab_name, content=''):
+    def set_tab_content(self, tab_name=None, content=''):
         for item in self.tabs.items:
             if item.id == tab_name:
                 item.content = content
