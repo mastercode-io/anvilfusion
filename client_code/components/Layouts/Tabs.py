@@ -29,10 +29,10 @@ class Tabs:
             }
             self.items[tab['name']] = item
 
-        self.html = self.tabs_content()
+        self.html = self.get_tabs_content()
 
 
-    def tabs_content(self):
+    def get_tabs_content(self):
         html = f'<div id="{self.tabs_id}"></div>'
         for item in self.items.values():
             html += f'<div id="{item["content_id"]}" style="display:none;">{item["content"]}</div>'
@@ -48,3 +48,10 @@ class Tabs:
             'selectedItem': self.selected_item,
         })
         self.tabs.appendTo(jQuery(f'#{self.tabs_id}')[0])
+
+
+    def set_tab_content(self, tab_name, content=''):
+        for item in self.tabs.items:
+            if item.id == tab_name:
+                item.content = content
+                break
