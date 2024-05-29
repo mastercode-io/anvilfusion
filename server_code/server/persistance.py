@@ -48,12 +48,14 @@ def caching_query(search_function):
             search_args.pop('tenant_uid', None)
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
+        print('search_args', search_args)
         if isinstance(search_query, list):
             length = len(table.search(*search_query, **search_args))
         elif search_query is not None:
             length = len(table.search(search_query, **search_args))
         else:
             length = len(table.search(**search_args))
+        print('length', length)
         search_args['search_query'] = search_query
         if with_class_name:
             search_args["class_name"] = class_name
