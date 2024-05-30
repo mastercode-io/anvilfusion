@@ -121,7 +121,7 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
     print(f'check_session: {stime2 - stim1}')
     logged_user = anvil.server.call('init_user_session', user_email=user_email, password=password)
     stime3 = datetime.datetime.now()
-    print(f'init_user_session: {stime3 - stime2}')
+    print(f'init_user_session call: {stime3 - stime2}')
     if not logged_user:
         if login_form:
             login_form = login_form(after_login=after_login)
