@@ -15,11 +15,11 @@ def init_user_session(user_email=None, password=None):
     if user_email and password:
         user = anvil.users.login_with_email(user_email, password)
         stime1 = datetime.datetime.now()
-        print(f'login_with_email: {stime1 - stime0}')
+        print(f'login_with_email server: {stime1 - stime0}')
     else:
         user = anvil.users.get_user()
         stime1 = datetime.datetime.now()
-        print(f'get_user: {stime1 - stime0}')
+        print(f'get_user server: {stime1 - stime0}')
 
     if user is None:
         return None
@@ -61,11 +61,11 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['app_mode'] = app_mode
     anvil.server.session['locked_tenant'] = locked_tenant
     stime2 = datetime.datetime.now()
-    print(f'update session: {stime2 - stime1}')
+    print(f'update session server: {stime2 - stime1}')
 
     save_logged_user()
     stime3 = datetime.datetime.now()
-    print(f'save_logged_user: {stime3 - stime2}')
+    print(f'save_logged_user server: {stime3 - stime2}')
     return get_logged_user()
 
 
