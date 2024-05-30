@@ -66,7 +66,10 @@ def init_user_session(user_email=None, password=None):
     save_logged_user()
     stime3 = datetime.datetime.now()
     print(f'save_logged_user server: {stime3 - stime2}')
-    return get_logged_user()
+    stime4 = datetime.datetime.now()
+    logged_user = get_logged_user()
+    print(f'get_logged_user server: {stime4 - stime3}')
+    return logged_user
 
 
 def save_logged_user(current_user=None):
