@@ -112,16 +112,9 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
     print(f'git branch: {app.branch}')
     print(f'environment: {app.environment.name} ({app.environment.tags})')
     print(f'id: {app.id}')
-    stim0 = datetime.datetime.now()
     # anvil.users.get_user()
-    stim1 = datetime.datetime.now()
-    print(f'get_user: {stim1 - stim0}')
     # anvil.server.call('check_session', 'a')
-    stime2 = datetime.datetime.now()
-    print(f'check_session: {stime2 - stim1}')
     logged_user = anvil.server.call('init_user_session', user_email=user_email, password=password)
-    stime3 = datetime.datetime.now()
-    print(f'init_user_session call: {stime3 - stime2}')
     if not logged_user:
         if login_form:
             login_form = login_form(after_login=after_login)
@@ -131,8 +124,6 @@ def init_user_session(login_form=None, after_login=None, user_email=None, passwo
         logged_user = anvil.server.call('init_user_session')
     print('USER: ', logged_user)
     anvil.server.call('check_session', 'b')
-    stime4 = datetime.datetime.now()
-    print(f'check_session 2: {stime4 - stime3}')
     return DotDict(logged_user) if logged_user else None
 
 
