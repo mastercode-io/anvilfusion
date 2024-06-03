@@ -382,6 +382,10 @@ class GridView:
         # create Grid control
         # print('\nGrid config\n', self.grid_config, '\n')
         self.grid = ej.grids.Grid(self.grid_config)
+        self.html = f'\
+            <div id="da-grid-container-{self.grid_el_id}">\
+                <div id="{self.grid_el_id}"></div>\
+            </div>'
 
     @staticmethod
     def format_value(col, row, cell):
@@ -399,16 +403,19 @@ class GridView:
             self.grid_height = None
         print('grid height A', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
         print('container_el', self.container_el.id)
+        # if self.grid_height:
+        #     self.html = f'\
+        #         <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
+        #             <div id="{self.grid_el_id}"></div>\
+        #         </div>'
+        # else:
+        #     self.html = f'\
+        #         <div id="da-grid-container-{self.grid_el_id}">\
+        #             <div id="{self.grid_el_id}"></div>\
+        #         </div>'
+        self.container_el.innerHTML = self.html
         if self.grid_height:
-            self.container_el.innerHTML = f'\
-                <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
-                    <div id="{self.grid_el_id}"></div>\
-                </div>'
-        else:
-            self.container_el.innerHTML = f'\
-                <div id="da-grid-container-{self.grid_el_id}">\
-                    <div id="{self.grid_el_id}"></div>\
-                </div>'
+            anvil.js.window.document.getElementById(f"da-grid-container-{self.grid_el_id}").style.height = f'{self.grid_height}px'
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
         if self.grid_height is None:
             print('grid height B', self.grid.height, self.container_el.offsetHeight)
