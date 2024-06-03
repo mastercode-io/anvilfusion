@@ -403,16 +403,16 @@ class GridView:
             self.grid_height = None
         print('grid height A', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
         print('container_el', self.container_el.id)
-        # if self.grid_height:
-        #     self.html = f'\
-        #         <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
-        #             <div id="{self.grid_el_id}"></div>\
-        #         </div>'
-        # else:
-        #     self.html = f'\
-        #         <div id="da-grid-container-{self.grid_el_id}">\
-        #             <div id="{self.grid_el_id}"></div>\
-        #         </div>'
+        if self.grid_height:
+            self.html = f'\
+                <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
+                    <div id="{self.grid_el_id}"></div>\
+                </div>'
+        else:
+            self.html = f'\
+                <div id="da-grid-container-{self.grid_el_id}">\
+                    <div id="{self.grid_el_id}"></div>\
+                </div>'
         self.container_el.innerHTML = self.html
         print('1')
         if self.grid_height:
