@@ -418,8 +418,8 @@ class GridView:
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
         if self.grid_height is None:
             print('grid height B', self.grid.height, self.container_el.offsetHeight)
-            # grid_container = self.container_el.querySelector(f'#da-grid-container-{self.grid_el_id}')
-            # grid_container.style.height = f'{self.container_el.offsetHeight}px'
+            grid_container = self.container_el.querySelector(f'#da-grid-container-{self.grid_el_id}')
+            grid_container.style.height = f'{self.container_el.offsetHeight}px'
             # jQuery(f"#da-grid-container")[0].style.height = f'{self.container_el.offsetHeight}px'
             # print(jQuery(f"#da-grid-container")[0].style.height)
         # print('grid height', self.grid.height, self.container_el.offsetHeight)
