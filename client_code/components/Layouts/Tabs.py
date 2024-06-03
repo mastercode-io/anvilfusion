@@ -57,6 +57,8 @@ class Tabs:
             'selectedItem': self.selected_item,
         })
         self.tabs.appendTo(jQuery(f'#{self.tabs_id}')[0])
+        for i in range(len(self.items.keys()) - 1, -1, -1):
+            self.tabs.select(i)
 
 
     def set_tab_content(self, tab_name=None, content=''):
