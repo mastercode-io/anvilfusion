@@ -414,9 +414,12 @@ class GridView:
         #             <div id="{self.grid_el_id}"></div>\
         #         </div>'
         self.container_el.innerHTML = self.html
-        # if self.grid_height:
-        #     anvil.js.window.document.getElementById(f"da-grid-container-{self.grid_el_id}").style.height = f'{self.grid_height}px'
+        print('1')
+        if self.grid_height:
+            anvil.js.window.document.getElementById(f"da-grid-container-{self.grid_el_id}").style.height = f'{self.grid_height}px'
+        print('2')
         self.grid.appendTo(jQuery(f"#{self.grid_el_id}")[0])
+        print('3')
         if self.grid_height is None:
             print('grid height B', self.grid.height, self.container_el.offsetHeight)
             grid_container = self.container_el.querySelector(f'#da-grid-container-{self.grid_el_id}')
@@ -426,6 +429,7 @@ class GridView:
         # print('grid height', self.grid.height, self.container_el.offsetHeight)
         # print(self.grid_el_id, anvil.js.window.document.getElementById(self.grid_el_id))
         # self.grid.appendTo(anvil.js.window.document.getElementById(f"#{self.grid_el_id}"))
+        print('4')
 
         if not self.edit_mode == 'inline':
             for item in self.toolbar_items:
