@@ -411,6 +411,10 @@ class GridView:
         print(parent_el.id, parent_el.offsetHeight, parent_el.parentNode.style.height)
         parent_el = parent_el.parentNode
         print(parent_el.id, parent_el.offsetHeight, parent_el.parentNode.style.height)
+        parent_el = parent_el.parentNode
+        print(parent_el.id, parent_el.offsetHeight, parent_el.parentNode.style.height)
+        parent_el = parent_el.parentNode
+        print(parent_el.id, parent_el.offsetHeight, parent_el.parentNode.style.height)
         print('container_el', self.container_el.id)
         if self.grid_height:
             self.html = f'\
