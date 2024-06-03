@@ -402,6 +402,7 @@ class GridView:
         if self.grid_height < 0:
             self.grid_height = None
         print('grid height A', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
+        print(self.container_el.style.height, self.container_el.maxHeight, self.container_el.offsetHeight)
         print('container_el', self.container_el.id)
         if self.grid_height:
             self.html = f'\
