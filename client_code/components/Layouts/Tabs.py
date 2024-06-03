@@ -45,7 +45,8 @@ class Tabs:
             {
                 'id': item['id'],
                 'header': {'text': item['label']},
-                'content': f'<div id="{item["content_id"]}">{item["content"]}</div>',
+                # 'content': f'<div id="{item["content_id"]}">{item["content"]}</div>',
+                'content': f'#{item["content_id"]}',
                 'disabled': not item['enabled'],
             }
             for item in self.items.values()
