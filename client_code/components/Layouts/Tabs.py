@@ -23,7 +23,7 @@ class Tabs:
             item = {
                 'id': tab.get('id') or f"tab-{tab['name']}-{uuid.uuid4()}",
                 'label': tab.get('label') or tab['name'],
-                'content_id': f"tab-{tab['name']}-content-{uuid.uuid4()}",
+                'content_id': tab.get('content_id', None) or f"tab-{tab['name']}-content-{uuid.uuid4()}",
                 'content': tab.get('content') or '',
                 'enabled': tab.get('enabled') or True
             }
@@ -35,7 +35,7 @@ class Tabs:
     def get_tabs_content(self):
         html = f'<div id="{self.tabs_id}"></div>'
         for item in self.items.values():
-            html += f'<div id="{item["content_id"]}" style="display:none;">{item["content"]}</div>'
+            html += f'<div id="{item["content_id"]}">{item["content"]}</div>'
         return html
 
 
