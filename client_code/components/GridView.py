@@ -399,6 +399,9 @@ class GridView:
         self.grid_column_indexes = {col.get('field'): i for i, col in enumerate(self.grid.columns)}
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        container_top = self.container_el.getBoundingClientRect().top + anvil.js.window.YOffset
+        viewport_height = anvil.js.window.innerHeight or anvil.js.window.document.documentElement.clientHeight
+        self.grid_height = viewport_height - container_top - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
             self.grid_height = None
         print('grid height A', self.grid_height, self.container_el.offsetHeight, GRID_HEIGHT_OFFSET)
@@ -415,10 +418,10 @@ class GridView:
         print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
         parent_el = parent_el.parentNode
         print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
-        parent_el = parent_el.parentNode
-        print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
-        parent_el = parent_el.parentNode
-        print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
+        # parent_el = parent_el.parentNode
+        # print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
+        # parent_el = parent_el.parentNode
+        # print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
         print('container_el', self.container_el.id)
         if self.grid_height:
             self.html = f'\
