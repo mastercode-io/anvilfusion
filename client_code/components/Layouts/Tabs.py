@@ -47,6 +47,7 @@ class Tabs:
                 'header': {'text': item['label']},
                 # 'content': f'<div id="{item["content_id"]}">{item["content"]}</div>',
                 'content': f'#{item["content_id"]}',
+                'cssClass': 'da-tab-item',
                 'disabled': not item['enabled'],
             }
             for item in self.items.values()
