@@ -404,7 +404,7 @@ class GridView:
         self.grid_height = viewport_height - container_top - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
             self.grid_height = None
-        # print('grid height A', self.grid_height, container_top, viewport_height)
+        print('grid height A', self.grid_height, container_top, viewport_height)
         # print(self.container_el.id, self.container_el.offsetHeight, self.container_el.style.height)
         # parent_el = self.container_el.parentNode
         # print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
