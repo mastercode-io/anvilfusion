@@ -399,7 +399,7 @@ class GridView:
         self.grid_column_indexes = {col.get('field'): i for i, col in enumerate(self.grid.columns)}
         self.container_el = jQuery(f"#{self.container_id}")[0]
         self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
-        container_top = self.container_el.getBoundingClientRect().top + anvil.js.window.YOffset
+        container_top = self.container_el.getBoundingClientRect().top + anvil.js.window.pageYOffset
         viewport_height = anvil.js.window.innerHeight or anvil.js.window.document.documentElement.clientHeight
         self.grid_height = viewport_height - container_top - GRID_HEIGHT_OFFSET
         if self.grid_height < 0:
