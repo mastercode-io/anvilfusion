@@ -113,6 +113,8 @@ class GridView:
     def __init__(self,
                  container_id=None,
                  form_container_id=None,
+                 bounding_box_id=None,
+                 grid_height_offset=None,
                  title=None,
                  model=None,
                  view_name=None,
@@ -134,6 +136,8 @@ class GridView:
         self.grid_height = None
         self.grid_el_id = None
         self.container_id = container_id or AppEnv.content_container_id
+        self.bounding_box_id = bounding_box_id or self.container_id
+        self.grid_height_offset = grid_height_offset or GRID_HEIGHT_OFFSET
         self.form_container_id = form_container_id or container_id
         self.container_el = None
         self.search_queries = search_queries
@@ -398,20 +402,16 @@ class GridView:
         # print('\nGrid data source\n', self.grid.dataSource, '\n')
         self.grid_column_indexes = {col.get('field'): i for i, col in enumerate(self.grid.columns)}
         self.container_el = jQuery(f"#{self.container_id}")[0]
-        self.grid_height = self.container_el.offsetHeight - GRID_HEIGHT_OFFSET
+        self.grid_height = self.container_el.offsetHeight - self.grid_height_offset
         container_top = self.container_el.getBoundingClientRect().top + anvil.js.window.pageYOffset
         print('gird container top', self.container_el, self.container_el.getBoundingClientRect().top, anvil.js.window.pageYOffset)
         viewport_height = anvil.js.window.innerHeight or anvil.js.window.document.documentElement.clientHeight
-        self.grid_height = viewport_height - container_top - GRID_HEIGHT_OFFSET
+        self.grid_height = viewport_height - container_top - self.grid_height_offset
         if self.grid_height < 0:
             self.grid_height = None
         print('grid height A', self.grid_height, container_top, viewport_height)
         print(self.container_el.offsetHeight, self.container_el.style.height)
         print(self.container_el.getBoundingClientRect().top, self.container_el.getBoundingClientRect().bottom)
-        self.grid_height = None
-        self.container_el.style.display = 'flex'
-        self.container_el.style.flexDirection = 'column'
-        self.container_el.style.height = '100%'
         # print(self.container_el.id, self.container_el.offsetHeight, self.container_el.style.height)
         # parent_el = self.container_el.parentNode
         # print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
@@ -437,7 +437,7 @@ class GridView:
                 </div>'
         else:
             self.html = f'\
-                <div id="da-grid-container-{self.grid_el_id}" style="100%">\
+                <div id="da-grid-container-{self.grid_el_id}">\
                     <div id="{self.grid_el_id}"></div>\
                 </div>'
         self.container_el.innerHTML = self.html
