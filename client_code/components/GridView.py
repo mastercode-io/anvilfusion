@@ -416,6 +416,7 @@ class GridView:
         parent_el = parent_el.parentNode
         print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
         print('container_el', self.container_el.id)
+        self.grid_height = '100%'
         if self.grid_height:
             self.html = f'\
                 <div id="da-grid-container-{self.grid_el_id}" style="height:{self.grid_height}px;">\
