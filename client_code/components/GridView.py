@@ -408,6 +408,10 @@ class GridView:
         print('grid height A', self.grid_height, container_top, viewport_height)
         print(self.container_el.offsetHeight, self.container_el.style.height)
         print(self.container_el.getBoundingClientRect().top, self.container_el.getBoundingClientRect().bottom)
+        self.grid_height = None
+        self.container_el.style.display = 'flex'
+        self.container_el.style.flexDirection = 'column'
+        self.container_el.style.height = '100%'
         # print(self.container_el.id, self.container_el.offsetHeight, self.container_el.style.height)
         # parent_el = self.container_el.parentNode
         # print(parent_el.id, 'o', parent_el.offsetHeight, 'h', parent_el.parentNode.style.height)
@@ -433,7 +437,7 @@ class GridView:
                 </div>'
         else:
             self.html = f'\
-                <div id="da-grid-container-{self.grid_el_id}">\
+                <div id="da-grid-container-{self.grid_el_id}" style="100%">\
                     <div id="{self.grid_el_id}"></div>\
                 </div>'
         self.container_el.innerHTML = self.html
