@@ -113,7 +113,7 @@ class FormBase:
             'visible': False,
             'position': {'X': 'center', 'Y': '100'},
             'animationSettings': {'effect': 'Zoom'},
-            'cssClass': f'e-fixed py-dialog {css_class}',
+            'cssClass': f'e-fixed py-dialog pl-settings-dialog {css_class}',
             'open': self.form_open,
             'close': self.form_cancel,
             'beforeOpen': self.before_open,
