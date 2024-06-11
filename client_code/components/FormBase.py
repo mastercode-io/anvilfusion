@@ -45,6 +45,7 @@ class FormBase:
                  source=None,
                  width=POPUP_WIDTH_COL1,
                  height='auto',
+                 css_class=None,
                  validation=None,
                  ):
         print('Base Form', model)
@@ -112,7 +113,7 @@ class FormBase:
             'visible': False,
             'position': {'X': 'center', 'Y': '100'},
             'animationSettings': {'effect': 'Zoom'},
-            'cssClass': 'e-fixed py-dialog',
+            'cssClass': f'e-fixed py-dialog {css_class}',
             'open': self.form_open,
             'close': self.form_cancel,
             'beforeOpen': self.before_open,
