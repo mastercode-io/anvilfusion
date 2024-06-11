@@ -113,7 +113,7 @@ class FormBase:
             'visible': False,
             'position': {'X': 'center', 'Y': '100'},
             'animationSettings': {'effect': 'Zoom'},
-            'cssClass': f'e-fixed pl-settings-dialog {css_class}',
+            'cssClass': f'e-fixed {css_class}',
             'open': self.form_open,
             'close': self.form_cancel,
             'beforeOpen': self.before_open,
@@ -140,7 +140,7 @@ class FormBase:
             ]
             form_config['showCloseIcon'] = False
         self.form = ej.popups.Dialog(form_config)
-        self.form.cssClass = 'e-fixed py-dialog'
+        # self.form.cssClass = 'e-fixed py-dialog'
         self.form.appendTo(self.container_el)
 
         if self.form_tabs is not None:
@@ -340,7 +340,7 @@ class FormBase:
                     button.content = 'Close'
 
         self.container_el.style.visibility = 'visible'
-        self.form.cssClass = 'e-fixed py-dialog'
+        # self.form.cssClass = 'e-fixed py-dialog'
         if self.form_tabs is not None:
             for i in range(len(self.form_tabs) - 1, -1, -1):
                 self.tabs.select(i)
