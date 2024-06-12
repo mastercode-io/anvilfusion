@@ -854,7 +854,7 @@ class LookupInput(DropdownInput):
             self.text_field = getattr(AppEnv.data_models, self.model)._title
         else:
             self.text_field = 'name'
-        print(self.name, self.text_field)
+        print(kwargs.get('name'), self.text_field)
         # self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
         self.compute_option = compute_option
         self.add_item = add_item
