@@ -849,11 +849,11 @@ class LookupInput(DropdownInput):
                  **kwargs):
         self.model = model
         if text_field:
-            self.text_field = text_field
+            self.display_field = text_field
         elif self.model:
-            self.text_field = getattr(AppEnv.data_models, self.model)._title
+            self.display_field = getattr(AppEnv.data_models, self.model)._title
         else:
-            self.text_field = 'name'
+            self.display_field = 'name'
         # self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
         self.compute_option = compute_option
         self.add_item = add_item
@@ -867,7 +867,7 @@ class LookupInput(DropdownInput):
             if AppEnv.enum_models and self.model in AppEnv.enum_models:
                 options = AppEnv.enum_models[self.model].options
             elif not data and get_data:
-                cols = [self.text_field] if isinstance(self.text_field, str) else self.text_field
+                cols = [self.display_field] if isinstance(self.display_field, str) else self.display_field
                 data = getattr(AppEnv.data_models, self.model).get_grid_view(
                     view_config={'columns': [{'name': col} for col in cols]},
                     filters=filters, search_queries=search_queries)
@@ -876,7 +876,7 @@ class LookupInput(DropdownInput):
             options = [
                 {
                     'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
-                    else option.get(self.text_field.replace('.', '__'), ''),
+                    else option.get(self.display_field.replace('.', '__'), ''),
                     'uid': option['uid'],
                 } for option in data
             ]
@@ -910,7 +910,7 @@ class LookupInput(DropdownInput):
             if self.compute_option and callable(self.compute_option):
                 name = self.compute_option(data_row)
             else:
-                name = self.get_field_value(data_row, self.text_field)
+                name = self.get_field_value(data_row, self.display_field)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
         print('options', options)
