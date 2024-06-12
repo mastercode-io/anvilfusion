@@ -81,7 +81,7 @@ class BaseInput:
         self.visible = False
         self.on_change = on_change
 
-        self.grid_data = None
+        self.edit_data = None
         self.edit_el = None
 
         if self.inplace_mode is not None:
@@ -203,7 +203,7 @@ class BaseInput:
             self.on_change(DotDict({'name': self.name, 'value': self.value if args.get('value') else None}))
 
     def grid_edit_create(self, args):
-        self.grid_data = args.data
+        self.edit_data = args.data
         self.edit_el = anvil.js.window.document.createElement('input')
         return self.edit_el
 
