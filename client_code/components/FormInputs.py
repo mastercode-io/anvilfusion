@@ -848,7 +848,13 @@ class LookupInput(DropdownInput):
                  add_item=False, inline_grid=False,
                  **kwargs):
         self.model = model
-        self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
+        if text_field:
+            self.text_field = text_field
+        elif self.model:
+            self.text_field = getattr(AppEnv.data_models, self.model)._title
+        else:
+            self.text_field = 'name'
+        # self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
         self.compute_option = compute_option
         self.add_item = add_item
         self.add_item_label = add_item_label or 'Add Item'
@@ -904,14 +910,12 @@ class LookupInput(DropdownInput):
             if self.compute_option and callable(self.compute_option):
                 name = self.compute_option(data_row)
             else:
-                print('get options', data_row, self.text_field)
                 name = self.get_field_value(data_row, self.text_field)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
         return options
 
     def get_field_value(self, data, field):
-        print('get field value', data, field)
         field_name = field.split('.', 1)
         if len(field_name) > 1:
             return self.get_field_value(data[field_name[0]], field_name[1])
