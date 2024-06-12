@@ -913,6 +913,7 @@ class LookupInput(DropdownInput):
                 name = self.get_field_value(data_row, self.text_field)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
+        print('options', options)
         return options
 
     def get_field_value(self, data, field):
