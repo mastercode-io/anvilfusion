@@ -149,7 +149,7 @@ class GridView:
         self.show_confirm_dialog = True
         self.toolbar_items = []
         self.context_menu_actions = {}
-        self.grid_data = data or []
+        self._grid_data = data or []
         self.grid_el_id = uuid.uuid4()
         self.grid_column_indexes = None
 
