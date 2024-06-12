@@ -904,6 +904,7 @@ class LookupInput(DropdownInput):
             if self.compute_option and callable(self.compute_option):
                 name = self.compute_option(data_row)
             else:
+                print('get options', data_row, self.text_field)
                 name = self.get_field_value(data_row, self.text_field)
             uid = data_row['uid']
             options.append({'name': name, 'uid': uid})
