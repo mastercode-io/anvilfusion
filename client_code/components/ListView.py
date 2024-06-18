@@ -121,11 +121,10 @@ class ListView(BaseInput):
 
     def render_edit_button(self, args):
         print('render_edit_button', args)
-        edit_button = ej.buttons.Button({
-            'iconCss': f'fa-solid fa-pencil',
-            # 'isPrimary': True,
-        })
+
         for item in args.data:
-            # button_el = anvil.js.window.document.getElementById(f'{item[self.value_field]}-edit-button')
-            edit_button.appendTo(jQuery(f"#{item[self.value_field]}-edit-button")[0])
+            edit_button = ej.buttons.Button({
+                'iconCss': f'fa-solid fa-pencil',
+                # 'isPrimary': True,
+            }, f'#{item[self.value_field]}-edit-button')
             # edit_button.element.onclick = lambda: self.edit_item(item)
