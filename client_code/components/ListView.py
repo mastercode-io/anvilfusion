@@ -10,6 +10,7 @@ class ListView(BaseInput):
                  value_field='uid',
                  header=None,
                  container_class='',
+                 view_class='',
                  data=None,
                  options=None,
                  select='single',
@@ -22,11 +23,12 @@ class ListView(BaseInput):
         self.header = header
         self.float_label = False
         self.container_class = container_class
+        self.view_class = view_class
 
         self.html = f'<div class="{self.container_class}">'
         if self.label:
             self.html += f'<label id="label_{self.el_id}" class="da-form-input-label">{self.label or ""}</label>'
-        self.html += f'<div class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}"></div></div>'
+        self.html += f'<div class="{self.view_class}" id="{self.el_id}" name="{self.el_id}"></div></div>'
 
         self.value_field = value_field
         self.text_field = text_field
