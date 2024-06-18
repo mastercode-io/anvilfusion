@@ -10,8 +10,11 @@ class ListBox(BaseInput):
                  value_field='uid',
                  data=None,
                  options=None,
+                 select='single',
                  **kwargs):
         super().__init__(**kwargs)
+
+        self.select = select
         self.float_label = False
         self.html = f'<div class="{self.container_class}">'
         if self.label:
@@ -45,12 +48,6 @@ class ListBox(BaseInput):
     def create_control(self, **kwargs):
         self.control = ej.dropdowns.ListBox({
             'dataSource': self.options,
-            'headerTitle': self.label,
-            'showHeader': True,
-            'showHeaderBackButton': True,
-            'headerBackButtonText': 'Back',
-            'showHeaderTitle': True,
-            'headerTitleText': self.label,
-            'enableHeaderTitle': True,
-            'enableHeaderBackButton': True,
+            'fields': self.fields,
+            'selectionSettings': {'mode': self.select},
         })
