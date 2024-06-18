@@ -119,7 +119,7 @@ class ListView(BaseInput):
 
         self.control = ej.lists.ListView(listview_config)
 
-    def render_edit_button(self):
+    def render_edit_button(self, args):
         edit_button = ej.buttons.Button({
             'iconCss': f'fa-solid fa-pencil',
             'isPrimary': True,
