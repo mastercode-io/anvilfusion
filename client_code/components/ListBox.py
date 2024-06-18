@@ -51,7 +51,7 @@ class ListBox(BaseInput):
         selection_settings = {'mode': self.select}
         if self.select_all:
             selection_settings['showSelectAll'] = True
-        selection_settings['showCheckbox'] = True
+            selection_settings['showCheckbox'] = True
         self.control = ej.dropdowns.ListBox({
             'dataSource': self.options,
             'fields': self.fields,

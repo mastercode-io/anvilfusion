@@ -3,34 +3,64 @@ from anvil.js.window import ej
 from .FormInputs import BaseInput
 
 
-# UI component based on SyncFusion ListView control
+# UI component based on SyncFusion ListBox control
 class ListView(BaseInput):
-    def __init__(self, name=None, label=None, items=None, **kwargs):
-        super().__init__(name=name, label=label, **kwargs)
-        self.items = items or []
-        self.items_id = f'listview-{self.name}'
-        self.items_html = self.get_items_html()
-        self.html = self.get_html()
+    def __init__(self,
+                 text_field='name',
+                 value_field='uid',
+                 header=None,
+                 data=None,
+                 options=None,
+                 select='single',
+                 select_all=False,
+                 **kwargs):
+        super().__init__(**kwargs)
 
-    def get_items_html(self):
-        html = ''
-        for item in self.items:
-            html += f'<div class="list-item">{item}</div>'
-        return html
+        self.select = 'Multiple' if select == 'multi' else 'Single'
+        self.select_all = select_all
+        self.header = header
+        self.float_label = False
+        self.html = f'<div class="{self.container_class}">'
+        if self.label:
+            self.html += f'<label id="label_{self.el_id}" class="da-form-input-label">{self.label or ""}</label>'
+        self.html += f'<input class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}"></div>'
 
-    def get_html(self):
-        return f'<div id="{self.items_id}">{self.items_html}</div>'
+        self.value_field = value_field
+        self.text_field = text_field
+        if isinstance(options, list) and options != [] and isinstance(options[0], str):
+            self.value_field = 'value'
+            self.text_field = 'text'
+            self.fields = {'text': 'text', 'value': 'value'}
+            self._options = [{'text': option, 'value': option} for option in options]
+        else:
+            self.fields = {'text': text_field, 'value': value_field}
+            self._options = options
 
-    def form_show(self):
-        anvil.js.window.document.getElementById(self.container_id).innerHTML = self.html
-        ej.lists.ListView({
-            'dataSource': self.items,
-            'headerTitle': self.label,
-            'showHeader': True,
-            'showHeaderBackButton': True,
-            'headerBackButtonText': 'Back',
-            'showHeaderTitle': True,
-            'headerTitleText': self.label,
-            'enableHeaderTitle': True,
-            'enableHeaderBackButton': True,
-        }).appendTo(f'#{self.items_id}')
+    @property
+    def options(self):
+        return self._options
+
+    @options.setter
+    def options(self, options):
+        if isinstance(options, list) and options != [] and isinstance(options[0], str):
+            self._options = [{'text': option, 'value': option} for option in options]
+        else:
+            self._options = options
+        if self._control is not None:
+            self.control.dataSource = options
+
+    def create_control(self, **kwargs):
+        listview_config = {
+            'dataSource': self.options,
+            'fields': self.fields,
+        }
+        if self.header:
+            listview_config['headerTitle'] = self.header
+            listview_config['showHeader'] = True
+        selection_settings = {'mode': self.select}
+        if self.select_all:
+            selection_settings['showSelectAll'] = True
+            selection_settings['showCheckbox'] = True
+        listview_config['selectionSettings'] = selection_settings
+
+        self.control = ej.lists.ListView(listview_config)
