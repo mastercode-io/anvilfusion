@@ -111,7 +111,7 @@ class ListView(BaseInput):
             selection_settings['showSelectAll'] = True
             selection_settings['showCheckbox'] = True
         listview_config['selectionSettings'] = selection_settings
-        listview_config['template'] = '<div><span>${name}</span><button id="edit"></button></div>',
+        # listview_config['template'] = '<div><span>${name}</span><button id="edit"></button></div>',
         # listview_config['actionComplete'] = ej.buttons.Button({
         #     'iconCss': f'fa-solid fa-pencil',
         #     'isPrimary': True,
