@@ -629,7 +629,7 @@ class CheckboxInput(BaseInput):
         super().__init__(**kwargs)
 
         self.html = f'\
-            <div class="form-group pm-form-group">\
+            <div class="form-group da-form-group">\
                 <input type="checkbox" class="form-control da-checkbox-input" id="{self.el_id}" name="{self.el_id}">\
             </div>'
 
@@ -680,7 +680,7 @@ class RadioButtonInput(BaseInput):
 
         # create html
         spacer = '<br>' if self.direction == 'vertical' else '&nbsp;&nbsp'
-        html_string = f'<div id="{self.el_id}" class="form-group pm-form-group pm-radiobutton-input">'
+        html_string = f'<div id="{self.el_id}" class="form-group da-form-group da-radiobutton-input">'
         if self.label:
             html_string += (f'<div class="e-float-text e-label-top" '
                             f'style="color:rgba(var(--color-sf-outline));font-size:11px;margin-bottom:10px;">'
@@ -1030,7 +1030,7 @@ class FileUploadInput(BaseInput):
         self._value = []
 
         self.html = f'\
-           <div class="form-group pm-form-group">\
+           <div class="form-group da-form-group">\
              <h6>{self.label}</h6>\
              <input type="file" class="form-control" id="{self.el_id}" name="{self.el_id}">\
              <div id="{self.el_id}-required" class="e-error" style="display:none;">* Select file(s) to upload</div>\
