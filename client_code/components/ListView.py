@@ -1,18 +1,21 @@
 import anvil.js
 from anvil.js.window import ej
+from ..datamodel import ModelTypeBase
 from .FormInputs import BaseInput
+from ..tools.utils import AppEnv
 
 
 # UI component based on SyncFusion ListBox control
 class ListView(BaseInput):
     def __init__(self,
-                 text_field='name',
-                 value_field='uid',
+                 text_field=None,
+                 value_field=None,
                  header=None,
                  container_class='',
                  view_class='',
-                 data=None,
+                 model=None,
                  options=None,
+                 compute_option=None,
                  select='single',
                  select_all=False,
                  **kwargs):
@@ -24,35 +27,75 @@ class ListView(BaseInput):
         self.float_label = False
         self.container_class = container_class
         self.view_class = view_class
+        self.model = model
+        self.text_field = text_field or 'text'
+        self.value_field = value_field or 'value'
+        self.compute_option = compute_option
+        self.options = options
+        self.fields = {'text': text_field, 'value': value_field}
 
         self.html = f'<div class="{self.container_class}">'
         if self.label:
             self.html += f'<label id="label_{self.el_id}" class="da-form-input-label">{self.label or ""}</label>'
         self.html += f'<div class="{self.view_class}" id="{self.el_id}" name="{self.el_id}"></div></div>'
 
-        self.value_field = value_field
-        self.text_field = text_field
-        if isinstance(options, list) and options != [] and isinstance(options[0], str):
-            self.value_field = 'value'
-            self.text_field = 'text'
-            self.fields = {'text': 'text', 'value': 'value'}
-            self._options = [{'text': option, 'value': option} for option in options]
-        else:
-            self.fields = {'text': text_field, 'value': value_field}
-            self._options = options
+
 
     @property
     def options(self):
         return self._options
 
+
     @options.setter
-    def options(self, options):
-        if isinstance(options, list) and options != [] and isinstance(options[0], str):
-            self._options = [{'text': option, 'value': option} for option in options]
+    def options(self, value):
+        if not value:
+            options = []
         else:
-            self._options = options
+            if not isinstance(value, list):
+                value = [*value]
+            if isinstance(value[0], str):
+                options = [{self.text_field: option, self.value_field: option} for option in value]
+            else:
+                model_field = self.text_field.replace('.', '__') if self.model else self.text_field
+                options = [
+                    {
+                        self.text_field: self.compute_option(option)
+                        if self.compute_option and callable(self.compute_option)
+                        else option.get(model_field, ''),
+                        self.value_field: option[self.value_field],
+                    } for option in value
+                ]
+        # for option in value:
+        #     data_row = option if (isinstance(option, ModelTypeBase)) else option.get('row', option)
+        #     if self.compute_option and callable(self.compute_option):
+        #         name = self.compute_option(data_row)
+        #     else:
+        #         name = self.get_field_value(data_row, self.display_field)
+        #     uid = data_row['uid']
+        #     options.append({'name': name, 'uid': uid})
+        # print('options', options)
+        # if isinstance(options, list) and options != [] and isinstance(options[0], str):
+        #     self._options = [{'text': option, 'value': option} for option in options]
+        # else:
+        self._options = options
         if self._control is not None:
             self.control.dataSource = options
+
+    def get_field_value(self, data, field):
+        field_name = field.split('.', 1)
+        if len(field_name) > 1:
+            return self.get_field_value(data[field_name[0]], field_name[1])
+        else:
+            return data[field_name[0]]
+
+    def show(self):
+        super().show()
+        if self._control is not None:
+            self.control.dataSource = self.options
+
+    def form_show(self):
+        self.show()
+
 
     def create_control(self, **kwargs):
         listview_config = {
