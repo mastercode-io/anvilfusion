@@ -126,5 +126,6 @@ class ListView(BaseInput):
             # 'isPrimary': True,
         })
         for item in args.data:
-            edit_button.appendTo(f'#{item[self.value_field]}-edit-button')
+            button_el = anvil.js.window.document.getElementById(f'{item[self.value_field]}-edit-button')
+            edit_button.appendTo(button_el)
             # edit_button.element.onclick = lambda: self.edit_item(item)
