@@ -77,6 +77,7 @@ class ListView(BaseInput):
         # if isinstance(options, list) and options != [] and isinstance(options[0], str):
         #     self._options = [{'text': option, 'value': option} for option in options]
         # else:
+        print('ListView options', options)
         self._options = options
         if self._control is not None:
             self.control.dataSource = options
