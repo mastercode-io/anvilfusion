@@ -11,10 +11,12 @@ class ListBox(BaseInput):
                  data=None,
                  options=None,
                  select='single',
+                 select_all=False,
                  **kwargs):
         super().__init__(**kwargs)
 
-        self.select = select
+        self.select = 'Multiple' if select == 'multi' else 'Single'
+        self.select_all = select_all
         self.float_label = False
         self.html = f'<div class="{self.container_class}">'
         if self.label:
@@ -46,8 +48,12 @@ class ListBox(BaseInput):
             self.control.dataSource = options
 
     def create_control(self, **kwargs):
+        selection_settings = {'mode': self.select}
+        if self.select_all:
+            selection_settings['showSelectAll'] = True
+            selection_settings['showCheckbox'] = True
         self.control = ej.dropdowns.ListBox({
             'dataSource': self.options,
             'fields': self.fields,
-            'selectionSettings': {'mode': self.select},
+            'selectionSettings': selection_settings,
         })
