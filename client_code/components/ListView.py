@@ -102,6 +102,7 @@ class ListView(BaseInput):
         listview_config = {
             'dataSource': self.options,
             'fields': self.fields,
+            'cssClass': 'e-list-template',
         }
         if self.header:
             listview_config['headerTitle'] = self.header
@@ -111,7 +112,10 @@ class ListView(BaseInput):
             selection_settings['showSelectAll'] = True
             selection_settings['showCheckbox'] = True
         listview_config['selectionSettings'] = selection_settings
-        # listview_config['template'] = '<div><span>${name}</span><button id="edit"></button></div>',
+        listview_config['template'] = f'<div class="e-list-wrapper">\
+                                            <span class="e-list-content">${{name}}</span>\
+                                            <button id="edit"></button>\
+                                        </div>'
         # listview_config['actionComplete'] = ej.buttons.Button({
         #     'iconCss': f'fa-solid fa-pencil',
         #     'isPrimary': True,
