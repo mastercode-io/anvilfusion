@@ -97,7 +97,6 @@ class ListView(BaseInput):
     def form_show(self):
         self.show()
 
-
     def create_control(self, **kwargs):
         listview_config = {
             'dataSource': self.options,
@@ -116,9 +115,13 @@ class ListView(BaseInput):
                                             <span class="e-list-content">${{name}}</span>\
                                             <button id="edit"></button>\
                                         </div>'
-        # listview_config['actionComplete'] = ej.buttons.Button({
-        #     'iconCss': f'fa-solid fa-pencil',
-        #     'isPrimary': True,
-        # })
+        listview_config['actionComplete'] = self.render_edit_button
 
         self.control = ej.lists.ListView(listview_config)
+
+    def render_edit_button(self):
+        edit_button = ej.buttons.Button({
+            'iconCss': f'fa-solid fa-pencil',
+            'isPrimary': True,
+        }, '#edit')
+        return edit_button
