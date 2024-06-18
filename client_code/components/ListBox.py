@@ -21,7 +21,7 @@ class ListBox(BaseInput):
         self.html = f'<div class="{self.container_class}">'
         if self.label:
             self.html += f'<label id="label_{self.el_id}" class="da-form-input-label">{self.label or ""}</label>'
-        self.html += f'<div class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}"></div></div>'
+        self.html += f'<input class="form-control da-form-group" id="{self.el_id}" name="{self.el_id}"></div>'
 
         self.value_field = value_field
         self.text_field = text_field
@@ -51,7 +51,7 @@ class ListBox(BaseInput):
         selection_settings = {'mode': self.select}
         if self.select_all:
             selection_settings['showSelectAll'] = True
-            selection_settings['showCheckbox'] = True
+        selection_settings['showCheckbox'] = True
         self.control = ej.dropdowns.ListBox({
             'dataSource': self.options,
             'fields': self.fields,
