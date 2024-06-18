@@ -1,5 +1,5 @@
 import anvil.js
-from anvil.js.window import ej
+from anvil.js.window import ej, jQuery
 from ..datamodel import ModelTypeBase
 from .FormInputs import BaseInput
 from ..tools.utils import AppEnv
@@ -126,6 +126,6 @@ class ListView(BaseInput):
             # 'isPrimary': True,
         })
         for item in args.data:
-            button_el = anvil.js.window.document.getElementById(f'{item[self.value_field]}-edit-button')
-            edit_button.appendTo(button_el)
+            # button_el = anvil.js.window.document.getElementById(f'{item[self.value_field]}-edit-button')
+            edit_button.appendTo(jQuery(f"#{item[self.value_field]}-edit-button")[0])
             # edit_button.element.onclick = lambda: self.edit_item(item)
