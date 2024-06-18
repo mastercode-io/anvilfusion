@@ -9,6 +9,7 @@ class ListView(BaseInput):
                  text_field='name',
                  value_field='uid',
                  header=None,
+                 container_class='',
                  data=None,
                  options=None,
                  select='single',
@@ -20,6 +21,8 @@ class ListView(BaseInput):
         self.select_all = select_all
         self.header = header
         self.float_label = False
+        self.container_class = container_class
+
         self.html = f'<div class="{self.container_class}">'
         if self.label:
             self.html += f'<label id="label_{self.el_id}" class="da-form-input-label">{self.label or ""}</label>'
