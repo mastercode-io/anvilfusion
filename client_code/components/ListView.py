@@ -113,7 +113,7 @@ class ListView(BaseInput):
         listview_config['selectionSettings'] = selection_settings
         listview_config['template'] = f'<div class="e-list-wrapper">\
                                             <span class="e-list-content">${{name}}</span>\
-                                            <button id="${{{self.value_field}-edit-button}}"></button>\
+                                            <button id="${{{self.value_field}-edit-button}}">E</button>\
                                         </div>'
         listview_config['actionComplete'] = self.render_edit_button
 
@@ -122,9 +122,8 @@ class ListView(BaseInput):
     def render_edit_button(self, args):
         print('render_edit_button', args)
 
-        for item in args.data:
-            edit_button = ej.buttons.Button({
-                'iconCss': f'fa-solid fa-pencil',
-                # 'isPrimary': True,
-            }, f'#{item[self.value_field]}-edit-button')
+        # for item in args.data:
+        #     edit_button = ej.buttons.Button({
+        #         'iconCss': f'fa-solid fa-pencil',
+        #     }, f'#{item[self.value_field]}-edit-button')
             # edit_button.element.onclick = lambda: self.edit_item(item)
