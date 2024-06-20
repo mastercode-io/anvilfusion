@@ -115,7 +115,7 @@ class ListView(BaseInput):
         listview_config['selectionSettings'] = selection_settings
         listview_config['template'] = f'<div class="e-list-wrapper ">\
                                             <span class="e-list-content da-listview-item-content">${{name}}\
-                                                <button id="${{{self.value_field}}}-edit-button" class="da-listview-item-button"></button>\
+                                                <div id="${{{self.value_field}}}-edit-button" class="da-listview-item-button"></div>\
                                             </span>\
                                         </div>'
         listview_config['actionComplete'] = self.render_edit_button
