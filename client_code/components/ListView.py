@@ -18,6 +18,7 @@ class ListView(BaseInput):
                  compute_option=None,
                  select='single',
                  select_all=False,
+                 edit_form=None,
                  **kwargs):
         super().__init__(**kwargs)
 
@@ -32,6 +33,7 @@ class ListView(BaseInput):
         self.value_field = value_field or 'value'
         self.compute_option = compute_option
         self.options = options
+        self.edit_form = edit_form
         self.fields = {'text': text_field, 'value': value_field}
 
         self.html = f'<div class="{self.container_class}">'
@@ -128,4 +130,12 @@ class ListView(BaseInput):
                 'iconCss': f'fa-solid fa-pencil',
                 'cssClass': 'e-flat e-small e-round e-icon-btn',
             }, f'#{item[self.value_field]}-edit-button')
-            # edit_button.element.onclick = lambda: self.edit_item(item)
+            edit_button.element.onclick = lambda: self.edit_item(item)
+
+    def edit_item(self, item):
+        print('edit_item', item)
+        if callable(self.edit_form):
+            self.edit_form(item)
+
+
+
