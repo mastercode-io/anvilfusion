@@ -111,10 +111,9 @@ class ListView(BaseInput):
             selection_settings['showSelectAll'] = True
             selection_settings['showCheckbox'] = True
         listview_config['selectionSettings'] = selection_settings
-        listview_config['template'] = f'<div class="e-list-wrapper e-list-badge">\
-                                            <span class="e-list-content">${{name}}</span>\
-                                            <span class="e-badge">\
-                                                <button id="${{{self.value_field}}}-edit-button"></button>\
+        listview_config['template'] = f'<div class="e-list-wrapper ">\
+                                            <span class="e-list-content da-listview-item-content">${{name}}\
+                                                <button id="${{{self.value_field}}}-edit-button" class="da-listview-item-button"></button>\
                                             </span>\
                                         </div>'
         listview_config['actionComplete'] = self.render_edit_button
