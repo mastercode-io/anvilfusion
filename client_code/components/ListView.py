@@ -130,12 +130,10 @@ class ListView(BaseInput):
                 'iconCss': f'fa-solid fa-pencil',
                 'cssClass': 'e-flat e-small e-round e-icon-btn',
             }, f'#{item[self.value_field]}-edit-button')
-            edit_button.element.onclick = lambda: self.edit_item(item)
+            edit_button.element.onclick = lambda click_args: self.edit_item(item, click_args)
 
-    def edit_item(self, item):
-        print('edit_item', item)
+    def edit_item(self, item, args):
+        print('edit_item', item, args)
+        args.cancel = True
         if callable(self.edit_form):
             self.edit_form(item)
-
-
-
