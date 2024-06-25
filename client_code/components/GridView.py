@@ -100,6 +100,8 @@ def get_model_attribute(class_name, attr_name):
         attr = cls._attributes[attr_name]
     elif attr_name in cls._computes:
         attr = cls._computes[attr_name]
+    # elif attr_name in cls._relationships:
+    #     attr = cls._relationships[attr_name]
     elif '.' in attr_name:
         attr_name = attr_name.split('.')
         if attr_name[0] in cls._attributes:
