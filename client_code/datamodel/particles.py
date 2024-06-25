@@ -56,7 +56,6 @@ class Relationship:
     def __init__(
             self, class_name, required=False, with_many=False, cross_reference=None
     ):
-        self.field_type = types.FieldTypes.RELATIONSHIP
         self.class_name = class_name
         self.required = required
         self.default = None
@@ -64,6 +63,7 @@ class Relationship:
             self.default = []
         self.with_many = with_many
         self.cross_reference = cross_reference
+        self.field_type = types.FieldTypes.RELATIONSHIP_MANY if with_many else types.FieldTypes.RELATIONSHIP
 
     @property
     def cls(self):

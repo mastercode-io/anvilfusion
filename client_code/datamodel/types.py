@@ -139,5 +139,11 @@ FIELD_TYPES = {
         'GridType': 'string',
         'GridFormat': '',
     },
+    'relationship_many': {
+        'ColumnType': 'simpleObject',
+        'InputType': 'DropdownInput',
+        'GridType': 'string',
+        'GridFormat': '',
+    },
 }
 FieldTypes = Enumeration(FIELD_TYPES)
