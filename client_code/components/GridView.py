@@ -244,7 +244,7 @@ class GridView:
                         if col_attr.field_type == dmtypes.FieldTypes.OBJECT and col_attr.schema:
                             col_attr = col_attr.schema[column['name'].split('.')[1]]
                             # print('object', column['name'], col_attr)
-                    # print(column)
+                    print(col_attr)
                     grid_column = {
                         # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
                         'field': column['name'].replace('.', '__'),
