@@ -27,7 +27,7 @@ def caching_query(search_function):
     def wrapper(
             class_name, module_name, page_length, page, max_depth, with_class_name, background_task_id, **search_args
     ):
-        # print('caching_query', search_args)
+        print('caching_query', search_args)
         logged_user = get_logged_user(background_task_id=background_task_id)
         user_permissions = get_user_permissions(logged_user=logged_user)
         all_tenants = False
