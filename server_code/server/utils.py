@@ -125,7 +125,13 @@ def get_logged_user(background_task_id=None):
 def set_current_tenant(tenant_uid=None):
     user = anvil.users.get_user()
     user_row = app_tables.users.get(uid=user['uid'])
-    user_row.update(tenant_uid=tenant_uid)
+    user_permissions = user_row['permissions'] or {}
+    if user_permissions.get('super_admin', False) or user_permissions.get('developer', False):
+        if tenant_uid == '00000000-0000-0000-0000-000000000000':
+            user_permissions['locked_tenant'] = False
+        else:
+            user_permissions['locked_tenant'] = True
+    user_row.update(tenant_uid=tenant_uid, permissions=user_permissions)
     anvil.server.session['tenant_uid'] = tenant_uid
     init_user_session()
     return get_logged_user()
