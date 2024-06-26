@@ -45,6 +45,7 @@ class FormBase:
                  source=None,
                  width=POPUP_WIDTH_COL1,
                  height='auto',
+                 fullscreen=False,
                  css_class=None,
                  tabs_config=None,
                  validation=None,
@@ -59,7 +60,7 @@ class FormBase:
         self.update_source = update_source
         self.source = source
         self.form_tabs = None
-        self.fullscreen = False
+        self.fullscreen = fullscreen
         self.modal = modal
 
         self.target = target
