@@ -129,7 +129,7 @@ class ListView(BaseInput):
             edit_button = ej.buttons.Button({
                 'iconCss': f'fa-solid fa-pencil',
                 'cssClass': 'e-flat e-small e-icon-btn',
-            }, f'#{item[self.value_field]}-edit-button')
+            }, f'{item[self.value_field]}-edit-button')
             edit_button.element.onclick = lambda click_args: self.edit_item(item, click_args)
 
     def edit_item(self, item, args):
