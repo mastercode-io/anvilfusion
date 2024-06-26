@@ -130,6 +130,7 @@ class GridView:
                  persist=True,
                  edit_mode='dialog',
                  add_edit_form=None,
+                 add_edit_form_props=None,
                  content_wrap=True,
                  data=None,
                  ):
@@ -146,6 +147,7 @@ class GridView:
         self.filters = filters
         self.persist = persist
         self.form_class = None
+        self.form_class_props = add_edit_form_props or {}
         self.edit_mode = edit_mode
         self.confirm_dialog = None
         self.show_confirm_dialog = True
@@ -240,13 +242,13 @@ class GridView:
                         'width': column.get('width', None) or GRID_DEFAULT_COLUMN_WIDTH,
                     }
                 else:
-                    print('column', column['name'])
+                    # print('column', column['name'])
                     col_attr, _ = get_model_attribute(self.model, column['name'])
                     if '.' in column['name']:
                         if col_attr.field_type == dmtypes.FieldTypes.OBJECT and col_attr.schema:
                             col_attr = col_attr.schema[column['name'].split('.')[1]]
                             # print('object', column['name'], col_attr)
-                    print(col_attr)
+                    # print(col_attr)
                     grid_column = {
                         # 'field': column['name'].split('.')[0] if '.' in column['name'] else column['name'],
                         'field': column['name'].replace('.', '__'),
@@ -632,6 +634,7 @@ class GridView:
                         source=self,
                         target=self.form_container_id,
                         persist=self.persist,
+                        **self.form_class_props,
                         ).form_show()
 
     def confirm_delete(self, args):
