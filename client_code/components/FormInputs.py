@@ -194,7 +194,9 @@ class BaseInput:
     def hide(self):
         if self.visible:
             # print('hide', self.name)
-            anvil.js.window.document.getElementById(self.container_id).innerHTML = ''
+            el = anvil.js.window.document.getElementById(self.container_id)
+            if el:
+                el.innerHTML = ''
             self.visible = False
 
     def change(self, args):
