@@ -350,7 +350,9 @@ class SectionSubtitle(BaseInput):
     @value.setter
     def value(self, value):
         self._value = value
-        anvil.js.window.document.getElementById(self.el_id).innerHTML = self._value
+        el = anvil.js.window.document.getElementById(self.el_id)
+        if el:
+            el.innerHTML = self._value
 
 
 class ContentFrame(BaseInput):
