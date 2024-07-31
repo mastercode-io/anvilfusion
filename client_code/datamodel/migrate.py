@@ -93,9 +93,7 @@ def update_model(class_name, force_update=False, self_ref=False):
             
         # get columns ot add
         new_cols = {k: class_cols[k] for k in set(class_cols) - set(table_cols)}
-        print(force_update)
-        print(new_cols)
-        
+
         if new_cols or force_update:
             update = True
             sample_cols = {k: n for k, n in class_cols.items() if k not in default_cols}
