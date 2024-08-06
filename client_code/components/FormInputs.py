@@ -484,6 +484,7 @@ class MultiLineInput(BaseInput):
         el.addEventListener('keydown', self.allow_enter_key)
 
     def allow_enter_key(self, event):
+        print('key down', event.key)
         if event.key == 'Enter':
             pass
 
