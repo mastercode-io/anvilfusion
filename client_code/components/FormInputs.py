@@ -478,6 +478,15 @@ class MultiLineInput(BaseInput):
         if self._control is not None:
             self.control.value = self._value
 
+    def show(self):
+        super().show()
+        el = anvil.js.window.document.getElementById(self.el_id)
+        el.addEventListener('keydown', self.allow_enter_key)
+
+    def allow_enter_key(self, event):
+        if event.key == 'Enter':
+            pass
+
 
 # Number input
 class NumberInput(BaseInput):
