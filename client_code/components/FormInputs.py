@@ -460,7 +460,6 @@ class MultiLineInput(BaseInput):
     @property
     def value(self):
         base_value = super().value
-        print('get value', self.is_object, base_value)
         if self.is_object and base_value is not None:
             try:
                 return json.loads(base_value)
@@ -484,7 +483,6 @@ class MultiLineInput(BaseInput):
         el.addEventListener('keydown', self.allow_enter_key)
 
     def allow_enter_key(self, event):
-        print('key down', event.key)
         if event.key == 'Enter':
             event.preventDefault()  # Prevent default behavior
             el = anvil.js.window.document.getElementById(self.el_id)
