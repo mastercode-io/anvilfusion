@@ -6,7 +6,7 @@ from ..datamodel.types import FieldTypes
 from ..datamodel.particles import ModelTypeBase
 from ..tools.utils import AppEnv, DotDict, new_el_id, label_to_id
 import datetime
-import time
+import json
 import uuid
 
 
@@ -435,8 +435,9 @@ class TextInput(BaseInput):
 
 # Multi line text input
 class MultiLineInput(BaseInput):
-    def __init__(self, rows=2, **kwargs):
+    def __init__(self, rows=2, is_object=False, **kwargs):
         super().__init__(**kwargs)
+        self.is_object = is_object
 
         if self.inplace_mode is None:
             self.html = (f'\
@@ -455,6 +456,25 @@ class MultiLineInput(BaseInput):
             super().create_control(control_type='Text', model=model)
         else:
             self.control = ej.inputs.TextBox({'placeholder': self.placeholder})
+
+    @property
+    def value(self):
+        if self.is_object:
+            try:
+                return json.loads(super().value)
+            except json.JSONDecodeError as e:
+                return f'Input error: {e} ({super().value})'
+        else:
+            return super().value
+
+    @value.setter
+    def value(self, value):
+        if self.is_object and isinstance(value, (dict, list)):
+            self._value = json.dumps(value)
+        else:
+            self._value = value
+        if self._control is not None:
+            self.control.value = self._value
 
 
 # Number input
