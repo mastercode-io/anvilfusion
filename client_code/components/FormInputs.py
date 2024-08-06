@@ -486,7 +486,12 @@ class MultiLineInput(BaseInput):
     def allow_enter_key(self, event):
         print('key down', event.key)
         if event.key == 'Enter':
-            pass
+            event.preventDefault()  # Prevent default behavior
+            el = anvil.js.window.document.getElementById(self.el_id)
+            start = el.selectionStart
+            end = el.selectionEnd
+            el.value = el.value[:start] + '\n' + el.value[end:]
+            el.selectionStart = el.selectionEnd = start + 1
 
 
 # Number input
