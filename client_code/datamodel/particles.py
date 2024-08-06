@@ -22,6 +22,7 @@ class Attribute:
                  default=None,
                  is_uid=False,
                  is_unique=False,
+                 options=None
                  ):
         self.field_type = field_type
         self.label = label
@@ -30,6 +31,7 @@ class Attribute:
         self.default = default
         self.is_uid = is_uid
         self.is_unique = is_unique
+        self.options = options
 
     def props(self):
         return {'field_type': self.field_type, 'required': self.required,
