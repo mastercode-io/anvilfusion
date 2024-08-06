@@ -459,7 +459,7 @@ class MultiLineInput(BaseInput):
 
     @property
     def value(self):
-        if self.is_object:
+        if self.is_object and super().value is not None:
             try:
                 return json.loads(super().value)
             except json.JSONDecodeError as e:
