@@ -461,7 +461,7 @@ class MultiLineInput(BaseInput):
     def value(self):
         base_value = super().value
         print('get value', self.is_object, base_value)
-        if self.is_object and super().value is not None:
+        if self.is_object and base_value is not None:
             try:
                 return json.loads(base_value)
             except json.JSONDecodeError as e:
