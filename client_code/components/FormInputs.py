@@ -459,14 +459,15 @@ class MultiLineInput(BaseInput):
 
     @property
     def value(self):
-        print('get value', self.is_object, super().value)
+        base_value = super().value
+        print('get value', self.is_object, base_value)
         if self.is_object and super().value is not None:
             try:
-                return json.loads(super().value)
+                return json.loads(base_value)
             except json.JSONDecodeError as e:
-                return f'Input error: {e} ({super().value})'
+                return f'Input error: {e} ({base_value})'
         else:
-            return super().value
+            return base_value
 
     @value.setter
     def value(self, value):
