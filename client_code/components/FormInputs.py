@@ -459,6 +459,7 @@ class MultiLineInput(BaseInput):
 
     @property
     def value(self):
+        print('get value', self.is_object, super().value)
         if self.is_object and super().value is not None:
             try:
                 return json.loads(super().value)
