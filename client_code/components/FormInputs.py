@@ -472,7 +472,7 @@ class MultiLineInput(BaseInput):
     @value.setter
     def value(self, value):
         if self.is_object and isinstance(value, (dict, list)):
-            self._value = json.dumps(value, indent=2)
+            self._value = json.dumps(value, indent=4)
         else:
             self._value = value
         if self._control is not None:
