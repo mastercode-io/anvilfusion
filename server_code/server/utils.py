@@ -10,7 +10,7 @@ import datetime
 
 @anvil.server.callable
 def init_user_session(user_email=None, password=None):
-    print('init_user_session', anvil.server.context)
+    # print('init_user_session', anvil.server.context)
     if user_email and password:
         user = anvil.users.login_with_email(user_email, password)
     else:
