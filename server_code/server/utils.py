@@ -26,6 +26,12 @@ def init_user_session(user_email=None, password=None):
     anvil.server.session['user_name'] = user_name.strip()
     anvil.server.session['user_email'] = user_dict['email']
     anvil.server.session['user_permissions'] = user_dict.get('permissions') or {}
+    if 'user_role' in user_dict:
+        anvil.server.session['user_role_uid'] = user['user_role']['uid']
+        anvil.server.session['user_role_type'] = user['user_role']['type']
+    else:
+        anvil.server.session['user_role_uid'] = None
+        anvil.server.session['user_role_type'] = None
     locked_tenant = anvil.server.session['user_permissions'].get('locked_tenant', False)
     tenant_row = app_tables.tenants.get(uid=user_dict['tenant_uid'])
     tenant_uid = ''
@@ -71,6 +77,8 @@ def save_logged_user(current_user=None):
             'email': anvil.server.session['user_email'],
             'timezone': anvil.server.session['user_timezone'],
             'permissions': anvil.server.session['user_permissions'],
+            'user_role_uid': anvil.server.session['user_role_uid'],
+            'user_role_type': anvil.server.session['user_role_type'],
             'account_name': anvil.server.session['account_name'],
             'data_files': anvil.server.session['data_files'],
             'app_mode': anvil.server.session['app_mode'],
@@ -85,6 +93,8 @@ def save_logged_user(current_user=None):
         anvil.server.session['user_email'] = logged_user['email']
         anvil.server.session['user_timezone'] = logged_user['timezone']
         anvil.server.session['user_permissions'] = logged_user['permissions']
+        anvil.server.session['user_role_uid'] = logged_user['user_role_uid']
+        anvil.server.session['user_role_type'] = logged_user['user_role_type']
         anvil.server.session['account_name'] = logged_user['account_name']
         anvil.server.session['data_files'] = logged_user['data_files']
         anvil.server.session['app_mode'] = logged_user['app_mode'],
