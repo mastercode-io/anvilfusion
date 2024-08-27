@@ -407,7 +407,7 @@ class FormBase:
         print('CANCEL BASE')
         # args.cancel = True
         for field in self.form_fields:
-            print('field', field.name)
+            # print('field', field.name)
             field.value = None
             field.hide()
         # self.form_fields = []
