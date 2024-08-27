@@ -392,12 +392,12 @@ class FormBase:
                     field.hide()
                     field.value = None
                 self.form.hide()
-            else:
+            elif args is not None:
                 args.cancel = True
             if self.update_source is not None:
                 self.update_source(self.data, add_new)
                 print('update_source', self.data)
-        else:
+        elif args is not None:
             args.cancel = True
             print('Invalid Data')
 
