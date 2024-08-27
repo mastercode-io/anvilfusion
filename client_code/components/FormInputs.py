@@ -982,6 +982,7 @@ class LookupInput(DropdownInput):
 
     @value.setter
     def value(self, value):
+        self._value = value
         if self._control is not None:
             if value:
                 if self.select == 'single':
