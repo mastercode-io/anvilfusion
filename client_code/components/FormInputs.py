@@ -46,6 +46,7 @@ class BaseInput:
                  value=None,
                  save=True,
                  enabled=True,
+                 hidden=False,
                  el_id=None,
                  el_style=None,
                  container_id=None,
@@ -79,6 +80,7 @@ class BaseInput:
         self.grid_field = (grid_field or self.name or self.label or '').replace('.', '__')
         self._control = None
         self.visible = False
+        self.hidden = hidden
         self.on_change = on_change
 
         self.edit_data = None

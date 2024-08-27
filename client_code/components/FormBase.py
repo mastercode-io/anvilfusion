@@ -325,12 +325,14 @@ class FormBase:
                 field.visible = False
         for field in [x for x in self.form_fields if x not in self.subforms and not x.is_dependent]:
             # print(field.name)
-            field.show()
             if field.name and getattr(self.data, field.name, None):
                 field.value = self.data[field.name]
+            if not field.hidden:
+                field.show()
         for field in [x for x in self.form_fields if x in self.subforms or x.is_dependent]:
-            field.show()
             field.value = self.data
+            if not field.hidden:
+                field.show()
         # for subform in self.subforms:
         #     subform.value = self.data
         for field in self.form_fields:
