@@ -7,6 +7,7 @@ import string
 import uuid
 import json
 
+
 GRID_TOOLBAR_COMMAND_ADD = {'id': 'add', 'text': '', 'prefixIcon': 'e-add', 'tooltipText': 'Add', 'align': 'Right'}
 GRID_TOOLBAR_COMMAND_DELETE = {'id': 'delete', 'text': '', 'prefixIcon': 'e-delete', 'tooltipText': 'Delete',
                                'align': 'Right', 'style': 'color: #d6292c;'}
@@ -129,6 +130,8 @@ class GridView:
                  context_menu_items=None,
                  persist=True,
                  edit_mode='dialog',
+                 add_form=None,
+                 edit_form=None,
                  add_edit_form=None,
                  add_edit_form_props=None,
                  content_wrap=True,
@@ -146,6 +149,8 @@ class GridView:
         self.search_queries = search_queries
         self.filters = filters
         self.persist = persist
+        self.add_form = add_form or {}
+        self.edit_form = edit_form or {}
         self.form_class = None
         self.form_class_props = add_edit_form_props or {}
         self.edit_mode = edit_mode
@@ -395,9 +400,11 @@ class GridView:
                 <div id="{self.grid_el_id}"></div>\
             </div>'
 
+
     @property
     def grid_data(self):
         return self._grid_data
+
 
     @grid_data.setter
     def grid_data(self, value):
@@ -405,9 +412,11 @@ class GridView:
         if self.grid:
             self.grid['dataSource'] = value
 
+
     @staticmethod
     def format_value(col, row, cell):
         return row[col] or ''
+
 
     # get Grid data and refresh the view
     def form_show(self, get_data=True, **args):
@@ -528,10 +537,12 @@ class GridView:
         # except Exception as e:
         #     print('Error in Grid form_show', e)
 
+
     def destroy(self):
         self.grid.destroy()
         if self.container_el is not None:
             self.container_el.innerHTML = ''
+
 
     def query_cell_info(self, args):
         for name, props in self.row_actions.items():
@@ -539,6 +550,7 @@ class GridView:
             if props['type'] == 'button':
                 button = ej.buttons.Button({'content': props['content']})
                 button.appendTo(el)
+
 
     def toolbar_click(self, args):
         print('toolbar_click', args.item.id, args.cancel)
@@ -562,9 +574,11 @@ class GridView:
             args.cancel = True
             # self.toolbar_actions[args.item.id]['input'].action(args)
 
+
     def context_menu_click(self, args):
         if args.item.id in self.context_menu_actions and callable(self.context_menu_actions[args.item.id]):
             self.context_menu_actions[args.item.id](args)
+
 
     def row_selected(self, args):
         # for item in self.grid.toolbarModule.toolbar.properties.items:
@@ -577,6 +591,7 @@ class GridView:
                 self.toolbar_actions[action_item]['input'].show()
         if self.grid.editSettings.allowDeleting:
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'inline-flex'
+
 
     def row_deselected(self, args):
         # print('row_deselected', args)
@@ -591,9 +606,11 @@ class GridView:
                     self.toolbar_actions[action_item]['input'].hide()
             self.grid.element.querySelector(f'.e-toolbar .e-toolbar-item[title="Delete"]').style.display = 'none'
 
+
     def record_click(self, args):
         if args.target.id in self.row_actions:
             print(args.rowIndex, args.rowData)
+
 
     def grid_action_handler(self, args):
         # print('grid_action_handler', args)
@@ -607,35 +624,50 @@ class GridView:
             if not self.confirm_dialog:
                 self.confirm_delete(args)
 
+
     def add_edit_row(self, args=None, form_data=None, data_row=None):
         # print('add_edit_row', args, form_data)
         if args is not None and args.requestType == 'beginEdit':
-            if self.edit_mode == 'view':
-                form_action = 'view'
-            else:
-                form_action = 'edit'
+            form_action = 'view' if self.edit_mode == 'view' else 'edit'
             if args.rowData.uid and 'grid' not in args.rowData.uid and not data_row:
                 instance = self.grid_class.get(args.rowData.uid)
                 print(args.rowData.uid, instance)
-            elif data_row:
-                instance = data_row
             else:
-                props = args.rowData
-                # props.pop('uid', None)
-                instance = self.grid_class(**props)
+                instance = data_row or self.grid_class(**args.rowData)
         else:
             form_action = 'add'
             instance = self.grid_class(**form_data) if form_data else None
+
+        if form_action == 'add' and self.add_form:
+            if self.add_form.get('form_name', None):
+                popup_form = getattr(AppEnv.forms, self.add_form['form_name'], self.form_class)
+            elif self.add_form.get('form_class', None):
+                popup_form = self.add_form['form_class']
+            else:
+                popup_form = self.form_class
+            popup_props = self.add_form.get('form_props', {})
+        elif form_action == 'edit' and self.edit_form:
+            if self.edit_form.get('form_name', None):
+                popup_form = getattr(AppEnv.forms, self.edit_form['form_name'], self.form_class)
+            elif self.edit_form.get('form_class', None):
+                popup_form = self.edit_form['form_class']
+            else:
+                popup_form = self.form_class
+            popup_props = self.edit_form.get('form_props', {})
+        else:
+            popup_form = self.form_class
+            popup_props = self.form_class_props
         print(form_action, form_data, self.persist)
-        self.form_class(model=self.model,
-                        data=instance,
-                        action=form_action,
-                        update_source=self.update_grid,
-                        source=self,
-                        target=self.form_container_id,
-                        persist=self.persist,
-                        **self.form_class_props,
-                        ).form_show()
+        popup_form(model=self.model,
+                   data=instance,
+                   action=form_action,
+                   update_source=self.update_grid,
+                   source=self,
+                   target=self.form_container_id,
+                   persist=self.persist,
+                   **popup_props,
+                   ).form_show()
+
 
     def confirm_delete(self, args):
         args.cancel = True
@@ -646,6 +678,7 @@ class GridView:
             'cancelButton': {'text': 'Cancel'},
             'showCloseIcon': True,
         })
+
 
     def delete_selected(self, args, persist=True):
         print('delete_selected')
@@ -671,6 +704,7 @@ class GridView:
                     db_row = self.grid_class.get(grid_row.uid) if grid_row.uid else None
                     if db_row is not None:
                         db_row.delete()
+
 
     def update_grid(self, data_row, add_new, row_index=None, get_relationships=False):
         if data_row.uid is None:
