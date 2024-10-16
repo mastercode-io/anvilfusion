@@ -40,7 +40,7 @@ def caching_query(search_function):
         if 'tenant_uid' not in search_args.keys():
             search_args['tenant_uid'] = logged_user.get('tenant_uid', None)
         if (user_permissions['super_admin'] and not user_permissions['locked_tenant']
-                and (search_args['tenant_uid'] != SYSTEM_TENANT_UID) or search_args['tenant_uid'] is None):
+                and (search_args['tenant_uid'] != SYSTEM_TENANT_UID or search_args['tenant_uid'] is None)):
             search_args.pop('tenant_uid', None)
             all_tenants = True
         # if user_permissions['super_admin'] and search_args['tenant_uid'] is None:
