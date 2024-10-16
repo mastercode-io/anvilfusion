@@ -30,6 +30,7 @@ def caching_query(search_function):
         print('caching_query', search_args)
         logged_user = get_logged_user(background_task_id=background_task_id)
         user_permissions = get_user_permissions(logged_user=logged_user)
+        print('user_permissions', user_permissions)
         all_tenants = False
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
