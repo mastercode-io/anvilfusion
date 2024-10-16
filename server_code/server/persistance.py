@@ -27,10 +27,10 @@ def caching_query(search_function):
     def wrapper(
             class_name, module_name, page_length, page, max_depth, with_class_name, background_task_id, **search_args
     ):
-        print('caching_query', search_args)
+        # print('caching_query', search_args)
         logged_user = get_logged_user(background_task_id=background_task_id)
         user_permissions = get_user_permissions(logged_user=logged_user)
-        print('user_permissions', user_permissions)
+        # print('user_permissions', user_permissions)
         all_tenants = False
         for arg in search_args:
             if '_model_type' in type(search_args[arg]).__dict__:
@@ -43,14 +43,12 @@ def caching_query(search_function):
                 and (search_args['tenant_uid'] != SYSTEM_TENANT_UID or search_args['tenant_uid'] is None)):
             search_args.pop('tenant_uid', None)
             all_tenants = True
-            print('A')
         # if user_permissions['super_admin'] and search_args['tenant_uid'] is None:
         #     search_args.pop('tenant_uid', None)
         #     all_tenants = True
         elif user_permissions['developer'] and search_args['tenant_uid'] is None:
             search_args.pop('tenant_uid', None)
             all_tenants = True
-            print('B')
         search_query = search_args.pop('search_query', None)
         table = get_table(module_name, class_name)
         if isinstance(search_query, list):
@@ -65,8 +63,6 @@ def caching_query(search_function):
             search_args["class_name"] = class_name
         rows_id = str(uuid4())
         anvil.server.session[rows_id] = search_args
-        print('caching_query', class_name, module_name, rows_id, page_length, page, max_depth, length)
-        print('search_args', search_args)
         return ModelSearchResults(
             class_name,
             module_name,
