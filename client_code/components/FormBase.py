@@ -167,6 +167,13 @@ class FormBase:
         self.container_el.querySelector('.da-cancel-button').innerHTML = value
 
 
+    def hide_button(self, button_selector):
+        self.container_el.querySelector(f'.{button_selector}').style.display = 'none'
+
+    def show_button(self, button_selector):
+        self.container_el.querySelector(f'.{button_selector}').style.display = 'block'
+
+
     def tabs_content(self, tabs, tabs_config):
         html_content = f'<div id="{self.form_id}_tabs" class="{tabs_config.get("header_class", "")}"></div>'
         tab_items = []
