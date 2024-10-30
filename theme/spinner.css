@@ -1,0 +1,27 @@
+#loadingSpinner {
+    -webkit-animation:spin 2s linear infinite;
+    -moz-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+    width: 100px;
+    height: 100px;
+    border-radius: 0;
+    z-index: 1234567;
+    box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+    background-color: transparent;
+    background-position: center;
+    background-image: url('_/theme/spinner.gif');
+    position: absolute; /* or 'fixed' if you need it to be in the same place regardless of scrolling */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+  #loadingSpinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
