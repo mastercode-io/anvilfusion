@@ -397,7 +397,7 @@ def fetch_view(class_name, module_name, columns, search_queries, filters):
                 dependent_cols.extend(cls._computes[col].depends_on)
                 cols.remove(col)
         cols = list(set(cols + dependent_cols))
-        col_list = ['uid']
+        col_list = ['uid', 'tenant_uid']
         col_dict = {}
         for col_name in cols:
             if '.' in col_name:
