@@ -320,7 +320,7 @@ def _get(cls, uid, max_depth=None):
 
 
 @classmethod
-def _get_by(cls, prop, value, max_depth=None):
+def _get_by(cls, prop, value, max_depth=None, **search_args):
     """Provide a method to fetch an object from the server"""
     # print('get_by context', anvil.server.context)
     return anvil.server.call(
@@ -331,6 +331,7 @@ def _get_by(cls, prop, value, max_depth=None):
         value,
         max_depth,
         background_task_id=getattr(anvil.server.context, 'background_task_id', None),
+        **search_args,
     )
     # return anvil.server.call("get_object_by", cls.__name__, AppEnv.data_models.__name__, prop, value, max_depth)
 
