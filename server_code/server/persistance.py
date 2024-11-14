@@ -222,12 +222,13 @@ def get_object(class_name, module_name, uid, max_depth=None, background_task_id=
 
 
 @anvil.server.callable
-def get_object_by(class_name, module_name, prop, value, max_depth=None, background_task_id=None):
+def get_object_by(class_name, module_name, prop, value, max_depth=None, background_task_id=None, **search_args):
     """Create a model object instance from the relevant data table row"""
     module = import_module(module_name)
     cls = getattr(module, class_name)
     instance = cls._from_row(
-        _get_row_by(module_name, class_name, prop, value, background_task_id=background_task_id), max_depth=max_depth
+        _get_row_by(module_name, class_name, prop, value, background_task_id=background_task_id, **search_args),
+        max_depth=max_depth
     )
     if instance is not None and security.has_read_permission(class_name, instance.uid):
         if security.has_update_permission(class_name, instance.uid):
