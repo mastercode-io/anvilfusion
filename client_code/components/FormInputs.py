@@ -874,7 +874,7 @@ class DropdownInput(BaseInput):
         else:
             self._options = options
         if self._control is not None:
-            self.control.dataSource = options
+            self.control.dataSource = self._options
 
     def created(self, args):
         if self.control is not None:
