@@ -884,7 +884,7 @@ class DropdownInput(BaseInput):
 
 # Lookup input (dropdown with options from a model)
 class LookupInput(DropdownInput):
-    def __init__(self, model=None, text_field=None, compute_option=None,
+    def __init__(self, model=None, text_field=None, value_field=None, compute_option=None,
                  data=None, get_data=True, filters=None, search_queries=None,
                  add_item_label=None, add_item_form=None, add_item_model=None, add_item_data=None,
                  add_item=False, inline_grid=False,
@@ -894,8 +894,11 @@ class LookupInput(DropdownInput):
             self.display_field = text_field
         elif self.model:
             self.display_field = getattr(AppEnv.data_models, self.model)._title
+            self.text_field = 'name'
         else:
             self.display_field = 'name'
+            self.text_field = 'name'
+        self.value_field = value_field or 'uid'
         # self.text_field = text_field or getattr(AppEnv.data_models, self.model)._title if self.model else 'name'
         self.compute_option = compute_option
         self.add_item = add_item
@@ -917,13 +920,16 @@ class LookupInput(DropdownInput):
             # print('lookup data', data)
             options = [
                 {
-                    'name': self.compute_option(option) if self.compute_option and callable(self.compute_option)
+                    self.text_field: self.compute_option(option) if self.compute_option and callable(self.compute_option)
                     else option.get(self.display_field.replace('.', '__'), ''),
-                    'uid': option['uid'],
+                    self.value_field: option[self.value_field],
                 } for option in data
             ]
         value_field = 'uid' if not inline_grid else 'name'
-        super().__init__(options=options, value_field=value_field, **kwargs)
+        super().__init__(options=options,
+                         text_field=self.display_field,
+                         value_field=self.text_field if inline_grid else value_field,
+                         **kwargs)
 
     def create_control(self):
         super().create_control()
