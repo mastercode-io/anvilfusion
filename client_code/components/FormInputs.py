@@ -925,10 +925,10 @@ class LookupInput(DropdownInput):
                     self.value_field: option[self.value_field],
                 } for option in data
             ]
-        value_field = 'uid' if not inline_grid else 'name'
+        # value_field = 'uid' if not inline_grid else 'name'
         super().__init__(options=options,
                          text_field=self.display_field,
-                         value_field=self.text_field if inline_grid else value_field,
+                         value_field=self.text_field if inline_grid else self.value_field,
                          **kwargs)
 
     def create_control(self):
