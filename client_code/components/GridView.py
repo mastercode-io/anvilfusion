@@ -212,7 +212,9 @@ class GridView:
                     'label': string.capwords(attr_name.replace("_", " ")),
                 })
             for attr_name, attr in self.grid_class._relationships.items():
+                print('relationship', attr_name, attr)
                 title_attr, title_name = get_model_attribute(attr.class_name, '_title')
+                print('title', title_attr, title_name)
                 view_columns.append({
                     'name': f"{attr_name}.{title_name}",
                     'label': string.capwords(attr_name.replace("_", " ")),
