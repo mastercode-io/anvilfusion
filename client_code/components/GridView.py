@@ -108,7 +108,8 @@ def get_model_attribute(class_name, attr_name):
         if attr_name[0] in cls._attributes:
             attr = cls._attributes[attr_name[0]]
         elif attr_name[0] in cls._relationships:
-            attr, _ = get_model_attribute(cls._relationships[attr_name[0]].class_name, '.'.join(attr_name[1:]))
+            attr, attr_name = get_model_attribute(cls._relationships[attr_name[0]].class_name, '.'.join(attr_name[1:]))
+            print('get_model_attribute', attr_name, attr)
     return attr, attr_name
 
 
